@@ -1,0 +1,115 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!-- Schema file written by PDE -->
+<schema targetNamespace="com.google.eclipse.mechanic" xmlns="http://www.w3.org/2001/XMLSchema">
+<annotation>
+      <appInfo>
+         <meta.schema plugin="com.google.eclipse.mechanic" id="tasks" name="Tasks"/>
+      </appInfo>
+      <documentation>
+         For registering individual tasks to be run by the Workspace Mechanic.
+      </documentation>
+   </annotation>
+
+   <element name="extension">
+      <annotation>
+         <appInfo>
+            <meta.element />
+         </appInfo>
+      </annotation>
+      <complexType>
+         <sequence>
+            <element ref="task" minOccurs="1" maxOccurs="unbounded"/>
+         </sequence>
+         <attribute name="point" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="id" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="name" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+               <appInfo>
+                  <meta.attribute translatable="true"/>
+               </appInfo>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="task">
+      <complexType>
+         <attribute name="class" type="string" use="required">
+            <annotation>
+               <documentation>
+                  The class name that implements &lt;code&gt;com.google.eclipse.mechanic.CompositeTaskInterface&lt;/code&gt;. More often than not, however, extend &lt;code&gt;com.google.eclipse.mechanic.CompositeTask&lt;/code&gt;
+               </documentation>
+               <appInfo>
+                  <meta.attribute kind="java" basedOn=":com.google.eclipse.mechanic.CompositeTaskInterface"/>
+               </appInfo>
+            </annotation>
+         </attribute>
+         <attribute name="forcePluginActivation" type="boolean" use="required">
+            <annotation>
+               <documentation>
+                  Controls whether the instantiation of the task is delayed until the declaring plug-in is active.
+
+When forcePluginActivation is true, the hosting bundle will be started as soon as the mechanic requests the task.
+
+When forcePluginActivation is false this task will not be evaluated until the declaring plug-in has been started. This is used to keep plug-ins from instantiating too early, defeating the value of the OSGi lazy loading architecture.
+
+In cases where eager bundle instantiation becomes a barrier to effectively deploying tasks, consider adding a new bundle with much fewer dependencies that only contain tasks.
+               </documentation>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <annotation>
+      <appInfo>
+         <meta.section type="examples"/>
+      </appInfo>
+      <documentation>
+         Here is an example of regisering a new &lt;code&gt;task&lt;/code&gt;
+&lt;p&gt;
+&lt;pre&gt;
+ &lt;extension point=&quot;com.google.eclipse.mechanic.tasks&quot;&gt; 
+     &lt;task
+         class=&quot;com.google.eclipse.myteam.tasks.MyTask&quot;&gt;
+     &lt;/task&gt;
+ &lt;/extension&gt; 
+&lt;/pre&gt;
+&lt;/p&gt;
+      </documentation>
+   </annotation>
+
+   <annotation>
+      <appInfo>
+         <meta.section type="apiInfo"/>
+      </appInfo>
+      <documentation>
+      </documentation>
+   </annotation>
+
+
+
+   <annotation>
+      <appInfo>
+         <meta.section type="copyright"/>
+      </appInfo>
+      <documentation>
+         Copyright 2009 Google Inc. All Rights Reserved.
+      </documentation>
+   </annotation>
+
+</schema>

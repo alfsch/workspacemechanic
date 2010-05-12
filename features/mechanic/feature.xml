@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature
+      id="com.google.eclipse.mechanic"
+      label="Workspace Mechanic"
+      version="0.0.0"
+      provider-name="Google Inc.">
+
+   <description>
+      Workspace Mechanic provides automated configuration and monitoring of you Eclipse installation and workspaces.
+   </description>
+
+   <copyright>
+      Copyright 2007 Google Inc. All Rights Reserved.
+   </copyright>
+
+   <license>
+      Copyright 2007 Google Inc. All Rights Reserved.
+   </license>
+
+   <requires>
+      <!-- For the org.eclipse.mylyn.commons.ui plugin -->
+      <import feature="org.eclipse.mylyn.ide_feature"/>
+   </requires>
+
+   <plugin
+         id="com.google.eclipse.mechanic"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+</feature>
+

@@ -1,0 +1,99 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!-- Schema file written by PDE -->
+<schema targetNamespace="com.google.eclipse.mechanic" xmlns="http://www.w3.org/2001/XMLSchema">
+<annotation>
+      <appInfo>
+         <meta.schema plugin="com.google.eclipse.mechanic" id="scanners" name="Scanners"/>
+      </appInfo>
+      <documentation>
+         For registering scanners that find tasks to be run by the workspace mechanic.
+
+&lt;p&gt;Typically you can register individual tasks using the &amp;lt;task&amp;gt; extension point. Alternatively you can register an task scanner that is responsible for generating tasks en masse.
+      </documentation>
+   </annotation>
+
+   <element name="extension">
+      <annotation>
+         <appInfo>
+            <meta.element />
+         </appInfo>
+      </annotation>
+      <complexType>
+         <sequence>
+            <element ref="scanner" minOccurs="1" maxOccurs="unbounded"/>
+         </sequence>
+         <attribute name="point" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="id" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="name" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+               <appInfo>
+                  <meta.attribute translatable="true"/>
+               </appInfo>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="scanner">
+      <complexType>
+         <attribute name="class" type="string" use="required">
+            <annotation>
+               <documentation>
+                  The class name that implements &lt;code&gt;com.google.eclipse.mechanic.TaskScanner&lt;/code&gt;. For scanners that are called one per registered directory, extend &lt;code&gt;com.google.eclipse.mechanic.internal.DirectoryIteratingTaskScanner&lt;/code&gt;
+               </documentation>
+               <appInfo>
+                  <meta.attribute kind="java" basedOn=":com.google.eclipse.mechanic.TaskScanner"/>
+               </appInfo>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <annotation>
+      <appInfo>
+         <meta.section type="examples"/>
+      </appInfo>
+      <documentation>
+         Here is an example of regisering a new task scanner:
+
+&lt;p&gt;
+&lt;pre&gt;
+   &lt;extension
+         point=&quot;com.google.eclipse.mechanic.scanners&quot;&gt;
+      &lt;scanner
+            class=&quot;com.google.eclipse.mechanic.internal.PreferenceFileTaskScanner&quot;&gt;
+      &lt;/scanner&gt;
+   &lt;/extension&gt;
+&lt;/pre&gt;
+&lt;/p&gt;
+      </documentation>
+   </annotation>
+
+
+
+
+   <annotation>
+      <appInfo>
+         <meta.section type="copyright"/>
+      </appInfo>
+      <documentation>
+         Copyright 2009 Google Inc. All Rights Reserved.
+      </documentation>
+   </annotation>
+
+</schema>
