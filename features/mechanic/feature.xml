@@ -2,7 +2,7 @@
 <feature
       id="com.google.eclipse.mechanic"
       label="Workspace Mechanic"
-      version="0.0.1"
+      version="0.0.2"
       provider-name="Google Inc.">
 
    <description url="http://code.google.com/a/eclipselabs.org/p/workspacemechanic">
