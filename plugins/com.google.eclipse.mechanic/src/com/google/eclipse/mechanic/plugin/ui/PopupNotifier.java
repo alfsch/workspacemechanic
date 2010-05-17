@@ -147,7 +147,7 @@ public class PopupNotifier {
             close();
             RepairDecisionProvider cpro = new UserChoiceDecisionProvider(
                 PlatformUI.getWorkbench().getActiveWorkbenchWindow());
-            service.getRepairManager(cpro).run();
+            service.runRepairManager(cpro);
           }
         });
 

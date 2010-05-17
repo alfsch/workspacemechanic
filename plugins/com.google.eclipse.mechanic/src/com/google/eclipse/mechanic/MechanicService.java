@@ -31,6 +31,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * MechanicService provides basic services like scanning for and execution of
@@ -82,6 +83,8 @@ public final class MechanicService {
   private final Job job;
 
   private MechanicStatus currentStatus = MechanicStatus.STOPPED;
+
+  private AtomicBoolean repairing = new AtomicBoolean(false);
 
   /**
    * Returns an instance of MechanicService.
@@ -191,8 +194,28 @@ public final class MechanicService {
    * {@link RepairDecisionProvider} to collect user input needed to determine
    * what actions to take for each failing Task.
    */
-  public RepairManager getRepairManager(RepairDecisionProvider choiceProvider) {
+  private RepairManager getRepairManager(RepairDecisionProvider choiceProvider) {
     return new RepairManager(this, getFailingItems(), choiceProvider);
+  }
+
+  /**
+   * Runs the {@link RepairManager} capable of fixing broken Tasks. The
+   * supplied {@link RepairDecisionProvider} will be used to collect user input
+   * needed to determine what actions to take for each failing Task.
+   *
+   * <p>If a repair manager is already running, then no operation will be
+   * performed.
+   */
+  public void runRepairManager(RepairDecisionProvider choiceProvider) {
+    boolean oldValue = repairing.getAndSet(true);
+    if (oldValue == false) {
+      try {
+        getRepairManager(choiceProvider).run();
+      } finally {
+        repairing.set(false);
+      }
+    } else {
+    }
   }
 
   /**
