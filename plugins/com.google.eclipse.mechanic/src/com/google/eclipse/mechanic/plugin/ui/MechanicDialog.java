@@ -39,7 +39,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Dialog box that displays a list of available Tasks. Users user this
+ * Dialog box that displays a list of available Tasks. Users use this
  * dialog box to select Tasks to execute.
  *
  * @author smckay@google.com (Steve McKay)
