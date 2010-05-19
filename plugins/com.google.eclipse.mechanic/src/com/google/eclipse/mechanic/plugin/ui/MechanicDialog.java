@@ -51,7 +51,6 @@ public class MechanicDialog extends TitleAreaDialog {
   private static final String NO = "Fix Later";
   private static final String NEVER = "Never Fix"; 
 
-  
   private final List<Task> items;
   private final Map<Task, Decision> userTaskChoices;
 

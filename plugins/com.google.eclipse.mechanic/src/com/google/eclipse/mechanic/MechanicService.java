@@ -214,7 +214,6 @@ public final class MechanicService {
       } finally {
         repairing.set(false);
       }
-    } else {
     }
   }
 
