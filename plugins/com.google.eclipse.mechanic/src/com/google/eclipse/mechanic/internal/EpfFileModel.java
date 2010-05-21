@@ -67,7 +67,7 @@ public class EpfFileModel {
     fileOutput.close();
   }
 
-	private void write(OutputStream outputStream) throws IOException {
+  private void write(OutputStream outputStream) throws IOException {
     PrintWriter commentPrintWriter = new PrintWriter(outputStream);
     commentPrintWriter.format("# @title %s\n", title);
     commentPrintWriter.format("# @description %s\n", description);
