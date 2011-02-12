@@ -2,7 +2,7 @@
 <feature
       id="com.google.eclipse.mechanic"
       label="Workspace Mechanic"
-      version="0.0.2"
+      version="0.0.3"
       provider-name="Google Inc.">
 
    <description url="http://code.google.com/a/eclipselabs.org/p/workspacemechanic">
@@ -24,7 +24,6 @@ All rights reserved. This program and the accompanying materials are made availa
       <import plugin="org.eclipse.core.variables" version="3.2.200" match="compatible"/>
       <import plugin="org.eclipse.ui.forms" version="3.4.0" match="compatible"/>
       <import plugin="org.eclipse.ui" version="3.4.0" match="compatible"/>
-      <import plugin="org.mortbay.jetty.util" version="6.1.15" match="greaterOrEqual"/>
       <import plugin="org.eclipse.mylyn.commons.ui" version="3.2.0" match="compatible"/>
    </requires>
 
@@ -32,7 +31,7 @@ All rights reserved. This program and the accompanying materials are made availa
          id="com.google.eclipse.mechanic"
          download-size="0"
          install-size="0"
-         version="0.0.2"
+         version="0.0.3"
          unpack="false"/>
 
 </feature>
