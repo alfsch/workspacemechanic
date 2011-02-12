@@ -17,24 +17,24 @@ import java.util.Map;
 
 /**
  * Abstracts a keybinding data to either add or remove.
- * 
+ *
  * <p>Note that not all the information necessary to define a key binding is
  * present in this structure. This "missing" information is rather part of the
  * containing {@link KeyBindingChangeSet}.
- * 
+ *
  * <p>This class is immutable, but provides the "immutable self-builder" pattern
  * for specifying parameters. See {@link #withParam(String, String)}.
- * 
+ *
  * @author zorzella@google.com
  */
 public final class KeyBindingSpec {
-  
+
   private final String cid;
   private final String keySequence;
   private final Map<String,String> parameters;
 
   public KeyBindingSpec(
-      String cid, 
+      String cid,
       String keySequence) {
     this(cid, keySequence, new HashMap<String, String>());
   }
@@ -53,19 +53,19 @@ public final class KeyBindingSpec {
   public String getCid() {
     return cid;
   }
-  
+
   public String getKeySequence() {
     return keySequence;
   }
-  
+
   public Map<String, String> getParameters() {
     return parameters;
   }
-  
+
   /**
    * Returns a copy of this class, with one parameters map addition of id/value.
-   * 
-   * <p>This is provided for convenience of progressively building this class 
+   *
+   * <p>This is provided for convenience of progressively building this class
    * without requiring a map builder or mutable map.
    */
   public KeyBindingSpec withParam(String id, String value) {
@@ -74,12 +74,12 @@ public final class KeyBindingSpec {
     temp.put(id, value);
     return new KeyBindingSpec(this.cid, this.keySequence, temp);
   }
-  
+
   @Override
   public int hashCode() {
     return Util.hashCode(cid, keySequence, parameters);
   }
-  
+
   @Override
   public boolean equals(Object obj) {
     if (!(obj instanceof KeyBindingSpec)) {
@@ -106,7 +106,7 @@ public final class KeyBindingSpec {
     }
     return this.keySequence.equals(that.keySequence);
   }
-  
+
   @Override
   public String toString() {
     return String.format(

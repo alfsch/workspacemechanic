@@ -9,39 +9,88 @@
 
 package com.google.eclipse.mechanic.keybinding;
 
-import com.google.eclipse.mechanic.internal.Util;
-
 import java.util.Collection;
+
+import com.google.eclipse.mechanic.internal.Util;
+import com.google.gson.annotations.SerializedName;
 
 /**
  * See {@link KeyBindingsParser}. This class represents a collection of key
  * bindings to add and another collection to remove, all of which share the
  * same scheme, plaform and contextId.
- * 
+ *
  * @author zorzella@google.com
  */
 // TODO: make package-protected
 public final class KeyBindingChangeSet {
 
+  static final class Bindings {
+    private final Collection<KeyBindingSpec> toAdd;
+    private final Collection<KeyBindingSpec> toRemove;
+
+    public Bindings(Collection<KeyBindingSpec> toAdd,
+        Collection<KeyBindingSpec> toRemove) {
+      // TODO: ImmutableList
+      this.toAdd = Util.checkNotNull(toAdd);
+      // TODO: ImmutableList
+      this.toRemove = Util.checkNotNull(toRemove);
+    }
+
+    @Override
+    public int hashCode() {
+      return Util.hashCode(toAdd, toRemove);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+      if (!(obj instanceof Bindings)) {
+        return false;
+      }
+      Bindings that = (Bindings) obj;
+      return this.toAdd.equals(that.toAdd)
+          && this.toRemove.equals(that.toRemove);
+    }
+    @Override
+    public String toString() {
+      return String.format(
+          "toAdd: \ntoRemove: %s",
+          this.toAdd, this.toRemove);
+    }
+
+    public Collection<KeyBindingSpec> toAdd() {
+      return toAdd;
+    }
+
+    public Collection<KeyBindingSpec> toRemove() {
+      return toRemove;
+    }
+  }
+
+  @SerializedName("scheme")
   private final String schemeId;
   private final String platform;
+  @SerializedName("context")
   private final String contextId;
-  private final Collection<KeyBindingSpec> toAdd;
-  private final Collection<KeyBindingSpec> toRemove;
-  
+  private final Bindings bindings;
+
   KeyBindingChangeSet(
-      String schemeId, 
-      String platform, 
+      String schemeId,
+      String platform,
       String contextId,
-      Collection<KeyBindingSpec> toAdd, 
-      Collection<KeyBindingSpec> toRemove) {
+      Bindings bindings) {
     this.schemeId = Util.checkNotNull(schemeId);
     this.platform = Util.checkNotNull(platform);
     this.contextId = Util.checkNotNull(contextId);
-    // TODO: ImmutableList
-    this.toAdd = Util.checkNotNull(toAdd);
-    // TODO: ImmutableList
-    this.toRemove = Util.checkNotNull(toRemove);
+    this.bindings = Util.checkNotNull(bindings);
+  }
+
+  KeyBindingChangeSet(
+      String schemeId,
+      String platform,
+      String contextId,
+      Collection<KeyBindingSpec> toAdd,
+      Collection<KeyBindingSpec> toRemove) {
+    this(schemeId, platform, contextId, new Bindings(toAdd, toRemove));
   }
 
   public String getSchemeId() {
@@ -51,24 +100,24 @@ public final class KeyBindingChangeSet {
   public String getPlatform() {
     return platform;
   }
-  
+
   public String getContextId() {
     return contextId;
   }
 
   public Collection<KeyBindingSpec> toAdd() {
-    return toAdd;
+    return bindings.toAdd();
   }
 
   public Collection<KeyBindingSpec> toRemove() {
-    return toRemove;
+    return bindings.toRemove();
   }
 
   @Override
   public int hashCode() {
-    return Util.hashCode(schemeId, platform, contextId, toAdd, toRemove);
+    return Util.hashCode(schemeId, platform, contextId, bindings);
   }
-  
+
   @Override
   public boolean equals(Object obj) {
     if (!(obj instanceof KeyBindingChangeSet)) {
@@ -78,14 +127,13 @@ public final class KeyBindingChangeSet {
     return this.schemeId.equals(that.schemeId)
         && this.platform.equals(that.platform)
         && this.contextId.equals(that.contextId)
-        && this.toAdd.equals(that.toAdd)
-        && this.toRemove.equals(that.toRemove);
+        && this.bindings.equals(that.bindings);
   }
-  
+
   @Override
   public String toString() {
     return String.format(
-        "schemeId: %s\nplatform: %s\ncontextId: %s\ntoAdd: \ntoRemove: %s",
-        this.schemeId, this.platform, this.contextId, this.toAdd, this.toRemove);
+        "schemeId: %s\nplatform: %s\ncontextId: %s\nbindings: %s",
+        this.schemeId, this.platform, this.contextId, this.bindings);
   }
 }

@@ -77,9 +77,7 @@ public final class ClassFileTaskScanner extends DirectoryIteratingTaskScanner {
 
     File[] filesInDir = dir.listFiles(CLASS_FILTER);
     if (filesInDir == null) {
-      // listFiles() can return null if the directory doesn't exist or an IO error occurs.
-      LOG.log(new Status(IStatus.WARNING, MechanicPlugin.PLUGIN_ID,
-          "Unable to listFiles for directory '" + dir + "'"));
+      DEBUGLOG.fine("ClassFileTaskScanner: Unable to listFiles for directory '" + dir + "'");
       return;
     }
     for (File file : filesInDir) {

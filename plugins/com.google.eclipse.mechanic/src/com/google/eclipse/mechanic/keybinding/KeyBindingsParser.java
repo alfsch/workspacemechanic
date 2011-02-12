@@ -9,22 +9,35 @@
 
 package com.google.eclipse.mechanic.keybinding;
 
-import com.google.eclipse.mechanic.internal.TaskType;
-import com.google.eclipse.mechanic.internal.Util;
-
-import org.mortbay.util.ajax.JSON;
-
+import java.io.Reader;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+
+import com.google.eclipse.mechanic.internal.TaskType;
+import com.google.eclipse.mechanic.internal.Util;
+import com.google.eclipse.mechanic.keybinding.KeyBindingChangeSet.Bindings;
+import com.google.eclipse.mechanic.keybinding.KeyBindingsTask.MetaData;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
+import com.google.gson.JsonSerializationContext;
+import com.google.gson.JsonSerializer;
+import com.google.gson.reflect.TypeToken;
 
 /**
  * Reads a JSON file containing the mechanic diagnostics, and returns that in
  * the internal format.
- * 
+ *
  * <p>The changes will be taken from a file with a format like below:
- * 
+ *
  * <pre>
  *
 
@@ -32,8 +45,8 @@ import java.util.Map;
   "metadata" : {
     "shortDescription" : "",
     "description" : "",
-    "type" : "LASTMOD",
-  }, 
+    "type" : "LASTMOD"
+  },
   "changeSets" : [
     {
       "scheme" : "org.eclipse.ui.emacsAcceleratorConfiguration",
@@ -41,7 +54,7 @@ import java.util.Map;
       "context" : "org.eclipse.ui.contexts.window",
       "bindings" : [
         {"action" : "rem", "keys" : "Shift+Alt+Q X"},
-        {"action" : "add", "keys" : "Shift+Alt+Q T", "command" : {"id" : "a.b.c.d.e"}},
+        {"action" : "add", "keys" : "Shift+Alt+Q T", "command" : {"id" : "a.b.c.d.e"}}
       ]
     },
     {
@@ -50,21 +63,21 @@ import java.util.Map;
       "context" : "org.eclipse.ui.contexts.window",
       "bindings" : [
         {"action" : "rem", "keys" : "Shift+Alt+Q X"},
-        {"action" : "add", "keys" : "Shift+Alt+Q T", "command" : {"id" : "a.b.c.d.e"}},
+        {"action" : "add", "keys" : "Shift+Alt+Q T", "command" : {"id" : "a.b.c.d.e"}}
       ]
     },
   ]
-} 
+}
 
  * </pre>
- * 
- * This file starts out with metadata (for mechanic's own use), then it has a 
+ *
+ * This file starts out with metadata (for mechanic's own use), then it has a
  * "changes" section, that being a list of what we internally call
  * {@link KeyBindingChangeSet}, each specific to a single scheme/platform/context,
  * and containing a list of binding changes (internally split into two lists of
  * {@link KeyBindingSpec}, one for bindings to add, another for bindings to
- * remove). 
- * 
+ * remove).
+ *
  * @author zorzella@google.com
  */
 public class KeyBindingsParser {
@@ -73,19 +86,19 @@ public class KeyBindingsParser {
   //TODO: take in a "stream" as parameter?
   public static List<KeyBindingChangeSet> buildKeyChangeSets() {
     ArrayList<KeyBindingChangeSet> result = Util.newArrayList();
-    
+
     List<KeyBindingSpec> toAdd = Util.newArrayList();
     toAdd.add(new KeyBindingSpec(
-        "org.eclipse.ui.edit.text.cut.line.to.end", 
+        "org.eclipse.ui.edit.text.cut.line.to.end",
         "Shift+Ctrl+Delete"));
     toAdd.add(new KeyBindingSpec(
         "org.eclipse.ui.navigate.showIn",
         "Shift+Alt+Q A B C")
           .withParam("org.eclipse.ui.navigate.showIn.targetId", "org.eclipse.pde.runtime.RegistryBrowser"));
-  
+
     List<KeyBindingSpec> toRemove = Util.newArrayList();
     toRemove.add(new KeyBindingSpec(
-        "org.eclipse.ui.edit.text.cut.line.to.end", 
+        "org.eclipse.ui.edit.text.cut.line.to.end",
         "Shift+Ctrl+Alt+Delete"));
     toRemove.add(new KeyBindingSpec(
         "org.eclipse.jdt.ui.navigate.open.type",
@@ -96,99 +109,50 @@ public class KeyBindingsParser {
           .withParam("org.eclipse.ui.views.showView.viewId",
               //TODO(zorzella): wrong!
               "org.eclipse.ui.views.ProblemView"));
-    
+
     result.add(new KeyBindingChangeSet(
-        "org.eclipse.ui.defaultAcceleratorConfiguration", 
-        "", 
-        "org.eclipse.ui.contexts.window", 
-        toAdd, 
+        "org.eclipse.ui.defaultAcceleratorConfiguration",
+        "",
+        "org.eclipse.ui.contexts.window",
+        toAdd,
         toRemove));
-    
+
     return result;
   }
 
-  private static final JSON JSON_LIB = new JSON();
-  
-  private static Object deSerializeFromJson(CharSequence json) {
-    return JSON_LIB.fromJSON(json.toString());
+  private static final Gson GSON = new GsonBuilder()
+      .setPrettyPrinting()
+      .registerTypeAdapter(MetaData.class, new MetaDataAdapter())
+      .registerTypeAdapter(KeyBindingsTask.class, new KeyBindingsTaskAdapter())
+      .registerTypeAdapter(KeyBindingChangeSet.class, new KeyBindingChangeSetAdapter())
+      .registerTypeAdapter(KeyBindingChangeSet.Bindings.class, new BindingsAdapter())
+      .create();
+
+  public static String serialize(KeyBindingsTask task) {
+    return GSON.toJson(task);
   }
-  
+
+  public static KeyBindingsTask deSerialize(Reader reader) {
+    return GSON.fromJson(reader, KeyBindingsTask.class);
+  }
+
+  @Deprecated
   public static KeyBindingsTask deSerialize(CharSequence json) {
-    List<KeyBindingChangeSet> changeSets = Util.newArrayList();
-    
-    Map<String,Object> map = castToMap(deSerializeFromJson(json));
-    
-    Map<String, Object> metadataJson = castToMap(map.get("metadata"));
-    
-    KeyBindingsTask.MetaData metadata = 
-      new KeyBindingsTask.MetaData(
-          (String)metadataJson.get("shortDescription"), 
-          (String)metadataJson.get("description"), 
-          type(metadataJson.get("type")));
-    
-    
-    Map<String, Object>[] changeSetsJson = castToMapArray(map.get("changeSets"));
-    for (Map<String, Object> changeSetJson : changeSetsJson) {
-      Collection<KeyBindingSpec> toRemove = Util.newArrayList();
-      Collection<KeyBindingSpec> toAdd = Util.newArrayList();
-      Map<String, Object>[] bindings = castToMapArray(changeSetJson.get("bindings"));
-      for (Map<String,Object> bindingMap : bindings) {
-        Action action = actionForLabel(bindingMap.get("action"));
-        switch(action) {
-          case ADD:
-            Map<String, Object> command = castToMap(bindingMap.get("command"));
-
-            KeyBindingSpec bindingSpec = new KeyBindingSpec(
-                command.get("id").toString(), 
-                (String)bindingMap.get("keys"));
-    
-            Map<String, Object> params = castToMap(command.get("parameters"));
-            if (params != null) {
-              for (String param : params.keySet()) {
-                bindingSpec.withParam(param, (String)params.get(param));
-              }
-            }
-            toAdd.add(bindingSpec);
-            break;
-          case REMOVE:
-            toRemove.add(new KeyBindingSpec(null, (String)bindingMap.get("keys")));
-            break;
-          default: 
-            throw new UnsupportedOperationException();
-        }
-
-      }
-      changeSets.add(
-          new KeyBindingChangeSet(
-              (String)changeSetJson.get("scheme"), 
-              (String)changeSetJson.get("platform"), 
-              (String)changeSetJson.get("context"), 
-              toAdd,
-              toRemove));
-    }
-    return new KeyBindingsTask(changeSets, metadata);
-  }
-  
-  private static TaskType type(Object object) {
-    for (TaskType taskType : TaskType.values()) {
-      if (taskType.toString().equals(object)) {
-        return taskType;
-      }
-    }
-    throw new IllegalArgumentException(object + "");
+    // TODO(konigsberg): Replace with the other deserialize method
+    return GSON.fromJson(json.toString(), KeyBindingsTask.class);
   }
 
   private enum Action {
     ADD("add"),
     REMOVE("rem"),
     ;
-    
+
     private final String label;
 
     Action(String label) {
       this.label = label;
     }
-    
+
     static Action forLabel(String label) {
       for (Action action : values()) {
         if (action.label.equals(label)) {
@@ -198,27 +162,138 @@ public class KeyBindingsParser {
       throw new IllegalArgumentException(label);
     }
   }
-  
+
   private static Action actionForLabel(Object label) {
     return Action.forLabel((String)label);
   }
 
-  @SuppressWarnings("unchecked")
-  private static Map<String,Object> castToMap(Object map) {
-    if (map == null) {
-      return null;
-    }
-    return (Map<String,Object>)map;
+  private static final class Types {
+    static final Type changeSetsList =
+        new TypeToken<List<KeyBindingChangeSet>>(){}.getType();
+    static final Type metaData = new TypeToken<MetaData>(){}.getType();
+    static final Type string = new TypeToken<String>(){}.getType();
+    static final Type bindings = new TypeToken<Bindings>(){}.getType();
+    static final Type taskType = new TypeToken<TaskType>(){}.getType();
   }
-  
-  @SuppressWarnings("unchecked")
-  private static Map<String, Object>[] castToMapArray(Object array) {
-    if (array == null) {
-      return null;
+
+  public static class MetaDataAdapter
+      implements JsonDeserializer<MetaData> {
+
+    public MetaData deserialize(JsonElement json, Type typeOfT,
+        JsonDeserializationContext context) throws JsonParseException {
+      JsonObject jo = json.getAsJsonObject();
+
+      return new MetaData(
+          (String) context.deserialize(jo.get("shortDescription"), Types.string),
+          (String) context.deserialize(jo.get("description"), Types.string),
+          (TaskType) context.deserialize(jo.get("type"), Types.taskType));
     }
-    Object[] ary = (Object[]) array;
-    Map[] mapArray = new Map[ary.length];
-    System.arraycopy(array, 0, mapArray, 0, ary.length);
-    return mapArray;
+  }
+
+  public static class KeyBindingsTaskAdapter
+  implements JsonDeserializer<KeyBindingsTask> {
+
+    public KeyBindingsTask deserialize(JsonElement json, Type typeOfT,
+        JsonDeserializationContext context) throws JsonParseException {
+      JsonObject jo = json.getAsJsonObject();
+
+      return new KeyBindingsTask(
+          (List<KeyBindingChangeSet>)
+              context.deserialize(jo.get("changeSets"), Types.changeSetsList),
+          (MetaData) context.deserialize(jo.get("metadata"), Types.metaData));
+    }
+  }
+
+  public static class KeyBindingChangeSetAdapter
+      implements JsonDeserializer<KeyBindingChangeSet> {
+
+    public KeyBindingChangeSet deserialize(JsonElement json, Type typeOfT,
+        JsonDeserializationContext context) throws JsonParseException {
+      JsonObject jo = json.getAsJsonObject();
+
+      return new KeyBindingChangeSet(
+          (String) context.deserialize(jo.get("scheme"), Types.string),
+          (String) context.deserialize(jo.get("platform"), Types.string),
+          (String) context.deserialize(jo.get("context"), Types.string),
+          (Bindings) context.deserialize(jo.get("bindings"), Types.bindings));
+    }
+  }
+
+  public static class BindingsAdapter
+      implements JsonSerializer<KeyBindingChangeSet.Bindings>,
+      JsonDeserializer<KeyBindingChangeSet.Bindings>{
+
+    public JsonElement serialize(Bindings bindings, Type typeOfSrc,
+        JsonSerializationContext context) {
+      JsonArray array = new JsonArray();
+
+      for (KeyBindingSpec keyBindingSpec : bindings.toAdd()) {
+        array.add(serialize("add", keyBindingSpec));
+      }
+
+      for (KeyBindingSpec keyBindingSpec : bindings.toRemove()) {
+        array.add(serialize("rem", keyBindingSpec));
+      }
+      return array;
+    }
+
+    private JsonElement serialize(String action, KeyBindingSpec keyBindingSpec) {
+      JsonObject jo = new JsonObject();
+      jo.addProperty("action", action);
+      jo.addProperty("keys", keyBindingSpec.getKeySequence());
+
+      JsonObject cjo = new JsonObject();
+      if (keyBindingSpec.getCid() != null) {
+        cjo.addProperty("id", keyBindingSpec.getCid());
+      }
+      if (!keyBindingSpec.getParameters().isEmpty()) {
+        JsonObject paramjo = new JsonObject();
+        for (Map.Entry<String, String> entry : keyBindingSpec.getParameters().entrySet()) {
+          paramjo.addProperty(entry.getKey(), entry.getValue());
+        }
+        cjo.add("parameters", paramjo);
+      }
+      if (!cjo.entrySet().isEmpty()) {
+        jo.add("command", cjo);
+      }
+      return jo;
+    }
+
+    public Bindings deserialize(JsonElement json, Type typeOfT,
+        JsonDeserializationContext context) throws JsonParseException {
+      List<KeyBindingSpec> toAdd = Util.newArrayList();
+      List<KeyBindingSpec> toRemove = Util.newArrayList();
+      JsonArray ja = json.getAsJsonArray();
+      for (JsonElement jsonElement : ja) {
+        JsonObject jo = jsonElement.getAsJsonObject();
+
+        String keySequence = jo.get("keys").getAsString();
+        Action action = actionForLabel(jo.get("action").getAsString());
+
+        switch(action) {
+          case ADD:
+            JsonObject command = jo.getAsJsonObject("command");
+
+          KeyBindingSpec bindingSpec = new KeyBindingSpec(
+              command.get("id").getAsString(),
+              keySequence);
+
+          JsonObject params = command.getAsJsonObject("parameters");
+          if (params != null) {
+            for (Entry<String, JsonElement> entry : params.entrySet()) {
+              bindingSpec = bindingSpec.withParam(entry.getKey(), entry.getValue().getAsString());
+            }
+          }
+          toAdd.add(bindingSpec);
+          break;
+        case REMOVE:
+          toRemove.add(new KeyBindingSpec(null, keySequence));
+          break;
+        default:
+          throw new UnsupportedOperationException();
+        }
+      }
+      return new Bindings(toAdd, toRemove);
+    }
   }
 }

@@ -9,10 +9,11 @@
 
 package com.google.eclipse.mechanic.keybinding;
 
+import java.util.List;
+
 import com.google.eclipse.mechanic.internal.TaskType;
 import com.google.eclipse.mechanic.internal.Util;
-
-import java.util.List;
+import com.google.gson.annotations.SerializedName;
 
 /**
  * A java representation of an KeyBindings task.
@@ -21,8 +22,10 @@ import java.util.List;
  *
  * @author zorzella@google.com
  */
+// TODO(konigsberg): Rename to something better -- task is an overloaded name.
 public class KeyBindingsTask {
 
+  @SerializedName("changeSets")
   private final List<KeyBindingChangeSet> keyBindingsChangeSets;
   private final MetaData metadata;
 
@@ -34,7 +37,7 @@ public class KeyBindingsTask {
   public List<KeyBindingChangeSet> getKeyBindingsChangeSets() {
     return keyBindingsChangeSets;
   }
-  
+
   public MetaData getMetadata() {
     return metadata;
   }
@@ -43,14 +46,14 @@ public class KeyBindingsTask {
   public int hashCode() {
     return Util.hashCode(this.keyBindingsChangeSets, this.metadata);
   }
-  
+
   @Override
   public boolean equals(Object obj) {
     if (!(obj instanceof KeyBindingsTask)) {
       return false;
     }
     KeyBindingsTask that = (KeyBindingsTask)obj;
-    return 
+    return
       this.keyBindingsChangeSets.equals(that.keyBindingsChangeSets)
         &&
       this.metadata.equals(that.metadata);
@@ -59,14 +62,15 @@ public class KeyBindingsTask {
   @Override
   public String toString() {
     return String.format(
-        "metadata: %s, keyBindingsChangeSets: %s", 
+        "metadata: %s, keyBindingsChangeSets: %s",
         this.metadata, this.keyBindingsChangeSets);
   }
-  
+
   public static final class MetaData {
 
     private final String shortDescription;
     private final String description;
+    // TODO(zorzella): should this always be reconcile?
     private final TaskType type;
 
     public MetaData(String shortDescription, String description, TaskType type) {
@@ -79,14 +83,14 @@ public class KeyBindingsTask {
     public int hashCode() {
       return Util.hashCode(shortDescription, description, type);
     }
-    
+
     @Override
     public boolean equals(Object obj) {
       if (!(obj instanceof MetaData)) {
         return false;
       }
       MetaData that = (MetaData)obj;
-      return 
+      return
         this.shortDescription.equals(that.shortDescription)
           &&
         this.description.equals(that.description)
@@ -97,7 +101,7 @@ public class KeyBindingsTask {
     @Override
     public String toString() {
       return String.format(
-          "shortDescription: %s, description: %s, type: %s", 
+          "shortDescription: %s, description: %s, type: %s",
           this.shortDescription, this.description, this.type);
     }
   }

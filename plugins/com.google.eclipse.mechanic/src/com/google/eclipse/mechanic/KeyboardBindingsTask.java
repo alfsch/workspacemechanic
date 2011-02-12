@@ -10,9 +10,11 @@
 package com.google.eclipse.mechanic;
 
 import com.google.eclipse.mechanic.internal.KeyBindings;
+import com.google.eclipse.mechanic.internal.Util;
 import com.google.eclipse.mechanic.keybinding.KeyBindingSpec;
 import com.google.eclipse.mechanic.keybinding.KeyBindingsParser;
 import com.google.eclipse.mechanic.keybinding.KeyBindingChangeSet;
+import com.google.eclipse.mechanic.keybinding.KeyBindingsTask;
 
 import org.eclipse.core.commands.Command;
 import org.eclipse.jface.bindings.Scheme;
@@ -37,6 +39,12 @@ public class KeyboardBindingsTask extends CompositeTask {
   private static final boolean ENABLED = 
     System.getProperty("KEYBOARD_MECHANIC_ENABLED", "false").equals("true");
 
+  private final KeyBindingsTask taskData;
+
+  public KeyboardBindingsTask(KeyBindingsTask taskData) {
+    this.taskData = Util.checkNotNull(taskData);
+  }
+
   public String getDescription() {
     return "Ensures certain keybindings exist, and ensures that others don't.";
   }
@@ -49,7 +57,7 @@ public class KeyboardBindingsTask extends CompositeTask {
     if (!ENABLED) {
       return true;
     }
-    
+
     //TODO(zorzella): can we get workbench and commandService once, rather than
     //at every evaluate?
     IWorkbench workbench = PlatformUI.getWorkbench();
@@ -59,8 +67,8 @@ public class KeyboardBindingsTask extends CompositeTask {
 
     boolean dirty = false;
     // If "dirty" is set to true, it means we made some modification that
-    // we sill need to persist.
-    for(KeyBindingChangeSet changeSet : KeyBindingsParser.buildKeyChangeSets()) {
+    // we still need to persist.
+    for(KeyBindingChangeSet changeSet : taskData.getKeyBindingsChangeSets()) {
       dirty = dirty || doEvaluate(workbench, commandService, bindingService, changeSet);
     }
     

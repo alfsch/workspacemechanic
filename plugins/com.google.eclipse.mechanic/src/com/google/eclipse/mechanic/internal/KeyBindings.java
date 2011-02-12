@@ -10,6 +10,7 @@
 package com.google.eclipse.mechanic.internal;
 
 import com.google.eclipse.mechanic.keybinding.KeyBindingSpec;
+import com.google.gson.Gson;
 
 import org.eclipse.core.commands.Command;
 import org.eclipse.core.commands.ParameterizedCommand;
@@ -71,28 +72,29 @@ public class KeyBindings {
     }
     this.userBindings = ub;
     this.systemBindings = Collections.unmodifiableList(sb);
-    
+
     printBindings();
-    
+
   }
-  
+
   private void printBindings() {
     if (!DEBUG) {
       return;
     }
     System.out.println("SYSTEM");
-    printBindings(systemBindings);
+    // printBindings(systemBindings);
     System.out.println("USER");
-    printBindings(userBindings);
+    // printBindings(userBindings);
   }
 
   private static final boolean JSON = true;
 
 
+  // TODO(konigsberg): This is broken atm.
   private static void printBindings(List<Binding> systemBindings) {
     StringBuilder output = new StringBuilder("[\n");
     for (Binding b : systemBindings) {
-      
+
       CharSequence toPrint;
       if (JSON) {
         output.append(serializeToJson(b)).append(",\n");
@@ -101,23 +103,22 @@ public class KeyBindings {
       }
     }
     output.append("]");
-    deserialize(output); 
-    
+    deserialize(output);
+
     System.out.println(output);
   }
-  
+
   @SuppressWarnings("unchecked")
   private static void deserialize(CharSequence json) {
     Object[] o = (Object[]) deSerializeFromJson(json);
     Map<String,Object> x = (Map<String,Object>)o[0];
-    
-    
+
     Map<String, Object> command = (Map<String,Object>)x.get("command");
-    
+
     KeyBindingSpec binding = new KeyBindingSpec(
-        command.get("id").toString(), 
+        command.get("id").toString(),
         x.get("keys").toString());
-    
+
     Object temp = command.get("parameters");
     if (temp != null) {
       Map<String, String> params = (Map<String,String>)temp;
@@ -126,7 +127,7 @@ public class KeyBindings {
       }
     }
   }
-  
+
   private static CharSequence serializeToJson(Binding b) {
 
     boolean remove = b.getParameterizedCommand() == null;
@@ -143,7 +144,7 @@ public class KeyBindings {
       ParameterizedCommand parameterizedCommand = b.getParameterizedCommand();
       Command command = parameterizedCommand.getCommand();
       commandMap.put("id", command.getId());
-      
+
       @SuppressWarnings("unchecked") // Eclipse doesn't support generics
       Map<String,String> parameters = parameterizedCommand.getParameterMap();
       if (parameters.size() > 0) {
@@ -151,12 +152,12 @@ public class KeyBindings {
       }
       map.put("command", commandMap);
     }
-    String json = new org.mortbay.util.ajax.JSON().toJSON(map);
+    String json = new Gson().toJson(map);
     return json;
   }
 
   private static Object deSerializeFromJson(CharSequence json) {
-    Object o = new org.mortbay.util.ajax.JSON().fromJSON(json.toString());
+    Object o = new Gson().fromJson(json.toString(), Object.class);
     return o;
   }
 
@@ -170,9 +171,9 @@ public class KeyBindings {
 
       StringBuilder toPrint = new StringBuilder();
       toPrint.append(remove ? "-" : "+").append("{");
-      toPrint.append(platform == null ? "" : platform).append(":"); 
-      toPrint.append(b.getSchemeId()).append(":"); 
-      toPrint.append(b.getContextId()).append(":"); 
+      toPrint.append(platform == null ? "" : platform).append(":");
+      toPrint.append(b.getSchemeId()).append(":");
+      toPrint.append(b.getContextId()).append(":");
       toPrint.append(b.getTriggerSequence().format()).append("}");
       if (!remove) {
         toPrint.append(":").append(formattedCommand);
@@ -187,13 +188,13 @@ public class KeyBindings {
     return formatCommandZ(b);
     }
   }
-   
+
   private static String formatCommandJSON(Binding b) {
     return null;
   }
-  
+
   private static String formatCommandZ(Binding b) {
-    
+
     ParameterizedCommand parameterizedCommand = b.getParameterizedCommand();
     if (parameterizedCommand == null) {
       return "";
@@ -232,8 +233,8 @@ public class KeyBindings {
       Scheme scheme,
       String platform,
       String contextId,
-      KeySequence triggerSequence, 
-      Command command, 
+      KeySequence triggerSequence,
+      Command command,
       Map<String, String> params) {
     Binding binding = find(scheme, triggerSequence, command.getId(), params);
     // If no binding exists, create the user binding, add it and return true.
@@ -267,17 +268,17 @@ public class KeyBindings {
       Scheme scheme,
       String platform,
       String contextId,
-      KeySequence triggerSequence, 
-      Command command, 
+      KeySequence triggerSequence,
+      Command command,
       Map<String, String> params) {
-    
+
     Binding binding = find(scheme, triggerSequence, command.getId(), params, userBindings);
-    
+
     if (binding != null) {
       userBindings.remove(binding);
       return true;
     }
-    
+
     binding = find(scheme, triggerSequence, command.getId(), params, systemBindings);
     if (binding != null) {
       if (find(scheme, triggerSequence, null, params, userBindings) == null) {
@@ -296,9 +297,9 @@ public class KeyBindings {
   }
 
   public Binding find(
-      Scheme scheme, 
-      KeySequence triggerSequence, 
-      String cid, 
+      Scheme scheme,
+      KeySequence triggerSequence,
+      String cid,
       Map<String, String> params) {
     Binding userBinding = find(scheme, triggerSequence, cid, params, userBindings);
     if (userBinding != null) {
@@ -308,15 +309,15 @@ public class KeyBindings {
   }
 
   /**
-   * Finds a binding in {@code list} that matches the given 
+   * Finds a binding in {@code list} that matches the given
    * {@code triggerSequence}, {@code scheme} and {@code cid}. If not found,
    * return {@code null}.
    */
   private Binding find(
-      Scheme scheme, 
-      KeySequence triggerSequence,  
-      String cid, 
-      Map<String,String> params, 
+      Scheme scheme,
+      KeySequence triggerSequence,
+      String cid,
+      Map<String,String> params,
       List<Binding> list) {
     for (Binding binding : list) {
       if (binding.getSchemeId().equals(scheme.getId())
@@ -349,7 +350,7 @@ public class KeyBindings {
    * compares first to second, where an empty map substitues for null.
    */
   private boolean equalMaps(
-      Map<String,String> first, 
+      Map<String,String> first,
       Map<String, String> second) {
     if (first == null) {
       first = Collections.emptyMap();
@@ -370,8 +371,8 @@ public class KeyBindings {
       Scheme scheme,
       String platform,
       String contextId,
-      KeySequence triggerSequence, 
-      Command command, 
+      KeySequence triggerSequence,
+      Command command,
       Map<String,String> params) {
     ParameterizedCommand parameterizedCommand;
     if (command == null) {
@@ -383,7 +384,7 @@ public class KeyBindings {
     Binding newBinding =
         new KeyBinding(triggerSequence, parameterizedCommand, scheme.getId(),
             contextId, null, platform, null, Binding.USER);
-    
+
     return newBinding;
   }
 

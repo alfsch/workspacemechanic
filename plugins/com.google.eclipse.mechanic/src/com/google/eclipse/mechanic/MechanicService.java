@@ -194,7 +194,7 @@ public final class MechanicService {
    * {@link RepairDecisionProvider} to collect user input needed to determine
    * what actions to take for each failing Task.
    */
-  private RepairManager getRepairManager(RepairDecisionProvider choiceProvider) {
+  public RepairManager getRepairManager(RepairDecisionProvider choiceProvider) {
     return new RepairManager(this, getFailingItems(), choiceProvider);
   }
 

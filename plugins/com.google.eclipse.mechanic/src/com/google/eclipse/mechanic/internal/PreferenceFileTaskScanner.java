@@ -81,7 +81,7 @@ public final class PreferenceFileTaskScanner extends DirectoryIteratingTaskScann
     File[] filesInDir = dir.listFiles(EPF_FILTER);
     if (filesInDir == null) {
       // listFiles() can return null if the directory doesn't exist or an IO error occurs.
-      LOG.warning("Unable to listFiles for directory '" + dir + "'");
+      LOG.fine("Unable to list Preference files for directory '" + dir + "'");
       return;
     }
     for (File file : filesInDir) {
@@ -173,7 +173,7 @@ public final class PreferenceFileTaskScanner extends DirectoryIteratingTaskScann
       type = TaskType.LASTMOD;
       title = "Import preferences from file: " + file.getName();
       description = "Imports the preferences from the file: " + file.getPath();
-    }    
+    }
 
     Header parseHeader() {
       try {
