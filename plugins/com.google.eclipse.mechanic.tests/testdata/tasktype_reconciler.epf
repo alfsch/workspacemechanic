@@ -1,0 +1,28 @@
+# @title I'm a reconciler task.
+# @description Reconciles some stuff...
+# @task_type RECONCILE
+
+file_export_version=3.0
+
+# misc ui settings
+/instance/org.eclipse.ui/SHOW_TEXT_ON_PERSPECTIVE_BAR=false
+/instance/org.eclipse.ui/DOCK_PERSPECTIVE_BAR=left
+/instance/org.eclipse.ui/showIntro=false
+/instance/org.eclipse.ui.editors/printMargin=true
+/instance/org.eclipse.jdt.ui/markOccurrences=false
+/instance/org.eclipse.ui.ide/EXIT_PROMPT_ON_CLOSE_LAST_WINDOW=false
+
+# disable folding
+/instance/org.eclipse.jdt.ui/editor_folding_enabled=false
+
+# tabs at bottom of page (requires a restart)
+/instance/org.eclipse.ui.workbench/overridepresentation=true
+/instance/org.eclipse.ui.workbench/EDITOR_TAB_POSITION=1024
+
+# build status plugin
+/instance/com.google.eclipse.buildstatus.BuildStatus/targetsPref=lighthouse_fe
+/instance/com.google.eclipse.buildstatus.BuildStatus/refreshPref=30
+
+# p4eclipse tweaks
+/instance/net.sourceforge.perforce.ui/pref_newFilesPSO=true
+/instance/net.sourceforge.perforce.ui/pref_dontPromptAutomaticOpen=true

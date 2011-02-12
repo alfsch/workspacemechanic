@@ -1,0 +1,189 @@
+/*******************************************************************************
+ * Copyright (C) 2010, Google Inc.
+ *
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *******************************************************************************/
+
+package com.google.eclipse.mechanic.keybinding;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
+import junit.framework.TestCase;
+
+import com.google.eclipse.mechanic.internal.TaskType;
+import com.google.eclipse.mechanic.keybinding.KeyBindingsTask.MetaData;
+import com.google.eclipse.mechanic.tests.internal.RunAsJUnitTest;
+
+@RunAsJUnitTest
+public class KeyBindingsParserTest extends TestCase {
+
+  private static final String TEST_NO_CHANGESETS =
+    "{" +
+    "  'metadata' : {" +
+    "    'shortDescription' : 'Zorzella\\'s bindings'," +
+    "    'description' : 'Zorzella\\'s bindings in the real world'," +
+    "    'type' : 'LASTMOD'" + // Comma: *1
+    "  }, " +
+    "  'changeSets' : [" +
+    "  ]" +
+    "} ";
+
+  // *1 indicates that there used to be a comma at the end of the line, but
+  // that's not supported in strict mode.
+  private static final String TEST_JSON =
+    "{" +
+    "  'metadata' : {" +
+    "    'shortDescription' : 'Zorzella\\'s bindings'," +
+    "    'description' : 'Zorzella\\'s bindings in the real world'," +
+    "    'type' : 'LASTMOD'" + // Comma: *1
+    "  }, " +
+    "  'changeSets' : [" +
+    "    {" +
+    "      'scheme' : 'org.eclipse.ui.emacsAcceleratorConfiguration'," +
+    "      'platform' : 'Windows'," +
+    "      'context' : 'org.eclipse.ui.contexts.window'," +
+    "      'bindings' : [" +
+    "        {'action' : 'rem', 'keys' : 'Shift+Alt+Q X'}," +
+    "        {'action' : 'add', 'keys' : 'Shift+Alt+Q T', 'command' : {'id' : 'a.b.c.d.e'}}" + // Comma: *1
+    "      ]" +
+    "    }," +
+    "    {" +
+    "      'scheme' : 'org.eclipse.ui.defaultAcceleratorConfiguration'," +
+    "      'platform' : 'Windows'," +
+    "      'context' : 'org.eclipse.ui.contexts.window'," +
+    "      'bindings' : [" +
+    "        {'action' : 'rem', 'keys' : 'Shift+Alt+Q X'}," +
+    "        {'action' : 'add', 'keys' : 'Shift+Alt+Q T', 'command' : {'id' : 'a.b.c.d.e'}}" + // Comma: *1
+    "      ]" +
+    "    }" + // Comma *1
+    "  ]" +
+    "} ";
+
+
+  // *1 indicates that there used to be a comma at the end of the line, but
+  // that's not supported in strict mode.
+  private static final String TEST_FULL =
+    "{" +
+    "  'metadata' : {" +
+    "    'shortDescription' : 'Zorzella\\'s bindings'," +
+    "    'description' : 'Zorzella\\'s bindings in the real world'," +
+    "    'type' : 'LASTMOD'" +
+    "  }, " +
+    "  'changeSets' : [" +
+    "    {" +
+    "      'scheme' : 'org.eclipse.ui.emacsAcceleratorConfiguration'," +
+    "      'platform' : 'Windows'," +
+    "      'context' : 'org.eclipse.ui.contexts.window'," +
+    "      'bindings' : [" +
+    "        {'action' : 'rem', 'keys' : 'Shift+Alt+Q X'}," +
+    "        {'action' : 'add', 'keys' : 'Shift+Alt+Q T'," +
+    "          'command' : {'id' : 'a.b.c.d.e', 'parameters' : { }}}" +
+    "      ]" +
+    "    }," +
+    "    {" +
+    "      'scheme' : 'org.eclipse.ui.defaultAcceleratorConfiguration'," +
+    "      'platform' : 'Windows'," +
+    "      'context' : 'org.eclipse.ui.contexts.window'," +
+    "      'bindings' : [" +
+    "        {'action' : 'rem', 'keys' : 'Shift+Alt+Q X'}," +
+    "        {'action' : 'add', 'keys' : 'Shift+Alt+Q T'," +
+    "          'command' : {'id' : 'a.b.c.d.e', 'parameters' : { 'a' : '1', 'b' : '2' }}}" +
+    "      ]" +
+    "    }" + // Comma *1
+    "  ]" +
+    "} ";
+
+  public void testNoChangesets() {
+    KeyBindingsTask actual = KeyBindingsParser.deSerialize(TEST_NO_CHANGESETS);
+    KeyBindingsTask expected = buildExpected(false, false);
+
+    assertEquals(expected, actual);
+  }
+
+  public void testDefault() {
+    KeyBindingsTask actual = KeyBindingsParser.deSerialize(TEST_JSON);
+    KeyBindingsTask expected = buildExpected(true, false);
+
+    assertEquals(expected, actual);
+  }
+
+  public void testFull() {
+    KeyBindingsTask actual = KeyBindingsParser.deSerialize(TEST_FULL);
+    KeyBindingsTask expected = buildExpected(true, true);
+
+    assertEquals(expected, actual);
+  }
+
+  public void testRoundTrip_basic() {
+    testRoundTrip_entry(buildExpected(false, false));
+  }
+
+  public void testRoundTrip_extended() {
+    testRoundTrip_entry(buildExpected(true, false));
+  }
+
+  public void testRoundTrip_full() {
+    testRoundTrip_entry(buildExpected(false, true));
+  }
+
+  private void testRoundTrip_entry(KeyBindingsTask task) {
+    String json = KeyBindingsParser.serialize(task);
+    KeyBindingsTask reconstituted = KeyBindingsParser.deSerialize(json);
+    assertEquals(task, reconstituted);
+  }
+
+  private KeyBindingsTask buildExpected(boolean hasChangeSets, boolean hasParams) {
+    MetaData metadata = new MetaData(
+        "Zorzella's bindings",
+        "Zorzella's bindings in the real world",
+        TaskType.LASTMOD
+        );
+    List<KeyBindingChangeSet> changeSets = new ArrayList<KeyBindingChangeSet>();
+    if (hasChangeSets) {
+      changeSets.add(buildExpectedChangeSetZero());
+      changeSets.add(buildExpectedChangeSetOne(hasParams));
+    }
+    KeyBindingsTask result = new KeyBindingsTask(changeSets, metadata);
+    return result;
+  }
+
+  private KeyBindingChangeSet buildExpectedChangeSetZero() {
+    Collection<KeyBindingSpec> toRemove = new ArrayList<KeyBindingSpec>();
+    toRemove.add(new KeyBindingSpec(null, "Shift+Alt+Q X"));
+
+    Collection<KeyBindingSpec> toAdd = new ArrayList<KeyBindingSpec>();
+    KeyBindingSpec spec = new KeyBindingSpec("a.b.c.d.e", "Shift+Alt+Q T");
+    toAdd.add(spec);
+
+    return new KeyBindingChangeSet(
+        "org.eclipse.ui.emacsAcceleratorConfiguration",
+        "Windows",
+        "org.eclipse.ui.contexts.window",
+        toAdd, toRemove
+        );
+  }
+
+  private KeyBindingChangeSet buildExpectedChangeSetOne(boolean hasParams) {
+    Collection<KeyBindingSpec> toRemove = new ArrayList<KeyBindingSpec>();
+    toRemove.add(new KeyBindingSpec(null, "Shift+Alt+Q X"));
+
+    Collection<KeyBindingSpec> toAdd = new ArrayList<KeyBindingSpec>();
+    KeyBindingSpec spec = new KeyBindingSpec("a.b.c.d.e", "Shift+Alt+Q T");
+    if (hasParams) {
+      spec = spec.withParam("a", "1").withParam("b", "2");
+    }
+    toAdd.add(spec);
+
+    return new KeyBindingChangeSet(
+        "org.eclipse.ui.defaultAcceleratorConfiguration",
+        "Windows",
+        "org.eclipse.ui.contexts.window",
+        toAdd, toRemove
+        );
+  }
+}
