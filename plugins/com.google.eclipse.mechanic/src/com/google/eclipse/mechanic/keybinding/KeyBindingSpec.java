@@ -12,7 +12,6 @@ package com.google.eclipse.mechanic.keybinding;
 import com.google.eclipse.mechanic.internal.Util;
 
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -36,7 +35,7 @@ public final class KeyBindingSpec {
   public KeyBindingSpec(
       String cid,
       String keySequence) {
-    this(cid, keySequence, new HashMap<String, String>());
+    this(cid, keySequence, Util.<String, String>newHashMap());
   }
 
   public KeyBindingSpec(
@@ -45,7 +44,7 @@ public final class KeyBindingSpec {
       Map<String,String> parameters) {
     this.cid = cid;
     this.keySequence = Util.checkNotNull(keySequence);
-    HashMap<String, String> temp = new HashMap<String, String>();
+    Map<String, String> temp = Util.newHashMap();
     temp.putAll(parameters);
     this.parameters = Collections.unmodifiableMap(temp);
   }
@@ -69,7 +68,7 @@ public final class KeyBindingSpec {
    * without requiring a map builder or mutable map.
    */
   public KeyBindingSpec withParam(String id, String value) {
-    Map<String, String> temp = new HashMap<String, String>();
+    Map<String, String> temp = Util.newHashMap();
     temp.putAll(parameters);
     temp.put(id, value);
     return new KeyBindingSpec(this.cid, this.keySequence, temp);
