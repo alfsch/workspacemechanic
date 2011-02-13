@@ -111,7 +111,7 @@ public class KeyBindings {
   @SuppressWarnings("unchecked")
   private static void deserialize(CharSequence json) {
     Object[] o = (Object[]) deSerializeFromJson(json);
-    Map<String,Object> x = (Map<String,Object>)o[0];
+    Map<String,Object> x = (Map<String,Object>) o[0];
 
     Map<String, Object> command = (Map<String,Object>)x.get("command");
 
@@ -123,13 +123,12 @@ public class KeyBindings {
     if (temp != null) {
       Map<String, String> params = (Map<String,String>)temp;
       for (String param : params.keySet()) {
-        binding.withParam(param, params.get(param));
+        binding = binding.withParam(param, params.get(param));
       }
     }
   }
 
   private static CharSequence serializeToJson(Binding b) {
-
     boolean remove = b.getParameterizedCommand() == null;
     String platform = b.getPlatform();
 
