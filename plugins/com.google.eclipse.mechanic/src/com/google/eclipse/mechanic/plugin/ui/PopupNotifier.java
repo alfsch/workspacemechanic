@@ -9,21 +9,16 @@
 
 package com.google.eclipse.mechanic.plugin.ui;
 
+import java.util.concurrent.TimeUnit;
+
 import com.google.eclipse.mechanic.MechanicService;
 import com.google.eclipse.mechanic.RepairDecisionProvider;
 import com.google.eclipse.mechanic.StatusChangeListener;
 import com.google.eclipse.mechanic.StatusChangedEvent;
 import com.google.eclipse.mechanic.plugin.core.MechanicPreferences;
 
-import org.eclipse.mylyn.internal.provisional.commons.ui.AbstractNotificationPopup;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.forms.events.HyperlinkAdapter;
-import org.eclipse.ui.forms.events.HyperlinkEvent;
-import org.eclipse.ui.forms.widgets.Hyperlink;
 
 /**
  * A {@link StatusChangeListener} that appears when tasks fail.
@@ -64,7 +59,7 @@ import org.eclipse.ui.forms.widgets.Hyperlink;
 public class PopupNotifier {
 
   // Popup appears for two minutes.
-  private static final long POPUP_TIMEOUT_MILLIS = 1000L * 60 * 2;
+  private static final int POPUP_TIMEOUT_MILLIS = (int) TimeUnit.SECONDS.toMillis(60 * 2);
 
   private final StatusChangeListener statusChangeListener;
 
@@ -133,61 +128,28 @@ public class PopupNotifier {
     final Display display =
         Display.getCurrent() != null ? Display.getCurrent() : Display.getDefault();
 
-    AbstractNotificationPopup popup = new AbstractNotificationPopup(display) {
+    AbstractPopup popup = new MechanicPopup(display) {
       @Override
-      protected void createContentArea(Composite parent) {
-        Label label = new Label(parent, SWT.WRAP);
-        label.setText(
-            "The Workspace Mechanic found\n" +
-            "issues that need your attention.");
-        label.setBackground(parent.getBackground());
-
-        createHyperlink(display, parent, "View and correct configuration issues", new Runnable() {
-          public void run() {
-            close();
-            RepairDecisionProvider cpro = new UserChoiceDecisionProvider(
-                PlatformUI.getWorkbench().getActiveWorkbenchWindow());
-            // TODO(konigsberg): Replace with calls to runRepairManager?
-            service.getRepairManager(cpro).run();
-          }
-        });
-
-        createHyperlink(display, parent, "Disable this popup", new Runnable() {
-          public void run() {
-            close();
-            MechanicPreferences.doNotShowPopup();
-          }
-        });
+      public void close() {
+        super.close();
+        visible = false;
       }
 
-      /**
-       * Go ahead and close, but also indicate that the popup is closed.
-       */
       @Override
-      public boolean close() {
-        boolean returnValue = super.close();
-        visible = false;
-        return returnValue;
+      public void correctConfigurationIssues() {
+        RepairDecisionProvider cpro = new UserChoiceDecisionProvider(
+            PlatformUI.getWorkbench().getActiveWorkbenchWindow());
+        // TODO(konigsberg): Replace with calls to runRepairManager?
+        service.getRepairManager(cpro).run();
+      }
+
+      @Override
+      public void doNotShowPopup() {
+        MechanicPreferences.doNotShowPopup();
       }
     };
-
-    popup.setDelayClose(POPUP_TIMEOUT_MILLIS);
+    popup.setDisplayTimeMillis(POPUP_TIMEOUT_MILLIS);
     visible = true;
     popup.open();
-  }
-
-  private Hyperlink createHyperlink(final Display display, Composite parent, String text,
-      final Runnable runnable) {
-    Hyperlink hyperlink = new Hyperlink(parent, SWT.WRAP);
-    hyperlink.setBackground(parent.getBackground());
-    hyperlink.setText(text);
-    hyperlink.setUnderlined(true);
-    hyperlink.addHyperlinkListener(new HyperlinkAdapter() {
-      @Override
-      public void linkActivated(HyperlinkEvent e) {
-        display.syncExec(runnable);
-      }
-    });
-    return hyperlink;
   }
 }
