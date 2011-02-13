@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <feature url="features/com.google.eclipse.mechanic_0.0.3.jar" id="com.google.eclipse.mechanic" version="0.0.3">
+      <category name="com.google.eclipse.mechanic.site"/>
+   </feature>
+   <category-def name="com.google.eclipse.mechanic.site" label="Workspace Mechanic"/>
+</site>
