@@ -26,7 +26,7 @@ import org.eclipse.swt.widgets.Shell;
 /**
  * UI-portion of the error popup.
  */
-public class AbstractPopup {
+public abstract class AbstractPopup {
   private final Display display;
   private final Shell shell;
 
@@ -49,6 +49,10 @@ public class AbstractPopup {
   }
 
   public AbstractPopup setDisplayTimeMillis(int displayTimeMillis) {
+    if (displayTimeMillis < 0) {
+      throw new IllegalArgumentException(
+          "displayTimeMillis cannot be negative");
+    }
     this.displayTimeMillis = displayTimeMillis;
     return this;
   }
@@ -98,11 +102,9 @@ public class AbstractPopup {
     }
   }
 
-  protected void createTitleBar(Composite parent) {
-  }
+  protected abstract void createTitleBar(Composite parent);
 
-  public void createContents(Composite parent) {
-  }
+  public abstract void createContents(Composite parent);
 
   private void initializeLayout(Composite widget) {
     RowLayout layout = new RowLayout();

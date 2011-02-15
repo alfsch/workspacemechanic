@@ -24,7 +24,7 @@ import org.eclipse.ui.forms.events.HyperlinkEvent;
 import org.eclipse.ui.forms.widgets.Hyperlink;
 
 /**
- * Business-end of the popup.
+ * Business end of the popup.
  */
 public class MechanicPopup extends AbstractPopup {
 
@@ -69,7 +69,7 @@ public class MechanicPopup extends AbstractPopup {
   }
 
   private Font createBoldFont(Font font) {
-    FontData[] fontDatas = font.getFontData ();
+    FontData[] fontDatas = font.getFontData();
     for (FontData fd: fontDatas) {
       fd.setStyle(SWT.BOLD);
     }
