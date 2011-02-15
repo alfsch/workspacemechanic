@@ -1,0 +1,3862 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<title>EasyMock 2.4</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+<style type="text/css" media="screen">
+    @import url('../../../style.css');
+    @import url('../../../roundedcorners.css');
+</style>
+
+</head>
+<body onload="onLoad('EasyMock 2.4: org.easymock.tests2.ConstraintsToStringTest.java');">
+ 
+ <table cellspacing="0" cellpadding="2" class="barGraph"><tbody>
+  <tr>
+    <td colspan="6">
+
+    <div class="roundedLarge">
+      <b class="ctop"><b class="cb1"></b><b class="cb2"></b><b class="cb3"></b><b class="cb4"></b></b>
+      <div class="roundedContent">
+    <table width="100%" class="" cellspacing="0"><tr class="reportHeader">
+    <td valign="top" class="titleText">Clover Coverage  Report - <a href="http://www.easymock.org" target="_top">EasyMock 2.4</a><div class="timestamp"><b>Coverage timestamp:</b>&nbsp;mer. juil. 2 2008 02:17:38 CEST</div>
+
+        
+    
+            <div class="navBar"><a href="../../../pkg-summary.html"><b>Overview</b></a>&nbsp;&nbsp;&nbsp;<a href="pkg-summary.html"><b>Package</b></a>&nbsp;&nbsp;&nbsp;<span class="navBarCurrent">File</span></div>
+    
+    <div class="navBarLink">
+        &nbsp;&nbsp;&nbsp;
+        <a href="../../../index.html" target="_top">FRAMES</a>&nbsp;&nbsp;
+        <a href="ConstraintsToStringTest.html" target="_top">NO FRAMES</a>&nbsp;&nbsp;
+        <label onclick="toggleHelp(this);" class="nonHelpItem">SHOW HELP</label>&nbsp;&nbsp;
+    </div>
+
+    </td>
+        
+        
+
+     <td  id="td-header-stats" class="headerStats" valign="top" style="font-weight: normal;width:40%; text-align: right; display: ;">
+         <table style="text-align: right; white-space:nowrap;">
+         <tr>
+           <td colspan="11" class="totalText" style="text-align: left"><label>Statistics for file ConstraintsToStringTest.java:</label></td>
+         </tr>
+         <tr>
+           <td  class="totalText"><label onkeyup="return help_stmts + 'file';">Stmts:</label></td>
+           <td >      45
+  </td>
+           <td style="width: 5%">&nbsp;</td>
+           <td  class="totalText"><label onkeyup="return help_loc + 'file';">LOC:</label></td>
+           <td >      147
+  </td>
+           <td style="width: 10%">&nbsp;</td>
+           <td  class="totalText"><label onkeyup="return help_cmp + 'file';">Total cmp:</label></td>
+           <td >      20
+  </td>
+           <td style="width: 5%">&nbsp;</td>
+           <td  class="totalText"><label onkeyup="return help_stmts_per_method;">Stmts/Method:</label></td>
+           <td >      2,25
+  </td>
+         </tr>
+         <tr>
+           <td  class="totalText"><label onkeyup="return help_branches + 'file';">Branches:</label></td>
+           <td >      0
+  </td>
+           <td style="width: 5%">&nbsp;</td>
+           <td  class="totalText"><label onkeyup="return help_ncloc + 'file';">NCLOC:</label></td>
+           <td >      118
+  </td>
+           <td style="width: 10%">&nbsp;</td>
+           <td  class="totalText"><label onkeyup="return help_cmp_density + 'file';">Cmp density:</label></td>
+           <td >      0,44
+  </td>
+           <td style="width: 5%">&nbsp;</td>
+           <td  class="totalText"><label onkeyup="return help_methods_per_class;">Methods/Class:</label></td>
+           <td >      20
+  </td>
+         </tr>
+         <tr>
+           <td  class="totalText"><label onkeyup="return help_methods + 'file';">Methods:</label></td>
+           <td >      20
+  </td>
+           <td style="width: 5%">&nbsp;</td>
+                    <td colspan="2"></td>
+                    <td style="width: 10%">&nbsp;</td>
+           <td  class="totalText"><label onkeyup="return help_avg_method_cmp + 'file';">Avg method cmp:</label></td>
+           <td >      1
+  </td>
+           <td style="width: 5%">&nbsp;</td>
+                      <td colspan="2"></td>
+          
+         </tr>
+         <tr>
+            <td  class="totalText"><label onkeyup="return help_classes + 'file';">Classes:</label></td>
+            <td >      1
+  </td>
+            <td style="width: 5%">&nbsp;</td>
+                      <td colspan="2"></td>
+                     <td style="width: 10%">&nbsp;</td>
+         </tr>
+         <tr class="totalText">
+             <td colspan="1">
+                <a class="sortable totalText" onclick="toggleStats('td-header-stats', 'td-filtered-header-stats');"><label onkeyup="return help_filter_stats;">Filtered</label></a>
+             </td>
+             <td colspan="5">&nbsp;</td>
+
+         </tr>
+      </table>
+     </td>
+
+    
+    
+
+     <td  id="td-filtered-header-stats" class="headerStats" valign="top" style="font-weight: normal;width:40%; text-align: right; display: none;">
+         <table style="text-align: right; white-space:nowrap;">
+         <tr>
+           <td colspan="11" class="totalText" style="text-align: left"><label>Statistics for file ConstraintsToStringTest.java:</label></td>
+         </tr>
+         <tr>
+           <td  class="totalText"><label onkeyup="return help_stmts + 'file';">Stmts:</label></td>
+           <td >      45
+  </td>
+           <td style="width: 5%">&nbsp;</td>
+           <td  class="totalText"><label onkeyup="return help_loc + 'file';">LOC:</label></td>
+           <td >      147
+  </td>
+           <td style="width: 10%">&nbsp;</td>
+           <td  class="totalText"><label onkeyup="return help_cmp + 'file';">Total cmp:</label></td>
+           <td >      20
+  </td>
+           <td style="width: 5%">&nbsp;</td>
+           <td  class="totalText"><label onkeyup="return help_stmts_per_method;">Stmts/Method:</label></td>
+           <td >      2,25
+  </td>
+         </tr>
+         <tr>
+           <td  class="totalText"><label onkeyup="return help_branches + 'file';">Branches:</label></td>
+           <td >      0
+  </td>
+           <td style="width: 5%">&nbsp;</td>
+           <td  class="totalText"><label onkeyup="return help_ncloc + 'file';">NCLOC:</label></td>
+           <td >      118
+  </td>
+           <td style="width: 10%">&nbsp;</td>
+           <td  class="totalText"><label onkeyup="return help_cmp_density + 'file';">Cmp density:</label></td>
+           <td >      0,44
+  </td>
+           <td style="width: 5%">&nbsp;</td>
+           <td  class="totalText"><label onkeyup="return help_methods_per_class;">Methods/Class:</label></td>
+           <td >      20
+  </td>
+         </tr>
+         <tr>
+           <td  class="totalText"><label onkeyup="return help_methods + 'file';">Methods:</label></td>
+           <td >      20
+  </td>
+           <td style="width: 5%">&nbsp;</td>
+                    <td colspan="2"></td>
+                    <td style="width: 10%">&nbsp;</td>
+           <td  class="totalText"><label onkeyup="return help_avg_method_cmp + 'file';">Avg method cmp:</label></td>
+           <td >      1
+  </td>
+           <td style="width: 5%">&nbsp;</td>
+                      <td colspan="2"></td>
+          
+         </tr>
+         <tr>
+            <td  class="totalText"><label onkeyup="return help_classes + 'file';">Classes:</label></td>
+            <td >      1
+  </td>
+            <td style="width: 5%">&nbsp;</td>
+                      <td colspan="2"></td>
+                     <td style="width: 10%">&nbsp;</td>
+         </tr>
+         <tr class="totalText">
+             <td colspan="1">
+                <a class="sortable totalText" onclick="toggleStats('td-filtered-header-stats', 'td-header-stats');"><label onkeyup="return help_filter_stats;">Unfiltered</label></a>
+             </td>
+             <td colspan="5">&nbsp;</td>
+
+         </tr>
+      </table>
+     </td>
+</tr>
+
+    </table>
+  </div>
+  <b class="cbottom"><b class="cb4"></b><b class="cb3"></b><b class="cb2"></b><b class="cb1"></b></b>
+  </div>
+
+   </td>
+  </tr>
+
+
+<tr id="legend" style="display:none;"><td colspan="6">
+    <div class="hbreak">&nbsp;</div>
+    <table class="legend" cellspacing="0" cellpadding="0">
+        <tr><td colspan="3" class="legendTitle">Legend</td></tr>
+
+        <tr><td class="methodToggle" align="right">line#</td><td class="methodToggle" align="right">hit count</td>
+            <td class="methodToggle"> </td>
+        </tr>
+        <tr><td class="lineCount Good" align="right">1</td><td class="coverageCount Good hitByTest" align="right">86</td>
+               <td class="srcCell"><span class="spacer"/><span class="srcLine">line hit by 1 or more tests which passed</span></td>
+        </tr>
+        <tr><td class="lineCount Good" align="right">2</td><td class="coverageCount Good missedByTest" align="right">17</td>
+               <td class="srcCell"><span class="spacer"/><span class="srcLine">line was covered, but not by a test case</span></td>
+        </tr>
+        <tr><td class="lineCount Good" align="right">3</td><td class="coverageCount Good hitByFailedTest" align="right">7</td>
+               <td class="srcCell"><span class="spacer"/><span class="srcLine">line hit by 1 or more tests which did not pass</span></td>
+        </tr>
+        <tr><td class="lineCount Good" align="right">4</td><td class="coverageCount Good hitByTest" align="right">5</td>
+               <td class="srcCell"><span class="spacer"/><span class="srcLine coveredByTest">line hit by more than one (selected) test</span></td>
+        </tr>
+        <tr><td class="lineCount Good" align="right">5</td><td class="coverageCount Good hitByTest" align="right">3</td>
+               <td class="srcCell"><span class="spacer"/><span class="srcLine coveredByTestUniq">line hit by one test only</span></td>
+        </tr>
+        <tr><td class="lineCount Good" align="right">6</td><td class="coverageCount Good hitByTest" align="right">2</td>
+               <td class="srcCell"><span class="spacer"/><span class="srcLine coveredByFailedTest">line hit by one or more (selected) tests that failed</span></td>
+        </tr>
+        <tr><td class="lineCount Bad" align="right">7</td><td class="coverageCount Bad hitByTest" align="right">1</td>
+               <td class="srcCell"><span class="spacer"/><span class="srcLine srcLineHilight">line has an expression (e.g. a branch) or statement that was not fully covered</span></td>
+        </tr>
+        <tr><td class="lineCount Bad" align="right">8</td><td class="coverageCount Bad missedByTest" align="right">0</td>
+               <td class="srcCell"><span class="spacer"/><span class="srcLine srcLineHilight">line was not covered at all</span></td>
+        </tr>
+        <tr><td class="lineCount Filtered " align="right">9</td><td class="coverageCount Filtered" align="right"></td>
+               <td class="srcCell"><span class="spacer"/><span class="srcLineFiltered">line was filtered</span></td>
+        </tr>
+        
+    </table>
+    <div class="hbreak">&nbsp;</div>
+    
+    
+</td></tr>
+<tr><td class="hbreak" colspan="6">&nbsp; <label onkeyup="return help_src_file_expandall_summaries;" class="sortable" onclick="toggleAllClasses(this); return false;" id="stat-expander">Expand All</label></td></tr>
+</tbody>
+         <tbody>
+        <tr>             <td class="graphHeaderLeft" id="ConstraintsToStringTest" >
+                                <span class="expand methodStart" id="span-ConstraintsToStringTest" onclick="toggleClass(this, 'ConstraintsToStringTest', 20);return false;">&nbsp;</span>
+                                <span class="titleText"> <a href="#17" title="ConstraintsToStringTest">ConstraintsToStringTest</a></span>
+                <span class="sortable" onclick="ts_resortTable(document.getElementById('ConstraintsToStringTest'), 'alpha', 0);return false;" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+            </td>
+
+            <td class="sortable graphHeader" onclick="ts_resortTable(this, 'number', 1);return false;">
+                Line # 17
+                <a name="sl-17"></a>
+            </td>
+
+                                        
+                
+                <td class="sortable graphHeader "  onclick="ts_resortTable(this, 'number', 2);return false;">
+                    <span class="headerTitle"><label  onkeyup="return 'The total number of statements.';"  >Total Statements</label></span>
+                    45
+                </td>
+                
+                                            
+                
+                <td class="sortable graphHeader "  onclick="ts_resortTable(this, 'number', 3);return false;">
+                    <span class="headerTitle"><label  onkeyup="return 'Cyclomatic complexity is a measure of the number of paths in your code.';"  >Complexity</label></span>
+                    20
+                </td>
+                
+                                            
+                
+                <td class="sortable graphHeader "  onclick="ts_resortTable(this, 'number', 4);return false;">
+                    <span class="headerTitle"><label  onkeyup="return 'The amount of code that was hit at least once during testing.';"  >TOTAL Coverage</label></span>
+                    100%
+</td>
+<td class="graphBar graphHeader" align="center">
+<span class="sortValue">1.0</span>
+<div>
+    <div style="width: 200px; font-size:0px;"></div>
+    <div title="0% Not Covered"  style="min-width: 200px;"  class="barNegative $customBarNegative">
+       <div title="100% Covered" class="barPositive $customBarPositive" style="width: 100%"></div>
+    </div>
+</div>
+                </td>
+                
+                                    </tr> 
+                <tr id="ConstraintsToStringTest-1" style="display:none">
+            <td class="methodSummary" id="summary-20-5">
+                <span class="sortValue">setup()&nbsp;:&nbsp;void</span>
+                &nbsp;&nbsp;<a href="#20" title="setup()&nbsp;:&nbsp;void" name="sl-20">setup()&nbsp;:&nbsp;void</a>
+                            </td>
+            <td class="graphPercent" align="right">
+                <span class="sortValue">20</span>
+                20
+            </td>
+                        
+            <td class="graphPercent " align="right">
+                <span class="sortValue">1.0</span>
+              1
+            </td>
+              
+                        
+            <td class="graphPercent " align="right">
+                <span class="sortValue">1.0</span>
+              1
+            </td>
+              
+                        
+            <td class="graphPercent " align="right">
+                <span class="sortValue">1.0</span>
+              100%
+</td>
+<td class="graphBar " align="center">
+<span class="sortValue">1.0</span>
+<div>
+    <div style="width: 200px; font-size:0px;"></div>
+    <div title="0% Not Covered"  style="min-width: 200px;"  class="barNegative $customBarNegative">
+       <div title="100% Covered" class="barPositive $customBarPositive" style="width: 100%"></div>
+    </div>
+</div>
+            </td>
+              
+                   </tr>
+                <tr id="ConstraintsToStringTest-2" style="display:none">
+            <td class="methodSummary" id="summary-25-5">
+                <span class="sortValue">sameToStringWithString()&nbsp;:&nbsp;void</span>
+                &nbsp;&nbsp;<a href="#25" title="sameToStringWithString()&nbsp;:&nbsp;void" name="sl-25">sameToStringWithString()&nbsp;:&nbsp;void</a>
+                            </td>
+            <td class="graphPercent" align="right">
+                <span class="sortValue">25</span>
+                25
+            </td>
+                        
+            <td class="graphPercent " align="right">
+                <span class="sortValue">2.0</span>
+              2
+            </td>
+              
+                        
+            <td class="graphPercent " align="right">
+                <span class="sortValue">1.0</span>
+              1
+            </td>
+              
+                        
+            <td class="graphPercent " align="right">
+                <span class="sortValue">1.0</span>
+              100%
+</td>
+<td class="graphBar " align="center">
+<span class="sortValue">1.0</span>
+<div>
+    <div style="width: 200px; font-size:0px;"></div>
+    <div title="0% Not Covered"  style="min-width: 200px;"  class="barNegative $customBarNegative">
+       <div title="100% Covered" class="barPositive $customBarPositive" style="width: 100%"></div>
+    </div>
+</div>
+            </td>
+              
+                   </tr>
+                <tr id="ConstraintsToStringTest-3" style="display:none">
+            <td class="methodSummary" id="summary-32-5">
+                <span class="sortValue">nullToString()&nbsp;:&nbsp;void</span>
+                &nbsp;&nbsp;<a href="#32" title="nullToString()&nbsp;:&nbsp;void" name="sl-32">nullToString()&nbsp;:&nbsp;void</a>
+                            </td>
+            <td class="graphPercent" align="right">
+                <span class="sortValue">32</span>
+                32
+            </td>
+                        
+            <td class="graphPercent " align="right">
+                <span class="sortValue">2.0</span>
+              2
+            </td>
+              
+                        
+            <td class="graphPercent " align="right">
+                <span class="sortValue">1.0</span>
+              1
+            </td>
+              
+                        
+            <td class="graphPercent " align="right">
+                <span class="sortValue">1.0</span>
+              100%
+</td>
+<td class="graphBar " align="center">
+<span class="sortValue">1.0</span>
+<div>
+    <div style="width: 200px; font-size:0px;"></div>
+    <div title="0% Not Covered"  style="min-width: 200px;"  class="barNegative $customBarNegative">
+       <div title="100% Covered" class="barPositive $customBarPositive" style="width: 100%"></div>
+    </div>
+</div>
+            </td>
+              
+                   </tr>
+                <tr id="ConstraintsToStringTest-4" style="display:none">
+            <td class="methodSummary" id="summary-38-5">
+                <span class="sortValue">notNullToString()&nbsp;:&nbsp;void</span>
+                &nbsp;&nbsp;<a href="#38" title="notNullToString()&nbsp;:&nbsp;void" name="sl-38">notNullToString()&nbsp;:&nbsp;void</a>
+                            </td>
+            <td class="graphPercent" align="right">
+                <span class="sortValue">38</span>
+                38
+            </td>
+                        
+            <td class="graphPercent " align="right">
+                <span class="sortValue">2.0</span>
+              2
+            </td>
+              
+                        
+            <td class="graphPercent " align="right">
+                <span class="sortValue">1.0</span>
+              1
+            </td>
+              
+                        
+            <td class="graphPercent " align="right">
+                <span class="sortValue">1.0</span>
+              100%
+</td>
+<td class="graphBar " align="center">
+<span class="sortValue">1.0</span>
+<div>
+    <div style="width: 200px; font-size:0px;"></div>
+    <div title="0% Not Covered"  style="min-width: 200px;"  class="barNegative $customBarNegative">
+       <div title="100% Covered" class="barPositive $customBarPositive" style="width: 100%"></div>
+    </div>
+</div>
+            </td>
+              
+                   </tr>
+                <tr id="ConstraintsToStringTest-5" style="display:none">
+            <td class="methodSummary" id="summary-44-5">
+                <span class="sortValue">anyToString()&nbsp;:&nbsp;void</span>
+                &nbsp;&nbsp;<a href="#44" title="anyToString()&nbsp;:&nbsp;void" name="sl-44">anyToString()&nbsp;:&nbsp;void</a>
+                            </td>
+            <td class="graphPercent" align="right">
+                <span class="sortValue">44</span>
+                44
+            </td>
+                        
+            <td class="graphPercent " align="right">
+                <span class="sortValue">2.0</span>
+              2
+            </td>
+              
+                        
+            <td class="graphPercent " align="right">
+                <span class="sortValue">1.0</span>
+              1
+            </td>
+              
+                        
+            <td class="graphPercent " align="right">
+                <span class="sortValue">1.0</span>
+              100%
+</td>
+<td class="graphBar " align="center">
+<span class="sortValue">1.0</span>
+<div>
+    <div style="width: 200px; font-size:0px;"></div>
+    <div title="0% Not Covered"  style="min-width: 200px;"  class="barNegative $customBarNegative">
+       <div title="100% Covered" class="barPositive $customBarPositive" style="width: 100%"></div>
+    </div>
+</div>
+            </td>
+              
+                   </tr>
+                <tr id="ConstraintsToStringTest-6" style="display:none">
+            <td class="methodSummary" id="summary-50-5">
+                <span class="sortValue">sameToStringWithChar()&nbsp;:&nbsp;void</span>
+                &nbsp;&nbsp;<a href="#50" title="sameToStringWithChar()&nbsp;:&nbsp;void" name="sl-50">sameToStringWithChar()&nbsp;:&nbsp;void</a>
+                            </td>
+            <td class="graphPercent" align="right">
+                <span class="sortValue">50</span>
+                50
+            </td>
+                        
+            <td class="graphPercent " align="right">
+                <span class="sortValue">2.0</span>
+              2
+            </td>
+              
+                        
+            <td class="graphPercent " align="right">
+                <span class="sortValue">1.0</span>
+              1
+            </td>
+              
+                        
+            <td class="graphPercent " align="right">
+                <span class="sortValue">1.0</span>
+              100%
+</td>
+<td class="graphBar " align="center">
+<span class="sortValue">1.0</span>
+<div>
+    <div style="width: 200px; font-size:0px;"></div>
+    <div title="0% Not Covered"  style="min-width: 200px;"  class="barNegative $customBarNegative">
+       <div title="100% Covered" class="barPositive $customBarPositive" style="width: 100%"></div>
+    </div>
+</div>
+            </td>
+              
+                   </tr>
+                <tr id="ConstraintsToStringTest-7" style="display:none">
+            <td class="methodSummary" id="summary-56-5">
+                <span class="sortValue">sameToStringWithObject()&nbsp;:&nbsp;void</span>
+                &nbsp;&nbsp;<a href="#56" title="sameToStringWithObject()&nbsp;:&nbsp;void" name="sl-56">sameToStringWithObject()&nbsp;:&nbsp;void</a>
+                            </td>
+            <td class="graphPercent" align="right">
+                <span class="sortValue">56</span>
+                56
+            </td>
+                        
+            <td class="graphPercent " align="right">
+                <span class="sortValue">3.0</span>
+              3
+            </td>
+              
+                        
+            <td class="graphPercent " align="right">
+                <span class="sortValue">1.0</span>
+              1
+            </td>
+              
+                        
+            <td class="graphPercent " align="right">
+                <span class="sortValue">1.0</span>
+              100%
+</td>
+<td class="graphBar " align="center">
+<span class="sortValue">1.0</span>
+<div>
+    <div style="width: 200px; font-size:0px;"></div>
+    <div title="0% Not Covered"  style="min-width: 200px;"  class="barNegative $customBarNegative">
+       <div title="100% Covered" class="barPositive $customBarPositive" style="width: 100%"></div>
+    </div>
+</div>
+            </td>
+              
+                   </tr>
+                <tr id="ConstraintsToStringTest-8" style="display:none">
+            <td class="methodSummary" id="summary-59-13">
+                <span class="sortValue">toString()&nbsp;:&nbsp;String</span>
+                &nbsp;&nbsp;<a href="#59" title="toString()&nbsp;:&nbsp;String" name="sl-59">toString()&nbsp;:&nbsp;String</a>
+                            </td>
+            <td class="graphPercent" align="right">
+                <span class="sortValue">59</span>
+                59
+            </td>
+                        
+            <td class="graphPercent " align="right">
+                <span class="sortValue">1.0</span>
+              1
+            </td>
+              
+                        
+            <td class="graphPercent " align="right">
+                <span class="sortValue">1.0</span>
+              1
+            </td>
+              
+                        
+            <td class="graphPercent " align="right">
+                <span class="sortValue">1.0</span>
+              100%
+</td>
+<td class="graphBar " align="center">
+<span class="sortValue">1.0</span>
+<div>
+    <div style="width: 200px; font-size:0px;"></div>
+    <div title="0% Not Covered"  style="min-width: 200px;"  class="barNegative $customBarNegative">
+       <div title="100% Covered" class="barPositive $customBarPositive" style="width: 100%"></div>
+    </div>
+</div>
+            </td>
+              
+                   </tr>
+                <tr id="ConstraintsToStringTest-9" style="display:none">
+            <td class="methodSummary" id="summary-68-5">
+                <span class="sortValue">equalsToStringWithString()&nbsp;:&nbsp;void</span>
+                &nbsp;&nbsp;<a href="#68" title="equalsToStringWithString()&nbsp;:&nbsp;void" name="sl-68">equalsToStringWithString()&nbsp;:&nbsp;void</a>
+                            </td>
+            <td class="graphPercent" align="right">
+                <span class="sortValue">68</span>
+                68
+            </td>
+                        
+            <td class="graphPercent " align="right">
+                <span class="sortValue">2.0</span>
+              2
+            </td>
+              
+                        
+            <td class="graphPercent " align="right">
+                <span class="sortValue">1.0</span>
+              1
+            </td>
+              
+                        
+            <td class="graphPercent " align="right">
+                <span class="sortValue">1.0</span>
+              100%
+</td>
+<td class="graphBar " align="center">
+<span class="sortValue">1.0</span>
+<div>
+    <div style="width: 200px; font-size:0px;"></div>
+    <div title="0% Not Covered"  style="min-width: 200px;"  class="barNegative $customBarNegative">
+       <div title="100% Covered" class="barPositive $customBarPositive" style="width: 100%"></div>
+    </div>
+</div>
+            </td>
+              
+                   </tr>
+                <tr id="ConstraintsToStringTest-10" style="display:none">
+            <td class="methodSummary" id="summary-75-5">
+                <span class="sortValue">equalsToStringWithChar()&nbsp;:&nbsp;void</span>
+                &nbsp;&nbsp;<a href="#75" title="equalsToStringWithChar()&nbsp;:&nbsp;void" name="sl-75">equalsToStringWithChar()&nbsp;:&nbsp;void</a>
+                            </td>
+            <td class="graphPercent" align="right">
+                <span class="sortValue">75</span>
+                75
+            </td>
+                        
+            <td class="graphPercent " align="right">
+                <span class="sortValue">2.0</span>
+              2
+            </td>
+              
+                        
+            <td class="graphPercent " align="right">
+                <span class="sortValue">1.0</span>
+              1
+            </td>
+              
+                        
+            <td class="graphPercent " align="right">
+                <span class="sortValue">1.0</span>
+              100%
+</td>
+<td class="graphBar " align="center">
+<span class="sortValue">1.0</span>
+<div>
+    <div style="width: 200px; font-size:0px;"></div>
+    <div title="0% Not Covered"  style="min-width: 200px;"  class="barNegative $customBarNegative">
+       <div title="100% Covered" class="barPositive $customBarPositive" style="width: 100%"></div>
+    </div>
+</div>
+            </td>
+              
+                   </tr>
+                <tr id="ConstraintsToStringTest-11" style="display:none">
+            <td class="methodSummary" id="summary-81-5">
+                <span class="sortValue">equalsToStringWithObject()&nbsp;:&nbsp;void</span>
+                &nbsp;&nbsp;<a href="#81" title="equalsToStringWithObject()&nbsp;:&nbsp;void" name="sl-81">equalsToStringWithObject()&nbsp;:&nbsp;void</a>
+                            </td>
+            <td class="graphPercent" align="right">
+                <span class="sortValue">81</span>
+                81
+            </td>
+                        
+            <td class="graphPercent " align="right">
+                <span class="sortValue">3.0</span>
+              3
+            </td>
+              
+                        
+            <td class="graphPercent " align="right">
+                <span class="sortValue">1.0</span>
+              1
+            </td>
+              
+                        
+            <td class="graphPercent " align="right">
+                <span class="sortValue">1.0</span>
+              100%
+</td>
+<td class="graphBar " align="center">
+<span class="sortValue">1.0</span>
+<div>
+    <div style="width: 200px; font-size:0px;"></div>
+    <div title="0% Not Covered"  style="min-width: 200px;"  class="barNegative $customBarNegative">
+       <div title="100% Covered" class="barPositive $customBarPositive" style="width: 100%"></div>
+    </div>
+</div>
+            </td>
+              
+                   </tr>
+                <tr id="ConstraintsToStringTest-12" style="display:none">
+            <td class="methodSummary" id="summary-84-13">
+                <span class="sortValue">toString()&nbsp;:&nbsp;String</span>
+                &nbsp;&nbsp;<a href="#84" title="toString()&nbsp;:&nbsp;String" name="sl-84">toString()&nbsp;:&nbsp;String</a>
+                            </td>
+            <td class="graphPercent" align="right">
+                <span class="sortValue">84</span>
+                84
+            </td>
+                        
+            <td class="graphPercent " align="right">
+                <span class="sortValue">1.0</span>
+              1
+            </td>
+              
+                        
+            <td class="graphPercent " align="right">
+                <span class="sortValue">1.0</span>
+              1
+            </td>
+              
+                        
+            <td class="graphPercent " align="right">
+                <span class="sortValue">1.0</span>
+              100%
+</td>
+<td class="graphBar " align="center">
+<span class="sortValue">1.0</span>
+<div>
+    <div style="width: 200px; font-size:0px;"></div>
+    <div title="0% Not Covered"  style="min-width: 200px;"  class="barNegative $customBarNegative">
+       <div title="100% Covered" class="barPositive $customBarPositive" style="width: 100%"></div>
+    </div>
+</div>
+            </td>
+              
+                   </tr>
+                <tr id="ConstraintsToStringTest-13" style="display:none">
+            <td class="methodSummary" id="summary-93-5">
+                <span class="sortValue">orToString()&nbsp;:&nbsp;void</span>
+                &nbsp;&nbsp;<a href="#93" title="orToString()&nbsp;:&nbsp;void" name="sl-93">orToString()&nbsp;:&nbsp;void</a>
+                            </td>
+            <td class="graphPercent" align="right">
+                <span class="sortValue">93</span>
+                93
+            </td>
+                        
+            <td class="graphPercent " align="right">
+                <span class="sortValue">5.0</span>
+              5
+            </td>
+              
+                        
+            <td class="graphPercent " align="right">
+                <span class="sortValue">1.0</span>
+              1
+            </td>
+              
+                        
+            <td class="graphPercent " align="right">
+                <span class="sortValue">1.0</span>
+              100%
+</td>
+<td class="graphBar " align="center">
+<span class="sortValue">1.0</span>
+<div>
+    <div style="width: 200px; font-size:0px;"></div>
+    <div title="0% Not Covered"  style="min-width: 200px;"  class="barNegative $customBarNegative">
+       <div title="100% Covered" class="barPositive $customBarPositive" style="width: 100%"></div>
+    </div>
+</div>
+            </td>
+              
+                   </tr>
+                <tr id="ConstraintsToStringTest-14" style="display:none">
+            <td class="methodSummary" id="summary-102-5">
+                <span class="sortValue">notToString()&nbsp;:&nbsp;void</span>
+                &nbsp;&nbsp;<a href="#102" title="notToString()&nbsp;:&nbsp;void" name="sl-102">notToString()&nbsp;:&nbsp;void</a>
+                            </td>
+            <td class="graphPercent" align="right">
+                <span class="sortValue">102</span>
+                102
+            </td>
+                        
+            <td class="graphPercent " align="right">
+                <span class="sortValue">2.0</span>
+              2
+            </td>
+              
+                        
+            <td class="graphPercent " align="right">
+                <span class="sortValue">1.0</span>
+              1
+            </td>
+              
+                        
+            <td class="graphPercent " align="right">
+                <span class="sortValue">1.0</span>
+              100%
+</td>
+<td class="graphBar " align="center">
+<span class="sortValue">1.0</span>
+<div>
+    <div style="width: 200px; font-size:0px;"></div>
+    <div title="0% Not Covered"  style="min-width: 200px;"  class="barNegative $customBarNegative">
+       <div title="100% Covered" class="barPositive $customBarPositive" style="width: 100%"></div>
+    </div>
+</div>
+            </td>
+              
+                   </tr>
+                <tr id="ConstraintsToStringTest-15" style="display:none">
+            <td class="methodSummary" id="summary-108-5">
+                <span class="sortValue">andToString()&nbsp;:&nbsp;void</span>
+                &nbsp;&nbsp;<a href="#108" title="andToString()&nbsp;:&nbsp;void" name="sl-108">andToString()&nbsp;:&nbsp;void</a>
+                            </td>
+            <td class="graphPercent" align="right">
+                <span class="sortValue">108</span>
+                108
+            </td>
+                        
+            <td class="graphPercent " align="right">
+                <span class="sortValue">5.0</span>
+              5
+            </td>
+              
+                        
+            <td class="graphPercent " align="right">
+                <span class="sortValue">1.0</span>
+              1
+            </td>
+              
+                        
+            <td class="graphPercent " align="right">
+                <span class="sortValue">1.0</span>
+              100%
+</td>
+<td class="graphBar " align="center">
+<span class="sortValue">1.0</span>
+<div>
+    <div style="width: 200px; font-size:0px;"></div>
+    <div title="0% Not Covered"  style="min-width: 200px;"  class="barNegative $customBarNegative">
+       <div title="100% Covered" class="barPositive $customBarPositive" style="width: 100%"></div>
+    </div>
+</div>
+            </td>
+              
+                   </tr>
+                <tr id="ConstraintsToStringTest-16" style="display:none">
+            <td class="methodSummary" id="summary-117-5">
+                <span class="sortValue">startsWithToString()&nbsp;:&nbsp;void</span>
+                &nbsp;&nbsp;<a href="#117" title="startsWithToString()&nbsp;:&nbsp;void" name="sl-117">startsWithToString()&nbsp;:&nbsp;void</a>
+                            </td>
+            <td class="graphPercent" align="right">
+                <span class="sortValue">117</span>
+                117
+            </td>
+                        
+            <td class="graphPercent " align="right">
+                <span class="sortValue">2.0</span>
+              2
+            </td>
+              
+                        
+            <td class="graphPercent " align="right">
+                <span class="sortValue">1.0</span>
+              1
+            </td>
+              
+                        
+            <td class="graphPercent " align="right">
+                <span class="sortValue">1.0</span>
+              100%
+</td>
+<td class="graphBar " align="center">
+<span class="sortValue">1.0</span>
+<div>
+    <div style="width: 200px; font-size:0px;"></div>
+    <div title="0% Not Covered"  style="min-width: 200px;"  class="barNegative $customBarNegative">
+       <div title="100% Covered" class="barPositive $customBarPositive" style="width: 100%"></div>
+    </div>
+</div>
+            </td>
+              
+                   </tr>
+                <tr id="ConstraintsToStringTest-17" style="display:none">
+            <td class="methodSummary" id="summary-123-5">
+                <span class="sortValue">endsWithToString()&nbsp;:&nbsp;void</span>
+                &nbsp;&nbsp;<a href="#123" title="endsWithToString()&nbsp;:&nbsp;void" name="sl-123">endsWithToString()&nbsp;:&nbsp;void</a>
+                            </td>
+            <td class="graphPercent" align="right">
+                <span class="sortValue">123</span>
+                123
+            </td>
+                        
+            <td class="graphPercent " align="right">
+                <span class="sortValue">2.0</span>
+              2
+            </td>
+              
+                        
+            <td class="graphPercent " align="right">
+                <span class="sortValue">1.0</span>
+              1
+            </td>
+              
+                        
+            <td class="graphPercent " align="right">
+                <span class="sortValue">1.0</span>
+              100%
+</td>
+<td class="graphBar " align="center">
+<span class="sortValue">1.0</span>
+<div>
+    <div style="width: 200px; font-size:0px;"></div>
+    <div title="0% Not Covered"  style="min-width: 200px;"  class="barNegative $customBarNegative">
+       <div title="100% Covered" class="barPositive $customBarPositive" style="width: 100%"></div>
+    </div>
+</div>
+            </td>
+              
+                   </tr>
+                <tr id="ConstraintsToStringTest-18" style="display:none">
+            <td class="methodSummary" id="summary-129-5">
+                <span class="sortValue">containsToString()&nbsp;:&nbsp;void</span>
+                &nbsp;&nbsp;<a href="#129" title="containsToString()&nbsp;:&nbsp;void" name="sl-129">containsToString()&nbsp;:&nbsp;void</a>
+                            </td>
+            <td class="graphPercent" align="right">
+                <span class="sortValue">129</span>
+                129
+            </td>
+                        
+            <td class="graphPercent " align="right">
+                <span class="sortValue">2.0</span>
+              2
+            </td>
+              
+                        
+            <td class="graphPercent " align="right">
+                <span class="sortValue">1.0</span>
+              1
+            </td>
+              
+                        
+            <td class="graphPercent " align="right">
+                <span class="sortValue">1.0</span>
+              100%
+</td>
+<td class="graphBar " align="center">
+<span class="sortValue">1.0</span>
+<div>
+    <div style="width: 200px; font-size:0px;"></div>
+    <div title="0% Not Covered"  style="min-width: 200px;"  class="barNegative $customBarNegative">
+       <div title="100% Covered" class="barPositive $customBarPositive" style="width: 100%"></div>
+    </div>
+</div>
+            </td>
+              
+                   </tr>
+                <tr id="ConstraintsToStringTest-19" style="display:none">
+            <td class="methodSummary" id="summary-135-5">
+                <span class="sortValue">findToString()&nbsp;:&nbsp;void</span>
+                &nbsp;&nbsp;<a href="#135" title="findToString()&nbsp;:&nbsp;void" name="sl-135">findToString()&nbsp;:&nbsp;void</a>
+                            </td>
+            <td class="graphPercent" align="right">
+                <span class="sortValue">135</span>
+                135
+            </td>
+                        
+            <td class="graphPercent " align="right">
+                <span class="sortValue">2.0</span>
+              2
+            </td>
+              
+                        
+            <td class="graphPercent " align="right">
+                <span class="sortValue">1.0</span>
+              1
+            </td>
+              
+                        
+            <td class="graphPercent " align="right">
+                <span class="sortValue">1.0</span>
+              100%
+</td>
+<td class="graphBar " align="center">
+<span class="sortValue">1.0</span>
+<div>
+    <div style="width: 200px; font-size:0px;"></div>
+    <div title="0% Not Covered"  style="min-width: 200px;"  class="barNegative $customBarNegative">
+       <div title="100% Covered" class="barPositive $customBarPositive" style="width: 100%"></div>
+    </div>
+</div>
+            </td>
+              
+                   </tr>
+                <tr id="ConstraintsToStringTest-20" style="display:none">
+            <td class="methodSummary" id="summary-141-5">
+                <span class="sortValue">matchesToString()&nbsp;:&nbsp;void</span>
+                &nbsp;&nbsp;<a href="#141" title="matchesToString()&nbsp;:&nbsp;void" name="sl-141">matchesToString()&nbsp;:&nbsp;void</a>
+                            </td>
+            <td class="graphPercent" align="right">
+                <span class="sortValue">141</span>
+                141
+            </td>
+                        
+            <td class="graphPercent " align="right">
+                <span class="sortValue">2.0</span>
+              2
+            </td>
+              
+                        
+            <td class="graphPercent " align="right">
+                <span class="sortValue">1.0</span>
+              1
+            </td>
+              
+                        
+            <td class="graphPercent " align="right">
+                <span class="sortValue">1.0</span>
+              100%
+</td>
+<td class="graphBar " align="center">
+<span class="sortValue">1.0</span>
+<div>
+    <div style="width: 200px; font-size:0px;"></div>
+    <div title="0% Not Covered"  style="min-width: 200px;"  class="barNegative $customBarNegative">
+       <div title="100% Covered" class="barPositive $customBarPositive" style="width: 100%"></div>
+    </div>
+</div>
+            </td>
+              
+                   </tr>
+             </tbody>
+     <tbody><tr><td class="hbreak" colspan="6">&nbsp;</td></tr></tbody>
+</table>
+
+<table cellspacing="0" cellpadding="0" class="barGraph">
+    <tbody>
+<tr>
+    <td class="hbreak" align="left" colspan="4">
+        &nbsp; <label class="sortable" id="testsToggle" onclick="toggleAllTests(this); return false;" onkeyup="return help_src_file_show_tests;">Show Tests </label>(17) <label onkeyup="return help_select_all;" class="selectable unselected" id="selectalltests" onclick="selectAllTests(this);">Select All </label> <label onkeyup='return help_deselect_all;' class="selectable selected" id="deselectalltests" onclick="deselectAllTests(this);">Deselect All</label>
+    </td>
+</tr>
+</tbody>
+<tbody id="tests-body" style="display:none">
+<tr id="testHeaderRow">
+    <td class="graphHeaderLeft titleText" align="center" >
+        <label onkeyup="return help_hilight_test;" id="help_1">Highlight</label>
+    </td>
+    <td class="graphHeaderLeft titleText sortable" onclick="ts_resortTable(this, 'number', 1);return false;">
+        <label onkeyup="return help_test_contribution;" id="help_2">Test Contribution</label>
+    </td>
+    <td class="graphHeaderLeft titleText sortable" onclick="ts_resortTable(this, 'alpha', 2);return false;">
+        <label onkeyup="return help_src_file_test;" id="help_3">Test</label>
+    </td>
+    <td class="graphHeaderLeft titleText sortable" onclick="ts_resortTable(this, 'alpha', 3);return false;">Result</td>
+</tr>
+
+        <tr id="test-415">
+        <td class="graphPercent graphPercentLeft" align="center" title="checkbox">
+            <a name="testA-415"></a>
+            <input type="checkbox" id="cb-415" value="415" name="testMethod" onclick="hiLightByTest(this.value, this.checked); return true;"/>
+        </td>
+        <td class="graphPercent link" onclick="window.location.href='../../../org/easymock/tests2/ConstraintsToStringTest_sameToStringWithObject.html';">
+            <span class="sortValue">0.092307694</span>
+                        <div>
+    <div style="width: 40px; font-size:0px;"></div>
+    <div title="90,8% Not Covered"  style="min-width: 40px;"  class="barNegative testBarNegative">
+       <div title="9,2% Covered" class="barPositive testBarPositive" style="width: 9.2%"></div>
+    </div>
+</div>        </td>
+        <td class="testCase" id="tc-415">
+            <span class="sortValue">org.easymock.tests2.ConstraintsToStringTest.sameToStringWithObject</span>
+            <a href="../../../org/easymock/tests2/ConstraintsToStringTest.html?line=56#src-56" title="View Test Source"><img class="icon" alt="test" src="../../../img/test.gif"/></a>
+            <a href="../../../org/easymock/tests2/ConstraintsToStringTest_sameToStringWithObject.html" title="Test Summary Page">org.easymock.tests2.ConstraintsToStringTest.sameToStringWithObject</a>
+        </td>
+        <td class="graphPercent">
+                  <span class="sortValue">1</span>
+    <span class="testResultSuccess">PASS</span>
+          </td>
+
+    </tr>
+        <tr id="test-451">
+        <td class="graphPercent graphPercentLeft" align="center" title="checkbox">
+            <a name="testA-451"></a>
+            <input type="checkbox" id="cb-451" value="451" name="testMethod" onclick="hiLightByTest(this.value, this.checked); return true;"/>
+        </td>
+        <td class="graphPercent link" onclick="window.location.href='../../../org/easymock/tests2/ConstraintsToStringTest_orToString.html';">
+            <span class="sortValue">0.092307694</span>
+                        <div>
+    <div style="width: 40px; font-size:0px;"></div>
+    <div title="90,8% Not Covered"  style="min-width: 40px;"  class="barNegative testBarNegative">
+       <div title="9,2% Covered" class="barPositive testBarPositive" style="width: 9.2%"></div>
+    </div>
+</div>        </td>
+        <td class="testCase" id="tc-451">
+            <span class="sortValue">org.easymock.tests2.ConstraintsToStringTest.orToString</span>
+            <a href="../../../org/easymock/tests2/ConstraintsToStringTest.html?line=93#src-93" title="View Test Source"><img class="icon" alt="test" src="../../../img/test.gif"/></a>
+            <a href="../../../org/easymock/tests2/ConstraintsToStringTest_orToString.html" title="Test Summary Page">org.easymock.tests2.ConstraintsToStringTest.orToString</a>
+        </td>
+        <td class="graphPercent">
+                  <span class="sortValue">1</span>
+    <span class="testResultSuccess">PASS</span>
+          </td>
+
+    </tr>
+        <tr id="test-454">
+        <td class="graphPercent graphPercentLeft" align="center" title="checkbox">
+            <a name="testA-454"></a>
+            <input type="checkbox" id="cb-454" value="454" name="testMethod" onclick="hiLightByTest(this.value, this.checked); return true;"/>
+        </td>
+        <td class="graphPercent link" onclick="window.location.href='../../../org/easymock/tests2/ConstraintsToStringTest_equalsToStringWithObject.html';">
+            <span class="sortValue">0.092307694</span>
+                        <div>
+    <div style="width: 40px; font-size:0px;"></div>
+    <div title="90,8% Not Covered"  style="min-width: 40px;"  class="barNegative testBarNegative">
+       <div title="9,2% Covered" class="barPositive testBarPositive" style="width: 9.2%"></div>
+    </div>
+</div>        </td>
+        <td class="testCase" id="tc-454">
+            <span class="sortValue">org.easymock.tests2.ConstraintsToStringTest.equalsToStringWithObject</span>
+            <a href="../../../org/easymock/tests2/ConstraintsToStringTest.html?line=81#src-81" title="View Test Source"><img class="icon" alt="test" src="../../../img/test.gif"/></a>
+            <a href="../../../org/easymock/tests2/ConstraintsToStringTest_equalsToStringWithObject.html" title="Test Summary Page">org.easymock.tests2.ConstraintsToStringTest.equalsToStringWithObject</a>
+        </td>
+        <td class="graphPercent">
+                  <span class="sortValue">1</span>
+    <span class="testResultSuccess">PASS</span>
+          </td>
+
+    </tr>
+        <tr id="test-457">
+        <td class="graphPercent graphPercentLeft" align="center" title="checkbox">
+            <a name="testA-457"></a>
+            <input type="checkbox" id="cb-457" value="457" name="testMethod" onclick="hiLightByTest(this.value, this.checked); return true;"/>
+        </td>
+        <td class="graphPercent link" onclick="window.location.href='../../../org/easymock/tests2/ConstraintsToStringTest_andToString.html';">
+            <span class="sortValue">0.092307694</span>
+                        <div>
+    <div style="width: 40px; font-size:0px;"></div>
+    <div title="90,8% Not Covered"  style="min-width: 40px;"  class="barNegative testBarNegative">
+       <div title="9,2% Covered" class="barPositive testBarPositive" style="width: 9.2%"></div>
+    </div>
+</div>        </td>
+        <td class="testCase" id="tc-457">
+            <span class="sortValue">org.easymock.tests2.ConstraintsToStringTest.andToString</span>
+            <a href="../../../org/easymock/tests2/ConstraintsToStringTest.html?line=108#src-108" title="View Test Source"><img class="icon" alt="test" src="../../../img/test.gif"/></a>
+            <a href="../../../org/easymock/tests2/ConstraintsToStringTest_andToString.html" title="Test Summary Page">org.easymock.tests2.ConstraintsToStringTest.andToString</a>
+        </td>
+        <td class="graphPercent">
+                  <span class="sortValue">1</span>
+    <span class="testResultSuccess">PASS</span>
+          </td>
+
+    </tr>
+        <tr id="test-434">
+        <td class="graphPercent graphPercentLeft" align="center" title="checkbox">
+            <a name="testA-434"></a>
+            <input type="checkbox" id="cb-434" value="434" name="testMethod" onclick="hiLightByTest(this.value, this.checked); return true;"/>
+        </td>
+        <td class="graphPercent link" onclick="window.location.href='../../../org/easymock/tests2/ConstraintsToStringTest_findToString.html';">
+            <span class="sortValue">0.046153847</span>
+                        <div>
+    <div style="width: 40px; font-size:0px;"></div>
+    <div title="95,4% Not Covered"  style="min-width: 40px;"  class="barNegative testBarNegative">
+       <div title="4,6% Covered" class="barPositive testBarPositive" style="width: 4.6%"></div>
+    </div>
+</div>        </td>
+        <td class="testCase" id="tc-434">
+            <span class="sortValue">org.easymock.tests2.ConstraintsToStringTest.findToString</span>
+            <a href="../../../org/easymock/tests2/ConstraintsToStringTest.html?line=135#src-135" title="View Test Source"><img class="icon" alt="test" src="../../../img/test.gif"/></a>
+            <a href="../../../org/easymock/tests2/ConstraintsToStringTest_findToString.html" title="Test Summary Page">org.easymock.tests2.ConstraintsToStringTest.findToString</a>
+        </td>
+        <td class="graphPercent">
+                  <span class="sortValue">1</span>
+    <span class="testResultSuccess">PASS</span>
+          </td>
+
+    </tr>
+        <tr id="test-406">
+        <td class="graphPercent graphPercentLeft" align="center" title="checkbox">
+            <a name="testA-406"></a>
+            <input type="checkbox" id="cb-406" value="406" name="testMethod" onclick="hiLightByTest(this.value, this.checked); return true;"/>
+        </td>
+        <td class="graphPercent link" onclick="window.location.href='../../../org/easymock/tests2/ConstraintsToStringTest_sameToStringWithString.html';">
+            <span class="sortValue">0.046153847</span>
+                        <div>
+    <div style="width: 40px; font-size:0px;"></div>
+    <div title="95,4% Not Covered"  style="min-width: 40px;"  class="barNegative testBarNegative">
+       <div title="4,6% Covered" class="barPositive testBarPositive" style="width: 4.6%"></div>
+    </div>
+</div>        </td>
+        <td class="testCase" id="tc-406">
+            <span class="sortValue">org.easymock.tests2.ConstraintsToStringTest.sameToStringWithString</span>
+            <a href="../../../org/easymock/tests2/ConstraintsToStringTest.html?line=25#src-25" title="View Test Source"><img class="icon" alt="test" src="../../../img/test.gif"/></a>
+            <a href="../../../org/easymock/tests2/ConstraintsToStringTest_sameToStringWithString.html" title="Test Summary Page">org.easymock.tests2.ConstraintsToStringTest.sameToStringWithString</a>
+        </td>
+        <td class="graphPercent">
+                  <span class="sortValue">1</span>
+    <span class="testResultSuccess">PASS</span>
+          </td>
+
+    </tr>
+        <tr id="test-458">
+        <td class="graphPercent graphPercentLeft" align="center" title="checkbox">
+            <a name="testA-458"></a>
+            <input type="checkbox" id="cb-458" value="458" name="testMethod" onclick="hiLightByTest(this.value, this.checked); return true;"/>
+        </td>
+        <td class="graphPercent link" onclick="window.location.href='../../../org/easymock/tests2/ConstraintsToStringTest_startsWithToString.html';">
+            <span class="sortValue">0.046153847</span>
+                        <div>
+    <div style="width: 40px; font-size:0px;"></div>
+    <div title="95,4% Not Covered"  style="min-width: 40px;"  class="barNegative testBarNegative">
+       <div title="4,6% Covered" class="barPositive testBarPositive" style="width: 4.6%"></div>
+    </div>
+</div>        </td>
+        <td class="testCase" id="tc-458">
+            <span class="sortValue">org.easymock.tests2.ConstraintsToStringTest.startsWithToString</span>
+            <a href="../../../org/easymock/tests2/ConstraintsToStringTest.html?line=117#src-117" title="View Test Source"><img class="icon" alt="test" src="../../../img/test.gif"/></a>
+            <a href="../../../org/easymock/tests2/ConstraintsToStringTest_startsWithToString.html" title="Test Summary Page">org.easymock.tests2.ConstraintsToStringTest.startsWithToString</a>
+        </td>
+        <td class="graphPercent">
+                  <span class="sortValue">1</span>
+    <span class="testResultSuccess">PASS</span>
+          </td>
+
+    </tr>
+        <tr id="test-442">
+        <td class="graphPercent graphPercentLeft" align="center" title="checkbox">
+            <a name="testA-442"></a>
+            <input type="checkbox" id="cb-442" value="442" name="testMethod" onclick="hiLightByTest(this.value, this.checked); return true;"/>
+        </td>
+        <td class="graphPercent link" onclick="window.location.href='../../../org/easymock/tests2/ConstraintsToStringTest_matchesToString.html';">
+            <span class="sortValue">0.046153847</span>
+                        <div>
+    <div style="width: 40px; font-size:0px;"></div>
+    <div title="95,4% Not Covered"  style="min-width: 40px;"  class="barNegative testBarNegative">
+       <div title="4,6% Covered" class="barPositive testBarPositive" style="width: 4.6%"></div>
+    </div>
+</div>        </td>
+        <td class="testCase" id="tc-442">
+            <span class="sortValue">org.easymock.tests2.ConstraintsToStringTest.matchesToString</span>
+            <a href="../../../org/easymock/tests2/ConstraintsToStringTest.html?line=141#src-141" title="View Test Source"><img class="icon" alt="test" src="../../../img/test.gif"/></a>
+            <a href="../../../org/easymock/tests2/ConstraintsToStringTest_matchesToString.html" title="Test Summary Page">org.easymock.tests2.ConstraintsToStringTest.matchesToString</a>
+        </td>
+        <td class="graphPercent">
+                  <span class="sortValue">1</span>
+    <span class="testResultSuccess">PASS</span>
+          </td>
+
+    </tr>
+        <tr id="test-407">
+        <td class="graphPercent graphPercentLeft" align="center" title="checkbox">
+            <a name="testA-407"></a>
+            <input type="checkbox" id="cb-407" value="407" name="testMethod" onclick="hiLightByTest(this.value, this.checked); return true;"/>
+        </td>
+        <td class="graphPercent link" onclick="window.location.href='../../../org/easymock/tests2/ConstraintsToStringTest_notNullToString.html';">
+            <span class="sortValue">0.046153847</span>
+                        <div>
+    <div style="width: 40px; font-size:0px;"></div>
+    <div title="95,4% Not Covered"  style="min-width: 40px;"  class="barNegative testBarNegative">
+       <div title="4,6% Covered" class="barPositive testBarPositive" style="width: 4.6%"></div>
+    </div>
+</div>        </td>
+        <td class="testCase" id="tc-407">
+            <span class="sortValue">org.easymock.tests2.ConstraintsToStringTest.notNullToString</span>
+            <a href="../../../org/easymock/tests2/ConstraintsToStringTest.html?line=38#src-38" title="View Test Source"><img class="icon" alt="test" src="../../../img/test.gif"/></a>
+            <a href="../../../org/easymock/tests2/ConstraintsToStringTest_notNullToString.html" title="Test Summary Page">org.easymock.tests2.ConstraintsToStringTest.notNullToString</a>
+        </td>
+        <td class="graphPercent">
+                  <span class="sortValue">1</span>
+    <span class="testResultSuccess">PASS</span>
+          </td>
+
+    </tr>
+        <tr id="test-437">
+        <td class="graphPercent graphPercentLeft" align="center" title="checkbox">
+            <a name="testA-437"></a>
+            <input type="checkbox" id="cb-437" value="437" name="testMethod" onclick="hiLightByTest(this.value, this.checked); return true;"/>
+        </td>
+        <td class="graphPercent link" onclick="window.location.href='../../../org/easymock/tests2/ConstraintsToStringTest_containsToString.html';">
+            <span class="sortValue">0.046153847</span>
+                        <div>
+    <div style="width: 40px; font-size:0px;"></div>
+    <div title="95,4% Not Covered"  style="min-width: 40px;"  class="barNegative testBarNegative">
+       <div title="4,6% Covered" class="barPositive testBarPositive" style="width: 4.6%"></div>
+    </div>
+</div>        </td>
+        <td class="testCase" id="tc-437">
+            <span class="sortValue">org.easymock.tests2.ConstraintsToStringTest.containsToString</span>
+            <a href="../../../org/easymock/tests2/ConstraintsToStringTest.html?line=129#src-129" title="View Test Source"><img class="icon" alt="test" src="../../../img/test.gif"/></a>
+            <a href="../../../org/easymock/tests2/ConstraintsToStringTest_containsToString.html" title="Test Summary Page">org.easymock.tests2.ConstraintsToStringTest.containsToString</a>
+        </td>
+        <td class="graphPercent">
+                  <span class="sortValue">1</span>
+    <span class="testResultSuccess">PASS</span>
+          </td>
+
+    </tr>
+        <tr id="test-438">
+        <td class="graphPercent graphPercentLeft" align="center" title="checkbox">
+            <a name="testA-438"></a>
+            <input type="checkbox" id="cb-438" value="438" name="testMethod" onclick="hiLightByTest(this.value, this.checked); return true;"/>
+        </td>
+        <td class="graphPercent link" onclick="window.location.href='../../../org/easymock/tests2/ConstraintsToStringTest_endsWithToString.html';">
+            <span class="sortValue">0.046153847</span>
+                        <div>
+    <div style="width: 40px; font-size:0px;"></div>
+    <div title="95,4% Not Covered"  style="min-width: 40px;"  class="barNegative testBarNegative">
+       <div title="4,6% Covered" class="barPositive testBarPositive" style="width: 4.6%"></div>
+    </div>
+</div>        </td>
+        <td class="testCase" id="tc-438">
+            <span class="sortValue">org.easymock.tests2.ConstraintsToStringTest.endsWithToString</span>
+            <a href="../../../org/easymock/tests2/ConstraintsToStringTest.html?line=123#src-123" title="View Test Source"><img class="icon" alt="test" src="../../../img/test.gif"/></a>
+            <a href="../../../org/easymock/tests2/ConstraintsToStringTest_endsWithToString.html" title="Test Summary Page">org.easymock.tests2.ConstraintsToStringTest.endsWithToString</a>
+        </td>
+        <td class="graphPercent">
+                  <span class="sortValue">1</span>
+    <span class="testResultSuccess">PASS</span>
+          </td>
+
+    </tr>
+        <tr id="test-411">
+        <td class="graphPercent graphPercentLeft" align="center" title="checkbox">
+            <a name="testA-411"></a>
+            <input type="checkbox" id="cb-411" value="411" name="testMethod" onclick="hiLightByTest(this.value, this.checked); return true;"/>
+        </td>
+        <td class="graphPercent link" onclick="window.location.href='../../../org/easymock/tests2/ConstraintsToStringTest_anyToString.html';">
+            <span class="sortValue">0.046153847</span>
+                        <div>
+    <div style="width: 40px; font-size:0px;"></div>
+    <div title="95,4% Not Covered"  style="min-width: 40px;"  class="barNegative testBarNegative">
+       <div title="4,6% Covered" class="barPositive testBarPositive" style="width: 4.6%"></div>
+    </div>
+</div>        </td>
+        <td class="testCase" id="tc-411">
+            <span class="sortValue">org.easymock.tests2.ConstraintsToStringTest.anyToString</span>
+            <a href="../../../org/easymock/tests2/ConstraintsToStringTest.html?line=44#src-44" title="View Test Source"><img class="icon" alt="test" src="../../../img/test.gif"/></a>
+            <a href="../../../org/easymock/tests2/ConstraintsToStringTest_anyToString.html" title="Test Summary Page">org.easymock.tests2.ConstraintsToStringTest.anyToString</a>
+        </td>
+        <td class="graphPercent">
+                  <span class="sortValue">1</span>
+    <span class="testResultSuccess">PASS</span>
+          </td>
+
+    </tr>
+        <tr id="test-409">
+        <td class="graphPercent graphPercentLeft" align="center" title="checkbox">
+            <a name="testA-409"></a>
+            <input type="checkbox" id="cb-409" value="409" name="testMethod" onclick="hiLightByTest(this.value, this.checked); return true;"/>
+        </td>
+        <td class="graphPercent link" onclick="window.location.href='../../../org/easymock/tests2/ConstraintsToStringTest_nullToString.html';">
+            <span class="sortValue">0.046153847</span>
+                        <div>
+    <div style="width: 40px; font-size:0px;"></div>
+    <div title="95,4% Not Covered"  style="min-width: 40px;"  class="barNegative testBarNegative">
+       <div title="4,6% Covered" class="barPositive testBarPositive" style="width: 4.6%"></div>
+    </div>
+</div>        </td>
+        <td class="testCase" id="tc-409">
+            <span class="sortValue">org.easymock.tests2.ConstraintsToStringTest.nullToString</span>
+            <a href="../../../org/easymock/tests2/ConstraintsToStringTest.html?line=32#src-32" title="View Test Source"><img class="icon" alt="test" src="../../../img/test.gif"/></a>
+            <a href="../../../org/easymock/tests2/ConstraintsToStringTest_nullToString.html" title="Test Summary Page">org.easymock.tests2.ConstraintsToStringTest.nullToString</a>
+        </td>
+        <td class="graphPercent">
+                  <span class="sortValue">1</span>
+    <span class="testResultSuccess">PASS</span>
+          </td>
+
+    </tr>
+        <tr id="test-414">
+        <td class="graphPercent graphPercentLeft" align="center" title="checkbox">
+            <a name="testA-414"></a>
+            <input type="checkbox" id="cb-414" value="414" name="testMethod" onclick="hiLightByTest(this.value, this.checked); return true;"/>
+        </td>
+        <td class="graphPercent link" onclick="window.location.href='../../../org/easymock/tests2/ConstraintsToStringTest_sameToStringWithChar.html';">
+            <span class="sortValue">0.046153847</span>
+                        <div>
+    <div style="width: 40px; font-size:0px;"></div>
+    <div title="95,4% Not Covered"  style="min-width: 40px;"  class="barNegative testBarNegative">
+       <div title="4,6% Covered" class="barPositive testBarPositive" style="width: 4.6%"></div>
+    </div>
+</div>        </td>
+        <td class="testCase" id="tc-414">
+            <span class="sortValue">org.easymock.tests2.ConstraintsToStringTest.sameToStringWithChar</span>
+            <a href="../../../org/easymock/tests2/ConstraintsToStringTest.html?line=50#src-50" title="View Test Source"><img class="icon" alt="test" src="../../../img/test.gif"/></a>
+            <a href="../../../org/easymock/tests2/ConstraintsToStringTest_sameToStringWithChar.html" title="Test Summary Page">org.easymock.tests2.ConstraintsToStringTest.sameToStringWithChar</a>
+        </td>
+        <td class="graphPercent">
+                  <span class="sortValue">1</span>
+    <span class="testResultSuccess">PASS</span>
+          </td>
+
+    </tr>
+        <tr id="test-447">
+        <td class="graphPercent graphPercentLeft" align="center" title="checkbox">
+            <a name="testA-447"></a>
+            <input type="checkbox" id="cb-447" value="447" name="testMethod" onclick="hiLightByTest(this.value, this.checked); return true;"/>
+        </td>
+        <td class="graphPercent link" onclick="window.location.href='../../../org/easymock/tests2/ConstraintsToStringTest_equalsToStringWithChar.html';">
+            <span class="sortValue">0.046153847</span>
+                        <div>
+    <div style="width: 40px; font-size:0px;"></div>
+    <div title="95,4% Not Covered"  style="min-width: 40px;"  class="barNegative testBarNegative">
+       <div title="4,6% Covered" class="barPositive testBarPositive" style="width: 4.6%"></div>
+    </div>
+</div>        </td>
+        <td class="testCase" id="tc-447">
+            <span class="sortValue">org.easymock.tests2.ConstraintsToStringTest.equalsToStringWithChar</span>
+            <a href="../../../org/easymock/tests2/ConstraintsToStringTest.html?line=75#src-75" title="View Test Source"><img class="icon" alt="test" src="../../../img/test.gif"/></a>
+            <a href="../../../org/easymock/tests2/ConstraintsToStringTest_equalsToStringWithChar.html" title="Test Summary Page">org.easymock.tests2.ConstraintsToStringTest.equalsToStringWithChar</a>
+        </td>
+        <td class="graphPercent">
+                  <span class="sortValue">1</span>
+    <span class="testResultSuccess">PASS</span>
+          </td>
+
+    </tr>
+        <tr id="test-450">
+        <td class="graphPercent graphPercentLeft" align="center" title="checkbox">
+            <a name="testA-450"></a>
+            <input type="checkbox" id="cb-450" value="450" name="testMethod" onclick="hiLightByTest(this.value, this.checked); return true;"/>
+        </td>
+        <td class="graphPercent link" onclick="window.location.href='../../../org/easymock/tests2/ConstraintsToStringTest_equalsToStringWithString.html';">
+            <span class="sortValue">0.046153847</span>
+                        <div>
+    <div style="width: 40px; font-size:0px;"></div>
+    <div title="95,4% Not Covered"  style="min-width: 40px;"  class="barNegative testBarNegative">
+       <div title="4,6% Covered" class="barPositive testBarPositive" style="width: 4.6%"></div>
+    </div>
+</div>        </td>
+        <td class="testCase" id="tc-450">
+            <span class="sortValue">org.easymock.tests2.ConstraintsToStringTest.equalsToStringWithString</span>
+            <a href="../../../org/easymock/tests2/ConstraintsToStringTest.html?line=68#src-68" title="View Test Source"><img class="icon" alt="test" src="../../../img/test.gif"/></a>
+            <a href="../../../org/easymock/tests2/ConstraintsToStringTest_equalsToStringWithString.html" title="Test Summary Page">org.easymock.tests2.ConstraintsToStringTest.equalsToStringWithString</a>
+        </td>
+        <td class="graphPercent">
+                  <span class="sortValue">1</span>
+    <span class="testResultSuccess">PASS</span>
+          </td>
+
+    </tr>
+        <tr id="test-456">
+        <td class="graphPercent graphPercentLeft" align="center" title="checkbox">
+            <a name="testA-456"></a>
+            <input type="checkbox" id="cb-456" value="456" name="testMethod" onclick="hiLightByTest(this.value, this.checked); return true;"/>
+        </td>
+        <td class="graphPercent link" onclick="window.location.href='../../../org/easymock/tests2/ConstraintsToStringTest_notToString.html';">
+            <span class="sortValue">0.046153847</span>
+                        <div>
+    <div style="width: 40px; font-size:0px;"></div>
+    <div title="95,4% Not Covered"  style="min-width: 40px;"  class="barNegative testBarNegative">
+       <div title="4,6% Covered" class="barPositive testBarPositive" style="width: 4.6%"></div>
+    </div>
+</div>        </td>
+        <td class="testCase" id="tc-456">
+            <span class="sortValue">org.easymock.tests2.ConstraintsToStringTest.notToString</span>
+            <a href="../../../org/easymock/tests2/ConstraintsToStringTest.html?line=102#src-102" title="View Test Source"><img class="icon" alt="test" src="../../../img/test.gif"/></a>
+            <a href="../../../org/easymock/tests2/ConstraintsToStringTest_notToString.html" title="Test Summary Page">org.easymock.tests2.ConstraintsToStringTest.notToString</a>
+        </td>
+        <td class="graphPercent">
+                  <span class="sortValue">1</span>
+    <span class="testResultSuccess">PASS</span>
+          </td>
+
+    </tr>
+    
+</tbody>
+<tbody><tr><td class="hbreak" colspan="4">&nbsp;</td></tr></tbody>
+</table>
+
+<table cellspacing="0" cellpadding="0" class="srcView">
+<tbody>
+<tr><td colspan="2" class="sortable methodToggle"><label onkeyup="return help_src_file_expandall_src;" onclick="toggleAllInlineMethods(this); return false;" id="method-expander">Collapse All</label></td><th></th></tr>
+</tbody>
+<tbody>
+        
+
+<tr id="l1">
+<td align="right" class="lineCount NoHilight">1</td>
+<td align="right" class="coverageCount NoHilight "
+         >
+    &nbsp;&nbsp;
+
+</td>
+<td class="  srcCell"  >
+    <span class="spacer"></span><span id="src-1" class="srcLine"><span class="comment">/*</span></span></td>
+</tr>
+        
+
+<tr id="l2">
+<td align="right" class="lineCount NoHilight">2</td>
+<td align="right" class="coverageCount NoHilight "
+         >
+    &nbsp;&nbsp;
+
+</td>
+<td class="  srcCell"  >
+    <span class="spacer"></span><span id="src-2" class="srcLine"><span class="comment"> * Copyright (c) 2001-2008 OFFIS, Tammo Freese.</span></span></td>
+</tr>
+        
+
+<tr id="l3">
+<td align="right" class="lineCount NoHilight">3</td>
+<td align="right" class="coverageCount NoHilight "
+         >
+    &nbsp;&nbsp;
+
+</td>
+<td class="  srcCell"  >
+    <span class="spacer"></span><span id="src-3" class="srcLine"><span class="comment"> * This program is made available under the terms of the MIT License.</span></span></td>
+</tr>
+        
+
+<tr id="l4">
+<td align="right" class="lineCount NoHilight">4</td>
+<td align="right" class="coverageCount NoHilight "
+         >
+    &nbsp;&nbsp;
+
+</td>
+<td class="  srcCell"  >
+    <span class="spacer"></span><span id="src-4" class="srcLine"><span class="comment"> */</span></span></td>
+</tr>
+        
+
+<tr id="l5">
+<td align="right" class="lineCount NoHilight">5</td>
+<td align="right" class="coverageCount NoHilight "
+         >
+    &nbsp;&nbsp;
+
+</td>
+<td class="  srcCell"  >
+    <span class="spacer"></span><span id="src-5" class="srcLine"><span class="keyword">package</span> org.<a href="../../easymock/pkg-summary.html">easymock</a>.<a href="../tests2/pkg-summary.html">tests2</a>;</span></td>
+</tr>
+        
+
+<tr id="l6">
+<td align="right" class="lineCount NoHilight">6</td>
+<td align="right" class="coverageCount NoHilight "
+         >
+    &nbsp;&nbsp;
+
+</td>
+<td class="  srcCell"  >
+    <span class="spacer"></span><span id="src-6" class="srcLine"></span></td>
+</tr>
+        
+
+<tr id="l7">
+<td align="right" class="lineCount NoHilight">7</td>
+<td align="right" class="coverageCount NoHilight "
+         >
+    &nbsp;&nbsp;
+
+</td>
+<td class="  srcCell"  >
+    <span class="spacer"></span><span id="src-7" class="srcLine"><span class="keyword">import</span> <span class="keyword">static</span> org.junit.Assert.*;</span></td>
+</tr>
+        
+
+<tr id="l8">
+<td align="right" class="lineCount NoHilight">8</td>
+<td align="right" class="coverageCount NoHilight "
+         >
+    &nbsp;&nbsp;
+
+</td>
+<td class="  srcCell"  >
+    <span class="spacer"></span><span id="src-8" class="srcLine"></span></td>
+</tr>
+        
+
+<tr id="l9">
+<td align="right" class="lineCount NoHilight">9</td>
+<td align="right" class="coverageCount NoHilight "
+         >
+    &nbsp;&nbsp;
+
+</td>
+<td class="  srcCell"  >
+    <span class="spacer"></span><span id="src-9" class="srcLine"><span class="keyword">import</span> java.util.ArrayList;</span></td>
+</tr>
+        
+
+<tr id="l10">
+<td align="right" class="lineCount NoHilight">10</td>
+<td align="right" class="coverageCount NoHilight "
+         >
+    &nbsp;&nbsp;
+
+</td>
+<td class="  srcCell"  >
+    <span class="spacer"></span><span id="src-10" class="srcLine"><span class="keyword">import</span> java.util.List;</span></td>
+</tr>
+        
+
+<tr id="l11">
+<td align="right" class="lineCount NoHilight">11</td>
+<td align="right" class="coverageCount NoHilight "
+         >
+    &nbsp;&nbsp;
+
+</td>
+<td class="  srcCell"  >
+    <span class="spacer"></span><span id="src-11" class="srcLine"></span></td>
+</tr>
+        
+
+<tr id="l12">
+<td align="right" class="lineCount NoHilight">12</td>
+<td align="right" class="coverageCount NoHilight "
+         >
+    &nbsp;&nbsp;
+
+</td>
+<td class="  srcCell"  >
+    <span class="spacer"></span><span id="src-12" class="srcLine"><span class="keyword">import</span> org.<a href="../../easymock/pkg-summary.html">easymock</a>.<a href="../../../org/easymock/IArgumentMatcher.html#IArgumentMatcher">IArgumentMatcher</a>;</span></td>
+</tr>
+        
+
+<tr id="l13">
+<td align="right" class="lineCount NoHilight">13</td>
+<td align="right" class="coverageCount NoHilight "
+         >
+    &nbsp;&nbsp;
+
+</td>
+<td class="  srcCell"  >
+    <span class="spacer"></span><span id="src-13" class="srcLine"><span class="keyword">import</span> org.<a href="../../easymock/pkg-summary.html">easymock</a>.<a href="../internal/pkg-summary.html">internal</a>.<a href="../internal/matchers/pkg-summary.html">matchers</a>.*;</span></td>
+</tr>
+        
+
+<tr id="l14">
+<td align="right" class="lineCount NoHilight">14</td>
+<td align="right" class="coverageCount NoHilight "
+         >
+    &nbsp;&nbsp;
+
+</td>
+<td class="  srcCell"  >
+    <span class="spacer"></span><span id="src-14" class="srcLine"><span class="keyword">import</span> org.junit.Before;</span></td>
+</tr>
+        
+
+<tr id="l15">
+<td align="right" class="lineCount NoHilight">15</td>
+<td align="right" class="coverageCount NoHilight "
+         >
+    &nbsp;&nbsp;
+
+</td>
+<td class="  srcCell"  >
+    <span class="spacer"></span><span id="src-15" class="srcLine"><span class="keyword">import</span> org.junit.Test;</span></td>
+</tr>
+        
+
+<tr id="l16">
+<td align="right" class="lineCount NoHilight">16</td>
+<td align="right" class="coverageCount NoHilight "
+         >
+    &nbsp;&nbsp;
+
+</td>
+<td class="  srcCell"  >
+    <span class="spacer"></span><span id="src-16" class="srcLine"></span></td>
+</tr>
+           <tr class="inlineStatsRow" align="right" valign="middle" >
+        <td colspan="1"  class="coverageCount">
+            <a name="17" class="nolink">&nbsp;</a>
+        </td>
+        
+       <td class="coverageCount imgbg more" id='inlineStatsToggle-17' onclick="toggleInlineStats(this, 'inlinestats-17');">
+       </td>
+       <td align="center" valign="middle">
+           <table id="inlinestats-17" style="display:none;" class="inlineStats" width="100%" cellspacing="1px" cellpadding="1px">
+           <tr onclick="toggleInlineStats(document.getElementById('inlineStatsToggle-17'), 'inlinestats-17');return true;">
+           <td><div>
+    <div style="width: 40px; font-size:0px;"></div>
+    <div title="0% Not Covered"  style="min-width: 40px;"  class="barNegative barNegative">
+       <div title="100% Covered" class="barPositive barPositive" style="width: 100%"></div>
+    </div>
+</div></td><td>100%</td>
+           <td class="inlineStat">Uncovered Elements: 0 (65)</td>
+           <td class="inlineStat">Complexity: 20</td>
+           <td class="inlineStat">Complexity Density: 0,44</td>
+                       </tr>
+           </table>
+       </td>
+    </tr>
+  
+
+<tr id="l17">
+<td align="right" class="lineCount NoHilight">17</td>
+<td align="right" class="coverageCount NoHilight "
+           onclick="return showTestsForLine(this, 17, 'Tests that hit &lt;span class=\'srcFragment\'&gt; ConstraintsToStringTest &lt;/span&gt;');"
+       >
+    &nbsp;&nbsp;
+
+</td>
+<td class="  srcCell" id="id-17" >
+    <span class="spacer"></span><span id="src-17" class="srcLineClassStart"><span class="keyword">public</span> <span class="keyword">class</span> ConstraintsToStringTest {</span></td>
+</tr>
+        
+
+<tr id="l18">
+<td align="right" class="lineCount NoHilight">18</td>
+<td align="right" class="coverageCount NoHilight "
+         >
+    &nbsp;&nbsp;
+
+</td>
+<td class="  srcCell"  >
+    <span class="spacer"></span><span id="src-18" class="srcLine">    <span class="keyword">private</span> StringBuffer buffer;</span></td>
+</tr>
+        
+
+<tr id="l19">
+<td align="right" class="lineCount NoHilight">19</td>
+<td align="right" class="coverageCount NoHilight "
+         >
+    &nbsp;&nbsp;
+
+</td>
+<td class="  srcCell"  >
+    <span class="spacer"></span><span id="src-19" class="srcLine"></span></td>
+</tr>
+           <tr class="inlineStatsRow" align="right" valign="middle" >
+        <td colspan="1"  class="coverageCount">
+            <a name="20" class="nolink">&nbsp;</a>
+        </td>
+        
+       <td class="coverageCount imgbg more" id='inlineStatsToggle-20' onclick="toggleInlineStats(this, 'inlinestats-20');">
+       </td>
+       <td align="center" valign="middle">
+           <table id="inlinestats-20" style="display:none;" class="inlineStats" width="100%" cellspacing="1px" cellpadding="1px">
+           <tr onclick="toggleInlineStats(document.getElementById('inlineStatsToggle-20'), 'inlinestats-20');return true;">
+           <td><div>
+    <div style="width: 40px; font-size:0px;"></div>
+    <div title="0% Not Covered"  style="min-width: 40px;"  class="barNegative barNegative">
+       <div title="100% Covered" class="barPositive barPositive" style="width: 100%"></div>
+    </div>
+</div></td><td>100%</td>
+           <td class="inlineStat">Uncovered Elements: 0 (1)</td>
+           <td class="inlineStat">Complexity: 1</td>
+           <td class="inlineStat">Complexity Density: 1</td>
+                       </tr>
+           </table>
+       </td>
+    </tr>
+  
+
+<tr id="l20">
+<td align="right" class="lineCount Good">20</td>
+<td align="right" class="coverageCount Good missedByTest"
+            >
+    <a title="Line 20, Col 5: method entered 17 times." class="nolink">&nbsp;17</a>
+
+</td>
+<td class="  methodStart  srcCell" id="id-20" >
+    <img title="Method Statistics" onclick="toggleSrcRowVis(this, 20,23);" id="img-20" src="../../../img/collapse.gif"  alt="toggle" class="icon"/><span id="src-20" class="srcLine"><a class="nolink" title="Line 20, Col 5: method entered 17 times.">    @Before</a><span class="foldControl" onclick="toggleSrcRowVis(document.getElementById('img-20'), 20,23);" id="e20" style="display:none;border:none;">...</span></span></td>
+</tr>
+        
+
+<tr id="l21">
+<td align="right" class="lineCount NoHilight">21</td>
+<td align="right" class="coverageCount NoHilight "
+         >
+    &nbsp;&nbsp;
+
+</td>
+<td class="  srcCell"  >
+    <span class="spacer"></span><span id="src-21" class="srcLine">    <span class="keyword">public</span> <span class="keyword">void</span> setup() {</span></td>
+</tr>
+        
+
+<tr id="l22">
+<td align="right" class="lineCount Good">22</td>
+<td align="right" class="coverageCount Good missedByTest"
+         >
+    <a title="Line 22, Col 9: statement executed 17 times." class="nolink">&nbsp;17</a>
+
+</td>
+<td class="  srcCell"  >
+    <span class="spacer"></span><span id="src-22" class="srcLine"><a class="nolink" title="Line 22, Col 9: statement executed 17 times.">        buffer = <span class="keyword">new</span> StringBuffer();</a></span></td>
+</tr>
+        
+
+<tr id="l23">
+<td align="right" class="lineCount NoHilight">23</td>
+<td align="right" class="coverageCount NoHilight "
+         >
+    &nbsp;&nbsp;
+
+</td>
+<td class="  srcCell"  >
+    <span class="spacer"></span><span id="src-23" class="srcLine">    }</span></td>
+</tr>
+        
+
+<tr id="l24">
+<td align="right" class="lineCount NoHilight">24</td>
+<td align="right" class="coverageCount NoHilight "
+         >
+    &nbsp;&nbsp;
+
+</td>
+<td class="  srcCell"  >
+    <span class="spacer"></span><span id="src-24" class="srcLine"></span></td>
+</tr>
+           <tr class="inlineStatsRow" align="right" valign="middle" >
+        <td colspan="1"  class="coverageCount">
+            <a name="25" class="nolink">&nbsp;</a>
+        </td>
+        
+       <td class="coverageCount imgbg more" id='inlineStatsToggle-25' onclick="toggleInlineStats(this, 'inlinestats-25');">
+       </td>
+       <td align="center" valign="middle">
+           <table id="inlinestats-25" style="display:none;" class="inlineStats" width="100%" cellspacing="1px" cellpadding="1px">
+           <tr onclick="toggleInlineStats(document.getElementById('inlineStatsToggle-25'), 'inlinestats-25');return true;">
+           <td><div>
+    <div style="width: 40px; font-size:0px;"></div>
+    <div title="0% Not Covered"  style="min-width: 40px;"  class="barNegative barNegative">
+       <div title="100% Covered" class="barPositive barPositive" style="width: 100%"></div>
+    </div>
+</div></td><td>100%</td>
+           <td class="inlineStat">Uncovered Elements: 0 (2)</td>
+           <td class="inlineStat">Complexity: 1</td>
+           <td class="inlineStat">Complexity Density: 0,5</td>
+                        <td class="inlineStat">      <span class="sortValue">1</span>
+    <span class="testResultSuccess">PASS</span>
+  </td>
+                       </tr>
+           </table>
+       </td>
+    </tr>
+  
+
+<tr id="l25">
+<td align="right" class="lineCount Good">25</td>
+<td align="right" class="coverageCount Good hitByTest"
+           onclick="return showTestsForLine(this, 25, 'Tests that hit &lt;span class=\'srcFragment\'&gt; sameToStringWithString()&amp;nbsp;:&amp;nbsp;void &lt;/span&gt;');"
+       >
+    <a title="Line 25, Col 5: method entered 1 time." class="nolink">&nbsp;1</a>
+
+</td>
+<td class="  methodStart  srcCell" id="id-25" >
+    <img title="Method Statistics" onclick="toggleSrcRowVis(this, 25,30);" id="img-25" src="../../../img/collapse.gif"  alt="toggle" class="icon"/><span id="src-25" class="srcLine"><a class="nolink" title="Line 25, Col 5: method entered 1 time.">    @Test</a><span class="foldControl" onclick="toggleSrcRowVis(document.getElementById('img-25'), 25,30);" id="e25" style="display:none;border:none;">...</span></span></td>
+</tr>
+        
+
+<tr id="l26">
+<td align="right" class="lineCount NoHilight">26</td>
+<td align="right" class="coverageCount NoHilight "
+         >
+    &nbsp;&nbsp;
+
+</td>
+<td class="  srcCell"  >
+    <span class="spacer"></span><span id="src-26" class="srcLine">    <span class="keyword">public</span> <span class="keyword">void</span> sameToStringWithString() {</span></td>
+</tr>
+        
+
+<tr id="l27">
+<td align="right" class="lineCount Good">27</td>
+<td align="right" class="coverageCount Good hitByTest"
+           onclick="return showTestsForLine(this, 27, 'Tests that hit line # 27');"
+    >
+    <a title="Line 27, Col 9: statement executed 1 time." class="nolink">&nbsp;1</a>
+
+</td>
+<td class="  srcCell"  >
+    <span class="spacer"></span><span id="src-27" class="srcLine"><a class="nolink" title="Line 27, Col 9: statement executed 1 time.">        <span class="keyword">new</span> Same(<span class="string">"X"</span>).appendTo(buffer);</a></span></td>
+</tr>
+        
+
+<tr id="l28">
+<td align="right" class="lineCount Good">28</td>
+<td align="right" class="coverageCount Good hitByTest"
+           onclick="return showTestsForLine(this, 28, 'Tests that hit line # 28');"
+    >
+    <a title="Line 28, Col 9: statement executed 1 time." class="nolink">&nbsp;1</a>
+
+</td>
+<td class="  srcCell"  >
+    <span class="spacer"></span><span id="src-28" class="srcLine"><a class="nolink" title="Line 28, Col 9: statement executed 1 time.">        assertEquals(<span class="string">"same(\"X\")"</span>, buffer.toString());</a></span></td>
+</tr>
+        
+
+<tr id="l29">
+<td align="right" class="lineCount NoHilight">29</td>
+<td align="right" class="coverageCount NoHilight "
+         >
+    &nbsp;&nbsp;
+
+</td>
+<td class="  srcCell"  >
+    <span class="spacer"></span><span id="src-29" class="srcLine"></span></td>
+</tr>
+        
+
+<tr id="l30">
+<td align="right" class="lineCount NoHilight">30</td>
+<td align="right" class="coverageCount NoHilight "
+         >
+    &nbsp;&nbsp;
+
+</td>
+<td class="  srcCell"  >
+    <span class="spacer"></span><span id="src-30" class="srcLine">    }</span></td>
+</tr>
+        
+
+<tr id="l31">
+<td align="right" class="lineCount NoHilight">31</td>
+<td align="right" class="coverageCount NoHilight "
+         >
+    &nbsp;&nbsp;
+
+</td>
+<td class="  srcCell"  >
+    <span class="spacer"></span><span id="src-31" class="srcLine"></span></td>
+</tr>
+           <tr class="inlineStatsRow" align="right" valign="middle" >
+        <td colspan="1"  class="coverageCount">
+            <a name="32" class="nolink">&nbsp;</a>
+        </td>
+        
+       <td class="coverageCount imgbg more" id='inlineStatsToggle-32' onclick="toggleInlineStats(this, 'inlinestats-32');">
+       </td>
+       <td align="center" valign="middle">
+           <table id="inlinestats-32" style="display:none;" class="inlineStats" width="100%" cellspacing="1px" cellpadding="1px">
+           <tr onclick="toggleInlineStats(document.getElementById('inlineStatsToggle-32'), 'inlinestats-32');return true;">
+           <td><div>
+    <div style="width: 40px; font-size:0px;"></div>
+    <div title="0% Not Covered"  style="min-width: 40px;"  class="barNegative barNegative">
+       <div title="100% Covered" class="barPositive barPositive" style="width: 100%"></div>
+    </div>
+</div></td><td>100%</td>
+           <td class="inlineStat">Uncovered Elements: 0 (2)</td>
+           <td class="inlineStat">Complexity: 1</td>
+           <td class="inlineStat">Complexity Density: 0,5</td>
+                        <td class="inlineStat">      <span class="sortValue">1</span>
+    <span class="testResultSuccess">PASS</span>
+  </td>
+                       </tr>
+           </table>
+       </td>
+    </tr>
+  
+
+<tr id="l32">
+<td align="right" class="lineCount Good">32</td>
+<td align="right" class="coverageCount Good hitByTest"
+           onclick="return showTestsForLine(this, 32, 'Tests that hit &lt;span class=\'srcFragment\'&gt; nullToString()&amp;nbsp;:&amp;nbsp;void &lt;/span&gt;');"
+       >
+    <a title="Line 32, Col 5: method entered 1 time." class="nolink">&nbsp;1</a>
+
+</td>
+<td class="  methodStart  srcCell" id="id-32" >
+    <img title="Method Statistics" onclick="toggleSrcRowVis(this, 32,36);" id="img-32" src="../../../img/collapse.gif"  alt="toggle" class="icon"/><span id="src-32" class="srcLine"><a class="nolink" title="Line 32, Col 5: method entered 1 time.">    @Test</a><span class="foldControl" onclick="toggleSrcRowVis(document.getElementById('img-32'), 32,36);" id="e32" style="display:none;border:none;">...</span></span></td>
+</tr>
+        
+
+<tr id="l33">
+<td align="right" class="lineCount NoHilight">33</td>
+<td align="right" class="coverageCount NoHilight "
+         >
+    &nbsp;&nbsp;
+
+</td>
+<td class="  srcCell"  >
+    <span class="spacer"></span><span id="src-33" class="srcLine">    <span class="keyword">public</span> <span class="keyword">void</span> nullToString() {</span></td>
+</tr>
+        
+
+<tr id="l34">
+<td align="right" class="lineCount Good">34</td>
+<td align="right" class="coverageCount Good hitByTest"
+           onclick="return showTestsForLine(this, 34, 'Tests that hit line # 34');"
+    >
+    <a title="Line 34, Col 9: statement executed 1 time." class="nolink">&nbsp;1</a>
+
+</td>
+<td class="  srcCell"  >
+    <span class="spacer"></span><span id="src-34" class="srcLine"><a class="nolink" title="Line 34, Col 9: statement executed 1 time.">        Null.NULL.appendTo(buffer);</a></span></td>
+</tr>
+        
+
+<tr id="l35">
+<td align="right" class="lineCount Good">35</td>
+<td align="right" class="coverageCount Good hitByTest"
+           onclick="return showTestsForLine(this, 35, 'Tests that hit line # 35');"
+    >
+    <a title="Line 35, Col 9: statement executed 1 time." class="nolink">&nbsp;1</a>
+
+</td>
+<td class="  srcCell"  >
+    <span class="spacer"></span><span id="src-35" class="srcLine"><a class="nolink" title="Line 35, Col 9: statement executed 1 time.">        assertEquals(<span class="string">"isNull()"</span>, buffer.toString());</a></span></td>
+</tr>
+        
+
+<tr id="l36">
+<td align="right" class="lineCount NoHilight">36</td>
+<td align="right" class="coverageCount NoHilight "
+         >
+    &nbsp;&nbsp;
+
+</td>
+<td class="  srcCell"  >
+    <span class="spacer"></span><span id="src-36" class="srcLine">    }</span></td>
+</tr>
+        
+
+<tr id="l37">
+<td align="right" class="lineCount NoHilight">37</td>
+<td align="right" class="coverageCount NoHilight "
+         >
+    &nbsp;&nbsp;
+
+</td>
+<td class="  srcCell"  >
+    <span class="spacer"></span><span id="src-37" class="srcLine"></span></td>
+</tr>
+           <tr class="inlineStatsRow" align="right" valign="middle" >
+        <td colspan="1"  class="coverageCount">
+            <a name="38" class="nolink">&nbsp;</a>
+        </td>
+        
+       <td class="coverageCount imgbg more" id='inlineStatsToggle-38' onclick="toggleInlineStats(this, 'inlinestats-38');">
+       </td>
+       <td align="center" valign="middle">
+           <table id="inlinestats-38" style="display:none;" class="inlineStats" width="100%" cellspacing="1px" cellpadding="1px">
+           <tr onclick="toggleInlineStats(document.getElementById('inlineStatsToggle-38'), 'inlinestats-38');return true;">
+           <td><div>
+    <div style="width: 40px; font-size:0px;"></div>
+    <div title="0% Not Covered"  style="min-width: 40px;"  class="barNegative barNegative">
+       <div title="100% Covered" class="barPositive barPositive" style="width: 100%"></div>
+    </div>
+</div></td><td>100%</td>
+           <td class="inlineStat">Uncovered Elements: 0 (2)</td>
+           <td class="inlineStat">Complexity: 1</td>
+           <td class="inlineStat">Complexity Density: 0,5</td>
+                        <td class="inlineStat">      <span class="sortValue">1</span>
+    <span class="testResultSuccess">PASS</span>
+  </td>
+                       </tr>
+           </table>
+       </td>
+    </tr>
+  
+
+<tr id="l38">
+<td align="right" class="lineCount Good">38</td>
+<td align="right" class="coverageCount Good hitByTest"
+           onclick="return showTestsForLine(this, 38, 'Tests that hit &lt;span class=\'srcFragment\'&gt; notNullToString()&amp;nbsp;:&amp;nbsp;void &lt;/span&gt;');"
+       >
+    <a title="Line 38, Col 5: method entered 1 time." class="nolink">&nbsp;1</a>
+
+</td>
+<td class="  methodStart  srcCell" id="id-38" >
+    <img title="Method Statistics" onclick="toggleSrcRowVis(this, 38,42);" id="img-38" src="../../../img/collapse.gif"  alt="toggle" class="icon"/><span id="src-38" class="srcLine"><a class="nolink" title="Line 38, Col 5: method entered 1 time.">    @Test</a><span class="foldControl" onclick="toggleSrcRowVis(document.getElementById('img-38'), 38,42);" id="e38" style="display:none;border:none;">...</span></span></td>
+</tr>
+        
+
+<tr id="l39">
+<td align="right" class="lineCount NoHilight">39</td>
+<td align="right" class="coverageCount NoHilight "
+         >
+    &nbsp;&nbsp;
+
+</td>
+<td class="  srcCell"  >
+    <span class="spacer"></span><span id="src-39" class="srcLine">    <span class="keyword">public</span> <span class="keyword">void</span> notNullToString() {</span></td>
+</tr>
+        
+
+<tr id="l40">
+<td align="right" class="lineCount Good">40</td>
+<td align="right" class="coverageCount Good hitByTest"
+           onclick="return showTestsForLine(this, 40, 'Tests that hit line # 40');"
+    >
+    <a title="Line 40, Col 9: statement executed 1 time." class="nolink">&nbsp;1</a>
+
+</td>
+<td class="  srcCell"  >
+    <span class="spacer"></span><span id="src-40" class="srcLine"><a class="nolink" title="Line 40, Col 9: statement executed 1 time.">        NotNull.NOT_NULL.appendTo(buffer);</a></span></td>
+</tr>
+        
+
+<tr id="l41">
+<td align="right" class="lineCount Good">41</td>
+<td align="right" class="coverageCount Good hitByTest"
+           onclick="return showTestsForLine(this, 41, 'Tests that hit line # 41');"
+    >
+    <a title="Line 41, Col 9: statement executed 1 time." class="nolink">&nbsp;1</a>
+
+</td>
+<td class="  srcCell"  >
+    <span class="spacer"></span><span id="src-41" class="srcLine"><a class="nolink" title="Line 41, Col 9: statement executed 1 time.">        assertEquals(<span class="string">"notNull()"</span>, buffer.toString());</a></span></td>
+</tr>
+        
+
+<tr id="l42">
+<td align="right" class="lineCount NoHilight">42</td>
+<td align="right" class="coverageCount NoHilight "
+         >
+    &nbsp;&nbsp;
+
+</td>
+<td class="  srcCell"  >
+    <span class="spacer"></span><span id="src-42" class="srcLine">    }</span></td>
+</tr>
+        
+
+<tr id="l43">
+<td align="right" class="lineCount NoHilight">43</td>
+<td align="right" class="coverageCount NoHilight "
+         >
+    &nbsp;&nbsp;
+
+</td>
+<td class="  srcCell"  >
+    <span class="spacer"></span><span id="src-43" class="srcLine"></span></td>
+</tr>
+           <tr class="inlineStatsRow" align="right" valign="middle" >
+        <td colspan="1"  class="coverageCount">
+            <a name="44" class="nolink">&nbsp;</a>
+        </td>
+        
+       <td class="coverageCount imgbg more" id='inlineStatsToggle-44' onclick="toggleInlineStats(this, 'inlinestats-44');">
+       </td>
+       <td align="center" valign="middle">
+           <table id="inlinestats-44" style="display:none;" class="inlineStats" width="100%" cellspacing="1px" cellpadding="1px">
+           <tr onclick="toggleInlineStats(document.getElementById('inlineStatsToggle-44'), 'inlinestats-44');return true;">
+           <td><div>
+    <div style="width: 40px; font-size:0px;"></div>
+    <div title="0% Not Covered"  style="min-width: 40px;"  class="barNegative barNegative">
+       <div title="100% Covered" class="barPositive barPositive" style="width: 100%"></div>
+    </div>
+</div></td><td>100%</td>
+           <td class="inlineStat">Uncovered Elements: 0 (2)</td>
+           <td class="inlineStat">Complexity: 1</td>
+           <td class="inlineStat">Complexity Density: 0,5</td>
+                        <td class="inlineStat">      <span class="sortValue">1</span>
+    <span class="testResultSuccess">PASS</span>
+  </td>
+                       </tr>
+           </table>
+       </td>
+    </tr>
+  
+
+<tr id="l44">
+<td align="right" class="lineCount Good">44</td>
+<td align="right" class="coverageCount Good hitByTest"
+           onclick="return showTestsForLine(this, 44, 'Tests that hit &lt;span class=\'srcFragment\'&gt; anyToString()&amp;nbsp;:&amp;nbsp;void &lt;/span&gt;');"
+       >
+    <a title="Line 44, Col 5: method entered 1 time." class="nolink">&nbsp;1</a>
+
+</td>
+<td class="  methodStart  srcCell" id="id-44" >
+    <img title="Method Statistics" onclick="toggleSrcRowVis(this, 44,48);" id="img-44" src="../../../img/collapse.gif"  alt="toggle" class="icon"/><span id="src-44" class="srcLine"><a class="nolink" title="Line 44, Col 5: method entered 1 time.">    @Test</a><span class="foldControl" onclick="toggleSrcRowVis(document.getElementById('img-44'), 44,48);" id="e44" style="display:none;border:none;">...</span></span></td>
+</tr>
+        
+
+<tr id="l45">
+<td align="right" class="lineCount NoHilight">45</td>
+<td align="right" class="coverageCount NoHilight "
+         >
+    &nbsp;&nbsp;
+
+</td>
+<td class="  srcCell"  >
+    <span class="spacer"></span><span id="src-45" class="srcLine">    <span class="keyword">public</span> <span class="keyword">void</span> anyToString() {</span></td>
+</tr>
+        
+
+<tr id="l46">
+<td align="right" class="lineCount Good">46</td>
+<td align="right" class="coverageCount Good hitByTest"
+           onclick="return showTestsForLine(this, 46, 'Tests that hit line # 46');"
+    >
+    <a title="Line 46, Col 9: statement executed 1 time." class="nolink">&nbsp;1</a>
+
+</td>
+<td class="  srcCell"  >
+    <span class="spacer"></span><span id="src-46" class="srcLine"><a class="nolink" title="Line 46, Col 9: statement executed 1 time.">        Any.ANY.appendTo(buffer);</a></span></td>
+</tr>
+        
+
+<tr id="l47">
+<td align="right" class="lineCount Good">47</td>
+<td align="right" class="coverageCount Good hitByTest"
+           onclick="return showTestsForLine(this, 47, 'Tests that hit line # 47');"
+    >
+    <a title="Line 47, Col 9: statement executed 1 time." class="nolink">&nbsp;1</a>
+
+</td>
+<td class="  srcCell"  >
+    <span class="spacer"></span><span id="src-47" class="srcLine"><a class="nolink" title="Line 47, Col 9: statement executed 1 time.">        assertEquals(<span class="string">"&lt;any&gt;"</span>, buffer.toString());</a></span></td>
+</tr>
+        
+
+<tr id="l48">
+<td align="right" class="lineCount NoHilight">48</td>
+<td align="right" class="coverageCount NoHilight "
+         >
+    &nbsp;&nbsp;
+
+</td>
+<td class="  srcCell"  >
+    <span class="spacer"></span><span id="src-48" class="srcLine">    }</span></td>
+</tr>
+        
+
+<tr id="l49">
+<td align="right" class="lineCount NoHilight">49</td>
+<td align="right" class="coverageCount NoHilight "
+         >
+    &nbsp;&nbsp;
+
+</td>
+<td class="  srcCell"  >
+    <span class="spacer"></span><span id="src-49" class="srcLine"></span></td>
+</tr>
+           <tr class="inlineStatsRow" align="right" valign="middle" >
+        <td colspan="1"  class="coverageCount">
+            <a name="50" class="nolink">&nbsp;</a>
+        </td>
+        
+       <td class="coverageCount imgbg more" id='inlineStatsToggle-50' onclick="toggleInlineStats(this, 'inlinestats-50');">
+       </td>
+       <td align="center" valign="middle">
+           <table id="inlinestats-50" style="display:none;" class="inlineStats" width="100%" cellspacing="1px" cellpadding="1px">
+           <tr onclick="toggleInlineStats(document.getElementById('inlineStatsToggle-50'), 'inlinestats-50');return true;">
+           <td><div>
+    <div style="width: 40px; font-size:0px;"></div>
+    <div title="0% Not Covered"  style="min-width: 40px;"  class="barNegative barNegative">
+       <div title="100% Covered" class="barPositive barPositive" style="width: 100%"></div>
+    </div>
+</div></td><td>100%</td>
+           <td class="inlineStat">Uncovered Elements: 0 (2)</td>
+           <td class="inlineStat">Complexity: 1</td>
+           <td class="inlineStat">Complexity Density: 0,5</td>
+                        <td class="inlineStat">      <span class="sortValue">1</span>
+    <span class="testResultSuccess">PASS</span>
+  </td>
+                       </tr>
+           </table>
+       </td>
+    </tr>
+  
+
+<tr id="l50">
+<td align="right" class="lineCount Good">50</td>
+<td align="right" class="coverageCount Good hitByTest"
+           onclick="return showTestsForLine(this, 50, 'Tests that hit &lt;span class=\'srcFragment\'&gt; sameToStringWithChar()&amp;nbsp;:&amp;nbsp;void &lt;/span&gt;');"
+       >
+    <a title="Line 50, Col 5: method entered 1 time." class="nolink">&nbsp;1</a>
+
+</td>
+<td class="  methodStart  srcCell" id="id-50" >
+    <img title="Method Statistics" onclick="toggleSrcRowVis(this, 50,54);" id="img-50" src="../../../img/collapse.gif"  alt="toggle" class="icon"/><span id="src-50" class="srcLine"><a class="nolink" title="Line 50, Col 5: method entered 1 time.">    @Test</a><span class="foldControl" onclick="toggleSrcRowVis(document.getElementById('img-50'), 50,54);" id="e50" style="display:none;border:none;">...</span></span></td>
+</tr>
+        
+
+<tr id="l51">
+<td align="right" class="lineCount NoHilight">51</td>
+<td align="right" class="coverageCount NoHilight "
+         >
+    &nbsp;&nbsp;
+
+</td>
+<td class="  srcCell"  >
+    <span class="spacer"></span><span id="src-51" class="srcLine">    <span class="keyword">public</span> <span class="keyword">void</span> sameToStringWithChar() {</span></td>
+</tr>
+        
+
+<tr id="l52">
+<td align="right" class="lineCount Good">52</td>
+<td align="right" class="coverageCount Good hitByTest"
+           onclick="return showTestsForLine(this, 52, 'Tests that hit line # 52');"
+    >
+    <a title="Line 52, Col 9: statement executed 1 time." class="nolink">&nbsp;1</a>
+
+</td>
+<td class="  srcCell"  >
+    <span class="spacer"></span><span id="src-52" class="srcLine"><a class="nolink" title="Line 52, Col 9: statement executed 1 time.">        <span class="keyword">new</span> Same('x').appendTo(buffer);</a></span></td>
+</tr>
+        
+
+<tr id="l53">
+<td align="right" class="lineCount Good">53</td>
+<td align="right" class="coverageCount Good hitByTest"
+           onclick="return showTestsForLine(this, 53, 'Tests that hit line # 53');"
+    >
+    <a title="Line 53, Col 9: statement executed 1 time." class="nolink">&nbsp;1</a>
+
+</td>
+<td class="  srcCell"  >
+    <span class="spacer"></span><span id="src-53" class="srcLine"><a class="nolink" title="Line 53, Col 9: statement executed 1 time.">        assertEquals(<span class="string">"same('x')"</span>, buffer.toString());</a></span></td>
+</tr>
+        
+
+<tr id="l54">
+<td align="right" class="lineCount NoHilight">54</td>
+<td align="right" class="coverageCount NoHilight "
+         >
+    &nbsp;&nbsp;
+
+</td>
+<td class="  srcCell"  >
+    <span class="spacer"></span><span id="src-54" class="srcLine">    }</span></td>
+</tr>
+        
+
+<tr id="l55">
+<td align="right" class="lineCount NoHilight">55</td>
+<td align="right" class="coverageCount NoHilight "
+         >
+    &nbsp;&nbsp;
+
+</td>
+<td class="  srcCell"  >
+    <span class="spacer"></span><span id="src-55" class="srcLine"></span></td>
+</tr>
+           <tr class="inlineStatsRow" align="right" valign="middle" >
+        <td colspan="1"  class="coverageCount">
+            <a name="56" class="nolink">&nbsp;</a>
+        </td>
+        
+       <td class="coverageCount imgbg more" id='inlineStatsToggle-56' onclick="toggleInlineStats(this, 'inlinestats-56');">
+       </td>
+       <td align="center" valign="middle">
+           <table id="inlinestats-56" style="display:none;" class="inlineStats" width="100%" cellspacing="1px" cellpadding="1px">
+           <tr onclick="toggleInlineStats(document.getElementById('inlineStatsToggle-56'), 'inlinestats-56');return true;">
+           <td><div>
+    <div style="width: 40px; font-size:0px;"></div>
+    <div title="0% Not Covered"  style="min-width: 40px;"  class="barNegative barNegative">
+       <div title="100% Covered" class="barPositive barPositive" style="width: 100%"></div>
+    </div>
+</div></td><td>100%</td>
+           <td class="inlineStat">Uncovered Elements: 0 (3)</td>
+           <td class="inlineStat">Complexity: 1</td>
+           <td class="inlineStat">Complexity Density: 0,33</td>
+                        <td class="inlineStat">      <span class="sortValue">1</span>
+    <span class="testResultSuccess">PASS</span>
+  </td>
+                       </tr>
+           </table>
+       </td>
+    </tr>
+  
+
+<tr id="l56">
+<td align="right" class="lineCount Good">56</td>
+<td align="right" class="coverageCount Good hitByTest"
+           onclick="return showTestsForLine(this, 56, 'Tests that hit &lt;span class=\'srcFragment\'&gt; sameToStringWithObject()&amp;nbsp;:&amp;nbsp;void &lt;/span&gt;');"
+       >
+    <a title="Line 56, Col 5: method entered 1 time." class="nolink">&nbsp;1</a>
+
+</td>
+<td class="  methodStart  srcCell" id="id-56" >
+    <img title="Method Statistics" onclick="toggleSrcRowVis(this, 56,66);" id="img-56" src="../../../img/collapse.gif"  alt="toggle" class="icon"/><span id="src-56" class="srcLine"><a class="nolink" title="Line 56, Col 5: method entered 1 time.">    @Test</a><span class="foldControl" onclick="toggleSrcRowVis(document.getElementById('img-56'), 56,66);" id="e56" style="display:none;border:none;">...</span></span></td>
+</tr>
+        
+
+<tr id="l57">
+<td align="right" class="lineCount NoHilight">57</td>
+<td align="right" class="coverageCount NoHilight "
+         >
+    &nbsp;&nbsp;
+
+</td>
+<td class="  srcCell"  >
+    <span class="spacer"></span><span id="src-57" class="srcLine">    <span class="keyword">public</span> <span class="keyword">void</span> sameToStringWithObject() {</span></td>
+</tr>
+        
+
+<tr id="l58">
+<td align="right" class="lineCount Good">58</td>
+<td align="right" class="coverageCount Good hitByTest"
+           onclick="return showTestsForLine(this, 58, 'Tests that hit line # 58');"
+    >
+    <a title="Line 58, Col 9: statement executed 1 time." class="nolink">&nbsp;1</a>
+
+</td>
+<td class="  srcCell"  >
+    <span class="spacer"></span><span id="src-58" class="srcLine"><a class="nolink" title="Line 58, Col 9: statement executed 1 time.">        Object o = <span class="keyword">new</span> Object() {</a></span></td>
+</tr>
+           <tr class="inlineStatsRow" align="right" valign="middle" >
+        <td colspan="1"  class="coverageCount">
+            <a name="59" class="nolink">&nbsp;</a>
+        </td>
+        
+       <td class="coverageCount imgbg more" id='inlineStatsToggle-59' onclick="toggleInlineStats(this, 'inlinestats-59');">
+       </td>
+       <td align="center" valign="middle">
+           <table id="inlinestats-59" style="display:none;" class="inlineStats" width="100%" cellspacing="1px" cellpadding="1px">
+           <tr onclick="toggleInlineStats(document.getElementById('inlineStatsToggle-59'), 'inlinestats-59');return true;">
+           <td><div>
+    <div style="width: 40px; font-size:0px;"></div>
+    <div title="0% Not Covered"  style="min-width: 40px;"  class="barNegative barNegative">
+       <div title="100% Covered" class="barPositive barPositive" style="width: 100%"></div>
+    </div>
+</div></td><td>100%</td>
+           <td class="inlineStat">Uncovered Elements: 0 (1)</td>
+           <td class="inlineStat">Complexity: 1</td>
+           <td class="inlineStat">Complexity Density: 1</td>
+                       </tr>
+           </table>
+       </td>
+    </tr>
+  
+
+<tr id="l59">
+<td align="right" class="lineCount Good">59</td>
+<td align="right" class="coverageCount Good hitByTest"
+           onclick="return showTestsForLine(this, 59, 'Tests that hit &lt;span class=\'srcFragment\'&gt; toString()&amp;nbsp;:&amp;nbsp;String &lt;/span&gt;');"
+       >
+    <a title="Line 59, Col 13: method entered 1 time." class="nolink">&nbsp;1</a>
+
+</td>
+<td class="  methodStart  srcCell" id="id-59" >
+    <img title="Method Statistics" onclick="toggleSrcRowVis(this, 59,62);" id="img-59" src="../../../img/collapse.gif"  alt="toggle" class="icon"/><span id="src-59" class="srcLine"><a class="nolink" title="Line 59, Col 13: method entered 1 time.">            @Override</a><span class="foldControl" onclick="toggleSrcRowVis(document.getElementById('img-59'), 59,62);" id="e59" style="display:none;border:none;">...</span></span></td>
+</tr>
+        
+
+<tr id="l60">
+<td align="right" class="lineCount NoHilight">60</td>
+<td align="right" class="coverageCount NoHilight "
+         >
+    &nbsp;&nbsp;
+
+</td>
+<td class="  srcCell"  >
+    <span class="spacer"></span><span id="src-60" class="srcLine">            <span class="keyword">public</span> String toString() {</span></td>
+</tr>
+        
+
+<tr id="l61">
+<td align="right" class="lineCount Good">61</td>
+<td align="right" class="coverageCount Good hitByTest"
+           onclick="return showTestsForLine(this, 61, 'Tests that hit line # 61');"
+    >
+    <a title="Line 61, Col 17: statement executed 1 time." class="nolink">&nbsp;1</a>
+
+</td>
+<td class="  srcCell"  >
+    <span class="spacer"></span><span id="src-61" class="srcLine"><a class="nolink" title="Line 61, Col 17: statement executed 1 time.">                <span class="keyword">return</span> <span class="string">"X"</span>;</a></span></td>
+</tr>
+        
+
+<tr id="l62">
+<td align="right" class="lineCount NoHilight">62</td>
+<td align="right" class="coverageCount NoHilight "
+         >
+    &nbsp;&nbsp;
+
+</td>
+<td class="  srcCell"  >
+    <span class="spacer"></span><span id="src-62" class="srcLine">            }</span></td>
+</tr>
+        
+
+<tr id="l63">
+<td align="right" class="lineCount NoHilight">63</td>
+<td align="right" class="coverageCount NoHilight "
+         >
+    &nbsp;&nbsp;
+
+</td>
+<td class="  srcCell"  >
+    <span class="spacer"></span><span id="src-63" class="srcLine">        };</span></td>
+</tr>
+        
+
+<tr id="l64">
+<td align="right" class="lineCount Good">64</td>
+<td align="right" class="coverageCount Good hitByTest"
+           onclick="return showTestsForLine(this, 64, 'Tests that hit line # 64');"
+    >
+    <a title="Line 64, Col 9: statement executed 1 time." class="nolink">&nbsp;1</a>
+
+</td>
+<td class="  srcCell"  >
+    <span class="spacer"></span><span id="src-64" class="srcLine"><a class="nolink" title="Line 64, Col 9: statement executed 1 time.">        <span class="keyword">new</span> Same(o).appendTo(buffer);</a></span></td>
+</tr>
+        
+
+<tr id="l65">
+<td align="right" class="lineCount Good">65</td>
+<td align="right" class="coverageCount Good hitByTest"
+           onclick="return showTestsForLine(this, 65, 'Tests that hit line # 65');"
+    >
+    <a title="Line 65, Col 9: statement executed 1 time." class="nolink">&nbsp;1</a>
+
+</td>
+<td class="  srcCell"  >
+    <span class="spacer"></span><span id="src-65" class="srcLine"><a class="nolink" title="Line 65, Col 9: statement executed 1 time.">        assertEquals(<span class="string">"same(X)"</span>, buffer.toString());</a></span></td>
+</tr>
+        
+
+<tr id="l66">
+<td align="right" class="lineCount NoHilight">66</td>
+<td align="right" class="coverageCount NoHilight "
+         >
+    &nbsp;&nbsp;
+
+</td>
+<td class="  srcCell"  >
+    <span class="spacer"></span><span id="src-66" class="srcLine">    }</span></td>
+</tr>
+        
+
+<tr id="l67">
+<td align="right" class="lineCount NoHilight">67</td>
+<td align="right" class="coverageCount NoHilight "
+         >
+    &nbsp;&nbsp;
+
+</td>
+<td class="  srcCell"  >
+    <span class="spacer"></span><span id="src-67" class="srcLine"></span></td>
+</tr>
+           <tr class="inlineStatsRow" align="right" valign="middle" >
+        <td colspan="1"  class="coverageCount">
+            <a name="68" class="nolink">&nbsp;</a>
+        </td>
+        
+       <td class="coverageCount imgbg more" id='inlineStatsToggle-68' onclick="toggleInlineStats(this, 'inlinestats-68');">
+       </td>
+       <td align="center" valign="middle">
+           <table id="inlinestats-68" style="display:none;" class="inlineStats" width="100%" cellspacing="1px" cellpadding="1px">
+           <tr onclick="toggleInlineStats(document.getElementById('inlineStatsToggle-68'), 'inlinestats-68');return true;">
+           <td><div>
+    <div style="width: 40px; font-size:0px;"></div>
+    <div title="0% Not Covered"  style="min-width: 40px;"  class="barNegative barNegative">
+       <div title="100% Covered" class="barPositive barPositive" style="width: 100%"></div>
+    </div>
+</div></td><td>100%</td>
+           <td class="inlineStat">Uncovered Elements: 0 (2)</td>
+           <td class="inlineStat">Complexity: 1</td>
+           <td class="inlineStat">Complexity Density: 0,5</td>
+                        <td class="inlineStat">      <span class="sortValue">1</span>
+    <span class="testResultSuccess">PASS</span>
+  </td>
+                       </tr>
+           </table>
+       </td>
+    </tr>
+  
+
+<tr id="l68">
+<td align="right" class="lineCount Good">68</td>
+<td align="right" class="coverageCount Good hitByTest"
+           onclick="return showTestsForLine(this, 68, 'Tests that hit &lt;span class=\'srcFragment\'&gt; equalsToStringWithString()&amp;nbsp;:&amp;nbsp;void &lt;/span&gt;');"
+       >
+    <a title="Line 68, Col 5: method entered 1 time." class="nolink">&nbsp;1</a>
+
+</td>
+<td class="  methodStart  srcCell" id="id-68" >
+    <img title="Method Statistics" onclick="toggleSrcRowVis(this, 68,73);" id="img-68" src="../../../img/collapse.gif"  alt="toggle" class="icon"/><span id="src-68" class="srcLine"><a class="nolink" title="Line 68, Col 5: method entered 1 time.">    @Test</a><span class="foldControl" onclick="toggleSrcRowVis(document.getElementById('img-68'), 68,73);" id="e68" style="display:none;border:none;">...</span></span></td>
+</tr>
+        
+
+<tr id="l69">
+<td align="right" class="lineCount NoHilight">69</td>
+<td align="right" class="coverageCount NoHilight "
+         >
+    &nbsp;&nbsp;
+
+</td>
+<td class="  srcCell"  >
+    <span class="spacer"></span><span id="src-69" class="srcLine">    <span class="keyword">public</span> <span class="keyword">void</span> equalsToStringWithString() {</span></td>
+</tr>
+        
+
+<tr id="l70">
+<td align="right" class="lineCount Good">70</td>
+<td align="right" class="coverageCount Good hitByTest"
+           onclick="return showTestsForLine(this, 70, 'Tests that hit line # 70');"
+    >
+    <a title="Line 70, Col 9: statement executed 1 time." class="nolink">&nbsp;1</a>
+
+</td>
+<td class="  srcCell"  >
+    <span class="spacer"></span><span id="src-70" class="srcLine"><a class="nolink" title="Line 70, Col 9: statement executed 1 time.">        <span class="keyword">new</span> Equals(<span class="string">"X"</span>).appendTo(buffer);</a></span></td>
+</tr>
+        
+
+<tr id="l71">
+<td align="right" class="lineCount Good">71</td>
+<td align="right" class="coverageCount Good hitByTest"
+           onclick="return showTestsForLine(this, 71, 'Tests that hit line # 71');"
+    >
+    <a title="Line 71, Col 9: statement executed 1 time." class="nolink">&nbsp;1</a>
+
+</td>
+<td class="  srcCell"  >
+    <span class="spacer"></span><span id="src-71" class="srcLine"><a class="nolink" title="Line 71, Col 9: statement executed 1 time.">        assertEquals(<span class="string">"\"X\""</span>, buffer.toString());</a></span></td>
+</tr>
+        
+
+<tr id="l72">
+<td align="right" class="lineCount NoHilight">72</td>
+<td align="right" class="coverageCount NoHilight "
+         >
+    &nbsp;&nbsp;
+
+</td>
+<td class="  srcCell"  >
+    <span class="spacer"></span><span id="src-72" class="srcLine"></span></td>
+</tr>
+        
+
+<tr id="l73">
+<td align="right" class="lineCount NoHilight">73</td>
+<td align="right" class="coverageCount NoHilight "
+         >
+    &nbsp;&nbsp;
+
+</td>
+<td class="  srcCell"  >
+    <span class="spacer"></span><span id="src-73" class="srcLine">    }</span></td>
+</tr>
+        
+
+<tr id="l74">
+<td align="right" class="lineCount NoHilight">74</td>
+<td align="right" class="coverageCount NoHilight "
+         >
+    &nbsp;&nbsp;
+
+</td>
+<td class="  srcCell"  >
+    <span class="spacer"></span><span id="src-74" class="srcLine"></span></td>
+</tr>
+           <tr class="inlineStatsRow" align="right" valign="middle" >
+        <td colspan="1"  class="coverageCount">
+            <a name="75" class="nolink">&nbsp;</a>
+        </td>
+        
+       <td class="coverageCount imgbg more" id='inlineStatsToggle-75' onclick="toggleInlineStats(this, 'inlinestats-75');">
+       </td>
+       <td align="center" valign="middle">
+           <table id="inlinestats-75" style="display:none;" class="inlineStats" width="100%" cellspacing="1px" cellpadding="1px">
+           <tr onclick="toggleInlineStats(document.getElementById('inlineStatsToggle-75'), 'inlinestats-75');return true;">
+           <td><div>
+    <div style="width: 40px; font-size:0px;"></div>
+    <div title="0% Not Covered"  style="min-width: 40px;"  class="barNegative barNegative">
+       <div title="100% Covered" class="barPositive barPositive" style="width: 100%"></div>
+    </div>
+</div></td><td>100%</td>
+           <td class="inlineStat">Uncovered Elements: 0 (2)</td>
+           <td class="inlineStat">Complexity: 1</td>
+           <td class="inlineStat">Complexity Density: 0,5</td>
+                        <td class="inlineStat">      <span class="sortValue">1</span>
+    <span class="testResultSuccess">PASS</span>
+  </td>
+                       </tr>
+           </table>
+       </td>
+    </tr>
+  
+
+<tr id="l75">
+<td align="right" class="lineCount Good">75</td>
+<td align="right" class="coverageCount Good hitByTest"
+           onclick="return showTestsForLine(this, 75, 'Tests that hit &lt;span class=\'srcFragment\'&gt; equalsToStringWithChar()&amp;nbsp;:&amp;nbsp;void &lt;/span&gt;');"
+       >
+    <a title="Line 75, Col 5: method entered 1 time." class="nolink">&nbsp;1</a>
+
+</td>
+<td class="  methodStart  srcCell" id="id-75" >
+    <img title="Method Statistics" onclick="toggleSrcRowVis(this, 75,79);" id="img-75" src="../../../img/collapse.gif"  alt="toggle" class="icon"/><span id="src-75" class="srcLine"><a class="nolink" title="Line 75, Col 5: method entered 1 time.">    @Test</a><span class="foldControl" onclick="toggleSrcRowVis(document.getElementById('img-75'), 75,79);" id="e75" style="display:none;border:none;">...</span></span></td>
+</tr>
+        
+
+<tr id="l76">
+<td align="right" class="lineCount NoHilight">76</td>
+<td align="right" class="coverageCount NoHilight "
+         >
+    &nbsp;&nbsp;
+
+</td>
+<td class="  srcCell"  >
+    <span class="spacer"></span><span id="src-76" class="srcLine">    <span class="keyword">public</span> <span class="keyword">void</span> equalsToStringWithChar() {</span></td>
+</tr>
+        
+
+<tr id="l77">
+<td align="right" class="lineCount Good">77</td>
+<td align="right" class="coverageCount Good hitByTest"
+           onclick="return showTestsForLine(this, 77, 'Tests that hit line # 77');"
+    >
+    <a title="Line 77, Col 9: statement executed 1 time." class="nolink">&nbsp;1</a>
+
+</td>
+<td class="  srcCell"  >
+    <span class="spacer"></span><span id="src-77" class="srcLine"><a class="nolink" title="Line 77, Col 9: statement executed 1 time.">        <span class="keyword">new</span> Equals('x').appendTo(buffer);</a></span></td>
+</tr>
+        
+
+<tr id="l78">
+<td align="right" class="lineCount Good">78</td>
+<td align="right" class="coverageCount Good hitByTest"
+           onclick="return showTestsForLine(this, 78, 'Tests that hit line # 78');"
+    >
+    <a title="Line 78, Col 9: statement executed 1 time." class="nolink">&nbsp;1</a>
+
+</td>
+<td class="  srcCell"  >
+    <span class="spacer"></span><span id="src-78" class="srcLine"><a class="nolink" title="Line 78, Col 9: statement executed 1 time.">        assertEquals(<span class="string">"'x'"</span>, buffer.toString());</a></span></td>
+</tr>
+        
+
+<tr id="l79">
+<td align="right" class="lineCount NoHilight">79</td>
+<td align="right" class="coverageCount NoHilight "
+         >
+    &nbsp;&nbsp;
+
+</td>
+<td class="  srcCell"  >
+    <span class="spacer"></span><span id="src-79" class="srcLine">    }</span></td>
+</tr>
+        
+
+<tr id="l80">
+<td align="right" class="lineCount NoHilight">80</td>
+<td align="right" class="coverageCount NoHilight "
+         >
+    &nbsp;&nbsp;
+
+</td>
+<td class="  srcCell"  >
+    <span class="spacer"></span><span id="src-80" class="srcLine"></span></td>
+</tr>
+           <tr class="inlineStatsRow" align="right" valign="middle" >
+        <td colspan="1"  class="coverageCount">
+            <a name="81" class="nolink">&nbsp;</a>
+        </td>
+        
+       <td class="coverageCount imgbg more" id='inlineStatsToggle-81' onclick="toggleInlineStats(this, 'inlinestats-81');">
+       </td>
+       <td align="center" valign="middle">
+           <table id="inlinestats-81" style="display:none;" class="inlineStats" width="100%" cellspacing="1px" cellpadding="1px">
+           <tr onclick="toggleInlineStats(document.getElementById('inlineStatsToggle-81'), 'inlinestats-81');return true;">
+           <td><div>
+    <div style="width: 40px; font-size:0px;"></div>
+    <div title="0% Not Covered"  style="min-width: 40px;"  class="barNegative barNegative">
+       <div title="100% Covered" class="barPositive barPositive" style="width: 100%"></div>
+    </div>
+</div></td><td>100%</td>
+           <td class="inlineStat">Uncovered Elements: 0 (3)</td>
+           <td class="inlineStat">Complexity: 1</td>
+           <td class="inlineStat">Complexity Density: 0,33</td>
+                        <td class="inlineStat">      <span class="sortValue">1</span>
+    <span class="testResultSuccess">PASS</span>
+  </td>
+                       </tr>
+           </table>
+       </td>
+    </tr>
+  
+
+<tr id="l81">
+<td align="right" class="lineCount Good">81</td>
+<td align="right" class="coverageCount Good hitByTest"
+           onclick="return showTestsForLine(this, 81, 'Tests that hit &lt;span class=\'srcFragment\'&gt; equalsToStringWithObject()&amp;nbsp;:&amp;nbsp;void &lt;/span&gt;');"
+       >
+    <a title="Line 81, Col 5: method entered 1 time." class="nolink">&nbsp;1</a>
+
+</td>
+<td class="  methodStart  srcCell" id="id-81" >
+    <img title="Method Statistics" onclick="toggleSrcRowVis(this, 81,91);" id="img-81" src="../../../img/collapse.gif"  alt="toggle" class="icon"/><span id="src-81" class="srcLine"><a class="nolink" title="Line 81, Col 5: method entered 1 time.">    @Test</a><span class="foldControl" onclick="toggleSrcRowVis(document.getElementById('img-81'), 81,91);" id="e81" style="display:none;border:none;">...</span></span></td>
+</tr>
+        
+
+<tr id="l82">
+<td align="right" class="lineCount NoHilight">82</td>
+<td align="right" class="coverageCount NoHilight "
+         >
+    &nbsp;&nbsp;
+
+</td>
+<td class="  srcCell"  >
+    <span class="spacer"></span><span id="src-82" class="srcLine">    <span class="keyword">public</span> <span class="keyword">void</span> equalsToStringWithObject() {</span></td>
+</tr>
+        
+
+<tr id="l83">
+<td align="right" class="lineCount Good">83</td>
+<td align="right" class="coverageCount Good hitByTest"
+           onclick="return showTestsForLine(this, 83, 'Tests that hit line # 83');"
+    >
+    <a title="Line 83, Col 9: statement executed 1 time." class="nolink">&nbsp;1</a>
+
+</td>
+<td class="  srcCell"  >
+    <span class="spacer"></span><span id="src-83" class="srcLine"><a class="nolink" title="Line 83, Col 9: statement executed 1 time.">        Object o = <span class="keyword">new</span> Object() {</a></span></td>
+</tr>
+           <tr class="inlineStatsRow" align="right" valign="middle" >
+        <td colspan="1"  class="coverageCount">
+            <a name="84" class="nolink">&nbsp;</a>
+        </td>
+        
+       <td class="coverageCount imgbg more" id='inlineStatsToggle-84' onclick="toggleInlineStats(this, 'inlinestats-84');">
+       </td>
+       <td align="center" valign="middle">
+           <table id="inlinestats-84" style="display:none;" class="inlineStats" width="100%" cellspacing="1px" cellpadding="1px">
+           <tr onclick="toggleInlineStats(document.getElementById('inlineStatsToggle-84'), 'inlinestats-84');return true;">
+           <td><div>
+    <div style="width: 40px; font-size:0px;"></div>
+    <div title="0% Not Covered"  style="min-width: 40px;"  class="barNegative barNegative">
+       <div title="100% Covered" class="barPositive barPositive" style="width: 100%"></div>
+    </div>
+</div></td><td>100%</td>
+           <td class="inlineStat">Uncovered Elements: 0 (1)</td>
+           <td class="inlineStat">Complexity: 1</td>
+           <td class="inlineStat">Complexity Density: 1</td>
+                       </tr>
+           </table>
+       </td>
+    </tr>
+  
+
+<tr id="l84">
+<td align="right" class="lineCount Good">84</td>
+<td align="right" class="coverageCount Good hitByTest"
+           onclick="return showTestsForLine(this, 84, 'Tests that hit &lt;span class=\'srcFragment\'&gt; toString()&amp;nbsp;:&amp;nbsp;String &lt;/span&gt;');"
+       >
+    <a title="Line 84, Col 13: method entered 1 time." class="nolink">&nbsp;1</a>
+
+</td>
+<td class="  methodStart  srcCell" id="id-84" >
+    <img title="Method Statistics" onclick="toggleSrcRowVis(this, 84,87);" id="img-84" src="../../../img/collapse.gif"  alt="toggle" class="icon"/><span id="src-84" class="srcLine"><a class="nolink" title="Line 84, Col 13: method entered 1 time.">            @Override</a><span class="foldControl" onclick="toggleSrcRowVis(document.getElementById('img-84'), 84,87);" id="e84" style="display:none;border:none;">...</span></span></td>
+</tr>
+        
+
+<tr id="l85">
+<td align="right" class="lineCount NoHilight">85</td>
+<td align="right" class="coverageCount NoHilight "
+         >
+    &nbsp;&nbsp;
+
+</td>
+<td class="  srcCell"  >
+    <span class="spacer"></span><span id="src-85" class="srcLine">            <span class="keyword">public</span> String toString() {</span></td>
+</tr>
+        
+
+<tr id="l86">
+<td align="right" class="lineCount Good">86</td>
+<td align="right" class="coverageCount Good hitByTest"
+           onclick="return showTestsForLine(this, 86, 'Tests that hit line # 86');"
+    >
+    <a title="Line 86, Col 17: statement executed 1 time." class="nolink">&nbsp;1</a>
+
+</td>
+<td class="  srcCell"  >
+    <span class="spacer"></span><span id="src-86" class="srcLine"><a class="nolink" title="Line 86, Col 17: statement executed 1 time.">                <span class="keyword">return</span> <span class="string">"X"</span>;</a></span></td>
+</tr>
+        
+
+<tr id="l87">
+<td align="right" class="lineCount NoHilight">87</td>
+<td align="right" class="coverageCount NoHilight "
+         >
+    &nbsp;&nbsp;
+
+</td>
+<td class="  srcCell"  >
+    <span class="spacer"></span><span id="src-87" class="srcLine">            }</span></td>
+</tr>
+        
+
+<tr id="l88">
+<td align="right" class="lineCount NoHilight">88</td>
+<td align="right" class="coverageCount NoHilight "
+         >
+    &nbsp;&nbsp;
+
+</td>
+<td class="  srcCell"  >
+    <span class="spacer"></span><span id="src-88" class="srcLine">        };</span></td>
+</tr>
+        
+
+<tr id="l89">
+<td align="right" class="lineCount Good">89</td>
+<td align="right" class="coverageCount Good hitByTest"
+           onclick="return showTestsForLine(this, 89, 'Tests that hit line # 89');"
+    >
+    <a title="Line 89, Col 9: statement executed 1 time." class="nolink">&nbsp;1</a>
+
+</td>
+<td class="  srcCell"  >
+    <span class="spacer"></span><span id="src-89" class="srcLine"><a class="nolink" title="Line 89, Col 9: statement executed 1 time.">        <span class="keyword">new</span> Equals(o).appendTo(buffer);</a></span></td>
+</tr>
+        
+
+<tr id="l90">
+<td align="right" class="lineCount Good">90</td>
+<td align="right" class="coverageCount Good hitByTest"
+           onclick="return showTestsForLine(this, 90, 'Tests that hit line # 90');"
+    >
+    <a title="Line 90, Col 9: statement executed 1 time." class="nolink">&nbsp;1</a>
+
+</td>
+<td class="  srcCell"  >
+    <span class="spacer"></span><span id="src-90" class="srcLine"><a class="nolink" title="Line 90, Col 9: statement executed 1 time.">        assertEquals(<span class="string">"X"</span>, buffer.toString());</a></span></td>
+</tr>
+        
+
+<tr id="l91">
+<td align="right" class="lineCount NoHilight">91</td>
+<td align="right" class="coverageCount NoHilight "
+         >
+    &nbsp;&nbsp;
+
+</td>
+<td class="  srcCell"  >
+    <span class="spacer"></span><span id="src-91" class="srcLine">    }</span></td>
+</tr>
+        
+
+<tr id="l92">
+<td align="right" class="lineCount NoHilight">92</td>
+<td align="right" class="coverageCount NoHilight "
+         >
+    &nbsp;&nbsp;
+
+</td>
+<td class="  srcCell"  >
+    <span class="spacer"></span><span id="src-92" class="srcLine"></span></td>
+</tr>
+           <tr class="inlineStatsRow" align="right" valign="middle" >
+        <td colspan="1"  class="coverageCount">
+            <a name="93" class="nolink">&nbsp;</a>
+        </td>
+        
+       <td class="coverageCount imgbg more" id='inlineStatsToggle-93' onclick="toggleInlineStats(this, 'inlinestats-93');">
+       </td>
+       <td align="center" valign="middle">
+           <table id="inlinestats-93" style="display:none;" class="inlineStats" width="100%" cellspacing="1px" cellpadding="1px">
+           <tr onclick="toggleInlineStats(document.getElementById('inlineStatsToggle-93'), 'inlinestats-93');return true;">
+           <td><div>
+    <div style="width: 40px; font-size:0px;"></div>
+    <div title="0% Not Covered"  style="min-width: 40px;"  class="barNegative barNegative">
+       <div title="100% Covered" class="barPositive barPositive" style="width: 100%"></div>
+    </div>
+</div></td><td>100%</td>
+           <td class="inlineStat">Uncovered Elements: 0 (5)</td>
+           <td class="inlineStat">Complexity: 1</td>
+           <td class="inlineStat">Complexity Density: 0,2</td>
+                        <td class="inlineStat">      <span class="sortValue">1</span>
+    <span class="testResultSuccess">PASS</span>
+  </td>
+                       </tr>
+           </table>
+       </td>
+    </tr>
+  
+
+<tr id="l93">
+<td align="right" class="lineCount Good">93</td>
+<td align="right" class="coverageCount Good hitByTest"
+           onclick="return showTestsForLine(this, 93, 'Tests that hit &lt;span class=\'srcFragment\'&gt; orToString()&amp;nbsp;:&amp;nbsp;void &lt;/span&gt;');"
+       >
+    <a title="Line 93, Col 5: method entered 1 time." class="nolink">&nbsp;1</a>
+
+</td>
+<td class="  methodStart  srcCell" id="id-93" >
+    <img title="Method Statistics" onclick="toggleSrcRowVis(this, 93,100);" id="img-93" src="../../../img/collapse.gif"  alt="toggle" class="icon"/><span id="src-93" class="srcLine"><a class="nolink" title="Line 93, Col 5: method entered 1 time.">    @Test</a><span class="foldControl" onclick="toggleSrcRowVis(document.getElementById('img-93'), 93,100);" id="e93" style="display:none;border:none;">...</span></span></td>
+</tr>
+        
+
+<tr id="l94">
+<td align="right" class="lineCount NoHilight">94</td>
+<td align="right" class="coverageCount NoHilight "
+         >
+    &nbsp;&nbsp;
+
+</td>
+<td class="  srcCell"  >
+    <span class="spacer"></span><span id="src-94" class="srcLine">    <span class="keyword">public</span> <span class="keyword">void</span> orToString() {</span></td>
+</tr>
+        
+
+<tr id="l95">
+<td align="right" class="lineCount Good">95</td>
+<td align="right" class="coverageCount Good hitByTest"
+           onclick="return showTestsForLine(this, 95, 'Tests that hit line # 95');"
+    >
+    <a title="Line 95, Col 9: statement executed 1 time." class="nolink">&nbsp;1</a>
+
+</td>
+<td class="  srcCell"  >
+    <span class="spacer"></span><span id="src-95" class="srcLine"><a class="nolink" title="Line 95, Col 9: statement executed 1 time.">        List&lt;IArgumentMatcher&gt; matchers = <span class="keyword">new</span> ArrayList&lt;IArgumentMatcher&gt;();</a></span></td>
+</tr>
+        
+
+<tr id="l96">
+<td align="right" class="lineCount Good">96</td>
+<td align="right" class="coverageCount Good hitByTest"
+           onclick="return showTestsForLine(this, 96, 'Tests that hit line # 96');"
+    >
+    <a title="Line 96, Col 9: statement executed 1 time." class="nolink">&nbsp;1</a>
+
+</td>
+<td class="  srcCell"  >
+    <span class="spacer"></span><span id="src-96" class="srcLine"><a class="nolink" title="Line 96, Col 9: statement executed 1 time.">        matchers.add(<span class="keyword">new</span> Equals(1));</a></span></td>
+</tr>
+        
+
+<tr id="l97">
+<td align="right" class="lineCount Good">97</td>
+<td align="right" class="coverageCount Good hitByTest"
+           onclick="return showTestsForLine(this, 97, 'Tests that hit line # 97');"
+    >
+    <a title="Line 97, Col 9: statement executed 1 time." class="nolink">&nbsp;1</a>
+
+</td>
+<td class="  srcCell"  >
+    <span class="spacer"></span><span id="src-97" class="srcLine"><a class="nolink" title="Line 97, Col 9: statement executed 1 time.">        matchers.add(<span class="keyword">new</span> Equals(2));</a></span></td>
+</tr>
+        
+
+<tr id="l98">
+<td align="right" class="lineCount Good">98</td>
+<td align="right" class="coverageCount Good hitByTest"
+           onclick="return showTestsForLine(this, 98, 'Tests that hit line # 98');"
+    >
+    <a title="Line 98, Col 9: statement executed 1 time." class="nolink">&nbsp;1</a>
+
+</td>
+<td class="  srcCell"  >
+    <span class="spacer"></span><span id="src-98" class="srcLine"><a class="nolink" title="Line 98, Col 9: statement executed 1 time.">        <span class="keyword">new</span> Or(matchers).appendTo(buffer);</a></span></td>
+</tr>
+        
+
+<tr id="l99">
+<td align="right" class="lineCount Good">99</td>
+<td align="right" class="coverageCount Good hitByTest"
+           onclick="return showTestsForLine(this, 99, 'Tests that hit line # 99');"
+    >
+    <a title="Line 99, Col 9: statement executed 1 time." class="nolink">&nbsp;1</a>
+
+</td>
+<td class="  srcCell"  >
+    <span class="spacer"></span><span id="src-99" class="srcLine"><a class="nolink" title="Line 99, Col 9: statement executed 1 time.">        assertEquals(<span class="string">"or(1, 2)"</span>, buffer.toString());</a></span></td>
+</tr>
+        
+
+<tr id="l100">
+<td align="right" class="lineCount NoHilight">100</td>
+<td align="right" class="coverageCount NoHilight "
+         >
+    &nbsp;&nbsp;
+
+</td>
+<td class="  srcCell"  >
+    <span class="spacer"></span><span id="src-100" class="srcLine">    }</span></td>
+</tr>
+        
+
+<tr id="l101">
+<td align="right" class="lineCount NoHilight">101</td>
+<td align="right" class="coverageCount NoHilight "
+         >
+    &nbsp;&nbsp;
+
+</td>
+<td class="  srcCell"  >
+    <span class="spacer"></span><span id="src-101" class="srcLine"></span></td>
+</tr>
+           <tr class="inlineStatsRow" align="right" valign="middle" >
+        <td colspan="1"  class="coverageCount">
+            <a name="102" class="nolink">&nbsp;</a>
+        </td>
+        
+       <td class="coverageCount imgbg more" id='inlineStatsToggle-102' onclick="toggleInlineStats(this, 'inlinestats-102');">
+       </td>
+       <td align="center" valign="middle">
+           <table id="inlinestats-102" style="display:none;" class="inlineStats" width="100%" cellspacing="1px" cellpadding="1px">
+           <tr onclick="toggleInlineStats(document.getElementById('inlineStatsToggle-102'), 'inlinestats-102');return true;">
+           <td><div>
+    <div style="width: 40px; font-size:0px;"></div>
+    <div title="0% Not Covered"  style="min-width: 40px;"  class="barNegative barNegative">
+       <div title="100% Covered" class="barPositive barPositive" style="width: 100%"></div>
+    </div>
+</div></td><td>100%</td>
+           <td class="inlineStat">Uncovered Elements: 0 (2)</td>
+           <td class="inlineStat">Complexity: 1</td>
+           <td class="inlineStat">Complexity Density: 0,5</td>
+                        <td class="inlineStat">      <span class="sortValue">1</span>
+    <span class="testResultSuccess">PASS</span>
+  </td>
+                       </tr>
+           </table>
+       </td>
+    </tr>
+  
+
+<tr id="l102">
+<td align="right" class="lineCount Good">102</td>
+<td align="right" class="coverageCount Good hitByTest"
+           onclick="return showTestsForLine(this, 102, 'Tests that hit &lt;span class=\'srcFragment\'&gt; notToString()&amp;nbsp;:&amp;nbsp;void &lt;/span&gt;');"
+       >
+    <a title="Line 102, Col 5: method entered 1 time." class="nolink">&nbsp;1</a>
+
+</td>
+<td class="  methodStart  srcCell" id="id-102" >
+    <img title="Method Statistics" onclick="toggleSrcRowVis(this, 102,106);" id="img-102" src="../../../img/collapse.gif"  alt="toggle" class="icon"/><span id="src-102" class="srcLine"><a class="nolink" title="Line 102, Col 5: method entered 1 time.">    @Test</a><span class="foldControl" onclick="toggleSrcRowVis(document.getElementById('img-102'), 102,106);" id="e102" style="display:none;border:none;">...</span></span></td>
+</tr>
+        
+
+<tr id="l103">
+<td align="right" class="lineCount NoHilight">103</td>
+<td align="right" class="coverageCount NoHilight "
+         >
+    &nbsp;&nbsp;
+
+</td>
+<td class="  srcCell"  >
+    <span class="spacer"></span><span id="src-103" class="srcLine">    <span class="keyword">public</span> <span class="keyword">void</span> notToString() {</span></td>
+</tr>
+        
+
+<tr id="l104">
+<td align="right" class="lineCount Good">104</td>
+<td align="right" class="coverageCount Good hitByTest"
+           onclick="return showTestsForLine(this, 104, 'Tests that hit line # 104');"
+    >
+    <a title="Line 104, Col 9: statement executed 1 time." class="nolink">&nbsp;1</a>
+
+</td>
+<td class="  srcCell"  >
+    <span class="spacer"></span><span id="src-104" class="srcLine"><a class="nolink" title="Line 104, Col 9: statement executed 1 time.">        <span class="keyword">new</span> Not(<span class="keyword">new</span> Equals(1)).appendTo(buffer);</a></span></td>
+</tr>
+        
+
+<tr id="l105">
+<td align="right" class="lineCount Good">105</td>
+<td align="right" class="coverageCount Good hitByTest"
+           onclick="return showTestsForLine(this, 105, 'Tests that hit line # 105');"
+    >
+    <a title="Line 105, Col 9: statement executed 1 time." class="nolink">&nbsp;1</a>
+
+</td>
+<td class="  srcCell"  >
+    <span class="spacer"></span><span id="src-105" class="srcLine"><a class="nolink" title="Line 105, Col 9: statement executed 1 time.">        assertEquals(<span class="string">"not(1)"</span>, buffer.toString());</a></span></td>
+</tr>
+        
+
+<tr id="l106">
+<td align="right" class="lineCount NoHilight">106</td>
+<td align="right" class="coverageCount NoHilight "
+         >
+    &nbsp;&nbsp;
+
+</td>
+<td class="  srcCell"  >
+    <span class="spacer"></span><span id="src-106" class="srcLine">    }</span></td>
+</tr>
+        
+
+<tr id="l107">
+<td align="right" class="lineCount NoHilight">107</td>
+<td align="right" class="coverageCount NoHilight "
+         >
+    &nbsp;&nbsp;
+
+</td>
+<td class="  srcCell"  >
+    <span class="spacer"></span><span id="src-107" class="srcLine"></span></td>
+</tr>
+           <tr class="inlineStatsRow" align="right" valign="middle" >
+        <td colspan="1"  class="coverageCount">
+            <a name="108" class="nolink">&nbsp;</a>
+        </td>
+        
+       <td class="coverageCount imgbg more" id='inlineStatsToggle-108' onclick="toggleInlineStats(this, 'inlinestats-108');">
+       </td>
+       <td align="center" valign="middle">
+           <table id="inlinestats-108" style="display:none;" class="inlineStats" width="100%" cellspacing="1px" cellpadding="1px">
+           <tr onclick="toggleInlineStats(document.getElementById('inlineStatsToggle-108'), 'inlinestats-108');return true;">
+           <td><div>
+    <div style="width: 40px; font-size:0px;"></div>
+    <div title="0% Not Covered"  style="min-width: 40px;"  class="barNegative barNegative">
+       <div title="100% Covered" class="barPositive barPositive" style="width: 100%"></div>
+    </div>
+</div></td><td>100%</td>
+           <td class="inlineStat">Uncovered Elements: 0 (5)</td>
+           <td class="inlineStat">Complexity: 1</td>
+           <td class="inlineStat">Complexity Density: 0,2</td>
+                        <td class="inlineStat">      <span class="sortValue">1</span>
+    <span class="testResultSuccess">PASS</span>
+  </td>
+                       </tr>
+           </table>
+       </td>
+    </tr>
+  
+
+<tr id="l108">
+<td align="right" class="lineCount Good">108</td>
+<td align="right" class="coverageCount Good hitByTest"
+           onclick="return showTestsForLine(this, 108, 'Tests that hit &lt;span class=\'srcFragment\'&gt; andToString()&amp;nbsp;:&amp;nbsp;void &lt;/span&gt;');"
+       >
+    <a title="Line 108, Col 5: method entered 1 time." class="nolink">&nbsp;1</a>
+
+</td>
+<td class="  methodStart  srcCell" id="id-108" >
+    <img title="Method Statistics" onclick="toggleSrcRowVis(this, 108,115);" id="img-108" src="../../../img/collapse.gif"  alt="toggle" class="icon"/><span id="src-108" class="srcLine"><a class="nolink" title="Line 108, Col 5: method entered 1 time.">    @Test</a><span class="foldControl" onclick="toggleSrcRowVis(document.getElementById('img-108'), 108,115);" id="e108" style="display:none;border:none;">...</span></span></td>
+</tr>
+        
+
+<tr id="l109">
+<td align="right" class="lineCount NoHilight">109</td>
+<td align="right" class="coverageCount NoHilight "
+         >
+    &nbsp;&nbsp;
+
+</td>
+<td class="  srcCell"  >
+    <span class="spacer"></span><span id="src-109" class="srcLine">    <span class="keyword">public</span> <span class="keyword">void</span> andToString() {</span></td>
+</tr>
+        
+
+<tr id="l110">
+<td align="right" class="lineCount Good">110</td>
+<td align="right" class="coverageCount Good hitByTest"
+           onclick="return showTestsForLine(this, 110, 'Tests that hit line # 110');"
+    >
+    <a title="Line 110, Col 9: statement executed 1 time." class="nolink">&nbsp;1</a>
+
+</td>
+<td class="  srcCell"  >
+    <span class="spacer"></span><span id="src-110" class="srcLine"><a class="nolink" title="Line 110, Col 9: statement executed 1 time.">        List&lt;IArgumentMatcher&gt; matchers = <span class="keyword">new</span> ArrayList&lt;IArgumentMatcher&gt;();</a></span></td>
+</tr>
+        
+
+<tr id="l111">
+<td align="right" class="lineCount Good">111</td>
+<td align="right" class="coverageCount Good hitByTest"
+           onclick="return showTestsForLine(this, 111, 'Tests that hit line # 111');"
+    >
+    <a title="Line 111, Col 9: statement executed 1 time." class="nolink">&nbsp;1</a>
+
+</td>
+<td class="  srcCell"  >
+    <span class="spacer"></span><span id="src-111" class="srcLine"><a class="nolink" title="Line 111, Col 9: statement executed 1 time.">        matchers.add(<span class="keyword">new</span> Equals(1));</a></span></td>
+</tr>
+        
+
+<tr id="l112">
+<td align="right" class="lineCount Good">112</td>
+<td align="right" class="coverageCount Good hitByTest"
+           onclick="return showTestsForLine(this, 112, 'Tests that hit line # 112');"
+    >
+    <a title="Line 112, Col 9: statement executed 1 time." class="nolink">&nbsp;1</a>
+
+</td>
+<td class="  srcCell"  >
+    <span class="spacer"></span><span id="src-112" class="srcLine"><a class="nolink" title="Line 112, Col 9: statement executed 1 time.">        matchers.add(<span class="keyword">new</span> Equals(2));</a></span></td>
+</tr>
+        
+
+<tr id="l113">
+<td align="right" class="lineCount Good">113</td>
+<td align="right" class="coverageCount Good hitByTest"
+           onclick="return showTestsForLine(this, 113, 'Tests that hit line # 113');"
+    >
+    <a title="Line 113, Col 9: statement executed 1 time." class="nolink">&nbsp;1</a>
+
+</td>
+<td class="  srcCell"  >
+    <span class="spacer"></span><span id="src-113" class="srcLine"><a class="nolink" title="Line 113, Col 9: statement executed 1 time.">        <span class="keyword">new</span> And(matchers).appendTo(buffer);</a></span></td>
+</tr>
+        
+
+<tr id="l114">
+<td align="right" class="lineCount Good">114</td>
+<td align="right" class="coverageCount Good hitByTest"
+           onclick="return showTestsForLine(this, 114, 'Tests that hit line # 114');"
+    >
+    <a title="Line 114, Col 9: statement executed 1 time." class="nolink">&nbsp;1</a>
+
+</td>
+<td class="  srcCell"  >
+    <span class="spacer"></span><span id="src-114" class="srcLine"><a class="nolink" title="Line 114, Col 9: statement executed 1 time.">        assertEquals(<span class="string">"and(1, 2)"</span>, buffer.toString());</a></span></td>
+</tr>
+        
+
+<tr id="l115">
+<td align="right" class="lineCount NoHilight">115</td>
+<td align="right" class="coverageCount NoHilight "
+         >
+    &nbsp;&nbsp;
+
+</td>
+<td class="  srcCell"  >
+    <span class="spacer"></span><span id="src-115" class="srcLine">    }</span></td>
+</tr>
+        
+
+<tr id="l116">
+<td align="right" class="lineCount NoHilight">116</td>
+<td align="right" class="coverageCount NoHilight "
+         >
+    &nbsp;&nbsp;
+
+</td>
+<td class="  srcCell"  >
+    <span class="spacer"></span><span id="src-116" class="srcLine"></span></td>
+</tr>
+           <tr class="inlineStatsRow" align="right" valign="middle" >
+        <td colspan="1"  class="coverageCount">
+            <a name="117" class="nolink">&nbsp;</a>
+        </td>
+        
+       <td class="coverageCount imgbg more" id='inlineStatsToggle-117' onclick="toggleInlineStats(this, 'inlinestats-117');">
+       </td>
+       <td align="center" valign="middle">
+           <table id="inlinestats-117" style="display:none;" class="inlineStats" width="100%" cellspacing="1px" cellpadding="1px">
+           <tr onclick="toggleInlineStats(document.getElementById('inlineStatsToggle-117'), 'inlinestats-117');return true;">
+           <td><div>
+    <div style="width: 40px; font-size:0px;"></div>
+    <div title="0% Not Covered"  style="min-width: 40px;"  class="barNegative barNegative">
+       <div title="100% Covered" class="barPositive barPositive" style="width: 100%"></div>
+    </div>
+</div></td><td>100%</td>
+           <td class="inlineStat">Uncovered Elements: 0 (2)</td>
+           <td class="inlineStat">Complexity: 1</td>
+           <td class="inlineStat">Complexity Density: 0,5</td>
+                        <td class="inlineStat">      <span class="sortValue">1</span>
+    <span class="testResultSuccess">PASS</span>
+  </td>
+                       </tr>
+           </table>
+       </td>
+    </tr>
+  
+
+<tr id="l117">
+<td align="right" class="lineCount Good">117</td>
+<td align="right" class="coverageCount Good hitByTest"
+           onclick="return showTestsForLine(this, 117, 'Tests that hit &lt;span class=\'srcFragment\'&gt; startsWithToString()&amp;nbsp;:&amp;nbsp;void &lt;/span&gt;');"
+       >
+    <a title="Line 117, Col 5: method entered 1 time." class="nolink">&nbsp;1</a>
+
+</td>
+<td class="  methodStart  srcCell" id="id-117" >
+    <img title="Method Statistics" onclick="toggleSrcRowVis(this, 117,121);" id="img-117" src="../../../img/collapse.gif"  alt="toggle" class="icon"/><span id="src-117" class="srcLine"><a class="nolink" title="Line 117, Col 5: method entered 1 time.">    @Test</a><span class="foldControl" onclick="toggleSrcRowVis(document.getElementById('img-117'), 117,121);" id="e117" style="display:none;border:none;">...</span></span></td>
+</tr>
+        
+
+<tr id="l118">
+<td align="right" class="lineCount NoHilight">118</td>
+<td align="right" class="coverageCount NoHilight "
+         >
+    &nbsp;&nbsp;
+
+</td>
+<td class="  srcCell"  >
+    <span class="spacer"></span><span id="src-118" class="srcLine">    <span class="keyword">public</span> <span class="keyword">void</span> startsWithToString() {</span></td>
+</tr>
+        
+
+<tr id="l119">
+<td align="right" class="lineCount Good">119</td>
+<td align="right" class="coverageCount Good hitByTest"
+           onclick="return showTestsForLine(this, 119, 'Tests that hit line # 119');"
+    >
+    <a title="Line 119, Col 9: statement executed 1 time." class="nolink">&nbsp;1</a>
+
+</td>
+<td class="  srcCell"  >
+    <span class="spacer"></span><span id="src-119" class="srcLine"><a class="nolink" title="Line 119, Col 9: statement executed 1 time.">        <span class="keyword">new</span> StartsWith(<span class="string">"AB"</span>).appendTo(buffer);</a></span></td>
+</tr>
+        
+
+<tr id="l120">
+<td align="right" class="lineCount Good">120</td>
+<td align="right" class="coverageCount Good hitByTest"
+           onclick="return showTestsForLine(this, 120, 'Tests that hit line # 120');"
+    >
+    <a title="Line 120, Col 9: statement executed 1 time." class="nolink">&nbsp;1</a>
+
+</td>
+<td class="  srcCell"  >
+    <span class="spacer"></span><span id="src-120" class="srcLine"><a class="nolink" title="Line 120, Col 9: statement executed 1 time.">        assertEquals(<span class="string">"startsWith(\"AB\")"</span>, buffer.toString());</a></span></td>
+</tr>
+        
+
+<tr id="l121">
+<td align="right" class="lineCount NoHilight">121</td>
+<td align="right" class="coverageCount NoHilight "
+         >
+    &nbsp;&nbsp;
+
+</td>
+<td class="  srcCell"  >
+    <span class="spacer"></span><span id="src-121" class="srcLine">    }</span></td>
+</tr>
+        
+
+<tr id="l122">
+<td align="right" class="lineCount NoHilight">122</td>
+<td align="right" class="coverageCount NoHilight "
+         >
+    &nbsp;&nbsp;
+
+</td>
+<td class="  srcCell"  >
+    <span class="spacer"></span><span id="src-122" class="srcLine"></span></td>
+</tr>
+           <tr class="inlineStatsRow" align="right" valign="middle" >
+        <td colspan="1"  class="coverageCount">
+            <a name="123" class="nolink">&nbsp;</a>
+        </td>
+        
+       <td class="coverageCount imgbg more" id='inlineStatsToggle-123' onclick="toggleInlineStats(this, 'inlinestats-123');">
+       </td>
+       <td align="center" valign="middle">
+           <table id="inlinestats-123" style="display:none;" class="inlineStats" width="100%" cellspacing="1px" cellpadding="1px">
+           <tr onclick="toggleInlineStats(document.getElementById('inlineStatsToggle-123'), 'inlinestats-123');return true;">
+           <td><div>
+    <div style="width: 40px; font-size:0px;"></div>
+    <div title="0% Not Covered"  style="min-width: 40px;"  class="barNegative barNegative">
+       <div title="100% Covered" class="barPositive barPositive" style="width: 100%"></div>
+    </div>
+</div></td><td>100%</td>
+           <td class="inlineStat">Uncovered Elements: 0 (2)</td>
+           <td class="inlineStat">Complexity: 1</td>
+           <td class="inlineStat">Complexity Density: 0,5</td>
+                        <td class="inlineStat">      <span class="sortValue">1</span>
+    <span class="testResultSuccess">PASS</span>
+  </td>
+                       </tr>
+           </table>
+       </td>
+    </tr>
+  
+
+<tr id="l123">
+<td align="right" class="lineCount Good">123</td>
+<td align="right" class="coverageCount Good hitByTest"
+           onclick="return showTestsForLine(this, 123, 'Tests that hit &lt;span class=\'srcFragment\'&gt; endsWithToString()&amp;nbsp;:&amp;nbsp;void &lt;/span&gt;');"
+       >
+    <a title="Line 123, Col 5: method entered 1 time." class="nolink">&nbsp;1</a>
+
+</td>
+<td class="  methodStart  srcCell" id="id-123" >
+    <img title="Method Statistics" onclick="toggleSrcRowVis(this, 123,127);" id="img-123" src="../../../img/collapse.gif"  alt="toggle" class="icon"/><span id="src-123" class="srcLine"><a class="nolink" title="Line 123, Col 5: method entered 1 time.">    @Test</a><span class="foldControl" onclick="toggleSrcRowVis(document.getElementById('img-123'), 123,127);" id="e123" style="display:none;border:none;">...</span></span></td>
+</tr>
+        
+
+<tr id="l124">
+<td align="right" class="lineCount NoHilight">124</td>
+<td align="right" class="coverageCount NoHilight "
+         >
+    &nbsp;&nbsp;
+
+</td>
+<td class="  srcCell"  >
+    <span class="spacer"></span><span id="src-124" class="srcLine">    <span class="keyword">public</span> <span class="keyword">void</span> endsWithToString() {</span></td>
+</tr>
+        
+
+<tr id="l125">
+<td align="right" class="lineCount Good">125</td>
+<td align="right" class="coverageCount Good hitByTest"
+           onclick="return showTestsForLine(this, 125, 'Tests that hit line # 125');"
+    >
+    <a title="Line 125, Col 9: statement executed 1 time." class="nolink">&nbsp;1</a>
+
+</td>
+<td class="  srcCell"  >
+    <span class="spacer"></span><span id="src-125" class="srcLine"><a class="nolink" title="Line 125, Col 9: statement executed 1 time.">        <span class="keyword">new</span> EndsWith(<span class="string">"AB"</span>).appendTo(buffer);</a></span></td>
+</tr>
+        
+
+<tr id="l126">
+<td align="right" class="lineCount Good">126</td>
+<td align="right" class="coverageCount Good hitByTest"
+           onclick="return showTestsForLine(this, 126, 'Tests that hit line # 126');"
+    >
+    <a title="Line 126, Col 9: statement executed 1 time." class="nolink">&nbsp;1</a>
+
+</td>
+<td class="  srcCell"  >
+    <span class="spacer"></span><span id="src-126" class="srcLine"><a class="nolink" title="Line 126, Col 9: statement executed 1 time.">        assertEquals(<span class="string">"endsWith(\"AB\")"</span>, buffer.toString());</a></span></td>
+</tr>
+        
+
+<tr id="l127">
+<td align="right" class="lineCount NoHilight">127</td>
+<td align="right" class="coverageCount NoHilight "
+         >
+    &nbsp;&nbsp;
+
+</td>
+<td class="  srcCell"  >
+    <span class="spacer"></span><span id="src-127" class="srcLine">    }</span></td>
+</tr>
+        
+
+<tr id="l128">
+<td align="right" class="lineCount NoHilight">128</td>
+<td align="right" class="coverageCount NoHilight "
+         >
+    &nbsp;&nbsp;
+
+</td>
+<td class="  srcCell"  >
+    <span class="spacer"></span><span id="src-128" class="srcLine"></span></td>
+</tr>
+           <tr class="inlineStatsRow" align="right" valign="middle" >
+        <td colspan="1"  class="coverageCount">
+            <a name="129" class="nolink">&nbsp;</a>
+        </td>
+        
+       <td class="coverageCount imgbg more" id='inlineStatsToggle-129' onclick="toggleInlineStats(this, 'inlinestats-129');">
+       </td>
+       <td align="center" valign="middle">
+           <table id="inlinestats-129" style="display:none;" class="inlineStats" width="100%" cellspacing="1px" cellpadding="1px">
+           <tr onclick="toggleInlineStats(document.getElementById('inlineStatsToggle-129'), 'inlinestats-129');return true;">
+           <td><div>
+    <div style="width: 40px; font-size:0px;"></div>
+    <div title="0% Not Covered"  style="min-width: 40px;"  class="barNegative barNegative">
+       <div title="100% Covered" class="barPositive barPositive" style="width: 100%"></div>
+    </div>
+</div></td><td>100%</td>
+           <td class="inlineStat">Uncovered Elements: 0 (2)</td>
+           <td class="inlineStat">Complexity: 1</td>
+           <td class="inlineStat">Complexity Density: 0,5</td>
+                        <td class="inlineStat">      <span class="sortValue">1</span>
+    <span class="testResultSuccess">PASS</span>
+  </td>
+                       </tr>
+           </table>
+       </td>
+    </tr>
+  
+
+<tr id="l129">
+<td align="right" class="lineCount Good">129</td>
+<td align="right" class="coverageCount Good hitByTest"
+           onclick="return showTestsForLine(this, 129, 'Tests that hit &lt;span class=\'srcFragment\'&gt; containsToString()&amp;nbsp;:&amp;nbsp;void &lt;/span&gt;');"
+       >
+    <a title="Line 129, Col 5: method entered 1 time." class="nolink">&nbsp;1</a>
+
+</td>
+<td class="  methodStart  srcCell" id="id-129" >
+    <img title="Method Statistics" onclick="toggleSrcRowVis(this, 129,133);" id="img-129" src="../../../img/collapse.gif"  alt="toggle" class="icon"/><span id="src-129" class="srcLine"><a class="nolink" title="Line 129, Col 5: method entered 1 time.">    @Test</a><span class="foldControl" onclick="toggleSrcRowVis(document.getElementById('img-129'), 129,133);" id="e129" style="display:none;border:none;">...</span></span></td>
+</tr>
+        
+
+<tr id="l130">
+<td align="right" class="lineCount NoHilight">130</td>
+<td align="right" class="coverageCount NoHilight "
+         >
+    &nbsp;&nbsp;
+
+</td>
+<td class="  srcCell"  >
+    <span class="spacer"></span><span id="src-130" class="srcLine">    <span class="keyword">public</span> <span class="keyword">void</span> containsToString() {</span></td>
+</tr>
+        
+
+<tr id="l131">
+<td align="right" class="lineCount Good">131</td>
+<td align="right" class="coverageCount Good hitByTest"
+           onclick="return showTestsForLine(this, 131, 'Tests that hit line # 131');"
+    >
+    <a title="Line 131, Col 9: statement executed 1 time." class="nolink">&nbsp;1</a>
+
+</td>
+<td class="  srcCell"  >
+    <span class="spacer"></span><span id="src-131" class="srcLine"><a class="nolink" title="Line 131, Col 9: statement executed 1 time.">        <span class="keyword">new</span> Contains(<span class="string">"AB"</span>).appendTo(buffer);</a></span></td>
+</tr>
+        
+
+<tr id="l132">
+<td align="right" class="lineCount Good">132</td>
+<td align="right" class="coverageCount Good hitByTest"
+           onclick="return showTestsForLine(this, 132, 'Tests that hit line # 132');"
+    >
+    <a title="Line 132, Col 9: statement executed 1 time." class="nolink">&nbsp;1</a>
+
+</td>
+<td class="  srcCell"  >
+    <span class="spacer"></span><span id="src-132" class="srcLine"><a class="nolink" title="Line 132, Col 9: statement executed 1 time.">        assertEquals(<span class="string">"contains(\"AB\")"</span>, buffer.toString());</a></span></td>
+</tr>
+        
+
+<tr id="l133">
+<td align="right" class="lineCount NoHilight">133</td>
+<td align="right" class="coverageCount NoHilight "
+         >
+    &nbsp;&nbsp;
+
+</td>
+<td class="  srcCell"  >
+    <span class="spacer"></span><span id="src-133" class="srcLine">    }</span></td>
+</tr>
+        
+
+<tr id="l134">
+<td align="right" class="lineCount NoHilight">134</td>
+<td align="right" class="coverageCount NoHilight "
+         >
+    &nbsp;&nbsp;
+
+</td>
+<td class="  srcCell"  >
+    <span class="spacer"></span><span id="src-134" class="srcLine"></span></td>
+</tr>
+           <tr class="inlineStatsRow" align="right" valign="middle" >
+        <td colspan="1"  class="coverageCount">
+            <a name="135" class="nolink">&nbsp;</a>
+        </td>
+        
+       <td class="coverageCount imgbg more" id='inlineStatsToggle-135' onclick="toggleInlineStats(this, 'inlinestats-135');">
+       </td>
+       <td align="center" valign="middle">
+           <table id="inlinestats-135" style="display:none;" class="inlineStats" width="100%" cellspacing="1px" cellpadding="1px">
+           <tr onclick="toggleInlineStats(document.getElementById('inlineStatsToggle-135'), 'inlinestats-135');return true;">
+           <td><div>
+    <div style="width: 40px; font-size:0px;"></div>
+    <div title="0% Not Covered"  style="min-width: 40px;"  class="barNegative barNegative">
+       <div title="100% Covered" class="barPositive barPositive" style="width: 100%"></div>
+    </div>
+</div></td><td>100%</td>
+           <td class="inlineStat">Uncovered Elements: 0 (2)</td>
+           <td class="inlineStat">Complexity: 1</td>
+           <td class="inlineStat">Complexity Density: 0,5</td>
+                        <td class="inlineStat">      <span class="sortValue">1</span>
+    <span class="testResultSuccess">PASS</span>
+  </td>
+                       </tr>
+           </table>
+       </td>
+    </tr>
+  
+
+<tr id="l135">
+<td align="right" class="lineCount Good">135</td>
+<td align="right" class="coverageCount Good hitByTest"
+           onclick="return showTestsForLine(this, 135, 'Tests that hit &lt;span class=\'srcFragment\'&gt; findToString()&amp;nbsp;:&amp;nbsp;void &lt;/span&gt;');"
+       >
+    <a title="Line 135, Col 5: method entered 1 time." class="nolink">&nbsp;1</a>
+
+</td>
+<td class="  methodStart  srcCell" id="id-135" >
+    <img title="Method Statistics" onclick="toggleSrcRowVis(this, 135,139);" id="img-135" src="../../../img/collapse.gif"  alt="toggle" class="icon"/><span id="src-135" class="srcLine"><a class="nolink" title="Line 135, Col 5: method entered 1 time.">    @Test</a><span class="foldControl" onclick="toggleSrcRowVis(document.getElementById('img-135'), 135,139);" id="e135" style="display:none;border:none;">...</span></span></td>
+</tr>
+        
+
+<tr id="l136">
+<td align="right" class="lineCount NoHilight">136</td>
+<td align="right" class="coverageCount NoHilight "
+         >
+    &nbsp;&nbsp;
+
+</td>
+<td class="  srcCell"  >
+    <span class="spacer"></span><span id="src-136" class="srcLine">    <span class="keyword">public</span> <span class="keyword">void</span> findToString() {</span></td>
+</tr>
+        
+
+<tr id="l137">
+<td align="right" class="lineCount Good">137</td>
+<td align="right" class="coverageCount Good hitByTest"
+           onclick="return showTestsForLine(this, 137, 'Tests that hit line # 137');"
+    >
+    <a title="Line 137, Col 9: statement executed 1 time." class="nolink">&nbsp;1</a>
+
+</td>
+<td class="  srcCell"  >
+    <span class="spacer"></span><span id="src-137" class="srcLine"><a class="nolink" title="Line 137, Col 9: statement executed 1 time.">        <span class="keyword">new</span> Find(<span class="string">"\\s+"</span>).appendTo(buffer);</a></span></td>
+</tr>
+        
+
+<tr id="l138">
+<td align="right" class="lineCount Good">138</td>
+<td align="right" class="coverageCount Good hitByTest"
+           onclick="return showTestsForLine(this, 138, 'Tests that hit line # 138');"
+    >
+    <a title="Line 138, Col 9: statement executed 1 time." class="nolink">&nbsp;1</a>
+
+</td>
+<td class="  srcCell"  >
+    <span class="spacer"></span><span id="src-138" class="srcLine"><a class="nolink" title="Line 138, Col 9: statement executed 1 time.">        assertEquals(<span class="string">"find(\"\\\\s+\")"</span>, buffer.toString());</a></span></td>
+</tr>
+        
+
+<tr id="l139">
+<td align="right" class="lineCount NoHilight">139</td>
+<td align="right" class="coverageCount NoHilight "
+         >
+    &nbsp;&nbsp;
+
+</td>
+<td class="  srcCell"  >
+    <span class="spacer"></span><span id="src-139" class="srcLine">    }</span></td>
+</tr>
+        
+
+<tr id="l140">
+<td align="right" class="lineCount NoHilight">140</td>
+<td align="right" class="coverageCount NoHilight "
+         >
+    &nbsp;&nbsp;
+
+</td>
+<td class="  srcCell"  >
+    <span class="spacer"></span><span id="src-140" class="srcLine"></span></td>
+</tr>
+           <tr class="inlineStatsRow" align="right" valign="middle" >
+        <td colspan="1"  class="coverageCount">
+            <a name="141" class="nolink">&nbsp;</a>
+        </td>
+        
+       <td class="coverageCount imgbg more" id='inlineStatsToggle-141' onclick="toggleInlineStats(this, 'inlinestats-141');">
+       </td>
+       <td align="center" valign="middle">
+           <table id="inlinestats-141" style="display:none;" class="inlineStats" width="100%" cellspacing="1px" cellpadding="1px">
+           <tr onclick="toggleInlineStats(document.getElementById('inlineStatsToggle-141'), 'inlinestats-141');return true;">
+           <td><div>
+    <div style="width: 40px; font-size:0px;"></div>
+    <div title="0% Not Covered"  style="min-width: 40px;"  class="barNegative barNegative">
+       <div title="100% Covered" class="barPositive barPositive" style="width: 100%"></div>
+    </div>
+</div></td><td>100%</td>
+           <td class="inlineStat">Uncovered Elements: 0 (2)</td>
+           <td class="inlineStat">Complexity: 1</td>
+           <td class="inlineStat">Complexity Density: 0,5</td>
+                        <td class="inlineStat">      <span class="sortValue">1</span>
+    <span class="testResultSuccess">PASS</span>
+  </td>
+                       </tr>
+           </table>
+       </td>
+    </tr>
+  
+
+<tr id="l141">
+<td align="right" class="lineCount Good">141</td>
+<td align="right" class="coverageCount Good hitByTest"
+           onclick="return showTestsForLine(this, 141, 'Tests that hit &lt;span class=\'srcFragment\'&gt; matchesToString()&amp;nbsp;:&amp;nbsp;void &lt;/span&gt;');"
+       >
+    <a title="Line 141, Col 5: method entered 1 time." class="nolink">&nbsp;1</a>
+
+</td>
+<td class="  methodStart  srcCell" id="id-141" >
+    <img title="Method Statistics" onclick="toggleSrcRowVis(this, 141,145);" id="img-141" src="../../../img/collapse.gif"  alt="toggle" class="icon"/><span id="src-141" class="srcLine"><a class="nolink" title="Line 141, Col 5: method entered 1 time.">    @Test</a><span class="foldControl" onclick="toggleSrcRowVis(document.getElementById('img-141'), 141,145);" id="e141" style="display:none;border:none;">...</span></span></td>
+</tr>
+        
+
+<tr id="l142">
+<td align="right" class="lineCount NoHilight">142</td>
+<td align="right" class="coverageCount NoHilight "
+         >
+    &nbsp;&nbsp;
+
+</td>
+<td class="  srcCell"  >
+    <span class="spacer"></span><span id="src-142" class="srcLine">    <span class="keyword">public</span> <span class="keyword">void</span> matchesToString() {</span></td>
+</tr>
+        
+
+<tr id="l143">
+<td align="right" class="lineCount Good">143</td>
+<td align="right" class="coverageCount Good hitByTest"
+           onclick="return showTestsForLine(this, 143, 'Tests that hit line # 143');"
+    >
+    <a title="Line 143, Col 9: statement executed 1 time." class="nolink">&nbsp;1</a>
+
+</td>
+<td class="  srcCell"  >
+    <span class="spacer"></span><span id="src-143" class="srcLine"><a class="nolink" title="Line 143, Col 9: statement executed 1 time.">        <span class="keyword">new</span> Matches(<span class="string">"\\s+"</span>).appendTo(buffer);</a></span></td>
+</tr>
+        
+
+<tr id="l144">
+<td align="right" class="lineCount Good">144</td>
+<td align="right" class="coverageCount Good hitByTest"
+           onclick="return showTestsForLine(this, 144, 'Tests that hit line # 144');"
+    >
+    <a title="Line 144, Col 9: statement executed 1 time." class="nolink">&nbsp;1</a>
+
+</td>
+<td class="  srcCell"  >
+    <span class="spacer"></span><span id="src-144" class="srcLine"><a class="nolink" title="Line 144, Col 9: statement executed 1 time.">        assertEquals(<span class="string">"matches(\"\\\\s+\")"</span>, buffer.toString());</a></span></td>
+</tr>
+        
+
+<tr id="l145">
+<td align="right" class="lineCount NoHilight">145</td>
+<td align="right" class="coverageCount NoHilight "
+         >
+    &nbsp;&nbsp;
+
+</td>
+<td class="  srcCell"  >
+    <span class="spacer"></span><span id="src-145" class="srcLine">    }</span></td>
+</tr>
+        
+
+<tr id="l146">
+<td align="right" class="lineCount NoHilight">146</td>
+<td align="right" class="coverageCount NoHilight "
+         >
+    &nbsp;&nbsp;
+
+</td>
+<td class="  srcCell"  >
+    <span class="spacer"></span><span id="src-146" class="srcLine"></span></td>
+</tr>
+        
+
+<tr id="l147">
+<td align="right" class="lineCount NoHilight">147</td>
+<td align="right" class="coverageCount NoHilight "
+         >
+    &nbsp;&nbsp;
+
+</td>
+<td class="  srcCell"  >
+    <span class="spacer"></span><span id="src-147" class="srcLine">}</span></td>
+</tr>
+</tbody></table>
+<table width="100%"><tr><td class="hbreak" colspan="6">&nbsp;</td></tr>
+<tr><td class="footer" colspan="6">
+<table>
+<tr>
+ <td><a target="_new" href="http://www.atlassian.com/software/clover"><img alt="Clover" src="../../../img/logo.gif" style="border:none"/></a></td><td style="white-space:nowrap;"><i>Report generated by </i><a target="_new" href="http://www.atlassian.com/software/clover">Clover Code Coverage v2.1.0</a><i><br/>mer. juil. 2 2008 02:17:39 CEST</i>.</td>
+<td>&nbsp;</td><td style="BORDER-LEFT: #9c9c9c 1px solid;">&nbsp;</td><td>Clover: Open Source License registered to EasyMock . </td>
+</tr>
+</table>
+</td>
+</tr></table>
+<script type="text/javascript">
+    var ol_bgclass = "overBG";
+    var ol_fgclass = "overFG";
+    var ol_captionfontclass= "overCaption";
+    var ol_closefontclass = "closeFont";
+    var ol_closeclick = 1;
+    var ol_close = 'X';
+    var ol_wrap = 1;
+    var rootRelPath = '../../../';
+    var testsPerFile = -1;
+</script>
+<script src="ConstraintsToStringTest.js" type="text/javascript"></script>
+<script src="../../../help.js" type="text/javascript"></script>
+<script src="../../../clover.js" type="text/javascript"></script>
+<script src="../../../sorttable.js" type="text/javascript"></script>
+<script src="../../../overlib.js" type="text/javascript"><!-- overLIB (c) Erik Bosrup --></script>
+<script src="../../../overlib_shadow.js" type="text/javascript" ></script>
+<script src="../../../utils.js" type="text/javascript"></script>
+</body>
+
+</html>
