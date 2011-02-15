@@ -1,0 +1,3020 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<title>EasyMock 2.4</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+<style type="text/css" media="screen">
+    @import url('../../../style.css');
+    @import url('../../../roundedcorners.css');
+</style>
+
+</head>
+<body onload="onLoad('EasyMock 2.4: org.easymock.internal.RuntimeExceptionWrapper.java');">
+ 
+ <table cellspacing="0" cellpadding="2" class="barGraph"><tbody>
+  <tr>
+    <td colspan="6">
+
+    <div class="roundedLarge">
+      <b class="ctop"><b class="cb1"></b><b class="cb2"></b><b class="cb3"></b><b class="cb4"></b></b>
+      <div class="roundedContent">
+    <table width="100%" class="" cellspacing="0"><tr class="reportHeader">
+    <td valign="top" class="titleText">Clover Coverage  Report - <a href="http://www.easymock.org" target="_top">EasyMock 2.4</a><div class="timestamp"><b>Coverage timestamp:</b>&nbsp;mer. juil. 2 2008 02:17:38 CEST</div>
+
+        
+    
+            <div class="navBar"><a href="../../../pkg-summary.html"><b>Overview</b></a>&nbsp;&nbsp;&nbsp;<a href="pkg-summary.html"><b>Package</b></a>&nbsp;&nbsp;&nbsp;<span class="navBarCurrent">File</span></div>
+    
+    <div class="navBarLink">
+        &nbsp;&nbsp;&nbsp;
+        <a href="../../../index.html" target="_top">FRAMES</a>&nbsp;&nbsp;
+        <a href="RuntimeExceptionWrapper.html" target="_top">NO FRAMES</a>&nbsp;&nbsp;
+        <label onclick="toggleHelp(this);" class="nonHelpItem">SHOW HELP</label>&nbsp;&nbsp;
+    </div>
+
+    </td>
+        
+        
+
+     <td  id="td-header-stats" class="headerStats" valign="top" style="font-weight: normal;width:40%; text-align: right; display: ;">
+         <table style="text-align: right; white-space:nowrap;">
+         <tr>
+           <td colspan="11" class="totalText" style="text-align: left"><label>Statistics for file RuntimeExceptionWrapper.java:</label></td>
+         </tr>
+         <tr>
+           <td  class="totalText"><label onkeyup="return help_stmts + 'file';">Stmts:</label></td>
+           <td >      2
+  </td>
+           <td style="width: 5%">&nbsp;</td>
+           <td  class="totalText"><label onkeyup="return help_loc + 'file';">LOC:</label></td>
+           <td >      20
+  </td>
+           <td style="width: 10%">&nbsp;</td>
+           <td  class="totalText"><label onkeyup="return help_cmp + 'file';">Total cmp:</label></td>
+           <td >      2
+  </td>
+           <td style="width: 5%">&nbsp;</td>
+           <td  class="totalText"><label onkeyup="return help_stmts_per_method;">Stmts/Method:</label></td>
+           <td >      1
+  </td>
+         </tr>
+         <tr>
+           <td  class="totalText"><label onkeyup="return help_branches + 'file';">Branches:</label></td>
+           <td >      0
+  </td>
+           <td style="width: 5%">&nbsp;</td>
+           <td  class="totalText"><label onkeyup="return help_ncloc + 'file';">NCLOC:</label></td>
+           <td >      11
+  </td>
+           <td style="width: 10%">&nbsp;</td>
+           <td  class="totalText"><label onkeyup="return help_cmp_density + 'file';">Cmp density:</label></td>
+           <td >      1
+  </td>
+           <td style="width: 5%">&nbsp;</td>
+           <td  class="totalText"><label onkeyup="return help_methods_per_class;">Methods/Class:</label></td>
+           <td >      2
+  </td>
+         </tr>
+         <tr>
+           <td  class="totalText"><label onkeyup="return help_methods + 'file';">Methods:</label></td>
+           <td >      2
+  </td>
+           <td style="width: 5%">&nbsp;</td>
+                    <td colspan="2"></td>
+                    <td style="width: 10%">&nbsp;</td>
+           <td  class="totalText"><label onkeyup="return help_avg_method_cmp + 'file';">Avg method cmp:</label></td>
+           <td >      1
+  </td>
+           <td style="width: 5%">&nbsp;</td>
+                      <td colspan="2"></td>
+          
+         </tr>
+         <tr>
+            <td  class="totalText"><label onkeyup="return help_classes + 'file';">Classes:</label></td>
+            <td >      1
+  </td>
+            <td style="width: 5%">&nbsp;</td>
+                      <td colspan="2"></td>
+                     <td style="width: 10%">&nbsp;</td>
+         </tr>
+         <tr class="totalText">
+             <td colspan="1">
+                <a class="sortable totalText" onclick="toggleStats('td-header-stats', 'td-filtered-header-stats');"><label onkeyup="return help_filter_stats;">Filtered</label></a>
+             </td>
+             <td colspan="5">&nbsp;</td>
+
+         </tr>
+      </table>
+     </td>
+
+    
+    
+
+     <td  id="td-filtered-header-stats" class="headerStats" valign="top" style="font-weight: normal;width:40%; text-align: right; display: none;">
+         <table style="text-align: right; white-space:nowrap;">
+         <tr>
+           <td colspan="11" class="totalText" style="text-align: left"><label>Statistics for file RuntimeExceptionWrapper.java:</label></td>
+         </tr>
+         <tr>
+           <td  class="totalText"><label onkeyup="return help_stmts + 'file';">Stmts:</label></td>
+           <td >      2
+  </td>
+           <td style="width: 5%">&nbsp;</td>
+           <td  class="totalText"><label onkeyup="return help_loc + 'file';">LOC:</label></td>
+           <td >      20
+  </td>
+           <td style="width: 10%">&nbsp;</td>
+           <td  class="totalText"><label onkeyup="return help_cmp + 'file';">Total cmp:</label></td>
+           <td >      2
+  </td>
+           <td style="width: 5%">&nbsp;</td>
+           <td  class="totalText"><label onkeyup="return help_stmts_per_method;">Stmts/Method:</label></td>
+           <td >      1
+  </td>
+         </tr>
+         <tr>
+           <td  class="totalText"><label onkeyup="return help_branches + 'file';">Branches:</label></td>
+           <td >      0
+  </td>
+           <td style="width: 5%">&nbsp;</td>
+           <td  class="totalText"><label onkeyup="return help_ncloc + 'file';">NCLOC:</label></td>
+           <td >      11
+  </td>
+           <td style="width: 10%">&nbsp;</td>
+           <td  class="totalText"><label onkeyup="return help_cmp_density + 'file';">Cmp density:</label></td>
+           <td >      1
+  </td>
+           <td style="width: 5%">&nbsp;</td>
+           <td  class="totalText"><label onkeyup="return help_methods_per_class;">Methods/Class:</label></td>
+           <td >      2
+  </td>
+         </tr>
+         <tr>
+           <td  class="totalText"><label onkeyup="return help_methods + 'file';">Methods:</label></td>
+           <td >      2
+  </td>
+           <td style="width: 5%">&nbsp;</td>
+                    <td colspan="2"></td>
+                    <td style="width: 10%">&nbsp;</td>
+           <td  class="totalText"><label onkeyup="return help_avg_method_cmp + 'file';">Avg method cmp:</label></td>
+           <td >      1
+  </td>
+           <td style="width: 5%">&nbsp;</td>
+                      <td colspan="2"></td>
+          
+         </tr>
+         <tr>
+            <td  class="totalText"><label onkeyup="return help_classes + 'file';">Classes:</label></td>
+            <td >      1
+  </td>
+            <td style="width: 5%">&nbsp;</td>
+                      <td colspan="2"></td>
+                     <td style="width: 10%">&nbsp;</td>
+         </tr>
+         <tr class="totalText">
+             <td colspan="1">
+                <a class="sortable totalText" onclick="toggleStats('td-filtered-header-stats', 'td-header-stats');"><label onkeyup="return help_filter_stats;">Unfiltered</label></a>
+             </td>
+             <td colspan="5">&nbsp;</td>
+
+         </tr>
+      </table>
+     </td>
+</tr>
+
+    </table>
+  </div>
+  <b class="cbottom"><b class="cb4"></b><b class="cb3"></b><b class="cb2"></b><b class="cb1"></b></b>
+  </div>
+
+   </td>
+  </tr>
+
+
+<tr id="legend" style="display:none;"><td colspan="6">
+    <div class="hbreak">&nbsp;</div>
+    <table class="legend" cellspacing="0" cellpadding="0">
+        <tr><td colspan="3" class="legendTitle">Legend</td></tr>
+
+        <tr><td class="methodToggle" align="right">line#</td><td class="methodToggle" align="right">hit count</td>
+            <td class="methodToggle"> </td>
+        </tr>
+        <tr><td class="lineCount Good" align="right">1</td><td class="coverageCount Good hitByTest" align="right">86</td>
+               <td class="srcCell"><span class="spacer"/><span class="srcLine">line hit by 1 or more tests which passed</span></td>
+        </tr>
+        <tr><td class="lineCount Good" align="right">2</td><td class="coverageCount Good missedByTest" align="right">17</td>
+               <td class="srcCell"><span class="spacer"/><span class="srcLine">line was covered, but not by a test case</span></td>
+        </tr>
+        <tr><td class="lineCount Good" align="right">3</td><td class="coverageCount Good hitByFailedTest" align="right">7</td>
+               <td class="srcCell"><span class="spacer"/><span class="srcLine">line hit by 1 or more tests which did not pass</span></td>
+        </tr>
+        <tr><td class="lineCount Good" align="right">4</td><td class="coverageCount Good hitByTest" align="right">5</td>
+               <td class="srcCell"><span class="spacer"/><span class="srcLine coveredByTest">line hit by more than one (selected) test</span></td>
+        </tr>
+        <tr><td class="lineCount Good" align="right">5</td><td class="coverageCount Good hitByTest" align="right">3</td>
+               <td class="srcCell"><span class="spacer"/><span class="srcLine coveredByTestUniq">line hit by one test only</span></td>
+        </tr>
+        <tr><td class="lineCount Good" align="right">6</td><td class="coverageCount Good hitByTest" align="right">2</td>
+               <td class="srcCell"><span class="spacer"/><span class="srcLine coveredByFailedTest">line hit by one or more (selected) tests that failed</span></td>
+        </tr>
+        <tr><td class="lineCount Bad" align="right">7</td><td class="coverageCount Bad hitByTest" align="right">1</td>
+               <td class="srcCell"><span class="spacer"/><span class="srcLine srcLineHilight">line has an expression (e.g. a branch) or statement that was not fully covered</span></td>
+        </tr>
+        <tr><td class="lineCount Bad" align="right">8</td><td class="coverageCount Bad missedByTest" align="right">0</td>
+               <td class="srcCell"><span class="spacer"/><span class="srcLine srcLineHilight">line was not covered at all</span></td>
+        </tr>
+        <tr><td class="lineCount Filtered " align="right">9</td><td class="coverageCount Filtered" align="right"></td>
+               <td class="srcCell"><span class="spacer"/><span class="srcLineFiltered">line was filtered</span></td>
+        </tr>
+        
+    </table>
+    <div class="hbreak">&nbsp;</div>
+    
+    
+</td></tr>
+<tr><td class="hbreak" colspan="6">&nbsp; <label onkeyup="return help_src_file_expandall_summaries;" class="sortable" onclick="toggleAllClasses(this); return false;" id="stat-expander">Expand All</label></td></tr>
+</tbody>
+         <tbody>
+        <tr>             <td class="graphHeaderLeft" id="RuntimeExceptionWrapper" >
+                                <span class="expand methodStart" id="span-RuntimeExceptionWrapper" onclick="toggleClass(this, 'RuntimeExceptionWrapper', 2);return false;">&nbsp;</span>
+                                <span class="titleText"> <a href="#7" title="RuntimeExceptionWrapper">RuntimeExceptionWrapper</a></span>
+                <span class="sortable" onclick="ts_resortTable(document.getElementById('RuntimeExceptionWrapper'), 'alpha', 0);return false;" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+            </td>
+
+            <td class="sortable graphHeader" onclick="ts_resortTable(this, 'number', 1);return false;">
+                Line # 7
+                <a name="sl-7"></a>
+            </td>
+
+                                        
+                
+                <td class="sortable graphHeader "  onclick="ts_resortTable(this, 'number', 2);return false;">
+                    <span class="headerTitle"><label  onkeyup="return 'The total number of statements.';"  >Total Statements</label></span>
+                    2
+                </td>
+                
+                                            
+                
+                <td class="sortable graphHeader "  onclick="ts_resortTable(this, 'number', 3);return false;">
+                    <span class="headerTitle"><label  onkeyup="return 'Cyclomatic complexity is a measure of the number of paths in your code.';"  >Complexity</label></span>
+                    2
+                </td>
+                
+                                            
+                
+                <td class="sortable graphHeader "  onclick="ts_resortTable(this, 'number', 4);return false;">
+                    <span class="headerTitle"><label  onkeyup="return 'The amount of code that was hit at least once during testing.';"  >TOTAL Coverage</label></span>
+                    100%
+</td>
+<td class="graphBar graphHeader" align="center">
+<span class="sortValue">1.0</span>
+<div>
+    <div style="width: 200px; font-size:0px;"></div>
+    <div title="0% Not Covered"  style="min-width: 200px;"  class="barNegative $customBarNegative">
+       <div title="100% Covered" class="barPositive $customBarPositive" style="width: 100%"></div>
+    </div>
+</div>
+                </td>
+                
+                                    </tr> 
+                <tr id="RuntimeExceptionWrapper-1" style="display:none">
+            <td class="methodSummary" id="summary-13-5">
+                <span class="sortValue">RuntimeExceptionWrapper(RuntimeException)</span>
+                &nbsp;&nbsp;<a href="#13" title="RuntimeExceptionWrapper(RuntimeException)" name="sl-13">RuntimeExceptionWrapper(RuntimeException)</a>
+                            </td>
+            <td class="graphPercent" align="right">
+                <span class="sortValue">13</span>
+                13
+            </td>
+                        
+            <td class="graphPercent " align="right">
+                <span class="sortValue">1.0</span>
+              1
+            </td>
+              
+                        
+            <td class="graphPercent " align="right">
+                <span class="sortValue">1.0</span>
+              1
+            </td>
+              
+                        
+            <td class="graphPercent " align="right">
+                <span class="sortValue">1.0</span>
+              100%
+</td>
+<td class="graphBar " align="center">
+<span class="sortValue">1.0</span>
+<div>
+    <div style="width: 200px; font-size:0px;"></div>
+    <div title="0% Not Covered"  style="min-width: 200px;"  class="barNegative $customBarNegative">
+       <div title="100% Covered" class="barPositive $customBarPositive" style="width: 100%"></div>
+    </div>
+</div>
+            </td>
+              
+                   </tr>
+                <tr id="RuntimeExceptionWrapper-2" style="display:none">
+            <td class="methodSummary" id="summary-17-5">
+                <span class="sortValue">getRuntimeException()&nbsp;:&nbsp;RuntimeException</span>
+                &nbsp;&nbsp;<a href="#17" title="getRuntimeException()&nbsp;:&nbsp;RuntimeException" name="sl-17">getRuntimeException()&nbsp;:&nbsp;RuntimeException</a>
+                            </td>
+            <td class="graphPercent" align="right">
+                <span class="sortValue">17</span>
+                17
+            </td>
+                        
+            <td class="graphPercent " align="right">
+                <span class="sortValue">1.0</span>
+              1
+            </td>
+              
+                        
+            <td class="graphPercent " align="right">
+                <span class="sortValue">1.0</span>
+              1
+            </td>
+              
+                        
+            <td class="graphPercent " align="right">
+                <span class="sortValue">1.0</span>
+              100%
+</td>
+<td class="graphBar " align="center">
+<span class="sortValue">1.0</span>
+<div>
+    <div style="width: 200px; font-size:0px;"></div>
+    <div title="0% Not Covered"  style="min-width: 200px;"  class="barNegative $customBarNegative">
+       <div title="100% Covered" class="barPositive $customBarPositive" style="width: 100%"></div>
+    </div>
+</div>
+            </td>
+              
+                   </tr>
+             </tbody>
+     <tbody><tr><td class="hbreak" colspan="6">&nbsp;</td></tr></tbody>
+</table>
+
+<table cellspacing="0" cellpadding="0" class="barGraph">
+    <tbody>
+<tr>
+    <td class="hbreak" align="left" colspan="4">
+        &nbsp; <label class="sortable" id="testsToggle" onclick="toggleAllTests(this); return false;" onkeyup="return help_src_file_show_tests;">Show Tests </label>(95) <label onkeyup="return help_select_all;" class="selectable unselected" id="selectalltests" onclick="selectAllTests(this);">Select All </label> <label onkeyup='return help_deselect_all;' class="selectable selected" id="deselectalltests" onclick="deselectAllTests(this);">Deselect All</label>
+    </td>
+</tr>
+</tbody>
+<tbody id="tests-body" style="display:none">
+<tr id="testHeaderRow">
+    <td class="graphHeaderLeft titleText" align="center" >
+        <label onkeyup="return help_hilight_test;" id="help_1">Highlight</label>
+    </td>
+    <td class="graphHeaderLeft titleText sortable" onclick="ts_resortTable(this, 'number', 1);return false;">
+        <label onkeyup="return help_test_contribution;" id="help_2">Test Contribution</label>
+    </td>
+    <td class="graphHeaderLeft titleText sortable" onclick="ts_resortTable(this, 'alpha', 2);return false;">
+        <label onkeyup="return help_src_file_test;" id="help_3">Test</label>
+    </td>
+    <td class="graphHeaderLeft titleText sortable" onclick="ts_resortTable(this, 'alpha', 3);return false;">Result</td>
+</tr>
+
+        <tr id="test-17">
+        <td class="graphPercent graphPercentLeft" align="center" title="checkbox">
+            <a name="testA-17"></a>
+            <input type="checkbox" id="cb-17" value="17" name="testMethod" onclick="hiLightByTest(this.value, this.checked); return true;"/>
+        </td>
+        <td class="graphPercent link" onclick="window.location.href='../../../org/easymock/tests/RecordStateInvalidUsageTest_setWrongReturnValueChar.html';">
+            <span class="sortValue">1.0</span>
+                        <div>
+    <div style="width: 40px; font-size:0px;"></div>
+    <div title="0% Not Covered"  style="min-width: 40px;"  class="barNegative testBarNegative">
+       <div title="100% Covered" class="barPositive testBarPositive" style="width: 100%"></div>
+    </div>
+</div>        </td>
+        <td class="testCase" id="tc-17">
+            <span class="sortValue">org.easymock.tests.RecordStateInvalidUsageTest.setWrongReturnValueChar</span>
+            <a href="../../../org/easymock/tests/RecordStateInvalidUsageTest.html?line=86#src-86" title="View Test Source"><img class="icon" alt="test" src="../../../img/test.gif"/></a>
+            <a href="../../../org/easymock/tests/RecordStateInvalidUsageTest_setWrongReturnValueChar.html" title="Test Summary Page">org.easymock.tests.RecordStateInvalidUsageTest.setWrongReturnValueChar</a>
+        </td>
+        <td class="graphPercent">
+                  <span class="sortValue">1</span>
+    <span class="testResultSuccess">PASS</span>
+          </td>
+
+    </tr>
+        <tr id="test-357">
+        <td class="graphPercent graphPercentLeft" align="center" title="checkbox">
+            <a name="testA-357"></a>
+            <input type="checkbox" id="cb-357" value="357" name="testMethod" onclick="hiLightByTest(this.value, this.checked); return true;"/>
+        </td>
+        <td class="graphPercent link" onclick="window.location.href='../../../org/easymock/tests/RecordStateMethodCallMissingTest_asStubWithNonVoidMethod.html';">
+            <span class="sortValue">1.0</span>
+                        <div>
+    <div style="width: 40px; font-size:0px;"></div>
+    <div title="0% Not Covered"  style="min-width: 40px;"  class="barNegative testBarNegative">
+       <div title="100% Covered" class="barPositive testBarPositive" style="width: 100%"></div>
+    </div>
+</div>        </td>
+        <td class="testCase" id="tc-357">
+            <span class="sortValue">org.easymock.tests.RecordStateMethodCallMissingTest.asStubWithNonVoidMethod</span>
+            <a href="../../../org/easymock/tests/RecordStateMethodCallMissingTest.html?line=290#src-290" title="View Test Source"><img class="icon" alt="test" src="../../../img/test.gif"/></a>
+            <a href="../../../org/easymock/tests/RecordStateMethodCallMissingTest_asStubWithNonVoidMethod.html" title="Test Summary Page">org.easymock.tests.RecordStateMethodCallMissingTest.asStubWithNonVoidMethod</a>
+        </td>
+        <td class="graphPercent">
+                  <span class="sortValue">1</span>
+    <span class="testResultSuccess">PASS</span>
+          </td>
+
+    </tr>
+        <tr id="test-395">
+        <td class="graphPercent graphPercentLeft" align="center" title="checkbox">
+            <a name="testA-395"></a>
+            <input type="checkbox" id="cb-395" value="395" name="testMethod" onclick="hiLightByTest(this.value, this.checked); return true;"/>
+        </td>
+        <td class="graphPercent link" onclick="window.location.href='../../../org/easymock/tests/RecordStateMethodCallMissingTest_setFloatDefaultReturnValueWithoutMethodCall.html';">
+            <span class="sortValue">1.0</span>
+                        <div>
+    <div style="width: 40px; font-size:0px;"></div>
+    <div title="0% Not Covered"  style="min-width: 40px;"  class="barNegative testBarNegative">
+       <div title="100% Covered" class="barPositive testBarPositive" style="width: 100%"></div>
+    </div>
+</div>        </td>
+        <td class="testCase" id="tc-395">
+            <span class="sortValue">org.easymock.tests.RecordStateMethodCallMissingTest.setFloatDefaultReturnValueWithoutMethodCall</span>
+            <a href="../../../org/easymock/tests/RecordStateMethodCallMissingTest.html?line=218#src-218" title="View Test Source"><img class="icon" alt="test" src="../../../img/test.gif"/></a>
+            <a href="../../../org/easymock/tests/RecordStateMethodCallMissingTest_setFloatDefaultReturnValueWithoutMethodCall.html" title="Test Summary Page">org.easymock.tests.RecordStateMethodCallMissingTest.setFloatDefaultReturnValueWithoutMethodCall</a>
+        </td>
+        <td class="graphPercent">
+                  <span class="sortValue">1</span>
+    <span class="testResultSuccess">PASS</span>
+          </td>
+
+    </tr>
+        <tr id="test-175">
+        <td class="graphPercent graphPercentLeft" align="center" title="checkbox">
+            <a name="testA-175"></a>
+            <input type="checkbox" id="cb-175" value="175" name="testMethod" onclick="hiLightByTest(this.value, this.checked); return true;"/>
+        </td>
+        <td class="graphPercent link" onclick="window.location.href='../../../org/easymock/tests/RecordStateInvalidRangeTest_setIllegalMaximumCount.html';">
+            <span class="sortValue">1.0</span>
+                        <div>
+    <div style="width: 40px; font-size:0px;"></div>
+    <div title="0% Not Covered"  style="min-width: 40px;"  class="barNegative testBarNegative">
+       <div title="100% Covered" class="barPositive testBarPositive" style="width: 100%"></div>
+    </div>
+</div>        </td>
+        <td class="testCase" id="tc-175">
+            <span class="sortValue">org.easymock.tests.RecordStateInvalidRangeTest.setIllegalMaximumCount</span>
+            <a href="../../../org/easymock/tests/RecordStateInvalidRangeTest.html?line=52#src-52" title="View Test Source"><img class="icon" alt="test" src="../../../img/test.gif"/></a>
+            <a href="../../../org/easymock/tests/RecordStateInvalidRangeTest_setIllegalMaximumCount.html" title="Test Summary Page">org.easymock.tests.RecordStateInvalidRangeTest.setIllegalMaximumCount</a>
+        </td>
+        <td class="graphPercent">
+                  <span class="sortValue">1</span>
+    <span class="testResultSuccess">PASS</span>
+          </td>
+
+    </tr>
+        <tr id="test-27">
+        <td class="graphPercent graphPercentLeft" align="center" title="checkbox">
+            <a name="testA-27"></a>
+            <input type="checkbox" id="cb-27" value="27" name="testMethod" onclick="hiLightByTest(this.value, this.checked); return true;"/>
+        </td>
+        <td class="graphPercent link" onclick="window.location.href='../../../org/easymock/tests/ReplayStateInvalidUsageTest_asStub.html';">
+            <span class="sortValue">1.0</span>
+                        <div>
+    <div style="width: 40px; font-size:0px;"></div>
+    <div title="0% Not Covered"  style="min-width: 40px;"  class="barNegative testBarNegative">
+       <div title="100% Covered" class="barPositive testBarPositive" style="width: 100%"></div>
+    </div>
+</div>        </td>
+        <td class="testCase" id="tc-27">
+            <span class="sortValue">org.easymock.tests.ReplayStateInvalidUsageTest.asStub</span>
+            <a href="../../../org/easymock/tests/ReplayStateInvalidUsageTest.html?line=459#src-459" title="View Test Source"><img class="icon" alt="test" src="../../../img/test.gif"/></a>
+            <a href="../../../org/easymock/tests/ReplayStateInvalidUsageTest_asStub.html" title="Test Summary Page">org.easymock.tests.ReplayStateInvalidUsageTest.asStub</a>
+        </td>
+        <td class="graphPercent">
+                  <span class="sortValue">1</span>
+    <span class="testResultSuccess">PASS</span>
+          </td>
+
+    </tr>
+        <tr id="test-69">
+        <td class="graphPercent graphPercentLeft" align="center" title="checkbox">
+            <a name="testA-69"></a>
+            <input type="checkbox" id="cb-69" value="69" name="testMethod" onclick="hiLightByTest(this.value, this.checked); return true;"/>
+        </td>
+        <td class="graphPercent link" onclick="window.location.href='../../../org/easymock/tests/ReplayStateInvalidUsageTest_setDefaultReturnValueObject.html';">
+            <span class="sortValue">1.0</span>
+                        <div>
+    <div style="width: 40px; font-size:0px;"></div>
+    <div title="0% Not Covered"  style="min-width: 40px;"  class="barNegative testBarNegative">
+       <div title="100% Covered" class="barPositive testBarPositive" style="width: 100%"></div>
+    </div>
+</div>        </td>
+        <td class="testCase" id="tc-69">
+            <span class="sortValue">org.easymock.tests.ReplayStateInvalidUsageTest.setDefaultReturnValueObject</span>
+            <a href="../../../org/easymock/tests/ReplayStateInvalidUsageTest.html?line=284#src-284" title="View Test Source"><img class="icon" alt="test" src="../../../img/test.gif"/></a>
+            <a href="../../../org/easymock/tests/ReplayStateInvalidUsageTest_setDefaultReturnValueObject.html" title="Test Summary Page">org.easymock.tests.ReplayStateInvalidUsageTest.setDefaultReturnValueObject</a>
+        </td>
+        <td class="graphPercent">
+                  <span class="sortValue">1</span>
+    <span class="testResultSuccess">PASS</span>
+          </td>
+
+    </tr>
+        <tr id="test-375">
+        <td class="graphPercent graphPercentLeft" align="center" title="checkbox">
+            <a name="testA-375"></a>
+            <input type="checkbox" id="cb-375" value="375" name="testMethod" onclick="hiLightByTest(this.value, this.checked); return true;"/>
+        </td>
+        <td class="graphPercent link" onclick="window.location.href='../../../org/easymock/tests/RecordStateInvalidMatcherTest_setMatcherTwice2.html';">
+            <span class="sortValue">1.0</span>
+                        <div>
+    <div style="width: 40px; font-size:0px;"></div>
+    <div title="0% Not Covered"  style="min-width: 40px;"  class="barNegative testBarNegative">
+       <div title="100% Covered" class="barPositive testBarPositive" style="width: 100%"></div>
+    </div>
+</div>        </td>
+        <td class="testCase" id="tc-375">
+            <span class="sortValue">org.easymock.tests.RecordStateInvalidMatcherTest.setMatcherTwice2</span>
+            <a href="../../../org/easymock/tests/RecordStateInvalidMatcherTest.html?line=51#src-51" title="View Test Source"><img class="icon" alt="test" src="../../../img/test.gif"/></a>
+            <a href="../../../org/easymock/tests/RecordStateInvalidMatcherTest_setMatcherTwice2.html" title="Test Summary Page">org.easymock.tests.RecordStateInvalidMatcherTest.setMatcherTwice2</a>
+        </td>
+        <td class="graphPercent">
+                  <span class="sortValue">1</span>
+    <span class="testResultSuccess">PASS</span>
+          </td>
+
+    </tr>
+        <tr id="test-390">
+        <td class="graphPercent graphPercentLeft" align="center" title="checkbox">
+            <a name="testA-390"></a>
+            <input type="checkbox" id="cb-390" value="390" name="testMethod" onclick="hiLightByTest(this.value, this.checked); return true;"/>
+        </td>
+        <td class="graphPercent link" onclick="window.location.href='../../../org/easymock/tests/RecordStateMethodCallMissingTest_setBooleanDefaultReturnValueWithoutMethodCall.html';">
+            <span class="sortValue">1.0</span>
+                        <div>
+    <div style="width: 40px; font-size:0px;"></div>
+    <div title="0% Not Covered"  style="min-width: 40px;"  class="barNegative testBarNegative">
+       <div title="100% Covered" class="barPositive testBarPositive" style="width: 100%"></div>
+    </div>
+</div>        </td>
+        <td class="testCase" id="tc-390">
+            <span class="sortValue">org.easymock.tests.RecordStateMethodCallMissingTest.setBooleanDefaultReturnValueWithoutMethodCall</span>
+            <a href="../../../org/easymock/tests/RecordStateMethodCallMissingTest.html?line=194#src-194" title="View Test Source"><img class="icon" alt="test" src="../../../img/test.gif"/></a>
+            <a href="../../../org/easymock/tests/RecordStateMethodCallMissingTest_setBooleanDefaultReturnValueWithoutMethodCall.html" title="Test Summary Page">org.easymock.tests.RecordStateMethodCallMissingTest.setBooleanDefaultReturnValueWithoutMethodCall</a>
+        </td>
+        <td class="graphPercent">
+                  <span class="sortValue">1</span>
+    <span class="testResultSuccess">PASS</span>
+          </td>
+
+    </tr>
+        <tr id="test-344">
+        <td class="graphPercent graphPercentLeft" align="center" title="checkbox">
+            <a name="testA-344"></a>
+            <input type="checkbox" id="cb-344" value="344" name="testMethod" onclick="hiLightByTest(this.value, this.checked); return true;"/>
+        </td>
+        <td class="graphPercent link" onclick="window.location.href='../../../org/easymock/tests/RecordStateInvalidReturnValueTest_setReturnValueForVoidMethod.html';">
+            <span class="sortValue">1.0</span>
+                        <div>
+    <div style="width: 40px; font-size:0px;"></div>
+    <div title="0% Not Covered"  style="min-width: 40px;"  class="barNegative testBarNegative">
+       <div title="100% Covered" class="barPositive testBarPositive" style="width: 100%"></div>
+    </div>
+</div>        </td>
+        <td class="testCase" id="tc-344">
+            <span class="sortValue">org.easymock.tests.RecordStateInvalidReturnValueTest.setReturnValueForVoidMethod</span>
+            <a href="../../../org/easymock/tests/RecordStateInvalidReturnValueTest.html?line=137#src-137" title="View Test Source"><img class="icon" alt="test" src="../../../img/test.gif"/></a>
+            <a href="../../../org/easymock/tests/RecordStateInvalidReturnValueTest_setReturnValueForVoidMethod.html" title="Test Summary Page">org.easymock.tests.RecordStateInvalidReturnValueTest.setReturnValueForVoidMethod</a>
+        </td>
+        <td class="graphPercent">
+                  <span class="sortValue">1</span>
+    <span class="testResultSuccess">PASS</span>
+          </td>
+
+    </tr>
+        <tr id="test-435">
+        <td class="graphPercent graphPercentLeft" align="center" title="checkbox">
+            <a name="testA-435"></a>
+            <input type="checkbox" id="cb-435" value="435" name="testMethod" onclick="hiLightByTest(this.value, this.checked); return true;"/>
+        </td>
+        <td class="graphPercent link" onclick="window.location.href='../../../org/easymock/tests/RecordStateInvalidDefaultReturnValueTest_setInvalidDefaultBooleanReturnValue.html';">
+            <span class="sortValue">1.0</span>
+                        <div>
+    <div style="width: 40px; font-size:0px;"></div>
+    <div title="0% Not Covered"  style="min-width: 40px;"  class="barNegative testBarNegative">
+       <div title="100% Covered" class="barPositive testBarPositive" style="width: 100%"></div>
+    </div>
+</div>        </td>
+        <td class="testCase" id="tc-435">
+            <span class="sortValue">org.easymock.tests.RecordStateInvalidDefaultReturnValueTest.setInvalidDefaultBooleanReturnValue</span>
+            <a href="../../../org/easymock/tests/RecordStateInvalidDefaultReturnValueTest.html?line=25#src-25" title="View Test Source"><img class="icon" alt="test" src="../../../img/test.gif"/></a>
+            <a href="../../../org/easymock/tests/RecordStateInvalidDefaultReturnValueTest_setInvalidDefaultBooleanReturnValue.html" title="Test Summary Page">org.easymock.tests.RecordStateInvalidDefaultReturnValueTest.setInvalidDefaultBooleanReturnValue</a>
+        </td>
+        <td class="graphPercent">
+                  <span class="sortValue">1</span>
+    <span class="testResultSuccess">PASS</span>
+          </td>
+
+    </tr>
+        <tr id="test-402">
+        <td class="graphPercent graphPercentLeft" align="center" title="checkbox">
+            <a name="testA-402"></a>
+            <input type="checkbox" id="cb-402" value="402" name="testMethod" onclick="hiLightByTest(this.value, this.checked); return true;"/>
+        </td>
+        <td class="graphPercent link" onclick="window.location.href='../../../org/easymock/tests/RecordStateMethodCallMissingTest_timesWithoutReturnValue.html';">
+            <span class="sortValue">1.0</span>
+                        <div>
+    <div style="width: 40px; font-size:0px;"></div>
+    <div title="0% Not Covered"  style="min-width: 40px;"  class="barNegative testBarNegative">
+       <div title="100% Covered" class="barPositive testBarPositive" style="width: 100%"></div>
+    </div>
+</div>        </td>
+        <td class="testCase" id="tc-402">
+            <span class="sortValue">org.easymock.tests.RecordStateMethodCallMissingTest.timesWithoutReturnValue</span>
+            <a href="../../../org/easymock/tests/RecordStateMethodCallMissingTest.html?line=278#src-278" title="View Test Source"><img class="icon" alt="test" src="../../../img/test.gif"/></a>
+            <a href="../../../org/easymock/tests/RecordStateMethodCallMissingTest_timesWithoutReturnValue.html" title="Test Summary Page">org.easymock.tests.RecordStateMethodCallMissingTest.timesWithoutReturnValue</a>
+        </td>
+        <td class="graphPercent">
+                  <span class="sortValue">1</span>
+    <span class="testResultSuccess">PASS</span>
+          </td>
+
+    </tr>
+        <tr id="test-4">
+        <td class="graphPercent graphPercentLeft" align="center" title="checkbox">
+            <a name="testA-4"></a>
+            <input type="checkbox" id="cb-4" value="4" name="testMethod" onclick="hiLightByTest(this.value, this.checked); return true;"/>
+        </td>
+        <td class="graphPercent link" onclick="window.location.href='../../../org/easymock/tests/RecordStateInvalidStateChangeTest_activateWithoutReturnValue.html';">
+            <span class="sortValue">1.0</span>
+                        <div>
+    <div style="width: 40px; font-size:0px;"></div>
+    <div title="0% Not Covered"  style="min-width: 40px;"  class="barNegative testBarNegative">
+       <div title="100% Covered" class="barPositive testBarPositive" style="width: 100%"></div>
+    </div>
+</div>        </td>
+        <td class="testCase" id="tc-4">
+            <span class="sortValue">org.easymock.tests.RecordStateInvalidStateChangeTest.activateWithoutReturnValue</span>
+            <a href="../../../org/easymock/tests/RecordStateInvalidStateChangeTest.html?line=26#src-26" title="View Test Source"><img class="icon" alt="test" src="../../../img/test.gif"/></a>
+            <a href="../../../org/easymock/tests/RecordStateInvalidStateChangeTest_activateWithoutReturnValue.html" title="Test Summary Page">org.easymock.tests.RecordStateInvalidStateChangeTest.activateWithoutReturnValue</a>
+        </td>
+        <td class="graphPercent">
+                  <span class="sortValue">1</span>
+    <span class="testResultSuccess">PASS</span>
+          </td>
+
+    </tr>
+        <tr id="test-432">
+        <td class="graphPercent graphPercentLeft" align="center" title="checkbox">
+            <a name="testA-432"></a>
+            <input type="checkbox" id="cb-432" value="432" name="testMethod" onclick="hiLightByTest(this.value, this.checked); return true;"/>
+        </td>
+        <td class="graphPercent link" onclick="window.location.href='../../../org/easymock/tests/RecordStateInvalidDefaultReturnValueTest_setInvalidObjectDefaultReturnValue.html';">
+            <span class="sortValue">1.0</span>
+                        <div>
+    <div style="width: 40px; font-size:0px;"></div>
+    <div title="0% Not Covered"  style="min-width: 40px;"  class="barNegative testBarNegative">
+       <div title="100% Covered" class="barPositive testBarPositive" style="width: 100%"></div>
+    </div>
+</div>        </td>
+        <td class="testCase" id="tc-432">
+            <span class="sortValue">org.easymock.tests.RecordStateInvalidDefaultReturnValueTest.setInvalidObjectDefaultReturnValue</span>
+            <a href="../../../org/easymock/tests/RecordStateInvalidDefaultReturnValueTest.html?line=69#src-69" title="View Test Source"><img class="icon" alt="test" src="../../../img/test.gif"/></a>
+            <a href="../../../org/easymock/tests/RecordStateInvalidDefaultReturnValueTest_setInvalidObjectDefaultReturnValue.html" title="Test Summary Page">org.easymock.tests.RecordStateInvalidDefaultReturnValueTest.setInvalidObjectDefaultReturnValue</a>
+        </td>
+        <td class="graphPercent">
+                  <span class="sortValue">1</span>
+    <span class="testResultSuccess">PASS</span>
+          </td>
+
+    </tr>
+        <tr id="test-13">
+        <td class="graphPercent graphPercentLeft" align="center" title="checkbox">
+            <a name="testA-13"></a>
+            <input type="checkbox" id="cb-13" value="13" name="testMethod" onclick="hiLightByTest(this.value, this.checked); return true;"/>
+        </td>
+        <td class="graphPercent link" onclick="window.location.href='../../../org/easymock/tests/RecordStateInvalidUsageTest_setWrongReturnValueInt.html';">
+            <span class="sortValue">1.0</span>
+                        <div>
+    <div style="width: 40px; font-size:0px;"></div>
+    <div title="0% Not Covered"  style="min-width: 40px;"  class="barNegative testBarNegative">
+       <div title="100% Covered" class="barPositive testBarPositive" style="width: 100%"></div>
+    </div>
+</div>        </td>
+        <td class="testCase" id="tc-13">
+            <span class="sortValue">org.easymock.tests.RecordStateInvalidUsageTest.setWrongReturnValueInt</span>
+            <a href="../../../org/easymock/tests/RecordStateInvalidUsageTest.html?line=98#src-98" title="View Test Source"><img class="icon" alt="test" src="../../../img/test.gif"/></a>
+            <a href="../../../org/easymock/tests/RecordStateInvalidUsageTest_setWrongReturnValueInt.html" title="Test Summary Page">org.easymock.tests.RecordStateInvalidUsageTest.setWrongReturnValueInt</a>
+        </td>
+        <td class="graphPercent">
+                  <span class="sortValue">1</span>
+    <span class="testResultSuccess">PASS</span>
+          </td>
+
+    </tr>
+        <tr id="test-15">
+        <td class="graphPercent graphPercentLeft" align="center" title="checkbox">
+            <a name="testA-15"></a>
+            <input type="checkbox" id="cb-15" value="15" name="testMethod" onclick="hiLightByTest(this.value, this.checked); return true;"/>
+        </td>
+        <td class="graphPercent link" onclick="window.location.href='../../../org/easymock/tests/RecordStateInvalidUsageTest_setWrongReturnValueLong.html';">
+            <span class="sortValue">1.0</span>
+                        <div>
+    <div style="width: 40px; font-size:0px;"></div>
+    <div title="0% Not Covered"  style="min-width: 40px;"  class="barNegative testBarNegative">
+       <div title="100% Covered" class="barPositive testBarPositive" style="width: 100%"></div>
+    </div>
+</div>        </td>
+        <td class="testCase" id="tc-15">
+            <span class="sortValue">org.easymock.tests.RecordStateInvalidUsageTest.setWrongReturnValueLong</span>
+            <a href="../../../org/easymock/tests/RecordStateInvalidUsageTest.html?line=110#src-110" title="View Test Source"><img class="icon" alt="test" src="../../../img/test.gif"/></a>
+            <a href="../../../org/easymock/tests/RecordStateInvalidUsageTest_setWrongReturnValueLong.html" title="Test Summary Page">org.easymock.tests.RecordStateInvalidUsageTest.setWrongReturnValueLong</a>
+        </td>
+        <td class="graphPercent">
+                  <span class="sortValue">1</span>
+    <span class="testResultSuccess">PASS</span>
+          </td>
+
+    </tr>
+        <tr id="test-428">
+        <td class="graphPercent graphPercentLeft" align="center" title="checkbox">
+            <a name="testA-428"></a>
+            <input type="checkbox" id="cb-428" value="428" name="testMethod" onclick="hiLightByTest(this.value, this.checked); return true;"/>
+        </td>
+        <td class="graphPercent link" onclick="window.location.href='../../../org/easymock/tests/RecordStateInvalidDefaultReturnValueTest_setDefaultReturnValueWithoutMethodCall.html';">
+            <span class="sortValue">1.0</span>
+                        <div>
+    <div style="width: 40px; font-size:0px;"></div>
+    <div title="0% Not Covered"  style="min-width: 40px;"  class="barNegative testBarNegative">
+       <div title="100% Covered" class="barPositive testBarPositive" style="width: 100%"></div>
+    </div>
+</div>        </td>
+        <td class="testCase" id="tc-428">
+            <span class="sortValue">org.easymock.tests.RecordStateInvalidDefaultReturnValueTest.setDefaultReturnValueWithoutMethodCall</span>
+            <a href="../../../org/easymock/tests/RecordStateInvalidDefaultReturnValueTest.html?line=80#src-80" title="View Test Source"><img class="icon" alt="test" src="../../../img/test.gif"/></a>
+            <a href="../../../org/easymock/tests/RecordStateInvalidDefaultReturnValueTest_setDefaultReturnValueWithoutMethodCall.html" title="Test Summary Page">org.easymock.tests.RecordStateInvalidDefaultReturnValueTest.setDefaultReturnValueWithoutMethodCall</a>
+        </td>
+        <td class="graphPercent">
+                  <span class="sortValue">1</span>
+    <span class="testResultSuccess">PASS</span>
+          </td>
+
+    </tr>
+        <tr id="test-160">
+        <td class="graphPercent graphPercentLeft" align="center" title="checkbox">
+            <a name="testA-160"></a>
+            <input type="checkbox" id="cb-160" value="160" name="testMethod" onclick="hiLightByTest(this.value, this.checked); return true;"/>
+        </td>
+        <td class="graphPercent link" onclick="window.location.href='../../../org/easymock/tests/RecordStateInvalidUsageTest_setWrongReturnValueObject.html';">
+            <span class="sortValue">1.0</span>
+                        <div>
+    <div style="width: 40px; font-size:0px;"></div>
+    <div title="0% Not Covered"  style="min-width: 40px;"  class="barNegative testBarNegative">
+       <div title="100% Covered" class="barPositive testBarPositive" style="width: 100%"></div>
+    </div>
+</div>        </td>
+        <td class="testCase" id="tc-160">
+            <span class="sortValue">org.easymock.tests.RecordStateInvalidUsageTest.setWrongReturnValueObject</span>
+            <a href="../../../org/easymock/tests/RecordStateInvalidUsageTest.html?line=146#src-146" title="View Test Source"><img class="icon" alt="test" src="../../../img/test.gif"/></a>
+            <a href="../../../org/easymock/tests/RecordStateInvalidUsageTest_setWrongReturnValueObject.html" title="Test Summary Page">org.easymock.tests.RecordStateInvalidUsageTest.setWrongReturnValueObject</a>
+        </td>
+        <td class="graphPercent">
+                  <span class="sortValue">1</span>
+    <span class="testResultSuccess">PASS</span>
+          </td>
+
+    </tr>
+        <tr id="test-240">
+        <td class="graphPercent graphPercentLeft" align="center" title="checkbox">
+            <a name="testA-240"></a>
+            <input type="checkbox" id="cb-240" value="240" name="testMethod" onclick="hiLightByTest(this.value, this.checked); return true;"/>
+        </td>
+        <td class="graphPercent link" onclick="window.location.href='../../../org/easymock/tests/RecordStateInvalidDefaultThrowableTest_throwNull.html';">
+            <span class="sortValue">1.0</span>
+                        <div>
+    <div style="width: 40px; font-size:0px;"></div>
+    <div title="0% Not Covered"  style="min-width: 40px;"  class="barNegative testBarNegative">
+       <div title="100% Covered" class="barPositive testBarPositive" style="width: 100%"></div>
+    </div>
+</div>        </td>
+        <td class="testCase" id="tc-240">
+            <span class="sortValue">org.easymock.tests.RecordStateInvalidDefaultThrowableTest.throwNull</span>
+            <a href="../../../org/easymock/tests/RecordStateInvalidDefaultThrowableTest.html?line=31#src-31" title="View Test Source"><img class="icon" alt="test" src="../../../img/test.gif"/></a>
+            <a href="../../../org/easymock/tests/RecordStateInvalidDefaultThrowableTest_throwNull.html" title="Test Summary Page">org.easymock.tests.RecordStateInvalidDefaultThrowableTest.throwNull</a>
+        </td>
+        <td class="graphPercent">
+                  <span class="sortValue">1</span>
+    <span class="testResultSuccess">PASS</span>
+          </td>
+
+    </tr>
+        <tr id="test-78">
+        <td class="graphPercent graphPercentLeft" align="center" title="checkbox">
+            <a name="testA-78"></a>
+            <input type="checkbox" id="cb-78" value="78" name="testMethod" onclick="hiLightByTest(this.value, this.checked); return true;"/>
+        </td>
+        <td class="graphPercent link" onclick="window.location.href='../../../org/easymock/tests/ReplayStateInvalidUsageTest_setDefaultThrowable.html';">
+            <span class="sortValue">1.0</span>
+                        <div>
+    <div style="width: 40px; font-size:0px;"></div>
+    <div title="0% Not Covered"  style="min-width: 40px;"  class="barNegative testBarNegative">
+       <div title="100% Covered" class="barPositive testBarPositive" style="width: 100%"></div>
+    </div>
+</div>        </td>
+        <td class="testCase" id="tc-78">
+            <span class="sortValue">org.easymock.tests.ReplayStateInvalidUsageTest.setDefaultThrowable</span>
+            <a href="../../../org/easymock/tests/ReplayStateInvalidUsageTest.html?line=309#src-309" title="View Test Source"><img class="icon" alt="test" src="../../../img/test.gif"/></a>
+            <a href="../../../org/easymock/tests/ReplayStateInvalidUsageTest_setDefaultThrowable.html" title="Test Summary Page">org.easymock.tests.ReplayStateInvalidUsageTest.setDefaultThrowable</a>
+        </td>
+        <td class="graphPercent">
+                  <span class="sortValue">1</span>
+    <span class="testResultSuccess">PASS</span>
+          </td>
+
+    </tr>
+        <tr id="test-91">
+        <td class="graphPercent graphPercentLeft" align="center" title="checkbox">
+            <a name="testA-91"></a>
+            <input type="checkbox" id="cb-91" value="91" name="testMethod" onclick="hiLightByTest(this.value, this.checked); return true;"/>
+        </td>
+        <td class="graphPercent link" onclick="window.location.href='../../../org/easymock/tests/ReplayStateInvalidUsageTest_setDefaultMatcher.html';">
+            <span class="sortValue">1.0</span>
+                        <div>
+    <div style="width: 40px; font-size:0px;"></div>
+    <div title="0% Not Covered"  style="min-width: 40px;"  class="barNegative testBarNegative">
+       <div title="100% Covered" class="barPositive testBarPositive" style="width: 100%"></div>
+    </div>
+</div>        </td>
+        <td class="testCase" id="tc-91">
+            <span class="sortValue">org.easymock.tests.ReplayStateInvalidUsageTest.setDefaultMatcher</span>
+            <a href="../../../org/easymock/tests/ReplayStateInvalidUsageTest.html?line=239#src-239" title="View Test Source"><img class="icon" alt="test" src="../../../img/test.gif"/></a>
+            <a href="../../../org/easymock/tests/ReplayStateInvalidUsageTest_setDefaultMatcher.html" title="Test Summary Page">org.easymock.tests.ReplayStateInvalidUsageTest.setDefaultMatcher</a>
+        </td>
+        <td class="graphPercent">
+                  <span class="sortValue">1</span>
+    <span class="testResultSuccess">PASS</span>
+          </td>
+
+    </tr>
+        <tr id="test-241">
+        <td class="graphPercent graphPercentLeft" align="center" title="checkbox">
+            <a name="testA-241"></a>
+            <input type="checkbox" id="cb-241" value="241" name="testMethod" onclick="hiLightByTest(this.value, this.checked); return true;"/>
+        </td>
+        <td class="graphPercent link" onclick="window.location.href='../../../org/easymock/tests/RecordStateInvalidDefaultThrowableTest_throwWrongCheckedException.html';">
+            <span class="sortValue">1.0</span>
+                        <div>
+    <div style="width: 40px; font-size:0px;"></div>
+    <div title="0% Not Covered"  style="min-width: 40px;"  class="barNegative testBarNegative">
+       <div title="100% Covered" class="barPositive testBarPositive" style="width: 100%"></div>
+    </div>
+</div>        </td>
+        <td class="testCase" id="tc-241">
+            <span class="sortValue">org.easymock.tests.RecordStateInvalidDefaultThrowableTest.throwWrongCheckedException</span>
+            <a href="../../../org/easymock/tests/RecordStateInvalidDefaultThrowableTest.html?line=56#src-56" title="View Test Source"><img class="icon" alt="test" src="../../../img/test.gif"/></a>
+            <a href="../../../org/easymock/tests/RecordStateInvalidDefaultThrowableTest_throwWrongCheckedException.html" title="Test Summary Page">org.easymock.tests.RecordStateInvalidDefaultThrowableTest.throwWrongCheckedException</a>
+        </td>
+        <td class="graphPercent">
+                  <span class="sortValue">1</span>
+    <span class="testResultSuccess">PASS</span>
+          </td>
+
+    </tr>
+        <tr id="test-274">
+        <td class="graphPercent graphPercentLeft" align="center" title="checkbox">
+            <a name="testA-274"></a>
+            <input type="checkbox" id="cb-274" value="274" name="testMethod" onclick="hiLightByTest(this.value, this.checked); return true;"/>
+        </td>
+        <td class="graphPercent link" onclick="window.location.href='../../../org/easymock/tests/RecordStateInvalidReturnValueTest_setInvalidLongReturnValue.html';">
+            <span class="sortValue">1.0</span>
+                        <div>
+    <div style="width: 40px; font-size:0px;"></div>
+    <div title="0% Not Covered"  style="min-width: 40px;"  class="barNegative testBarNegative">
+       <div title="100% Covered" class="barPositive testBarPositive" style="width: 100%"></div>
+    </div>
+</div>        </td>
+        <td class="testCase" id="tc-274">
+            <span class="sortValue">org.easymock.tests.RecordStateInvalidReturnValueTest.setInvalidLongReturnValue</span>
+            <a href="../../../org/easymock/tests/RecordStateInvalidReturnValueTest.html?line=37#src-37" title="View Test Source"><img class="icon" alt="test" src="../../../img/test.gif"/></a>
+            <a href="../../../org/easymock/tests/RecordStateInvalidReturnValueTest_setInvalidLongReturnValue.html" title="Test Summary Page">org.easymock.tests.RecordStateInvalidReturnValueTest.setInvalidLongReturnValue</a>
+        </td>
+        <td class="graphPercent">
+                  <span class="sortValue">1</span>
+    <span class="testResultSuccess">PASS</span>
+          </td>
+
+    </tr>
+        <tr id="test-397">
+        <td class="graphPercent graphPercentLeft" align="center" title="checkbox">
+            <a name="testA-397"></a>
+            <input type="checkbox" id="cb-397" value="397" name="testMethod" onclick="hiLightByTest(this.value, this.checked); return true;"/>
+        </td>
+        <td class="graphPercent link" onclick="window.location.href='../../../org/easymock/tests/RecordStateMethodCallMissingTest_setObjectDefaultReturnValueWithoutMethodCall.html';">
+            <span class="sortValue">1.0</span>
+                        <div>
+    <div style="width: 40px; font-size:0px;"></div>
+    <div title="0% Not Covered"  style="min-width: 40px;"  class="barNegative testBarNegative">
+       <div title="100% Covered" class="barPositive testBarPositive" style="width: 100%"></div>
+    </div>
+</div>        </td>
+        <td class="testCase" id="tc-397">
+            <span class="sortValue">org.easymock.tests.RecordStateMethodCallMissingTest.setObjectDefaultReturnValueWithoutMethodCall</span>
+            <a href="../../../org/easymock/tests/RecordStateMethodCallMissingTest.html?line=242#src-242" title="View Test Source"><img class="icon" alt="test" src="../../../img/test.gif"/></a>
+            <a href="../../../org/easymock/tests/RecordStateMethodCallMissingTest_setObjectDefaultReturnValueWithoutMethodCall.html" title="Test Summary Page">org.easymock.tests.RecordStateMethodCallMissingTest.setObjectDefaultReturnValueWithoutMethodCall</a>
+        </td>
+        <td class="graphPercent">
+                  <span class="sortValue">1</span>
+    <span class="testResultSuccess">PASS</span>
+          </td>
+
+    </tr>
+        <tr id="test-461">
+        <td class="graphPercent graphPercentLeft" align="center" title="checkbox">
+            <a name="testA-461"></a>
+            <input type="checkbox" id="cb-461" value="461" name="testMethod" onclick="hiLightByTest(this.value, this.checked); return true;"/>
+        </td>
+        <td class="graphPercent link" onclick="window.location.href='../../../org/easymock/tests/RecordStateInvalidThrowableTest_throwAfterThrowable.html';">
+            <span class="sortValue">1.0</span>
+                        <div>
+    <div style="width: 40px; font-size:0px;"></div>
+    <div title="0% Not Covered"  style="min-width: 40px;"  class="barNegative testBarNegative">
+       <div title="100% Covered" class="barPositive testBarPositive" style="width: 100%"></div>
+    </div>
+</div>        </td>
+        <td class="testCase" id="tc-461">
+            <span class="sortValue">org.easymock.tests.RecordStateInvalidThrowableTest.throwAfterThrowable</span>
+            <a href="../../../org/easymock/tests/RecordStateInvalidThrowableTest.html?line=68#src-68" title="View Test Source"><img class="icon" alt="test" src="../../../img/test.gif"/></a>
+            <a href="../../../org/easymock/tests/RecordStateInvalidThrowableTest_throwAfterThrowable.html" title="Test Summary Page">org.easymock.tests.RecordStateInvalidThrowableTest.throwAfterThrowable</a>
+        </td>
+        <td class="graphPercent">
+                  <span class="sortValue">1</span>
+    <span class="testResultSuccess">PASS</span>
+          </td>
+
+    </tr>
+        <tr id="test-336">
+        <td class="graphPercent graphPercentLeft" align="center" title="checkbox">
+            <a name="testA-336"></a>
+            <input type="checkbox" id="cb-336" value="336" name="testMethod" onclick="hiLightByTest(this.value, this.checked); return true;"/>
+        </td>
+        <td class="graphPercent link" onclick="window.location.href='../../../org/easymock/tests/RecordStateInvalidReturnValueTest_setInvalidObjectReturnValue.html';">
+            <span class="sortValue">1.0</span>
+                        <div>
+    <div style="width: 40px; font-size:0px;"></div>
+    <div title="0% Not Covered"  style="min-width: 40px;"  class="barNegative testBarNegative">
+       <div title="100% Covered" class="barPositive testBarPositive" style="width: 100%"></div>
+    </div>
+</div>        </td>
+        <td class="testCase" id="tc-336">
+            <span class="sortValue">org.easymock.tests.RecordStateInvalidReturnValueTest.setInvalidObjectReturnValue</span>
+            <a href="../../../org/easymock/tests/RecordStateInvalidReturnValueTest.html?line=70#src-70" title="View Test Source"><img class="icon" alt="test" src="../../../img/test.gif"/></a>
+            <a href="../../../org/easymock/tests/RecordStateInvalidReturnValueTest_setInvalidObjectReturnValue.html" title="Test Summary Page">org.easymock.tests.RecordStateInvalidReturnValueTest.setInvalidObjectReturnValue</a>
+        </td>
+        <td class="graphPercent">
+                  <span class="sortValue">1</span>
+    <span class="testResultSuccess">PASS</span>
+          </td>
+
+    </tr>
+        <tr id="test-345">
+        <td class="graphPercent graphPercentLeft" align="center" title="checkbox">
+            <a name="testA-345"></a>
+            <input type="checkbox" id="cb-345" value="345" name="testMethod" onclick="hiLightByTest(this.value, this.checked); return true;"/>
+        </td>
+        <td class="graphPercent link" onclick="window.location.href='../../../org/easymock/tests/RecordStateInvalidReturnValueTest_setInvalidObjectReturnValueCount.html';">
+            <span class="sortValue">1.0</span>
+                        <div>
+    <div style="width: 40px; font-size:0px;"></div>
+    <div title="0% Not Covered"  style="min-width: 40px;"  class="barNegative testBarNegative">
+       <div title="100% Covered" class="barPositive testBarPositive" style="width: 100%"></div>
+    </div>
+</div>        </td>
+        <td class="testCase" id="tc-345">
+            <span class="sortValue">org.easymock.tests.RecordStateInvalidReturnValueTest.setInvalidObjectReturnValueCount</span>
+            <a href="../../../org/easymock/tests/RecordStateInvalidReturnValueTest.html?line=126#src-126" title="View Test Source"><img class="icon" alt="test" src="../../../img/test.gif"/></a>
+            <a href="../../../org/easymock/tests/RecordStateInvalidReturnValueTest_setInvalidObjectReturnValueCount.html" title="Test Summary Page">org.easymock.tests.RecordStateInvalidReturnValueTest.setInvalidObjectReturnValueCount</a>
+        </td>
+        <td class="graphPercent">
+                  <span class="sortValue">1</span>
+    <span class="testResultSuccess">PASS</span>
+          </td>
+
+    </tr>
+        <tr id="test-276">
+        <td class="graphPercent graphPercentLeft" align="center" title="checkbox">
+            <a name="testA-276"></a>
+            <input type="checkbox" id="cb-276" value="276" name="testMethod" onclick="hiLightByTest(this.value, this.checked); return true;"/>
+        </td>
+        <td class="graphPercent link" onclick="window.location.href='../../../org/easymock/tests/RecordStateInvalidReturnValueTest_setInvalidFloatReturnValue.html';">
+            <span class="sortValue">1.0</span>
+                        <div>
+    <div style="width: 40px; font-size:0px;"></div>
+    <div title="0% Not Covered"  style="min-width: 40px;"  class="barNegative testBarNegative">
+       <div title="100% Covered" class="barPositive testBarPositive" style="width: 100%"></div>
+    </div>
+</div>        </td>
+        <td class="testCase" id="tc-276">
+            <span class="sortValue">org.easymock.tests.RecordStateInvalidReturnValueTest.setInvalidFloatReturnValue</span>
+            <a href="../../../org/easymock/tests/RecordStateInvalidReturnValueTest.html?line=48#src-48" title="View Test Source"><img class="icon" alt="test" src="../../../img/test.gif"/></a>
+            <a href="../../../org/easymock/tests/RecordStateInvalidReturnValueTest_setInvalidFloatReturnValue.html" title="Test Summary Page">org.easymock.tests.RecordStateInvalidReturnValueTest.setInvalidFloatReturnValue</a>
+        </td>
+        <td class="graphPercent">
+                  <span class="sortValue">1</span>
+    <span class="testResultSuccess">PASS</span>
+          </td>
+
+    </tr>
+        <tr id="test-459">
+        <td class="graphPercent graphPercentLeft" align="center" title="checkbox">
+            <a name="testA-459"></a>
+            <input type="checkbox" id="cb-459" value="459" name="testMethod" onclick="hiLightByTest(this.value, this.checked); return true;"/>
+        </td>
+        <td class="graphPercent link" onclick="window.location.href='../../../org/easymock/tests/RecordStateInvalidThrowableTest_throwWrongCheckedException.html';">
+            <span class="sortValue">1.0</span>
+                        <div>
+    <div style="width: 40px; font-size:0px;"></div>
+    <div title="0% Not Covered"  style="min-width: 40px;"  class="barNegative testBarNegative">
+       <div title="100% Covered" class="barPositive testBarPositive" style="width: 100%"></div>
+    </div>
+</div>        </td>
+        <td class="testCase" id="tc-459">
+            <span class="sortValue">org.easymock.tests.RecordStateInvalidThrowableTest.throwWrongCheckedException</span>
+            <a href="../../../org/easymock/tests/RecordStateInvalidThrowableTest.html?line=56#src-56" title="View Test Source"><img class="icon" alt="test" src="../../../img/test.gif"/></a>
+            <a href="../../../org/easymock/tests/RecordStateInvalidThrowableTest_throwWrongCheckedException.html" title="Test Summary Page">org.easymock.tests.RecordStateInvalidThrowableTest.throwWrongCheckedException</a>
+        </td>
+        <td class="graphPercent">
+                  <span class="sortValue">1</span>
+    <span class="testResultSuccess">PASS</span>
+          </td>
+
+    </tr>
+        <tr id="test-76">
+        <td class="graphPercent graphPercentLeft" align="center" title="checkbox">
+            <a name="testA-76"></a>
+            <input type="checkbox" id="cb-76" value="76" name="testMethod" onclick="hiLightByTest(this.value, this.checked); return true;"/>
+        </td>
+        <td class="graphPercent link" onclick="window.location.href='../../../org/easymock/tests/ReplayStateInvalidUsageTest_setDefaultReturnValueBoolean.html';">
+            <span class="sortValue">1.0</span>
+                        <div>
+    <div style="width: 40px; font-size:0px;"></div>
+    <div title="0% Not Covered"  style="min-width: 40px;"  class="barNegative testBarNegative">
+       <div title="100% Covered" class="barPositive testBarPositive" style="width: 100%"></div>
+    </div>
+</div>        </td>
+        <td class="testCase" id="tc-76">
+            <span class="sortValue">org.easymock.tests.ReplayStateInvalidUsageTest.setDefaultReturnValueBoolean</span>
+            <a href="../../../org/easymock/tests/ReplayStateInvalidUsageTest.html?line=304#src-304" title="View Test Source"><img class="icon" alt="test" src="../../../img/test.gif"/></a>
+            <a href="../../../org/easymock/tests/ReplayStateInvalidUsageTest_setDefaultReturnValueBoolean.html" title="Test Summary Page">org.easymock.tests.ReplayStateInvalidUsageTest.setDefaultReturnValueBoolean</a>
+        </td>
+        <td class="graphPercent">
+                  <span class="sortValue">1</span>
+    <span class="testResultSuccess">PASS</span>
+          </td>
+
+    </tr>
+        <tr id="test-222">
+        <td class="graphPercent graphPercentLeft" align="center" title="checkbox">
+            <a name="testA-222"></a>
+            <input type="checkbox" id="cb-222" value="222" name="testMethod" onclick="hiLightByTest(this.value, this.checked); return true;"/>
+        </td>
+        <td class="graphPercent link" onclick="window.location.href='../../../org/easymock/tests2/AnswerTest_nullStubAnswerNotAllowed.html';">
+            <span class="sortValue">1.0</span>
+                        <div>
+    <div style="width: 40px; font-size:0px;"></div>
+    <div title="0% Not Covered"  style="min-width: 40px;"  class="barNegative testBarNegative">
+       <div title="100% Covered" class="barPositive testBarPositive" style="width: 100%"></div>
+    </div>
+</div>        </td>
+        <td class="testCase" id="tc-222">
+            <span class="sortValue">org.easymock.tests2.AnswerTest.nullStubAnswerNotAllowed</span>
+            <a href="../../../org/easymock/tests2/AnswerTest.html?line=108#src-108" title="View Test Source"><img class="icon" alt="test" src="../../../img/test.gif"/></a>
+            <a href="../../../org/easymock/tests2/AnswerTest_nullStubAnswerNotAllowed.html" title="Test Summary Page">org.easymock.tests2.AnswerTest.nullStubAnswerNotAllowed</a>
+        </td>
+        <td class="graphPercent">
+                  <span class="sortValue">1</span>
+    <span class="testResultSuccess">PASS</span>
+          </td>
+
+    </tr>
+        <tr id="test-213">
+        <td class="graphPercent graphPercentLeft" align="center" title="checkbox">
+            <a name="testA-213"></a>
+            <input type="checkbox" id="cb-213" value="213" name="testMethod" onclick="hiLightByTest(this.value, this.checked); return true;"/>
+        </td>
+        <td class="graphPercent link" onclick="window.location.href='../../../org/easymock/tests2/AnswerTest_nullAnswerNotAllowed.html';">
+            <span class="sortValue">1.0</span>
+                        <div>
+    <div style="width: 40px; font-size:0px;"></div>
+    <div title="0% Not Covered"  style="min-width: 40px;"  class="barNegative testBarNegative">
+       <div title="100% Covered" class="barPositive testBarPositive" style="width: 100%"></div>
+    </div>
+</div>        </td>
+        <td class="testCase" id="tc-213">
+            <span class="sortValue">org.easymock.tests2.AnswerTest.nullAnswerNotAllowed</span>
+            <a href="../../../org/easymock/tests2/AnswerTest.html?line=97#src-97" title="View Test Source"><img class="icon" alt="test" src="../../../img/test.gif"/></a>
+            <a href="../../../org/easymock/tests2/AnswerTest_nullAnswerNotAllowed.html" title="Test Summary Page">org.easymock.tests2.AnswerTest.nullAnswerNotAllowed</a>
+        </td>
+        <td class="graphPercent">
+                  <span class="sortValue">1</span>
+    <span class="testResultSuccess">PASS</span>
+          </td>
+
+    </tr>
+        <tr id="test-20">
+        <td class="graphPercent graphPercentLeft" align="center" title="checkbox">
+            <a name="testA-20"></a>
+            <input type="checkbox" id="cb-20" value="20" name="testMethod" onclick="hiLightByTest(this.value, this.checked); return true;"/>
+        </td>
+        <td class="graphPercent link" onclick="window.location.href='../../../org/easymock/tests/ReplayStateInvalidUsageTest_checkOrder.html';">
+            <span class="sortValue">1.0</span>
+                        <div>
+    <div style="width: 40px; font-size:0px;"></div>
+    <div title="0% Not Covered"  style="min-width: 40px;"  class="barNegative testBarNegative">
+       <div title="100% Covered" class="barPositive testBarPositive" style="width: 100%"></div>
+    </div>
+</div>        </td>
+        <td class="testCase" id="tc-20">
+            <span class="sortValue">org.easymock.tests.ReplayStateInvalidUsageTest.checkOrder</span>
+            <a href="../../../org/easymock/tests/ReplayStateInvalidUsageTest.html?line=439#src-439" title="View Test Source"><img class="icon" alt="test" src="../../../img/test.gif"/></a>
+            <a href="../../../org/easymock/tests/ReplayStateInvalidUsageTest_checkOrder.html" title="Test Summary Page">org.easymock.tests.ReplayStateInvalidUsageTest.checkOrder</a>
+        </td>
+        <td class="graphPercent">
+                  <span class="sortValue">1</span>
+    <span class="testResultSuccess">PASS</span>
+          </td>
+
+    </tr>
+        <tr id="test-18">
+        <td class="graphPercent graphPercentLeft" align="center" title="checkbox">
+            <a name="testA-18"></a>
+            <input type="checkbox" id="cb-18" value="18" name="testMethod" onclick="hiLightByTest(this.value, this.checked); return true;"/>
+        </td>
+        <td class="graphPercent link" onclick="window.location.href='../../../org/easymock/tests/ReplayStateInvalidUsageTest_createMockWithName.html';">
+            <span class="sortValue">1.0</span>
+                        <div>
+    <div style="width: 40px; font-size:0px;"></div>
+    <div title="0% Not Covered"  style="min-width: 40px;"  class="barNegative testBarNegative">
+       <div title="100% Covered" class="barPositive testBarPositive" style="width: 100%"></div>
+    </div>
+</div>        </td>
+        <td class="testCase" id="tc-18">
+            <span class="sortValue">org.easymock.tests.ReplayStateInvalidUsageTest.createMockWithName</span>
+            <a href="../../../org/easymock/tests/ReplayStateInvalidUsageTest.html?line=434#src-434" title="View Test Source"><img class="icon" alt="test" src="../../../img/test.gif"/></a>
+            <a href="../../../org/easymock/tests/ReplayStateInvalidUsageTest_createMockWithName.html" title="Test Summary Page">org.easymock.tests.ReplayStateInvalidUsageTest.createMockWithName</a>
+        </td>
+        <td class="graphPercent">
+                  <span class="sortValue">1</span>
+    <span class="testResultSuccess">PASS</span>
+          </td>
+
+    </tr>
+        <tr id="test-343">
+        <td class="graphPercent graphPercentLeft" align="center" title="checkbox">
+            <a name="testA-343"></a>
+            <input type="checkbox" id="cb-343" value="343" name="testMethod" onclick="hiLightByTest(this.value, this.checked); return true;"/>
+        </td>
+        <td class="graphPercent link" onclick="window.location.href='../../../org/easymock/tests/RecordStateInvalidReturnValueTest_setInvalidDoubleReturnValueCount.html';">
+            <span class="sortValue">1.0</span>
+                        <div>
+    <div style="width: 40px; font-size:0px;"></div>
+    <div title="0% Not Covered"  style="min-width: 40px;"  class="barNegative testBarNegative">
+       <div title="100% Covered" class="barPositive testBarPositive" style="width: 100%"></div>
+    </div>
+</div>        </td>
+        <td class="testCase" id="tc-343">
+            <span class="sortValue">org.easymock.tests.RecordStateInvalidReturnValueTest.setInvalidDoubleReturnValueCount</span>
+            <a href="../../../org/easymock/tests/RecordStateInvalidReturnValueTest.html?line=115#src-115" title="View Test Source"><img class="icon" alt="test" src="../../../img/test.gif"/></a>
+            <a href="../../../org/easymock/tests/RecordStateInvalidReturnValueTest_setInvalidDoubleReturnValueCount.html" title="Test Summary Page">org.easymock.tests.RecordStateInvalidReturnValueTest.setInvalidDoubleReturnValueCount</a>
+        </td>
+        <td class="graphPercent">
+                  <span class="sortValue">1</span>
+    <span class="testResultSuccess">PASS</span>
+          </td>
+
+    </tr>
+        <tr id="test-79">
+        <td class="graphPercent graphPercentLeft" align="center" title="checkbox">
+            <a name="testA-79"></a>
+            <input type="checkbox" id="cb-79" value="79" name="testMethod" onclick="hiLightByTest(this.value, this.checked); return true;"/>
+        </td>
+        <td class="graphPercent link" onclick="window.location.href='../../../org/easymock/tests/RecordStateInvalidStateChangeTest_verifyWithoutActivation.html';">
+            <span class="sortValue">1.0</span>
+                        <div>
+    <div style="width: 40px; font-size:0px;"></div>
+    <div title="0% Not Covered"  style="min-width: 40px;"  class="barNegative testBarNegative">
+       <div title="100% Covered" class="barPositive testBarPositive" style="width: 100%"></div>
+    </div>
+</div>        </td>
+        <td class="testCase" id="tc-79">
+            <span class="sortValue">org.easymock.tests.RecordStateInvalidStateChangeTest.verifyWithoutActivation</span>
+            <a href="../../../org/easymock/tests/RecordStateInvalidStateChangeTest.html?line=56#src-56" title="View Test Source"><img class="icon" alt="test" src="../../../img/test.gif"/></a>
+            <a href="../../../org/easymock/tests/RecordStateInvalidStateChangeTest_verifyWithoutActivation.html" title="Test Summary Page">org.easymock.tests.RecordStateInvalidStateChangeTest.verifyWithoutActivation</a>
+        </td>
+        <td class="graphPercent">
+                  <span class="sortValue">1</span>
+    <span class="testResultSuccess">PASS</span>
+          </td>
+
+    </tr>
+        <tr id="test-452">
+        <td class="graphPercent graphPercentLeft" align="center" title="checkbox">
+            <a name="testA-452"></a>
+            <input type="checkbox" id="cb-452" value="452" name="testMethod" onclick="hiLightByTest(this.value, this.checked); return true;"/>
+        </td>
+        <td class="graphPercent link" onclick="window.location.href='../../../org/easymock/tests/RecordStateInvalidThrowableTest_throwNull.html';">
+            <span class="sortValue">1.0</span>
+                        <div>
+    <div style="width: 40px; font-size:0px;"></div>
+    <div title="0% Not Covered"  style="min-width: 40px;"  class="barNegative testBarNegative">
+       <div title="100% Covered" class="barPositive testBarPositive" style="width: 100%"></div>
+    </div>
+</div>        </td>
+        <td class="testCase" id="tc-452">
+            <span class="sortValue">org.easymock.tests.RecordStateInvalidThrowableTest.throwNull</span>
+            <a href="../../../org/easymock/tests/RecordStateInvalidThrowableTest.html?line=32#src-32" title="View Test Source"><img class="icon" alt="test" src="../../../img/test.gif"/></a>
+            <a href="../../../org/easymock/tests/RecordStateInvalidThrowableTest_throwNull.html" title="Test Summary Page">org.easymock.tests.RecordStateInvalidThrowableTest.throwNull</a>
+        </td>
+        <td class="graphPercent">
+                  <span class="sortValue">1</span>
+    <span class="testResultSuccess">PASS</span>
+          </td>
+
+    </tr>
+        <tr id="test-170">
+        <td class="graphPercent graphPercentLeft" align="center" title="checkbox">
+            <a name="testA-170"></a>
+            <input type="checkbox" id="cb-170" value="170" name="testMethod" onclick="hiLightByTest(this.value, this.checked); return true;"/>
+        </td>
+        <td class="graphPercent link" onclick="window.location.href='../../../org/easymock/tests/RecordStateInvalidRangeTest_setMinimumBiggerThanMaximum.html';">
+            <span class="sortValue">1.0</span>
+                        <div>
+    <div style="width: 40px; font-size:0px;"></div>
+    <div title="0% Not Covered"  style="min-width: 40px;"  class="barNegative testBarNegative">
+       <div title="100% Covered" class="barPositive testBarPositive" style="width: 100%"></div>
+    </div>
+</div>        </td>
+        <td class="testCase" id="tc-170">
+            <span class="sortValue">org.easymock.tests.RecordStateInvalidRangeTest.setMinimumBiggerThanMaximum</span>
+            <a href="../../../org/easymock/tests/RecordStateInvalidRangeTest.html?line=64#src-64" title="View Test Source"><img class="icon" alt="test" src="../../../img/test.gif"/></a>
+            <a href="../../../org/easymock/tests/RecordStateInvalidRangeTest_setMinimumBiggerThanMaximum.html" title="Test Summary Page">org.easymock.tests.RecordStateInvalidRangeTest.setMinimumBiggerThanMaximum</a>
+        </td>
+        <td class="graphPercent">
+                  <span class="sortValue">1</span>
+    <span class="testResultSuccess">PASS</span>
+          </td>
+
+    </tr>
+        <tr id="test-426">
+        <td class="graphPercent graphPercentLeft" align="center" title="checkbox">
+            <a name="testA-426"></a>
+            <input type="checkbox" id="cb-426" value="426" name="testMethod" onclick="hiLightByTest(this.value, this.checked); return true;"/>
+        </td>
+        <td class="graphPercent link" onclick="window.location.href='../../../org/easymock/tests/DefaultMatcherTest_failInReplayState.html';">
+            <span class="sortValue">1.0</span>
+                        <div>
+    <div style="width: 40px; font-size:0px;"></div>
+    <div title="0% Not Covered"  style="min-width: 40px;"  class="barNegative testBarNegative">
+       <div title="100% Covered" class="barPositive testBarPositive" style="width: 100%"></div>
+    </div>
+</div>        </td>
+        <td class="testCase" id="tc-426">
+            <span class="sortValue">org.easymock.tests.DefaultMatcherTest.failInReplayState</span>
+            <a href="../../../org/easymock/tests/DefaultMatcherTest.html?line=47#src-47" title="View Test Source"><img class="icon" alt="test" src="../../../img/test.gif"/></a>
+            <a href="../../../org/easymock/tests/DefaultMatcherTest_failInReplayState.html" title="Test Summary Page">org.easymock.tests.DefaultMatcherTest.failInReplayState</a>
+        </td>
+        <td class="graphPercent">
+                  <span class="sortValue">1</span>
+    <span class="testResultSuccess">PASS</span>
+          </td>
+
+    </tr>
+        <tr id="test-340">
+        <td class="graphPercent graphPercentLeft" align="center" title="checkbox">
+            <a name="testA-340"></a>
+            <input type="checkbox" id="cb-340" value="340" name="testMethod" onclick="hiLightByTest(this.value, this.checked); return true;"/>
+        </td>
+        <td class="graphPercent link" onclick="window.location.href='../../../org/easymock/tests/RecordStateInvalidReturnValueTest_setInvalidFloatReturnValueCount.html';">
+            <span class="sortValue">1.0</span>
+                        <div>
+    <div style="width: 40px; font-size:0px;"></div>
+    <div title="0% Not Covered"  style="min-width: 40px;"  class="barNegative testBarNegative">
+       <div title="100% Covered" class="barPositive testBarPositive" style="width: 100%"></div>
+    </div>
+</div>        </td>
+        <td class="testCase" id="tc-340">
+            <span class="sortValue">org.easymock.tests.RecordStateInvalidReturnValueTest.setInvalidFloatReturnValueCount</span>
+            <a href="../../../org/easymock/tests/RecordStateInvalidReturnValueTest.html?line=104#src-104" title="View Test Source"><img class="icon" alt="test" src="../../../img/test.gif"/></a>
+            <a href="../../../org/easymock/tests/RecordStateInvalidReturnValueTest_setInvalidFloatReturnValueCount.html" title="Test Summary Page">org.easymock.tests.RecordStateInvalidReturnValueTest.setInvalidFloatReturnValueCount</a>
+        </td>
+        <td class="graphPercent">
+                  <span class="sortValue">1</span>
+    <span class="testResultSuccess">PASS</span>
+          </td>
+
+    </tr>
+        <tr id="test-331">
+        <td class="graphPercent graphPercentLeft" align="center" title="checkbox">
+            <a name="testA-331"></a>
+            <input type="checkbox" id="cb-331" value="331" name="testMethod" onclick="hiLightByTest(this.value, this.checked); return true;"/>
+        </td>
+        <td class="graphPercent link" onclick="window.location.href='../../../org/easymock/tests/RecordStateInvalidReturnValueTest_setInvalidDoubleReturnValue.html';">
+            <span class="sortValue">1.0</span>
+                        <div>
+    <div style="width: 40px; font-size:0px;"></div>
+    <div title="0% Not Covered"  style="min-width: 40px;"  class="barNegative testBarNegative">
+       <div title="100% Covered" class="barPositive testBarPositive" style="width: 100%"></div>
+    </div>
+</div>        </td>
+        <td class="testCase" id="tc-331">
+            <span class="sortValue">org.easymock.tests.RecordStateInvalidReturnValueTest.setInvalidDoubleReturnValue</span>
+            <a href="../../../org/easymock/tests/RecordStateInvalidReturnValueTest.html?line=59#src-59" title="View Test Source"><img class="icon" alt="test" src="../../../img/test.gif"/></a>
+            <a href="../../../org/easymock/tests/RecordStateInvalidReturnValueTest_setInvalidDoubleReturnValue.html" title="Test Summary Page">org.easymock.tests.RecordStateInvalidReturnValueTest.setInvalidDoubleReturnValue</a>
+        </td>
+        <td class="graphPercent">
+                  <span class="sortValue">1</span>
+    <span class="testResultSuccess">PASS</span>
+          </td>
+
+    </tr>
+        <tr id="test-277">
+        <td class="graphPercent graphPercentLeft" align="center" title="checkbox">
+            <a name="testA-277"></a>
+            <input type="checkbox" id="cb-277" value="277" name="testMethod" onclick="hiLightByTest(this.value, this.checked); return true;"/>
+        </td>
+        <td class="graphPercent link" onclick="window.location.href='../../../org/easymock/tests/RecordStateInvalidReturnValueTest_setInvalidBooleanReturnValue.html';">
+            <span class="sortValue">1.0</span>
+                        <div>
+    <div style="width: 40px; font-size:0px;"></div>
+    <div title="0% Not Covered"  style="min-width: 40px;"  class="barNegative testBarNegative">
+       <div title="100% Covered" class="barPositive testBarPositive" style="width: 100%"></div>
+    </div>
+</div>        </td>
+        <td class="testCase" id="tc-277">
+            <span class="sortValue">org.easymock.tests.RecordStateInvalidReturnValueTest.setInvalidBooleanReturnValue</span>
+            <a href="../../../org/easymock/tests/RecordStateInvalidReturnValueTest.html?line=25#src-25" title="View Test Source"><img class="icon" alt="test" src="../../../img/test.gif"/></a>
+            <a href="../../../org/easymock/tests/RecordStateInvalidReturnValueTest_setInvalidBooleanReturnValue.html" title="Test Summary Page">org.easymock.tests.RecordStateInvalidReturnValueTest.setInvalidBooleanReturnValue</a>
+        </td>
+        <td class="graphPercent">
+                  <span class="sortValue">1</span>
+    <span class="testResultSuccess">PASS</span>
+          </td>
+
+    </tr>
+        <tr id="test-234">
+        <td class="graphPercent graphPercentLeft" align="center" title="checkbox">
+            <a name="testA-234"></a>
+            <input type="checkbox" id="cb-234" value="234" name="testMethod" onclick="hiLightByTest(this.value, this.checked); return true;"/>
+        </td>
+        <td class="graphPercent link" onclick="window.location.href='../../../org/easymock/tests/RecordStateInvalidDefaultThrowableTest_setDefaultThrowableWithoutMethodCall.html';">
+            <span class="sortValue">1.0</span>
+                        <div>
+    <div style="width: 40px; font-size:0px;"></div>
+    <div title="0% Not Covered"  style="min-width: 40px;"  class="barNegative testBarNegative">
+       <div title="100% Covered" class="barPositive testBarPositive" style="width: 100%"></div>
+    </div>
+</div>        </td>
+        <td class="testCase" id="tc-234">
+            <span class="sortValue">org.easymock.tests.RecordStateInvalidDefaultThrowableTest.setDefaultThrowableWithoutMethodCall</span>
+            <a href="../../../org/easymock/tests/RecordStateInvalidDefaultThrowableTest.html?line=69#src-69" title="View Test Source"><img class="icon" alt="test" src="../../../img/test.gif"/></a>
+            <a href="../../../org/easymock/tests/RecordStateInvalidDefaultThrowableTest_setDefaultThrowableWithoutMethodCall.html" title="Test Summary Page">org.easymock.tests.RecordStateInvalidDefaultThrowableTest.setDefaultThrowableWithoutMethodCall</a>
+        </td>
+        <td class="graphPercent">
+                  <span class="sortValue">1</span>
+    <span class="testResultSuccess">PASS</span>
+          </td>
+
+    </tr>
+        <tr id="test-70">
+        <td class="graphPercent graphPercentLeft" align="center" title="checkbox">
+            <a name="testA-70"></a>
+            <input type="checkbox" id="cb-70" value="70" name="testMethod" onclick="hiLightByTest(this.value, this.checked); return true;"/>
+        </td>
+        <td class="graphPercent link" onclick="window.location.href='../../../org/easymock/tests/ReplayStateInvalidUsageTest_setDefaultReturnValueDouble.html';">
+            <span class="sortValue">1.0</span>
+                        <div>
+    <div style="width: 40px; font-size:0px;"></div>
+    <div title="0% Not Covered"  style="min-width: 40px;"  class="barNegative testBarNegative">
+       <div title="100% Covered" class="barPositive testBarPositive" style="width: 100%"></div>
+    </div>
+</div>        </td>
+        <td class="testCase" id="tc-70">
+            <span class="sortValue">org.easymock.tests.ReplayStateInvalidUsageTest.setDefaultReturnValueDouble</span>
+            <a href="../../../org/easymock/tests/ReplayStateInvalidUsageTest.html?line=289#src-289" title="View Test Source"><img class="icon" alt="test" src="../../../img/test.gif"/></a>
+            <a href="../../../org/easymock/tests/ReplayStateInvalidUsageTest_setDefaultReturnValueDouble.html" title="Test Summary Page">org.easymock.tests.ReplayStateInvalidUsageTest.setDefaultReturnValueDouble</a>
+        </td>
+        <td class="graphPercent">
+                  <span class="sortValue">1</span>
+    <span class="testResultSuccess">PASS</span>
+          </td>
+
+    </tr>
+        <tr id="test-29">
+        <td class="graphPercent graphPercentLeft" align="center" title="checkbox">
+            <a name="testA-29"></a>
+            <input type="checkbox" id="cb-29" value="29" name="testMethod" onclick="hiLightByTest(this.value, this.checked); return true;"/>
+        </td>
+        <td class="graphPercent link" onclick="window.location.href='../../../org/easymock/tests/RecordStateInvalidUsageTest_setWrongReturnValueShort.html';">
+            <span class="sortValue">1.0</span>
+                        <div>
+    <div style="width: 40px; font-size:0px;"></div>
+    <div title="0% Not Covered"  style="min-width: 40px;"  class="barNegative testBarNegative">
+       <div title="100% Covered" class="barPositive testBarPositive" style="width: 100%"></div>
+    </div>
+</div>        </td>
+        <td class="testCase" id="tc-29">
+            <span class="sortValue">org.easymock.tests.RecordStateInvalidUsageTest.setWrongReturnValueShort</span>
+            <a href="../../../org/easymock/tests/RecordStateInvalidUsageTest.html?line=74#src-74" title="View Test Source"><img class="icon" alt="test" src="../../../img/test.gif"/></a>
+            <a href="../../../org/easymock/tests/RecordStateInvalidUsageTest_setWrongReturnValueShort.html" title="Test Summary Page">org.easymock.tests.RecordStateInvalidUsageTest.setWrongReturnValueShort</a>
+        </td>
+        <td class="graphPercent">
+                  <span class="sortValue">1</span>
+    <span class="testResultSuccess">PASS</span>
+          </td>
+
+    </tr>
+        <tr id="test-154">
+        <td class="graphPercent graphPercentLeft" align="center" title="checkbox">
+            <a name="testA-154"></a>
+            <input type="checkbox" id="cb-154" value="154" name="testMethod" onclick="hiLightByTest(this.value, this.checked); return true;"/>
+        </td>
+        <td class="graphPercent link" onclick="window.location.href='../../../org/easymock/tests/RecordStateInvalidUsageTest_setWrongReturnValueDouble.html';">
+            <span class="sortValue">1.0</span>
+                        <div>
+    <div style="width: 40px; font-size:0px;"></div>
+    <div title="0% Not Covered"  style="min-width: 40px;"  class="barNegative testBarNegative">
+       <div title="100% Covered" class="barPositive testBarPositive" style="width: 100%"></div>
+    </div>
+</div>        </td>
+        <td class="testCase" id="tc-154">
+            <span class="sortValue">org.easymock.tests.RecordStateInvalidUsageTest.setWrongReturnValueDouble</span>
+            <a href="../../../org/easymock/tests/RecordStateInvalidUsageTest.html?line=134#src-134" title="View Test Source"><img class="icon" alt="test" src="../../../img/test.gif"/></a>
+            <a href="../../../org/easymock/tests/RecordStateInvalidUsageTest_setWrongReturnValueDouble.html" title="Test Summary Page">org.easymock.tests.RecordStateInvalidUsageTest.setWrongReturnValueDouble</a>
+        </td>
+        <td class="graphPercent">
+                  <span class="sortValue">1</span>
+    <span class="testResultSuccess">PASS</span>
+          </td>
+
+    </tr>
+        <tr id="test-380">
+        <td class="graphPercent graphPercentLeft" align="center" title="checkbox">
+            <a name="testA-380"></a>
+            <input type="checkbox" id="cb-380" value="380" name="testMethod" onclick="hiLightByTest(this.value, this.checked); return true;"/>
+        </td>
+        <td class="graphPercent link" onclick="window.location.href='../../../org/easymock/tests/RecordStateInvalidMatcherTest_setMatcherBeforeCallingMethods.html';">
+            <span class="sortValue">1.0</span>
+                        <div>
+    <div style="width: 40px; font-size:0px;"></div>
+    <div title="0% Not Covered"  style="min-width: 40px;"  class="barNegative testBarNegative">
+       <div title="100% Covered" class="barPositive testBarPositive" style="width: 100%"></div>
+    </div>
+</div>        </td>
+        <td class="testCase" id="tc-380">
+            <span class="sortValue">org.easymock.tests.RecordStateInvalidMatcherTest.setMatcherBeforeCallingMethods</span>
+            <a href="../../../org/easymock/tests/RecordStateInvalidMatcherTest.html?line=25#src-25" title="View Test Source"><img class="icon" alt="test" src="../../../img/test.gif"/></a>
+            <a href="../../../org/easymock/tests/RecordStateInvalidMatcherTest_setMatcherBeforeCallingMethods.html" title="Test Summary Page">org.easymock.tests.RecordStateInvalidMatcherTest.setMatcherBeforeCallingMethods</a>
+        </td>
+        <td class="graphPercent">
+                  <span class="sortValue">1</span>
+    <span class="testResultSuccess">PASS</span>
+          </td>
+
+    </tr>
+        <tr id="test-28">
+        <td class="graphPercent graphPercentLeft" align="center" title="checkbox">
+            <a name="testA-28"></a>
+            <input type="checkbox" id="cb-28" value="28" name="testMethod" onclick="hiLightByTest(this.value, this.checked); return true;"/>
+        </td>
+        <td class="graphPercent link" onclick="window.location.href='../../../org/easymock/tests/ReplayStateInvalidUsageTest_times.html';">
+            <span class="sortValue">1.0</span>
+                        <div>
+    <div style="width: 40px; font-size:0px;"></div>
+    <div title="0% Not Covered"  style="min-width: 40px;"  class="barNegative testBarNegative">
+       <div title="100% Covered" class="barPositive testBarPositive" style="width: 100%"></div>
+    </div>
+</div>        </td>
+        <td class="testCase" id="tc-28">
+            <span class="sortValue">org.easymock.tests.ReplayStateInvalidUsageTest.times</span>
+            <a href="../../../org/easymock/tests/ReplayStateInvalidUsageTest.html?line=464#src-464" title="View Test Source"><img class="icon" alt="test" src="../../../img/test.gif"/></a>
+            <a href="../../../org/easymock/tests/ReplayStateInvalidUsageTest_times.html" title="Test Summary Page">org.easymock.tests.ReplayStateInvalidUsageTest.times</a>
+        </td>
+        <td class="graphPercent">
+                  <span class="sortValue">1</span>
+    <span class="testResultSuccess">PASS</span>
+          </td>
+
+    </tr>
+        <tr id="test-138">
+        <td class="graphPercent graphPercentLeft" align="center" title="checkbox">
+            <a name="testA-138"></a>
+            <input type="checkbox" id="cb-138" value="138" name="testMethod" onclick="hiLightByTest(this.value, this.checked); return true;"/>
+        </td>
+        <td class="graphPercent link" onclick="window.location.href='../../../org/easymock/tests/RecordStateInvalidRangeTest_setOpenCallCountTwice.html';">
+            <span class="sortValue">1.0</span>
+                        <div>
+    <div style="width: 40px; font-size:0px;"></div>
+    <div title="0% Not Covered"  style="min-width: 40px;"  class="barNegative testBarNegative">
+       <div title="100% Covered" class="barPositive testBarPositive" style="width: 100%"></div>
+    </div>
+</div>        </td>
+        <td class="testCase" id="tc-138">
+            <span class="sortValue">org.easymock.tests.RecordStateInvalidRangeTest.setOpenCallCountTwice</span>
+            <a href="../../../org/easymock/tests/RecordStateInvalidRangeTest.html?line=26#src-26" title="View Test Source"><img class="icon" alt="test" src="../../../img/test.gif"/></a>
+            <a href="../../../org/easymock/tests/RecordStateInvalidRangeTest_setOpenCallCountTwice.html" title="Test Summary Page">org.easymock.tests.RecordStateInvalidRangeTest.setOpenCallCountTwice</a>
+        </td>
+        <td class="graphPercent">
+                  <span class="sortValue">1</span>
+    <span class="testResultSuccess">PASS</span>
+          </td>
+
+    </tr>
+        <tr id="test-377">
+        <td class="graphPercent graphPercentLeft" align="center" title="checkbox">
+            <a name="testA-377"></a>
+            <input type="checkbox" id="cb-377" value="377" name="testMethod" onclick="hiLightByTest(this.value, this.checked); return true;"/>
+        </td>
+        <td class="graphPercent link" onclick="window.location.href='../../../org/easymock/tests/RecordStateInvalidMatcherTest_setMatcherTwice.html';">
+            <span class="sortValue">1.0</span>
+                        <div>
+    <div style="width: 40px; font-size:0px;"></div>
+    <div title="0% Not Covered"  style="min-width: 40px;"  class="barNegative testBarNegative">
+       <div title="100% Covered" class="barPositive testBarPositive" style="width: 100%"></div>
+    </div>
+</div>        </td>
+        <td class="testCase" id="tc-377">
+            <span class="sortValue">org.easymock.tests.RecordStateInvalidMatcherTest.setMatcherTwice</span>
+            <a href="../../../org/easymock/tests/RecordStateInvalidMatcherTest.html?line=37#src-37" title="View Test Source"><img class="icon" alt="test" src="../../../img/test.gif"/></a>
+            <a href="../../../org/easymock/tests/RecordStateInvalidMatcherTest_setMatcherTwice.html" title="Test Summary Page">org.easymock.tests.RecordStateInvalidMatcherTest.setMatcherTwice</a>
+        </td>
+        <td class="graphPercent">
+                  <span class="sortValue">1</span>
+    <span class="testResultSuccess">PASS</span>
+          </td>
+
+    </tr>
+        <tr id="test-2">
+        <td class="graphPercent graphPercentLeft" align="center" title="checkbox">
+            <a name="testA-2"></a>
+            <input type="checkbox" id="cb-2" value="2" name="testMethod" onclick="hiLightByTest(this.value, this.checked); return true;"/>
+        </td>
+        <td class="graphPercent link" onclick="window.location.href='../../../org/easymock/tests/RecordStateInvalidUsageTest_setWrongReturnValueBoolean.html';">
+            <span class="sortValue">1.0</span>
+                        <div>
+    <div style="width: 40px; font-size:0px;"></div>
+    <div title="0% Not Covered"  style="min-width: 40px;"  class="barNegative testBarNegative">
+       <div title="100% Covered" class="barPositive testBarPositive" style="width: 100%"></div>
+    </div>
+</div>        </td>
+        <td class="testCase" id="tc-2">
+            <span class="sortValue">org.easymock.tests.RecordStateInvalidUsageTest.setWrongReturnValueBoolean</span>
+            <a href="../../../org/easymock/tests/RecordStateInvalidUsageTest.html?line=62#src-62" title="View Test Source"><img class="icon" alt="test" src="../../../img/test.gif"/></a>
+            <a href="../../../org/easymock/tests/RecordStateInvalidUsageTest_setWrongReturnValueBoolean.html" title="Test Summary Page">org.easymock.tests.RecordStateInvalidUsageTest.setWrongReturnValueBoolean</a>
+        </td>
+        <td class="graphPercent">
+                  <span class="sortValue">1</span>
+    <span class="testResultSuccess">PASS</span>
+          </td>
+
+    </tr>
+        <tr id="test-424">
+        <td class="graphPercent graphPercentLeft" align="center" title="checkbox">
+            <a name="testA-424"></a>
+            <input type="checkbox" id="cb-424" value="424" name="testMethod" onclick="hiLightByTest(this.value, this.checked); return true;"/>
+        </td>
+        <td class="graphPercent link" onclick="window.location.href='../../../org/easymock/tests/DefaultMatcherTest_failIfDefaultMatcherSetTwice.html';">
+            <span class="sortValue">1.0</span>
+                        <div>
+    <div style="width: 40px; font-size:0px;"></div>
+    <div title="0% Not Covered"  style="min-width: 40px;"  class="barNegative testBarNegative">
+       <div title="100% Covered" class="barPositive testBarPositive" style="width: 100%"></div>
+    </div>
+</div>        </td>
+        <td class="testCase" id="tc-424">
+            <span class="sortValue">org.easymock.tests.DefaultMatcherTest.failIfDefaultMatcherSetTwice</span>
+            <a href="../../../org/easymock/tests/DefaultMatcherTest.html?line=57#src-57" title="View Test Source"><img class="icon" alt="test" src="../../../img/test.gif"/></a>
+            <a href="../../../org/easymock/tests/DefaultMatcherTest_failIfDefaultMatcherSetTwice.html" title="Test Summary Page">org.easymock.tests.DefaultMatcherTest.failIfDefaultMatcherSetTwice</a>
+        </td>
+        <td class="graphPercent">
+                  <span class="sortValue">1</span>
+    <span class="testResultSuccess">PASS</span>
+          </td>
+
+    </tr>
+        <tr id="test-448">
+        <td class="graphPercent graphPercentLeft" align="center" title="checkbox">
+            <a name="testA-448"></a>
+            <input type="checkbox" id="cb-448" value="448" name="testMethod" onclick="hiLightByTest(this.value, this.checked); return true;"/>
+        </td>
+        <td class="graphPercent link" onclick="window.location.href='../../../org/easymock/tests/RecordStateInvalidThrowableTest_throwCheckedExceptionWhereNoCheckedExceptionIsThrown.html';">
+            <span class="sortValue">1.0</span>
+                        <div>
+    <div style="width: 40px; font-size:0px;"></div>
+    <div title="0% Not Covered"  style="min-width: 40px;"  class="barNegative testBarNegative">
+       <div title="100% Covered" class="barPositive testBarPositive" style="width: 100%"></div>
+    </div>
+</div>        </td>
+        <td class="testCase" id="tc-448">
+            <span class="sortValue">org.easymock.tests.RecordStateInvalidThrowableTest.throwCheckedExceptionWhereNoCheckedExceptionIsThrown</span>
+            <a href="../../../org/easymock/tests/RecordStateInvalidThrowableTest.html?line=44#src-44" title="View Test Source"><img class="icon" alt="test" src="../../../img/test.gif"/></a>
+            <a href="../../../org/easymock/tests/RecordStateInvalidThrowableTest_throwCheckedExceptionWhereNoCheckedExceptionIsThrown.html" title="Test Summary Page">org.easymock.tests.RecordStateInvalidThrowableTest.throwCheckedExceptionWhereNoCheckedExceptionIsThrown</a>
+        </td>
+        <td class="graphPercent">
+                  <span class="sortValue">1</span>
+    <span class="testResultSuccess">PASS</span>
+          </td>
+
+    </tr>
+        <tr id="test-337">
+        <td class="graphPercent graphPercentLeft" align="center" title="checkbox">
+            <a name="testA-337"></a>
+            <input type="checkbox" id="cb-337" value="337" name="testMethod" onclick="hiLightByTest(this.value, this.checked); return true;"/>
+        </td>
+        <td class="graphPercent link" onclick="window.location.href='../../../org/easymock/tests/RecordStateInvalidReturnValueTest_setInvalidLongReturnValueCount.html';">
+            <span class="sortValue">1.0</span>
+                        <div>
+    <div style="width: 40px; font-size:0px;"></div>
+    <div title="0% Not Covered"  style="min-width: 40px;"  class="barNegative testBarNegative">
+       <div title="100% Covered" class="barPositive testBarPositive" style="width: 100%"></div>
+    </div>
+</div>        </td>
+        <td class="testCase" id="tc-337">
+            <span class="sortValue">org.easymock.tests.RecordStateInvalidReturnValueTest.setInvalidLongReturnValueCount</span>
+            <a href="../../../org/easymock/tests/RecordStateInvalidReturnValueTest.html?line=93#src-93" title="View Test Source"><img class="icon" alt="test" src="../../../img/test.gif"/></a>
+            <a href="../../../org/easymock/tests/RecordStateInvalidReturnValueTest_setInvalidLongReturnValueCount.html" title="Test Summary Page">org.easymock.tests.RecordStateInvalidReturnValueTest.setInvalidLongReturnValueCount</a>
+        </td>
+        <td class="graphPercent">
+                  <span class="sortValue">1</span>
+    <span class="testResultSuccess">PASS</span>
+          </td>
+
+    </tr>
+        <tr id="test-30">
+        <td class="graphPercent graphPercentLeft" align="center" title="checkbox">
+            <a name="testA-30"></a>
+            <input type="checkbox" id="cb-30" value="30" name="testMethod" onclick="hiLightByTest(this.value, this.checked); return true;"/>
+        </td>
+        <td class="graphPercent link" onclick="window.location.href='../../../org/easymock/tests/ReplayStateInvalidUsageTest_anyTimes.html';">
+            <span class="sortValue">1.0</span>
+                        <div>
+    <div style="width: 40px; font-size:0px;"></div>
+    <div title="0% Not Covered"  style="min-width: 40px;"  class="barNegative testBarNegative">
+       <div title="100% Covered" class="barPositive testBarPositive" style="width: 100%"></div>
+    </div>
+</div>        </td>
+        <td class="testCase" id="tc-30">
+            <span class="sortValue">org.easymock.tests.ReplayStateInvalidUsageTest.anyTimes</span>
+            <a href="../../../org/easymock/tests/ReplayStateInvalidUsageTest.html?line=469#src-469" title="View Test Source"><img class="icon" alt="test" src="../../../img/test.gif"/></a>
+            <a href="../../../org/easymock/tests/ReplayStateInvalidUsageTest_anyTimes.html" title="Test Summary Page">org.easymock.tests.ReplayStateInvalidUsageTest.anyTimes</a>
+        </td>
+        <td class="graphPercent">
+                  <span class="sortValue">1</span>
+    <span class="testResultSuccess">PASS</span>
+          </td>
+
+    </tr>
+        <tr id="test-439">
+        <td class="graphPercent graphPercentLeft" align="center" title="checkbox">
+            <a name="testA-439"></a>
+            <input type="checkbox" id="cb-439" value="439" name="testMethod" onclick="hiLightByTest(this.value, this.checked); return true;"/>
+        </td>
+        <td class="graphPercent link" onclick="window.location.href='../../../org/easymock/tests/RecordStateInvalidDefaultReturnValueTest_setInvalidDefaultLongReturnValue.html';">
+            <span class="sortValue">1.0</span>
+                        <div>
+    <div style="width: 40px; font-size:0px;"></div>
+    <div title="0% Not Covered"  style="min-width: 40px;"  class="barNegative testBarNegative">
+       <div title="100% Covered" class="barPositive testBarPositive" style="width: 100%"></div>
+    </div>
+</div>        </td>
+        <td class="testCase" id="tc-439">
+            <span class="sortValue">org.easymock.tests.RecordStateInvalidDefaultReturnValueTest.setInvalidDefaultLongReturnValue</span>
+            <a href="../../../org/easymock/tests/RecordStateInvalidDefaultReturnValueTest.html?line=36#src-36" title="View Test Source"><img class="icon" alt="test" src="../../../img/test.gif"/></a>
+            <a href="../../../org/easymock/tests/RecordStateInvalidDefaultReturnValueTest_setInvalidDefaultLongReturnValue.html" title="Test Summary Page">org.easymock.tests.RecordStateInvalidDefaultReturnValueTest.setInvalidDefaultLongReturnValue</a>
+        </td>
+        <td class="graphPercent">
+                  <span class="sortValue">1</span>
+    <span class="testResultSuccess">PASS</span>
+          </td>
+
+    </tr>
+        <tr id="test-180">
+        <td class="graphPercent graphPercentLeft" align="center" title="checkbox">
+            <a name="testA-180"></a>
+            <input type="checkbox" id="cb-180" value="180" name="testMethod" onclick="hiLightByTest(this.value, this.checked); return true;"/>
+        </td>
+        <td class="graphPercent link" onclick="window.location.href='../../../org/easymock/tests/RecordStateInvalidRangeTest_setIllegalMinimumCount.html';">
+            <span class="sortValue">1.0</span>
+                        <div>
+    <div style="width: 40px; font-size:0px;"></div>
+    <div title="0% Not Covered"  style="min-width: 40px;"  class="barNegative testBarNegative">
+       <div title="100% Covered" class="barPositive testBarPositive" style="width: 100%"></div>
+    </div>
+</div>        </td>
+        <td class="testCase" id="tc-180">
+            <span class="sortValue">org.easymock.tests.RecordStateInvalidRangeTest.setIllegalMinimumCount</span>
+            <a href="../../../org/easymock/tests/RecordStateInvalidRangeTest.html?line=40#src-40" title="View Test Source"><img class="icon" alt="test" src="../../../img/test.gif"/></a>
+            <a href="../../../org/easymock/tests/RecordStateInvalidRangeTest_setIllegalMinimumCount.html" title="Test Summary Page">org.easymock.tests.RecordStateInvalidRangeTest.setIllegalMinimumCount</a>
+        </td>
+        <td class="graphPercent">
+                  <span class="sortValue">1</span>
+    <span class="testResultSuccess">PASS</span>
+          </td>
+
+    </tr>
+        <tr id="test-339">
+        <td class="graphPercent graphPercentLeft" align="center" title="checkbox">
+            <a name="testA-339"></a>
+            <input type="checkbox" id="cb-339" value="339" name="testMethod" onclick="hiLightByTest(this.value, this.checked); return true;"/>
+        </td>
+        <td class="graphPercent link" onclick="window.location.href='../../../org/easymock/tests/RecordStateInvalidReturnValueTest_setInvalidBooleanReturnValueCount.html';">
+            <span class="sortValue">1.0</span>
+                        <div>
+    <div style="width: 40px; font-size:0px;"></div>
+    <div title="0% Not Covered"  style="min-width: 40px;"  class="barNegative testBarNegative">
+       <div title="100% Covered" class="barPositive testBarPositive" style="width: 100%"></div>
+    </div>
+</div>        </td>
+        <td class="testCase" id="tc-339">
+            <span class="sortValue">org.easymock.tests.RecordStateInvalidReturnValueTest.setInvalidBooleanReturnValueCount</span>
+            <a href="../../../org/easymock/tests/RecordStateInvalidReturnValueTest.html?line=81#src-81" title="View Test Source"><img class="icon" alt="test" src="../../../img/test.gif"/></a>
+            <a href="../../../org/easymock/tests/RecordStateInvalidReturnValueTest_setInvalidBooleanReturnValueCount.html" title="Test Summary Page">org.easymock.tests.RecordStateInvalidReturnValueTest.setInvalidBooleanReturnValueCount</a>
+        </td>
+        <td class="graphPercent">
+                  <span class="sortValue">1</span>
+    <span class="testResultSuccess">PASS</span>
+          </td>
+
+    </tr>
+        <tr id="test-24">
+        <td class="graphPercent graphPercentLeft" align="center" title="checkbox">
+            <a name="testA-24"></a>
+            <input type="checkbox" id="cb-24" value="24" name="testMethod" onclick="hiLightByTest(this.value, this.checked); return true;"/>
+        </td>
+        <td class="graphPercent link" onclick="window.location.href='../../../org/easymock/tests/ReplayStateInvalidUsageTest_andStubThrow.html';">
+            <span class="sortValue">1.0</span>
+                        <div>
+    <div style="width: 40px; font-size:0px;"></div>
+    <div title="0% Not Covered"  style="min-width: 40px;"  class="barNegative testBarNegative">
+       <div title="100% Covered" class="barPositive testBarPositive" style="width: 100%"></div>
+    </div>
+</div>        </td>
+        <td class="testCase" id="tc-24">
+            <span class="sortValue">org.easymock.tests.ReplayStateInvalidUsageTest.andStubThrow</span>
+            <a href="../../../org/easymock/tests/ReplayStateInvalidUsageTest.html?line=454#src-454" title="View Test Source"><img class="icon" alt="test" src="../../../img/test.gif"/></a>
+            <a href="../../../org/easymock/tests/ReplayStateInvalidUsageTest_andStubThrow.html" title="Test Summary Page">org.easymock.tests.ReplayStateInvalidUsageTest.andStubThrow</a>
+        </td>
+        <td class="graphPercent">
+                  <span class="sortValue">1</span>
+    <span class="testResultSuccess">PASS</span>
+          </td>
+
+    </tr>
+        <tr id="test-23">
+        <td class="graphPercent graphPercentLeft" align="center" title="checkbox">
+            <a name="testA-23"></a>
+            <input type="checkbox" id="cb-23" value="23" name="testMethod" onclick="hiLightByTest(this.value, this.checked); return true;"/>
+        </td>
+        <td class="graphPercent link" onclick="window.location.href='../../../org/easymock/tests/ReplayStateInvalidUsageTest_andStubReturn.html';">
+            <span class="sortValue">1.0</span>
+                        <div>
+    <div style="width: 40px; font-size:0px;"></div>
+    <div title="0% Not Covered"  style="min-width: 40px;"  class="barNegative testBarNegative">
+       <div title="100% Covered" class="barPositive testBarPositive" style="width: 100%"></div>
+    </div>
+</div>        </td>
+        <td class="testCase" id="tc-23">
+            <span class="sortValue">org.easymock.tests.ReplayStateInvalidUsageTest.andStubReturn</span>
+            <a href="../../../org/easymock/tests/ReplayStateInvalidUsageTest.html?line=449#src-449" title="View Test Source"><img class="icon" alt="test" src="../../../img/test.gif"/></a>
+            <a href="../../../org/easymock/tests/ReplayStateInvalidUsageTest_andStubReturn.html" title="Test Summary Page">org.easymock.tests.ReplayStateInvalidUsageTest.andStubReturn</a>
+        </td>
+        <td class="graphPercent">
+                  <span class="sortValue">1</span>
+    <span class="testResultSuccess">PASS</span>
+          </td>
+
+    </tr>
+        <tr id="test-75">
+        <td class="graphPercent graphPercentLeft" align="center" title="checkbox">
+            <a name="testA-75"></a>
+            <input type="checkbox" id="cb-75" value="75" name="testMethod" onclick="hiLightByTest(this.value, this.checked); return true;"/>
+        </td>
+        <td class="graphPercent link" onclick="window.location.href='../../../org/easymock/tests/ReplayStateInvalidUsageTest_setMatcher.html';">
+            <span class="sortValue">1.0</span>
+                        <div>
+    <div style="width: 40px; font-size:0px;"></div>
+    <div title="0% Not Covered"  style="min-width: 40px;"  class="barNegative testBarNegative">
+       <div title="100% Covered" class="barPositive testBarPositive" style="width: 100%"></div>
+    </div>
+</div>        </td>
+        <td class="testCase" id="tc-75">
+            <span class="sortValue">org.easymock.tests.ReplayStateInvalidUsageTest.setMatcher</span>
+            <a href="../../../org/easymock/tests/ReplayStateInvalidUsageTest.html?line=279#src-279" title="View Test Source"><img class="icon" alt="test" src="../../../img/test.gif"/></a>
+            <a href="../../../org/easymock/tests/ReplayStateInvalidUsageTest_setMatcher.html" title="Test Summary Page">org.easymock.tests.ReplayStateInvalidUsageTest.setMatcher</a>
+        </td>
+        <td class="graphPercent">
+                  <span class="sortValue">1</span>
+    <span class="testResultSuccess">PASS</span>
+          </td>
+
+    </tr>
+        <tr id="test-399">
+        <td class="graphPercent graphPercentLeft" align="center" title="checkbox">
+            <a name="testA-399"></a>
+            <input type="checkbox" id="cb-399" value="399" name="testMethod" onclick="hiLightByTest(this.value, this.checked); return true;"/>
+        </td>
+        <td class="graphPercent link" onclick="window.location.href='../../../org/easymock/tests/RecordStateMethodCallMissingTest_setDefaultThrowableWithoutMethodCall.html';">
+            <span class="sortValue">1.0</span>
+                        <div>
+    <div style="width: 40px; font-size:0px;"></div>
+    <div title="0% Not Covered"  style="min-width: 40px;"  class="barNegative testBarNegative">
+       <div title="100% Covered" class="barPositive testBarPositive" style="width: 100%"></div>
+    </div>
+</div>        </td>
+        <td class="testCase" id="tc-399">
+            <span class="sortValue">org.easymock.tests.RecordStateMethodCallMissingTest.setDefaultThrowableWithoutMethodCall</span>
+            <a href="../../../org/easymock/tests/RecordStateMethodCallMissingTest.html?line=266#src-266" title="View Test Source"><img class="icon" alt="test" src="../../../img/test.gif"/></a>
+            <a href="../../../org/easymock/tests/RecordStateMethodCallMissingTest_setDefaultThrowableWithoutMethodCall.html" title="Test Summary Page">org.easymock.tests.RecordStateMethodCallMissingTest.setDefaultThrowableWithoutMethodCall</a>
+        </td>
+        <td class="graphPercent">
+                  <span class="sortValue">1</span>
+    <span class="testResultSuccess">PASS</span>
+          </td>
+
+    </tr>
+        <tr id="test-80">
+        <td class="graphPercent graphPercentLeft" align="center" title="checkbox">
+            <a name="testA-80"></a>
+            <input type="checkbox" id="cb-80" value="80" name="testMethod" onclick="hiLightByTest(this.value, this.checked); return true;"/>
+        </td>
+        <td class="graphPercent link" onclick="window.location.href='../../../org/easymock/tests/ReplayStateInvalidUsageTest_setDefaultReturnValueFloat.html';">
+            <span class="sortValue">1.0</span>
+                        <div>
+    <div style="width: 40px; font-size:0px;"></div>
+    <div title="0% Not Covered"  style="min-width: 40px;"  class="barNegative testBarNegative">
+       <div title="100% Covered" class="barPositive testBarPositive" style="width: 100%"></div>
+    </div>
+</div>        </td>
+        <td class="testCase" id="tc-80">
+            <span class="sortValue">org.easymock.tests.ReplayStateInvalidUsageTest.setDefaultReturnValueFloat</span>
+            <a href="../../../org/easymock/tests/ReplayStateInvalidUsageTest.html?line=294#src-294" title="View Test Source"><img class="icon" alt="test" src="../../../img/test.gif"/></a>
+            <a href="../../../org/easymock/tests/ReplayStateInvalidUsageTest_setDefaultReturnValueFloat.html" title="Test Summary Page">org.easymock.tests.ReplayStateInvalidUsageTest.setDefaultReturnValueFloat</a>
+        </td>
+        <td class="graphPercent">
+                  <span class="sortValue">1</span>
+    <span class="testResultSuccess">PASS</span>
+          </td>
+
+    </tr>
+        <tr id="test-11">
+        <td class="graphPercent graphPercentLeft" align="center" title="checkbox">
+            <a name="testA-11"></a>
+            <input type="checkbox" id="cb-11" value="11" name="testMethod" onclick="hiLightByTest(this.value, this.checked); return true;"/>
+        </td>
+        <td class="graphPercent link" onclick="window.location.href='../../../org/easymock/tests/RecordStateInvalidUsageTest_setWrongReturnValueFloat.html';">
+            <span class="sortValue">1.0</span>
+                        <div>
+    <div style="width: 40px; font-size:0px;"></div>
+    <div title="0% Not Covered"  style="min-width: 40px;"  class="barNegative testBarNegative">
+       <div title="100% Covered" class="barPositive testBarPositive" style="width: 100%"></div>
+    </div>
+</div>        </td>
+        <td class="testCase" id="tc-11">
+            <span class="sortValue">org.easymock.tests.RecordStateInvalidUsageTest.setWrongReturnValueFloat</span>
+            <a href="../../../org/easymock/tests/RecordStateInvalidUsageTest.html?line=122#src-122" title="View Test Source"><img class="icon" alt="test" src="../../../img/test.gif"/></a>
+            <a href="../../../org/easymock/tests/RecordStateInvalidUsageTest_setWrongReturnValueFloat.html" title="Test Summary Page">org.easymock.tests.RecordStateInvalidUsageTest.setWrongReturnValueFloat</a>
+        </td>
+        <td class="graphPercent">
+                  <span class="sortValue">1</span>
+    <span class="testResultSuccess">PASS</span>
+          </td>
+
+    </tr>
+        <tr id="test-441">
+        <td class="graphPercent graphPercentLeft" align="center" title="checkbox">
+            <a name="testA-441"></a>
+            <input type="checkbox" id="cb-441" value="441" name="testMethod" onclick="hiLightByTest(this.value, this.checked); return true;"/>
+        </td>
+        <td class="graphPercent link" onclick="window.location.href='../../../org/easymock/tests/RecordStateInvalidDefaultReturnValueTest_setInvalidDefaultFloatReturnValue.html';">
+            <span class="sortValue">1.0</span>
+                        <div>
+    <div style="width: 40px; font-size:0px;"></div>
+    <div title="0% Not Covered"  style="min-width: 40px;"  class="barNegative testBarNegative">
+       <div title="100% Covered" class="barPositive testBarPositive" style="width: 100%"></div>
+    </div>
+</div>        </td>
+        <td class="testCase" id="tc-441">
+            <span class="sortValue">org.easymock.tests.RecordStateInvalidDefaultReturnValueTest.setInvalidDefaultFloatReturnValue</span>
+            <a href="../../../org/easymock/tests/RecordStateInvalidDefaultReturnValueTest.html?line=47#src-47" title="View Test Source"><img class="icon" alt="test" src="../../../img/test.gif"/></a>
+            <a href="../../../org/easymock/tests/RecordStateInvalidDefaultReturnValueTest_setInvalidDefaultFloatReturnValue.html" title="Test Summary Page">org.easymock.tests.RecordStateInvalidDefaultReturnValueTest.setInvalidDefaultFloatReturnValue</a>
+        </td>
+        <td class="graphPercent">
+                  <span class="sortValue">1</span>
+    <span class="testResultSuccess">PASS</span>
+          </td>
+
+    </tr>
+        <tr id="test-38">
+        <td class="graphPercent graphPercentLeft" align="center" title="checkbox">
+            <a name="testA-38"></a>
+            <input type="checkbox" id="cb-38" value="38" name="testMethod" onclick="hiLightByTest(this.value, this.checked); return true;"/>
+        </td>
+        <td class="graphPercent link" onclick="window.location.href='../../../org/easymock/tests/ReplayStateInvalidUsageTest_createMock.html';">
+            <span class="sortValue">1.0</span>
+                        <div>
+    <div style="width: 40px; font-size:0px;"></div>
+    <div title="0% Not Covered"  style="min-width: 40px;"  class="barNegative testBarNegative">
+       <div title="100% Covered" class="barPositive testBarPositive" style="width: 100%"></div>
+    </div>
+</div>        </td>
+        <td class="testCase" id="tc-38">
+            <span class="sortValue">org.easymock.tests.ReplayStateInvalidUsageTest.createMock</span>
+            <a href="../../../org/easymock/tests/ReplayStateInvalidUsageTest.html?line=429#src-429" title="View Test Source"><img class="icon" alt="test" src="../../../img/test.gif"/></a>
+            <a href="../../../org/easymock/tests/ReplayStateInvalidUsageTest_createMock.html" title="Test Summary Page">org.easymock.tests.ReplayStateInvalidUsageTest.createMock</a>
+        </td>
+        <td class="graphPercent">
+                  <span class="sortValue">1</span>
+    <span class="testResultSuccess">PASS</span>
+          </td>
+
+    </tr>
+        <tr id="test-245">
+        <td class="graphPercent graphPercentLeft" align="center" title="checkbox">
+            <a name="testA-245"></a>
+            <input type="checkbox" id="cb-245" value="245" name="testMethod" onclick="hiLightByTest(this.value, this.checked); return true;"/>
+        </td>
+        <td class="graphPercent link" onclick="window.location.href='../../../org/easymock/tests/RecordStateInvalidDefaultThrowableTest_throwCheckedExceptionWhereNoCheckedExceptionIsThrown.html';">
+            <span class="sortValue">1.0</span>
+                        <div>
+    <div style="width: 40px; font-size:0px;"></div>
+    <div title="0% Not Covered"  style="min-width: 40px;"  class="barNegative testBarNegative">
+       <div title="100% Covered" class="barPositive testBarPositive" style="width: 100%"></div>
+    </div>
+</div>        </td>
+        <td class="testCase" id="tc-245">
+            <span class="sortValue">org.easymock.tests.RecordStateInvalidDefaultThrowableTest.throwCheckedExceptionWhereNoCheckedExceptionIsThrown</span>
+            <a href="../../../org/easymock/tests/RecordStateInvalidDefaultThrowableTest.html?line=43#src-43" title="View Test Source"><img class="icon" alt="test" src="../../../img/test.gif"/></a>
+            <a href="../../../org/easymock/tests/RecordStateInvalidDefaultThrowableTest_throwCheckedExceptionWhereNoCheckedExceptionIsThrown.html" title="Test Summary Page">org.easymock.tests.RecordStateInvalidDefaultThrowableTest.throwCheckedExceptionWhereNoCheckedExceptionIsThrown</a>
+        </td>
+        <td class="graphPercent">
+                  <span class="sortValue">1</span>
+    <span class="testResultSuccess">PASS</span>
+          </td>
+
+    </tr>
+        <tr id="test-0">
+        <td class="graphPercent graphPercentLeft" align="center" title="checkbox">
+            <a name="testA-0"></a>
+            <input type="checkbox" id="cb-0" value="0" name="testMethod" onclick="hiLightByTest(this.value, this.checked); return true;"/>
+        </td>
+        <td class="graphPercent link" onclick="window.location.href='../../../org/easymock/tests/RecordStateInvalidStateChangeTest_secondCallWithoutReturnValue.html';">
+            <span class="sortValue">1.0</span>
+                        <div>
+    <div style="width: 40px; font-size:0px;"></div>
+    <div title="0% Not Covered"  style="min-width: 40px;"  class="barNegative testBarNegative">
+       <div title="100% Covered" class="barPositive testBarPositive" style="width: 100%"></div>
+    </div>
+</div>        </td>
+        <td class="testCase" id="tc-0">
+            <span class="sortValue">org.easymock.tests.RecordStateInvalidStateChangeTest.secondCallWithoutReturnValue</span>
+            <a href="../../../org/easymock/tests/RecordStateInvalidStateChangeTest.html?line=41#src-41" title="View Test Source"><img class="icon" alt="test" src="../../../img/test.gif"/></a>
+            <a href="../../../org/easymock/tests/RecordStateInvalidStateChangeTest_secondCallWithoutReturnValue.html" title="Test Summary Page">org.easymock.tests.RecordStateInvalidStateChangeTest.secondCallWithoutReturnValue</a>
+        </td>
+        <td class="graphPercent">
+                  <span class="sortValue">1</span>
+    <span class="testResultSuccess">PASS</span>
+          </td>
+
+    </tr>
+        <tr id="test-393">
+        <td class="graphPercent graphPercentLeft" align="center" title="checkbox">
+            <a name="testA-393"></a>
+            <input type="checkbox" id="cb-393" value="393" name="testMethod" onclick="hiLightByTest(this.value, this.checked); return true;"/>
+        </td>
+        <td class="graphPercent link" onclick="window.location.href='../../../org/easymock/tests/RecordStateMethodCallMissingTest_setLongDefaultReturnValueWithoutMethodCall.html';">
+            <span class="sortValue">1.0</span>
+                        <div>
+    <div style="width: 40px; font-size:0px;"></div>
+    <div title="0% Not Covered"  style="min-width: 40px;"  class="barNegative testBarNegative">
+       <div title="100% Covered" class="barPositive testBarPositive" style="width: 100%"></div>
+    </div>
+</div>        </td>
+        <td class="testCase" id="tc-393">
+            <span class="sortValue">org.easymock.tests.RecordStateMethodCallMissingTest.setLongDefaultReturnValueWithoutMethodCall</span>
+            <a href="../../../org/easymock/tests/RecordStateMethodCallMissingTest.html?line=206#src-206" title="View Test Source"><img class="icon" alt="test" src="../../../img/test.gif"/></a>
+            <a href="../../../org/easymock/tests/RecordStateMethodCallMissingTest_setLongDefaultReturnValueWithoutMethodCall.html" title="Test Summary Page">org.easymock.tests.RecordStateMethodCallMissingTest.setLongDefaultReturnValueWithoutMethodCall</a>
+        </td>
+        <td class="graphPercent">
+                  <span class="sortValue">1</span>
+    <span class="testResultSuccess">PASS</span>
+          </td>
+
+    </tr>
+        <tr id="test-40">
+        <td class="graphPercent graphPercentLeft" align="center" title="checkbox">
+            <a name="testA-40"></a>
+            <input type="checkbox" id="cb-40" value="40" name="testMethod" onclick="hiLightByTest(this.value, this.checked); return true;"/>
+        </td>
+        <td class="graphPercent link" onclick="window.location.href='../../../org/easymock/tests/ReplayStateInvalidUsageTest_replay.html';">
+            <span class="sortValue">1.0</span>
+                        <div>
+    <div style="width: 40px; font-size:0px;"></div>
+    <div title="0% Not Covered"  style="min-width: 40px;"  class="barNegative testBarNegative">
+       <div title="100% Covered" class="barPositive testBarPositive" style="width: 100%"></div>
+    </div>
+</div>        </td>
+        <td class="testCase" id="tc-40">
+            <span class="sortValue">org.easymock.tests.ReplayStateInvalidUsageTest.replay</span>
+            <a href="../../../org/easymock/tests/ReplayStateInvalidUsageTest.html?line=424#src-424" title="View Test Source"><img class="icon" alt="test" src="../../../img/test.gif"/></a>
+            <a href="../../../org/easymock/tests/ReplayStateInvalidUsageTest_replay.html" title="Test Summary Page">org.easymock.tests.ReplayStateInvalidUsageTest.replay</a>
+        </td>
+        <td class="graphPercent">
+                  <span class="sortValue">1</span>
+    <span class="testResultSuccess">PASS</span>
+          </td>
+
+    </tr>
+        <tr id="test-396">
+        <td class="graphPercent graphPercentLeft" align="center" title="checkbox">
+            <a name="testA-396"></a>
+            <input type="checkbox" id="cb-396" value="396" name="testMethod" onclick="hiLightByTest(this.value, this.checked); return true;"/>
+        </td>
+        <td class="graphPercent link" onclick="window.location.href='../../../org/easymock/tests/RecordStateMethodCallMissingTest_setDoubleDefaultReturnValueWithoutMethodCall.html';">
+            <span class="sortValue">1.0</span>
+                        <div>
+    <div style="width: 40px; font-size:0px;"></div>
+    <div title="0% Not Covered"  style="min-width: 40px;"  class="barNegative testBarNegative">
+       <div title="100% Covered" class="barPositive testBarPositive" style="width: 100%"></div>
+    </div>
+</div>        </td>
+        <td class="testCase" id="tc-396">
+            <span class="sortValue">org.easymock.tests.RecordStateMethodCallMissingTest.setDoubleDefaultReturnValueWithoutMethodCall</span>
+            <a href="../../../org/easymock/tests/RecordStateMethodCallMissingTest.html?line=230#src-230" title="View Test Source"><img class="icon" alt="test" src="../../../img/test.gif"/></a>
+            <a href="../../../org/easymock/tests/RecordStateMethodCallMissingTest_setDoubleDefaultReturnValueWithoutMethodCall.html" title="Test Summary Page">org.easymock.tests.RecordStateMethodCallMissingTest.setDoubleDefaultReturnValueWithoutMethodCall</a>
+        </td>
+        <td class="graphPercent">
+                  <span class="sortValue">1</span>
+    <span class="testResultSuccess">PASS</span>
+          </td>
+
+    </tr>
+        <tr id="test-425">
+        <td class="graphPercent graphPercentLeft" align="center" title="checkbox">
+            <a name="testA-425"></a>
+            <input type="checkbox" id="cb-425" value="425" name="testMethod" onclick="hiLightByTest(this.value, this.checked); return true;"/>
+        </td>
+        <td class="graphPercent link" onclick="window.location.href='../../../org/easymock/tests/RecordStateInvalidDefaultReturnValueTest_setInvalidDefaultDoubleReturnValue.html';">
+            <span class="sortValue">1.0</span>
+                        <div>
+    <div style="width: 40px; font-size:0px;"></div>
+    <div title="0% Not Covered"  style="min-width: 40px;"  class="barNegative testBarNegative">
+       <div title="100% Covered" class="barPositive testBarPositive" style="width: 100%"></div>
+    </div>
+</div>        </td>
+        <td class="testCase" id="tc-425">
+            <span class="sortValue">org.easymock.tests.RecordStateInvalidDefaultReturnValueTest.setInvalidDefaultDoubleReturnValue</span>
+            <a href="../../../org/easymock/tests/RecordStateInvalidDefaultReturnValueTest.html?line=58#src-58" title="View Test Source"><img class="icon" alt="test" src="../../../img/test.gif"/></a>
+            <a href="../../../org/easymock/tests/RecordStateInvalidDefaultReturnValueTest_setInvalidDefaultDoubleReturnValue.html" title="Test Summary Page">org.easymock.tests.RecordStateInvalidDefaultReturnValueTest.setInvalidDefaultDoubleReturnValue</a>
+        </td>
+        <td class="graphPercent">
+                  <span class="sortValue">1</span>
+    <span class="testResultSuccess">PASS</span>
+          </td>
+
+    </tr>
+        <tr id="test-22">
+        <td class="graphPercent graphPercentLeft" align="center" title="checkbox">
+            <a name="testA-22"></a>
+            <input type="checkbox" id="cb-22" value="22" name="testMethod" onclick="hiLightByTest(this.value, this.checked); return true;"/>
+        </td>
+        <td class="graphPercent link" onclick="window.location.href='../../../org/easymock/tests/ReplayStateInvalidUsageTest_makeThreadSafe.html';">
+            <span class="sortValue">1.0</span>
+                        <div>
+    <div style="width: 40px; font-size:0px;"></div>
+    <div title="0% Not Covered"  style="min-width: 40px;"  class="barNegative testBarNegative">
+       <div title="100% Covered" class="barPositive testBarPositive" style="width: 100%"></div>
+    </div>
+</div>        </td>
+        <td class="testCase" id="tc-22">
+            <span class="sortValue">org.easymock.tests.ReplayStateInvalidUsageTest.makeThreadSafe</span>
+            <a href="../../../org/easymock/tests/ReplayStateInvalidUsageTest.html?line=444#src-444" title="View Test Source"><img class="icon" alt="test" src="../../../img/test.gif"/></a>
+            <a href="../../../org/easymock/tests/ReplayStateInvalidUsageTest_makeThreadSafe.html" title="Test Summary Page">org.easymock.tests.ReplayStateInvalidUsageTest.makeThreadSafe</a>
+        </td>
+        <td class="graphPercent">
+                  <span class="sortValue">1</span>
+    <span class="testResultSuccess">PASS</span>
+          </td>
+
+    </tr>
+        <tr id="test-83">
+        <td class="graphPercent graphPercentLeft" align="center" title="checkbox">
+            <a name="testA-83"></a>
+            <input type="checkbox" id="cb-83" value="83" name="testMethod" onclick="hiLightByTest(this.value, this.checked); return true;"/>
+        </td>
+        <td class="graphPercent link" onclick="window.location.href='../../../org/easymock/tests/ReplayStateInvalidUsageTest_setDefaultReturnValueLong.html';">
+            <span class="sortValue">1.0</span>
+                        <div>
+    <div style="width: 40px; font-size:0px;"></div>
+    <div title="0% Not Covered"  style="min-width: 40px;"  class="barNegative testBarNegative">
+       <div title="100% Covered" class="barPositive testBarPositive" style="width: 100%"></div>
+    </div>
+</div>        </td>
+        <td class="testCase" id="tc-83">
+            <span class="sortValue">org.easymock.tests.ReplayStateInvalidUsageTest.setDefaultReturnValueLong</span>
+            <a href="../../../org/easymock/tests/ReplayStateInvalidUsageTest.html?line=299#src-299" title="View Test Source"><img class="icon" alt="test" src="../../../img/test.gif"/></a>
+            <a href="../../../org/easymock/tests/ReplayStateInvalidUsageTest_setDefaultReturnValueLong.html" title="Test Summary Page">org.easymock.tests.ReplayStateInvalidUsageTest.setDefaultReturnValueLong</a>
+        </td>
+        <td class="graphPercent">
+                  <span class="sortValue">1</span>
+    <span class="testResultSuccess">PASS</span>
+          </td>
+
+    </tr>
+        <tr id="test-352">
+        <td class="graphPercent graphPercentLeft" align="center" title="checkbox">
+            <a name="testA-352"></a>
+            <input type="checkbox" id="cb-352" value="352" name="testMethod" onclick="hiLightByTest(this.value, this.checked); return true;"/>
+        </td>
+        <td class="graphPercent link" onclick="window.location.href='../../../org/easymock/tests/ReplayStateInvalidCallsTest_setDefaultMatcher.html';">
+            <span class="sortValue">0.5</span>
+                        <div>
+    <div style="width: 40px; font-size:0px;"></div>
+    <div title="50% Not Covered"  style="min-width: 40px;"  class="barNegative testBarNegative">
+       <div title="50% Covered" class="barPositive testBarPositive" style="width: 50%"></div>
+    </div>
+</div>        </td>
+        <td class="testCase" id="tc-352">
+            <span class="sortValue">org.easymock.tests.ReplayStateInvalidCallsTest.setDefaultMatcher</span>
+            <a href="../../../org/easymock/tests/ReplayStateInvalidCallsTest.html?line=37#src-37" title="View Test Source"><img class="icon" alt="test" src="../../../img/test.gif"/></a>
+            <a href="../../../org/easymock/tests/ReplayStateInvalidCallsTest_setDefaultMatcher.html" title="Test Summary Page">org.easymock.tests.ReplayStateInvalidCallsTest.setDefaultMatcher</a>
+        </td>
+        <td class="graphPercent">
+                  <span class="sortValue">1</span>
+    <span class="testResultSuccess">PASS</span>
+          </td>
+
+    </tr>
+        <tr id="test-359">
+        <td class="graphPercent graphPercentLeft" align="center" title="checkbox">
+            <a name="testA-359"></a>
+            <input type="checkbox" id="cb-359" value="359" name="testMethod" onclick="hiLightByTest(this.value, this.checked); return true;"/>
+        </td>
+        <td class="graphPercent link" onclick="window.location.href='../../../org/easymock/tests/ReplayStateInvalidCallsTest_andAnswer.html';">
+            <span class="sortValue">0.5</span>
+                        <div>
+    <div style="width: 40px; font-size:0px;"></div>
+    <div title="50% Not Covered"  style="min-width: 40px;"  class="barNegative testBarNegative">
+       <div title="50% Covered" class="barPositive testBarPositive" style="width: 50%"></div>
+    </div>
+</div>        </td>
+        <td class="testCase" id="tc-359">
+            <span class="sortValue">org.easymock.tests.ReplayStateInvalidCallsTest.andAnswer</span>
+            <a href="../../../org/easymock/tests/ReplayStateInvalidCallsTest.html?line=120#src-120" title="View Test Source"><img class="icon" alt="test" src="../../../img/test.gif"/></a>
+            <a href="../../../org/easymock/tests/ReplayStateInvalidCallsTest_andAnswer.html" title="Test Summary Page">org.easymock.tests.ReplayStateInvalidCallsTest.andAnswer</a>
+        </td>
+        <td class="graphPercent">
+                  <span class="sortValue">1</span>
+    <span class="testResultSuccess">PASS</span>
+          </td>
+
+    </tr>
+        <tr id="test-370">
+        <td class="graphPercent graphPercentLeft" align="center" title="checkbox">
+            <a name="testA-370"></a>
+            <input type="checkbox" id="cb-370" value="370" name="testMethod" onclick="hiLightByTest(this.value, this.checked); return true;"/>
+        </td>
+        <td class="graphPercent link" onclick="window.location.href='../../../org/easymock/tests/ReplayStateInvalidCallsTest_andStubAnswer.html';">
+            <span class="sortValue">0.5</span>
+                        <div>
+    <div style="width: 40px; font-size:0px;"></div>
+    <div title="50% Not Covered"  style="min-width: 40px;"  class="barNegative testBarNegative">
+       <div title="50% Covered" class="barPositive testBarPositive" style="width: 50%"></div>
+    </div>
+</div>        </td>
+        <td class="testCase" id="tc-370">
+            <span class="sortValue">org.easymock.tests.ReplayStateInvalidCallsTest.andStubAnswer</span>
+            <a href="../../../org/easymock/tests/ReplayStateInvalidCallsTest.html?line=92#src-92" title="View Test Source"><img class="icon" alt="test" src="../../../img/test.gif"/></a>
+            <a href="../../../org/easymock/tests/ReplayStateInvalidCallsTest_andStubAnswer.html" title="Test Summary Page">org.easymock.tests.ReplayStateInvalidCallsTest.andStubAnswer</a>
+        </td>
+        <td class="graphPercent">
+                  <span class="sortValue">1</span>
+    <span class="testResultSuccess">PASS</span>
+          </td>
+
+    </tr>
+        <tr id="test-374">
+        <td class="graphPercent graphPercentLeft" align="center" title="checkbox">
+            <a name="testA-374"></a>
+            <input type="checkbox" id="cb-374" value="374" name="testMethod" onclick="hiLightByTest(this.value, this.checked); return true;"/>
+        </td>
+        <td class="graphPercent link" onclick="window.location.href='../../../org/easymock/tests/ReplayStateInvalidCallsTest_times.html';">
+            <span class="sortValue">0.5</span>
+                        <div>
+    <div style="width: 40px; font-size:0px;"></div>
+    <div title="50% Not Covered"  style="min-width: 40px;"  class="barNegative testBarNegative">
+       <div title="50% Covered" class="barPositive testBarPositive" style="width: 50%"></div>
+    </div>
+</div>        </td>
+        <td class="testCase" id="tc-374">
+            <span class="sortValue">org.easymock.tests.ReplayStateInvalidCallsTest.times</span>
+            <a href="../../../org/easymock/tests/ReplayStateInvalidCallsTest.html?line=97#src-97" title="View Test Source"><img class="icon" alt="test" src="../../../img/test.gif"/></a>
+            <a href="../../../org/easymock/tests/ReplayStateInvalidCallsTest_times.html" title="Test Summary Page">org.easymock.tests.ReplayStateInvalidCallsTest.times</a>
+        </td>
+        <td class="graphPercent">
+                  <span class="sortValue">1</span>
+    <span class="testResultSuccess">PASS</span>
+          </td>
+
+    </tr>
+        <tr id="test-349">
+        <td class="graphPercent graphPercentLeft" align="center" title="checkbox">
+            <a name="testA-349"></a>
+            <input type="checkbox" id="cb-349" value="349" name="testMethod" onclick="hiLightByTest(this.value, this.checked); return true;"/>
+        </td>
+        <td class="graphPercent link" onclick="window.location.href='../../../org/easymock/tests/ReplayStateInvalidCallsTest_setDefaultReturnValue.html';">
+            <span class="sortValue">0.5</span>
+                        <div>
+    <div style="width: 40px; font-size:0px;"></div>
+    <div title="50% Not Covered"  style="min-width: 40px;"  class="barNegative testBarNegative">
+       <div title="50% Covered" class="barPositive testBarPositive" style="width: 50%"></div>
+    </div>
+</div>        </td>
+        <td class="testCase" id="tc-349">
+            <span class="sortValue">org.easymock.tests.ReplayStateInvalidCallsTest.setDefaultReturnValue</span>
+            <a href="../../../org/easymock/tests/ReplayStateInvalidCallsTest.html?line=52#src-52" title="View Test Source"><img class="icon" alt="test" src="../../../img/test.gif"/></a>
+            <a href="../../../org/easymock/tests/ReplayStateInvalidCallsTest_setDefaultReturnValue.html" title="Test Summary Page">org.easymock.tests.ReplayStateInvalidCallsTest.setDefaultReturnValue</a>
+        </td>
+        <td class="graphPercent">
+                  <span class="sortValue">1</span>
+    <span class="testResultSuccess">PASS</span>
+          </td>
+
+    </tr>
+        <tr id="test-356">
+        <td class="graphPercent graphPercentLeft" align="center" title="checkbox">
+            <a name="testA-356"></a>
+            <input type="checkbox" id="cb-356" value="356" name="testMethod" onclick="hiLightByTest(this.value, this.checked); return true;"/>
+        </td>
+        <td class="graphPercent link" onclick="window.location.href='../../../org/easymock/tests/ReplayStateInvalidCallsTest_andReturn.html';">
+            <span class="sortValue">0.5</span>
+                        <div>
+    <div style="width: 40px; font-size:0px;"></div>
+    <div title="50% Not Covered"  style="min-width: 40px;"  class="barNegative testBarNegative">
+       <div title="50% Covered" class="barPositive testBarPositive" style="width: 50%"></div>
+    </div>
+</div>        </td>
+        <td class="testCase" id="tc-356">
+            <span class="sortValue">org.easymock.tests.ReplayStateInvalidCallsTest.andReturn</span>
+            <a href="../../../org/easymock/tests/ReplayStateInvalidCallsTest.html?line=110#src-110" title="View Test Source"><img class="icon" alt="test" src="../../../img/test.gif"/></a>
+            <a href="../../../org/easymock/tests/ReplayStateInvalidCallsTest_andReturn.html" title="Test Summary Page">org.easymock.tests.ReplayStateInvalidCallsTest.andReturn</a>
+        </td>
+        <td class="graphPercent">
+                  <span class="sortValue">1</span>
+    <span class="testResultSuccess">PASS</span>
+          </td>
+
+    </tr>
+        <tr id="test-350">
+        <td class="graphPercent graphPercentLeft" align="center" title="checkbox">
+            <a name="testA-350"></a>
+            <input type="checkbox" id="cb-350" value="350" name="testMethod" onclick="hiLightByTest(this.value, this.checked); return true;"/>
+        </td>
+        <td class="graphPercent link" onclick="window.location.href='../../../org/easymock/tests/ReplayStateInvalidCallsTest_setMatcher.html';">
+            <span class="sortValue">0.5</span>
+                        <div>
+    <div style="width: 40px; font-size:0px;"></div>
+    <div title="50% Not Covered"  style="min-width: 40px;"  class="barNegative testBarNegative">
+       <div title="50% Covered" class="barPositive testBarPositive" style="width: 50%"></div>
+    </div>
+</div>        </td>
+        <td class="testCase" id="tc-350">
+            <span class="sortValue">org.easymock.tests.ReplayStateInvalidCallsTest.setMatcher</span>
+            <a href="../../../org/easymock/tests/ReplayStateInvalidCallsTest.html?line=47#src-47" title="View Test Source"><img class="icon" alt="test" src="../../../img/test.gif"/></a>
+            <a href="../../../org/easymock/tests/ReplayStateInvalidCallsTest_setMatcher.html" title="Test Summary Page">org.easymock.tests.ReplayStateInvalidCallsTest.setMatcher</a>
+        </td>
+        <td class="graphPercent">
+                  <span class="sortValue">1</span>
+    <span class="testResultSuccess">PASS</span>
+          </td>
+
+    </tr>
+        <tr id="test-347">
+        <td class="graphPercent graphPercentLeft" align="center" title="checkbox">
+            <a name="testA-347"></a>
+            <input type="checkbox" id="cb-347" value="347" name="testMethod" onclick="hiLightByTest(this.value, this.checked); return true;"/>
+        </td>
+        <td class="graphPercent link" onclick="window.location.href='../../../org/easymock/tests/ReplayStateInvalidCallsTest_setDefaultVoidCallable.html';">
+            <span class="sortValue">0.5</span>
+                        <div>
+    <div style="width: 40px; font-size:0px;"></div>
+    <div title="50% Not Covered"  style="min-width: 40px;"  class="barNegative testBarNegative">
+       <div title="50% Covered" class="barPositive testBarPositive" style="width: 50%"></div>
+    </div>
+</div>        </td>
+        <td class="testCase" id="tc-347">
+            <span class="sortValue">org.easymock.tests.ReplayStateInvalidCallsTest.setDefaultVoidCallable</span>
+            <a href="../../../org/easymock/tests/ReplayStateInvalidCallsTest.html?line=62#src-62" title="View Test Source"><img class="icon" alt="test" src="../../../img/test.gif"/></a>
+            <a href="../../../org/easymock/tests/ReplayStateInvalidCallsTest_setDefaultVoidCallable.html" title="Test Summary Page">org.easymock.tests.ReplayStateInvalidCallsTest.setDefaultVoidCallable</a>
+        </td>
+        <td class="graphPercent">
+                  <span class="sortValue">1</span>
+    <span class="testResultSuccess">PASS</span>
+          </td>
+
+    </tr>
+        <tr id="test-362">
+        <td class="graphPercent graphPercentLeft" align="center" title="checkbox">
+            <a name="testA-362"></a>
+            <input type="checkbox" id="cb-362" value="362" name="testMethod" onclick="hiLightByTest(this.value, this.checked); return true;"/>
+        </td>
+        <td class="graphPercent link" onclick="window.location.href='../../../org/easymock/tests/ReplayStateInvalidCallsTest_defaultReturnValue.html';">
+            <span class="sortValue">0.5</span>
+                        <div>
+    <div style="width: 40px; font-size:0px;"></div>
+    <div title="50% Not Covered"  style="min-width: 40px;"  class="barNegative testBarNegative">
+       <div title="50% Covered" class="barPositive testBarPositive" style="width: 50%"></div>
+    </div>
+</div>        </td>
+        <td class="testCase" id="tc-362">
+            <span class="sortValue">org.easymock.tests.ReplayStateInvalidCallsTest.defaultReturnValue</span>
+            <a href="../../../org/easymock/tests/ReplayStateInvalidCallsTest.html?line=130#src-130" title="View Test Source"><img class="icon" alt="test" src="../../../img/test.gif"/></a>
+            <a href="../../../org/easymock/tests/ReplayStateInvalidCallsTest_defaultReturnValue.html" title="Test Summary Page">org.easymock.tests.ReplayStateInvalidCallsTest.defaultReturnValue</a>
+        </td>
+        <td class="graphPercent">
+                  <span class="sortValue">1</span>
+    <span class="testResultSuccess">PASS</span>
+          </td>
+
+    </tr>
+        <tr id="test-351">
+        <td class="graphPercent graphPercentLeft" align="center" title="checkbox">
+            <a name="testA-351"></a>
+            <input type="checkbox" id="cb-351" value="351" name="testMethod" onclick="hiLightByTest(this.value, this.checked); return true;"/>
+        </td>
+        <td class="graphPercent link" onclick="window.location.href='../../../org/easymock/tests/ReplayStateInvalidCallsTest_asStub.html';">
+            <span class="sortValue">0.5</span>
+                        <div>
+    <div style="width: 40px; font-size:0px;"></div>
+    <div title="50% Not Covered"  style="min-width: 40px;"  class="barNegative testBarNegative">
+       <div title="50% Covered" class="barPositive testBarPositive" style="width: 50%"></div>
+    </div>
+</div>        </td>
+        <td class="testCase" id="tc-351">
+            <span class="sortValue">org.easymock.tests.ReplayStateInvalidCallsTest.asStub</span>
+            <a href="../../../org/easymock/tests/ReplayStateInvalidCallsTest.html?line=42#src-42" title="View Test Source"><img class="icon" alt="test" src="../../../img/test.gif"/></a>
+            <a href="../../../org/easymock/tests/ReplayStateInvalidCallsTest_asStub.html" title="Test Summary Page">org.easymock.tests.ReplayStateInvalidCallsTest.asStub</a>
+        </td>
+        <td class="graphPercent">
+                  <span class="sortValue">1</span>
+    <span class="testResultSuccess">PASS</span>
+          </td>
+
+    </tr>
+        <tr id="test-360">
+        <td class="graphPercent graphPercentLeft" align="center" title="checkbox">
+            <a name="testA-360"></a>
+            <input type="checkbox" id="cb-360" value="360" name="testMethod" onclick="hiLightByTest(this.value, this.checked); return true;"/>
+        </td>
+        <td class="graphPercent link" onclick="window.location.href='../../../org/easymock/tests/ReplayStateInvalidCallsTest_andThrow.html';">
+            <span class="sortValue">0.5</span>
+                        <div>
+    <div style="width: 40px; font-size:0px;"></div>
+    <div title="50% Not Covered"  style="min-width: 40px;"  class="barNegative testBarNegative">
+       <div title="50% Covered" class="barPositive testBarPositive" style="width: 50%"></div>
+    </div>
+</div>        </td>
+        <td class="testCase" id="tc-360">
+            <span class="sortValue">org.easymock.tests.ReplayStateInvalidCallsTest.andThrow</span>
+            <a href="../../../org/easymock/tests/ReplayStateInvalidCallsTest.html?line=115#src-115" title="View Test Source"><img class="icon" alt="test" src="../../../img/test.gif"/></a>
+            <a href="../../../org/easymock/tests/ReplayStateInvalidCallsTest_andThrow.html" title="Test Summary Page">org.easymock.tests.ReplayStateInvalidCallsTest.andThrow</a>
+        </td>
+        <td class="graphPercent">
+                  <span class="sortValue">1</span>
+    <span class="testResultSuccess">PASS</span>
+          </td>
+
+    </tr>
+        <tr id="test-353">
+        <td class="graphPercent graphPercentLeft" align="center" title="checkbox">
+            <a name="testA-353"></a>
+            <input type="checkbox" id="cb-353" value="353" name="testMethod" onclick="hiLightByTest(this.value, this.checked); return true;"/>
+        </td>
+        <td class="graphPercent link" onclick="window.location.href='../../../org/easymock/tests/ReplayStateInvalidCallsTest_expectAndReturnObjectWithMinMax.html';">
+            <span class="sortValue">0.5</span>
+                        <div>
+    <div style="width: 40px; font-size:0px;"></div>
+    <div title="50% Not Covered"  style="min-width: 40px;"  class="barNegative testBarNegative">
+       <div title="50% Covered" class="barPositive testBarPositive" style="width: 50%"></div>
+    </div>
+</div>        </td>
+        <td class="testCase" id="tc-353">
+            <span class="sortValue">org.easymock.tests.ReplayStateInvalidCallsTest.expectAndReturnObjectWithMinMax</span>
+            <a href="../../../org/easymock/tests/ReplayStateInvalidCallsTest.html?line=32#src-32" title="View Test Source"><img class="icon" alt="test" src="../../../img/test.gif"/></a>
+            <a href="../../../org/easymock/tests/ReplayStateInvalidCallsTest_expectAndReturnObjectWithMinMax.html" title="Test Summary Page">org.easymock.tests.ReplayStateInvalidCallsTest.expectAndReturnObjectWithMinMax</a>
+        </td>
+        <td class="graphPercent">
+                  <span class="sortValue">1</span>
+    <span class="testResultSuccess">PASS</span>
+          </td>
+
+    </tr>
+        <tr id="test-369">
+        <td class="graphPercent graphPercentLeft" align="center" title="checkbox">
+            <a name="testA-369"></a>
+            <input type="checkbox" id="cb-369" value="369" name="testMethod" onclick="hiLightByTest(this.value, this.checked); return true;"/>
+        </td>
+        <td class="graphPercent link" onclick="window.location.href='../../../org/easymock/tests/ReplayStateInvalidCallsTest_makeThreadSafe.html';">
+            <span class="sortValue">0.5</span>
+                        <div>
+    <div style="width: 40px; font-size:0px;"></div>
+    <div title="50% Not Covered"  style="min-width: 40px;"  class="barNegative testBarNegative">
+       <div title="50% Covered" class="barPositive testBarPositive" style="width: 50%"></div>
+    </div>
+</div>        </td>
+        <td class="testCase" id="tc-369">
+            <span class="sortValue">org.easymock.tests.ReplayStateInvalidCallsTest.makeThreadSafe</span>
+            <a href="../../../org/easymock/tests/ReplayStateInvalidCallsTest.html?line=77#src-77" title="View Test Source"><img class="icon" alt="test" src="../../../img/test.gif"/></a>
+            <a href="../../../org/easymock/tests/ReplayStateInvalidCallsTest_makeThreadSafe.html" title="Test Summary Page">org.easymock.tests.ReplayStateInvalidCallsTest.makeThreadSafe</a>
+        </td>
+        <td class="graphPercent">
+                  <span class="sortValue">1</span>
+    <span class="testResultSuccess">PASS</span>
+          </td>
+
+    </tr>
+        <tr id="test-366">
+        <td class="graphPercent graphPercentLeft" align="center" title="checkbox">
+            <a name="testA-366"></a>
+            <input type="checkbox" id="cb-366" value="366" name="testMethod" onclick="hiLightByTest(this.value, this.checked); return true;"/>
+        </td>
+        <td class="graphPercent link" onclick="window.location.href='../../../org/easymock/tests/ReplayStateInvalidCallsTest_checkOrder.html';">
+            <span class="sortValue">0.5</span>
+                        <div>
+    <div style="width: 40px; font-size:0px;"></div>
+    <div title="50% Not Covered"  style="min-width: 40px;"  class="barNegative testBarNegative">
+       <div title="50% Covered" class="barPositive testBarPositive" style="width: 50%"></div>
+    </div>
+</div>        </td>
+        <td class="testCase" id="tc-366">
+            <span class="sortValue">org.easymock.tests.ReplayStateInvalidCallsTest.checkOrder</span>
+            <a href="../../../org/easymock/tests/ReplayStateInvalidCallsTest.html?line=72#src-72" title="View Test Source"><img class="icon" alt="test" src="../../../img/test.gif"/></a>
+            <a href="../../../org/easymock/tests/ReplayStateInvalidCallsTest_checkOrder.html" title="Test Summary Page">org.easymock.tests.ReplayStateInvalidCallsTest.checkOrder</a>
+        </td>
+        <td class="graphPercent">
+                  <span class="sortValue">1</span>
+    <span class="testResultSuccess">PASS</span>
+          </td>
+
+    </tr>
+        <tr id="test-354">
+        <td class="graphPercent graphPercentLeft" align="center" title="checkbox">
+            <a name="testA-354"></a>
+            <input type="checkbox" id="cb-354" value="354" name="testMethod" onclick="hiLightByTest(this.value, this.checked); return true;"/>
+        </td>
+        <td class="graphPercent link" onclick="window.location.href='../../../org/easymock/tests/ReplayStateInvalidCallsTest_expectAndThrowLongWithMinMax.html';">
+            <span class="sortValue">0.5</span>
+                        <div>
+    <div style="width: 40px; font-size:0px;"></div>
+    <div title="50% Not Covered"  style="min-width: 40px;"  class="barNegative testBarNegative">
+       <div title="50% Covered" class="barPositive testBarPositive" style="width: 50%"></div>
+    </div>
+</div>        </td>
+        <td class="testCase" id="tc-354">
+            <span class="sortValue">org.easymock.tests.ReplayStateInvalidCallsTest.expectAndThrowLongWithMinMax</span>
+            <a href="../../../org/easymock/tests/ReplayStateInvalidCallsTest.html?line=27#src-27" title="View Test Source"><img class="icon" alt="test" src="../../../img/test.gif"/></a>
+            <a href="../../../org/easymock/tests/ReplayStateInvalidCallsTest_expectAndThrowLongWithMinMax.html" title="Test Summary Page">org.easymock.tests.ReplayStateInvalidCallsTest.expectAndThrowLongWithMinMax</a>
+        </td>
+        <td class="graphPercent">
+                  <span class="sortValue">1</span>
+    <span class="testResultSuccess">PASS</span>
+          </td>
+
+    </tr>
+        <tr id="test-371">
+        <td class="graphPercent graphPercentLeft" align="center" title="checkbox">
+            <a name="testA-371"></a>
+            <input type="checkbox" id="cb-371" value="371" name="testMethod" onclick="hiLightByTest(this.value, this.checked); return true;"/>
+        </td>
+        <td class="graphPercent link" onclick="window.location.href='../../../org/easymock/tests/ReplayStateInvalidCallsTest_andStubThrow.html';">
+            <span class="sortValue">0.5</span>
+                        <div>
+    <div style="width: 40px; font-size:0px;"></div>
+    <div title="50% Not Covered"  style="min-width: 40px;"  class="barNegative testBarNegative">
+       <div title="50% Covered" class="barPositive testBarPositive" style="width: 50%"></div>
+    </div>
+</div>        </td>
+        <td class="testCase" id="tc-371">
+            <span class="sortValue">org.easymock.tests.ReplayStateInvalidCallsTest.andStubThrow</span>
+            <a href="../../../org/easymock/tests/ReplayStateInvalidCallsTest.html?line=87#src-87" title="View Test Source"><img class="icon" alt="test" src="../../../img/test.gif"/></a>
+            <a href="../../../org/easymock/tests/ReplayStateInvalidCallsTest_andStubThrow.html" title="Test Summary Page">org.easymock.tests.ReplayStateInvalidCallsTest.andStubThrow</a>
+        </td>
+        <td class="graphPercent">
+                  <span class="sortValue">1</span>
+    <span class="testResultSuccess">PASS</span>
+          </td>
+
+    </tr>
+        <tr id="test-368">
+        <td class="graphPercent graphPercentLeft" align="center" title="checkbox">
+            <a name="testA-368"></a>
+            <input type="checkbox" id="cb-368" value="368" name="testMethod" onclick="hiLightByTest(this.value, this.checked); return true;"/>
+        </td>
+        <td class="graphPercent link" onclick="window.location.href='../../../org/easymock/tests/ReplayStateInvalidCallsTest_andStubReturn.html';">
+            <span class="sortValue">0.5</span>
+                        <div>
+    <div style="width: 40px; font-size:0px;"></div>
+    <div title="50% Not Covered"  style="min-width: 40px;"  class="barNegative testBarNegative">
+       <div title="50% Covered" class="barPositive testBarPositive" style="width: 50%"></div>
+    </div>
+</div>        </td>
+        <td class="testCase" id="tc-368">
+            <span class="sortValue">org.easymock.tests.ReplayStateInvalidCallsTest.andStubReturn</span>
+            <a href="../../../org/easymock/tests/ReplayStateInvalidCallsTest.html?line=82#src-82" title="View Test Source"><img class="icon" alt="test" src="../../../img/test.gif"/></a>
+            <a href="../../../org/easymock/tests/ReplayStateInvalidCallsTest_andStubReturn.html" title="Test Summary Page">org.easymock.tests.ReplayStateInvalidCallsTest.andStubReturn</a>
+        </td>
+        <td class="graphPercent">
+                  <span class="sortValue">1</span>
+    <span class="testResultSuccess">PASS</span>
+          </td>
+
+    </tr>
+        <tr id="test-348">
+        <td class="graphPercent graphPercentLeft" align="center" title="checkbox">
+            <a name="testA-348"></a>
+            <input type="checkbox" id="cb-348" value="348" name="testMethod" onclick="hiLightByTest(this.value, this.checked); return true;"/>
+        </td>
+        <td class="graphPercent link" onclick="window.location.href='../../../org/easymock/tests/ReplayStateInvalidCallsTest_setDefaultThrowable.html';">
+            <span class="sortValue">0.5</span>
+                        <div>
+    <div style="width: 40px; font-size:0px;"></div>
+    <div title="50% Not Covered"  style="min-width: 40px;"  class="barNegative testBarNegative">
+       <div title="50% Covered" class="barPositive testBarPositive" style="width: 50%"></div>
+    </div>
+</div>        </td>
+        <td class="testCase" id="tc-348">
+            <span class="sortValue">org.easymock.tests.ReplayStateInvalidCallsTest.setDefaultThrowable</span>
+            <a href="../../../org/easymock/tests/ReplayStateInvalidCallsTest.html?line=57#src-57" title="View Test Source"><img class="icon" alt="test" src="../../../img/test.gif"/></a>
+            <a href="../../../org/easymock/tests/ReplayStateInvalidCallsTest_setDefaultThrowable.html" title="Test Summary Page">org.easymock.tests.ReplayStateInvalidCallsTest.setDefaultThrowable</a>
+        </td>
+        <td class="graphPercent">
+                  <span class="sortValue">1</span>
+    <span class="testResultSuccess">PASS</span>
+          </td>
+
+    </tr>
+        <tr id="test-365">
+        <td class="graphPercent graphPercentLeft" align="center" title="checkbox">
+            <a name="testA-365"></a>
+            <input type="checkbox" id="cb-365" value="365" name="testMethod" onclick="hiLightByTest(this.value, this.checked); return true;"/>
+        </td>
+        <td class="graphPercent link" onclick="window.location.href='../../../org/easymock/tests/ReplayStateInvalidCallsTest_defaultVoidCallable.html';">
+            <span class="sortValue">0.5</span>
+                        <div>
+    <div style="width: 40px; font-size:0px;"></div>
+    <div title="50% Not Covered"  style="min-width: 40px;"  class="barNegative testBarNegative">
+       <div title="50% Covered" class="barPositive testBarPositive" style="width: 50%"></div>
+    </div>
+</div>        </td>
+        <td class="testCase" id="tc-365">
+            <span class="sortValue">org.easymock.tests.ReplayStateInvalidCallsTest.defaultVoidCallable</span>
+            <a href="../../../org/easymock/tests/ReplayStateInvalidCallsTest.html?line=135#src-135" title="View Test Source"><img class="icon" alt="test" src="../../../img/test.gif"/></a>
+            <a href="../../../org/easymock/tests/ReplayStateInvalidCallsTest_defaultVoidCallable.html" title="Test Summary Page">org.easymock.tests.ReplayStateInvalidCallsTest.defaultVoidCallable</a>
+        </td>
+        <td class="graphPercent">
+                  <span class="sortValue">1</span>
+    <span class="testResultSuccess">PASS</span>
+          </td>
+
+    </tr>
+        <tr id="test-367">
+        <td class="graphPercent graphPercentLeft" align="center" title="checkbox">
+            <a name="testA-367"></a>
+            <input type="checkbox" id="cb-367" value="367" name="testMethod" onclick="hiLightByTest(this.value, this.checked); return true;"/>
+        </td>
+        <td class="graphPercent link" onclick="window.location.href='../../../org/easymock/tests/ReplayStateInvalidCallsTest_replay.html';">
+            <span class="sortValue">0.5</span>
+                        <div>
+    <div style="width: 40px; font-size:0px;"></div>
+    <div title="50% Not Covered"  style="min-width: 40px;"  class="barNegative testBarNegative">
+       <div title="50% Covered" class="barPositive testBarPositive" style="width: 50%"></div>
+    </div>
+</div>        </td>
+        <td class="testCase" id="tc-367">
+            <span class="sortValue">org.easymock.tests.ReplayStateInvalidCallsTest.replay</span>
+            <a href="../../../org/easymock/tests/ReplayStateInvalidCallsTest.html?line=67#src-67" title="View Test Source"><img class="icon" alt="test" src="../../../img/test.gif"/></a>
+            <a href="../../../org/easymock/tests/ReplayStateInvalidCallsTest_replay.html" title="Test Summary Page">org.easymock.tests.ReplayStateInvalidCallsTest.replay</a>
+        </td>
+        <td class="graphPercent">
+                  <span class="sortValue">1</span>
+    <span class="testResultSuccess">PASS</span>
+          </td>
+
+    </tr>
+        <tr id="test-372">
+        <td class="graphPercent graphPercentLeft" align="center" title="checkbox">
+            <a name="testA-372"></a>
+            <input type="checkbox" id="cb-372" value="372" name="testMethod" onclick="hiLightByTest(this.value, this.checked); return true;"/>
+        </td>
+        <td class="graphPercent link" onclick="window.location.href='../../../org/easymock/tests/ReplayStateInvalidCallsTest_callback.html';">
+            <span class="sortValue">0.5</span>
+                        <div>
+    <div style="width: 40px; font-size:0px;"></div>
+    <div title="50% Not Covered"  style="min-width: 40px;"  class="barNegative testBarNegative">
+       <div title="50% Covered" class="barPositive testBarPositive" style="width: 50%"></div>
+    </div>
+</div>        </td>
+        <td class="testCase" id="tc-372">
+            <span class="sortValue">org.easymock.tests.ReplayStateInvalidCallsTest.callback</span>
+            <a href="../../../org/easymock/tests/ReplayStateInvalidCallsTest.html?line=102#src-102" title="View Test Source"><img class="icon" alt="test" src="../../../img/test.gif"/></a>
+            <a href="../../../org/easymock/tests/ReplayStateInvalidCallsTest_callback.html" title="Test Summary Page">org.easymock.tests.ReplayStateInvalidCallsTest.callback</a>
+        </td>
+        <td class="graphPercent">
+                  <span class="sortValue">1</span>
+    <span class="testResultSuccess">PASS</span>
+          </td>
+
+    </tr>
+        <tr id="test-363">
+        <td class="graphPercent graphPercentLeft" align="center" title="checkbox">
+            <a name="testA-363"></a>
+            <input type="checkbox" id="cb-363" value="363" name="testMethod" onclick="hiLightByTest(this.value, this.checked); return true;"/>
+        </td>
+        <td class="graphPercent link" onclick="window.location.href='../../../org/easymock/tests/ReplayStateInvalidCallsTest_defaultThrowable.html';">
+            <span class="sortValue">0.5</span>
+                        <div>
+    <div style="width: 40px; font-size:0px;"></div>
+    <div title="50% Not Covered"  style="min-width: 40px;"  class="barNegative testBarNegative">
+       <div title="50% Covered" class="barPositive testBarPositive" style="width: 50%"></div>
+    </div>
+</div>        </td>
+        <td class="testCase" id="tc-363">
+            <span class="sortValue">org.easymock.tests.ReplayStateInvalidCallsTest.defaultThrowable</span>
+            <a href="../../../org/easymock/tests/ReplayStateInvalidCallsTest.html?line=125#src-125" title="View Test Source"><img class="icon" alt="test" src="../../../img/test.gif"/></a>
+            <a href="../../../org/easymock/tests/ReplayStateInvalidCallsTest_defaultThrowable.html" title="Test Summary Page">org.easymock.tests.ReplayStateInvalidCallsTest.defaultThrowable</a>
+        </td>
+        <td class="graphPercent">
+                  <span class="sortValue">1</span>
+    <span class="testResultSuccess">PASS</span>
+          </td>
+
+    </tr>
+    
+</tbody>
+<tbody><tr><td class="hbreak" colspan="4">&nbsp;</td></tr></tbody>
+</table>
+
+<table cellspacing="0" cellpadding="0" class="srcView">
+<tbody>
+<tr><td colspan="2" class="sortable methodToggle"><label onkeyup="return help_src_file_expandall_src;" onclick="toggleAllInlineMethods(this); return false;" id="method-expander">Collapse All</label></td><th></th></tr>
+</tbody>
+<tbody>
+        
+
+<tr id="l1">
+<td align="right" class="lineCount NoHilight">1</td>
+<td align="right" class="coverageCount NoHilight "
+         >
+    &nbsp;&nbsp;
+
+</td>
+<td class="  srcCell"  >
+    <span class="spacer"></span><span id="src-1" class="srcLine"><span class="comment">/*</span></span></td>
+</tr>
+        
+
+<tr id="l2">
+<td align="right" class="lineCount NoHilight">2</td>
+<td align="right" class="coverageCount NoHilight "
+         >
+    &nbsp;&nbsp;
+
+</td>
+<td class="  srcCell"  >
+    <span class="spacer"></span><span id="src-2" class="srcLine"><span class="comment"> * Copyright (c) 2001-2008 OFFIS, Tammo Freese.</span></span></td>
+</tr>
+        
+
+<tr id="l3">
+<td align="right" class="lineCount NoHilight">3</td>
+<td align="right" class="coverageCount NoHilight "
+         >
+    &nbsp;&nbsp;
+
+</td>
+<td class="  srcCell"  >
+    <span class="spacer"></span><span id="src-3" class="srcLine"><span class="comment"> * This program is made available under the terms of the MIT License.</span></span></td>
+</tr>
+        
+
+<tr id="l4">
+<td align="right" class="lineCount NoHilight">4</td>
+<td align="right" class="coverageCount NoHilight "
+         >
+    &nbsp;&nbsp;
+
+</td>
+<td class="  srcCell"  >
+    <span class="spacer"></span><span id="src-4" class="srcLine"><span class="comment"> */</span></span></td>
+</tr>
+        
+
+<tr id="l5">
+<td align="right" class="lineCount NoHilight">5</td>
+<td align="right" class="coverageCount NoHilight "
+         >
+    &nbsp;&nbsp;
+
+</td>
+<td class="  srcCell"  >
+    <span class="spacer"></span><span id="src-5" class="srcLine"><span class="keyword">package</span> org.<a href="../../easymock/pkg-summary.html">easymock</a>.<a href="../internal/pkg-summary.html">internal</a>;</span></td>
+</tr>
+        
+
+<tr id="l6">
+<td align="right" class="lineCount NoHilight">6</td>
+<td align="right" class="coverageCount NoHilight "
+         >
+    &nbsp;&nbsp;
+
+</td>
+<td class="  srcCell"  >
+    <span class="spacer"></span><span id="src-6" class="srcLine"></span></td>
+</tr>
+           <tr class="inlineStatsRow" align="right" valign="middle" >
+        <td colspan="1"  class="coverageCount">
+            <a name="7" class="nolink">&nbsp;</a>
+        </td>
+        
+       <td class="coverageCount imgbg more" id='inlineStatsToggle-7' onclick="toggleInlineStats(this, 'inlinestats-7');">
+       </td>
+       <td align="center" valign="middle">
+           <table id="inlinestats-7" style="display:none;" class="inlineStats" width="100%" cellspacing="1px" cellpadding="1px">
+           <tr onclick="toggleInlineStats(document.getElementById('inlineStatsToggle-7'), 'inlinestats-7');return true;">
+           <td><div>
+    <div style="width: 40px; font-size:0px;"></div>
+    <div title="0% Not Covered"  style="min-width: 40px;"  class="barNegative barNegative">
+       <div title="100% Covered" class="barPositive barPositive" style="width: 100%"></div>
+    </div>
+</div></td><td>100%</td>
+           <td class="inlineStat">Uncovered Elements: 0 (4)</td>
+           <td class="inlineStat">Complexity: 2</td>
+           <td class="inlineStat">Complexity Density: 1</td>
+                       </tr>
+           </table>
+       </td>
+    </tr>
+  
+
+<tr id="l7">
+<td align="right" class="lineCount NoHilight">7</td>
+<td align="right" class="coverageCount NoHilight "
+           onclick="return showTestsForLine(this, 7, 'Tests that hit &lt;span class=\'srcFragment\'&gt; RuntimeExceptionWrapper &lt;/span&gt;');"
+       >
+    &nbsp;&nbsp;
+
+</td>
+<td class="  srcCell" id="id-7" >
+    <span class="spacer"></span><span id="src-7" class="srcLineClassStart"><span class="keyword">public</span> <span class="keyword">class</span> RuntimeExceptionWrapper <span class="keyword">extends</span> RuntimeException {</span></td>
+</tr>
+        
+
+<tr id="l8">
+<td align="right" class="lineCount NoHilight">8</td>
+<td align="right" class="coverageCount NoHilight "
+         >
+    &nbsp;&nbsp;
+
+</td>
+<td class="  srcCell"  >
+    <span class="spacer"></span><span id="src-8" class="srcLine"></span></td>
+</tr>
+        
+
+<tr id="l9">
+<td align="right" class="lineCount NoHilight">9</td>
+<td align="right" class="coverageCount NoHilight "
+         >
+    &nbsp;&nbsp;
+
+</td>
+<td class="  srcCell"  >
+    <span class="spacer"></span><span id="src-9" class="srcLine">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">long</span> serialVersionUID = -3483500330975410177L;</span></td>
+</tr>
+        
+
+<tr id="l10">
+<td align="right" class="lineCount NoHilight">10</td>
+<td align="right" class="coverageCount NoHilight "
+         >
+    &nbsp;&nbsp;
+
+</td>
+<td class="  srcCell"  >
+    <span class="spacer"></span><span id="src-10" class="srcLine">    </span></td>
+</tr>
+        
+
+<tr id="l11">
+<td align="right" class="lineCount NoHilight">11</td>
+<td align="right" class="coverageCount NoHilight "
+         >
+    &nbsp;&nbsp;
+
+</td>
+<td class="  srcCell"  >
+    <span class="spacer"></span><span id="src-11" class="srcLine">    <span class="keyword">private</span> <span class="keyword">final</span> RuntimeException runtimeException;</span></td>
+</tr>
+        
+
+<tr id="l12">
+<td align="right" class="lineCount NoHilight">12</td>
+<td align="right" class="coverageCount NoHilight "
+         >
+    &nbsp;&nbsp;
+
+</td>
+<td class="  srcCell"  >
+    <span class="spacer"></span><span id="src-12" class="srcLine"></span></td>
+</tr>
+           <tr class="inlineStatsRow" align="right" valign="middle" >
+        <td colspan="1"  class="coverageCount">
+            <a name="13" class="nolink">&nbsp;</a>
+        </td>
+        
+       <td class="coverageCount imgbg more" id='inlineStatsToggle-13' onclick="toggleInlineStats(this, 'inlinestats-13');">
+       </td>
+       <td align="center" valign="middle">
+           <table id="inlinestats-13" style="display:none;" class="inlineStats" width="100%" cellspacing="1px" cellpadding="1px">
+           <tr onclick="toggleInlineStats(document.getElementById('inlineStatsToggle-13'), 'inlinestats-13');return true;">
+           <td><div>
+    <div style="width: 40px; font-size:0px;"></div>
+    <div title="0% Not Covered"  style="min-width: 40px;"  class="barNegative barNegative">
+       <div title="100% Covered" class="barPositive barPositive" style="width: 100%"></div>
+    </div>
+</div></td><td>100%</td>
+           <td class="inlineStat">Uncovered Elements: 0 (1)</td>
+           <td class="inlineStat">Complexity: 1</td>
+           <td class="inlineStat">Complexity Density: 1</td>
+                       </tr>
+           </table>
+       </td>
+    </tr>
+  
+
+<tr id="l13">
+<td align="right" class="lineCount Good">13</td>
+<td align="right" class="coverageCount Good hitByTest"
+           onclick="return showTestsForLine(this, 13, 'Tests that hit &lt;span class=\'srcFragment\'&gt; RuntimeExceptionWrapper(RuntimeException) &lt;/span&gt;');"
+       >
+    <a title="Line 13, Col 5: method entered 95 times." class="nolink">&nbsp;95</a>
+
+</td>
+<td class="  methodStart  srcCell" id="id-13" >
+    <img title="Method Statistics" onclick="toggleSrcRowVis(this, 13,15);" id="img-13" src="../../../img/collapse.gif"  alt="toggle" class="icon"/><span id="src-13" class="srcLine"><a class="nolink" title="Line 13, Col 5: method entered 95 times.">    <span class="keyword">public</span> RuntimeExceptionWrapper(<span class="keyword">final</span> RuntimeException runtimeException) {</a><span class="foldControl" onclick="toggleSrcRowVis(document.getElementById('img-13'), 13,15);" id="e13" style="display:none;border:none;">...</span></span></td>
+</tr>
+        
+
+<tr id="l14">
+<td align="right" class="lineCount Good">14</td>
+<td align="right" class="coverageCount Good hitByTest"
+           onclick="return showTestsForLine(this, 14, 'Tests that hit line # 14');"
+    >
+    <a title="Line 14, Col 9: statement executed 95 times." class="nolink">&nbsp;95</a>
+
+</td>
+<td class="  srcCell"  >
+    <span class="spacer"></span><span id="src-14" class="srcLine"><a class="nolink" title="Line 14, Col 9: statement executed 95 times.">        <span class="keyword">this</span>.runtimeException = runtimeException;</a></span></td>
+</tr>
+        
+
+<tr id="l15">
+<td align="right" class="lineCount NoHilight">15</td>
+<td align="right" class="coverageCount NoHilight "
+         >
+    &nbsp;&nbsp;
+
+</td>
+<td class="  srcCell"  >
+    <span class="spacer"></span><span id="src-15" class="srcLine">    }</span></td>
+</tr>
+        
+
+<tr id="l16">
+<td align="right" class="lineCount NoHilight">16</td>
+<td align="right" class="coverageCount NoHilight "
+         >
+    &nbsp;&nbsp;
+
+</td>
+<td class="  srcCell"  >
+    <span class="spacer"></span><span id="src-16" class="srcLine"></span></td>
+</tr>
+           <tr class="inlineStatsRow" align="right" valign="middle" >
+        <td colspan="1"  class="coverageCount">
+            <a name="17" class="nolink">&nbsp;</a>
+        </td>
+        
+       <td class="coverageCount imgbg more" id='inlineStatsToggle-17' onclick="toggleInlineStats(this, 'inlinestats-17');">
+       </td>
+       <td align="center" valign="middle">
+           <table id="inlinestats-17" style="display:none;" class="inlineStats" width="100%" cellspacing="1px" cellpadding="1px">
+           <tr onclick="toggleInlineStats(document.getElementById('inlineStatsToggle-17'), 'inlinestats-17');return true;">
+           <td><div>
+    <div style="width: 40px; font-size:0px;"></div>
+    <div title="0% Not Covered"  style="min-width: 40px;"  class="barNegative barNegative">
+       <div title="100% Covered" class="barPositive barPositive" style="width: 100%"></div>
+    </div>
+</div></td><td>100%</td>
+           <td class="inlineStat">Uncovered Elements: 0 (1)</td>
+           <td class="inlineStat">Complexity: 1</td>
+           <td class="inlineStat">Complexity Density: 1</td>
+                       </tr>
+           </table>
+       </td>
+    </tr>
+  
+
+<tr id="l17">
+<td align="right" class="lineCount Good">17</td>
+<td align="right" class="coverageCount Good hitByTest"
+           onclick="return showTestsForLine(this, 17, 'Tests that hit &lt;span class=\'srcFragment\'&gt; getRuntimeException()&amp;nbsp;:&amp;nbsp;RuntimeException &lt;/span&gt;');"
+       >
+    <a title="Line 17, Col 5: method entered 73 times." class="nolink">&nbsp;73</a>
+
+</td>
+<td class="  methodStart  srcCell" id="id-17" >
+    <img title="Method Statistics" onclick="toggleSrcRowVis(this, 17,19);" id="img-17" src="../../../img/collapse.gif"  alt="toggle" class="icon"/><span id="src-17" class="srcLine"><a class="nolink" title="Line 17, Col 5: method entered 73 times.">    <span class="keyword">public</span> RuntimeException getRuntimeException() {</a><span class="foldControl" onclick="toggleSrcRowVis(document.getElementById('img-17'), 17,19);" id="e17" style="display:none;border:none;">...</span></span></td>
+</tr>
+        
+
+<tr id="l18">
+<td align="right" class="lineCount Good">18</td>
+<td align="right" class="coverageCount Good hitByTest"
+           onclick="return showTestsForLine(this, 18, 'Tests that hit line # 18');"
+    >
+    <a title="Line 18, Col 9: statement executed 73 times." class="nolink">&nbsp;73</a>
+
+</td>
+<td class="  srcCell"  >
+    <span class="spacer"></span><span id="src-18" class="srcLine"><a class="nolink" title="Line 18, Col 9: statement executed 73 times.">        <span class="keyword">return</span> runtimeException;</a></span></td>
+</tr>
+        
+
+<tr id="l19">
+<td align="right" class="lineCount NoHilight">19</td>
+<td align="right" class="coverageCount NoHilight "
+         >
+    &nbsp;&nbsp;
+
+</td>
+<td class="  srcCell"  >
+    <span class="spacer"></span><span id="src-19" class="srcLine">    }</span></td>
+</tr>
+        
+
+<tr id="l20">
+<td align="right" class="lineCount NoHilight">20</td>
+<td align="right" class="coverageCount NoHilight "
+         >
+    &nbsp;&nbsp;
+
+</td>
+<td class="  srcCell"  >
+    <span class="spacer"></span><span id="src-20" class="srcLine">}</span></td>
+</tr>
+</tbody></table>
+<table width="100%"><tr><td class="hbreak" colspan="6">&nbsp;</td></tr>
+<tr><td class="footer" colspan="6">
+<table>
+<tr>
+ <td><a target="_new" href="http://www.atlassian.com/software/clover"><img alt="Clover" src="../../../img/logo.gif" style="border:none"/></a></td><td style="white-space:nowrap;"><i>Report generated by </i><a target="_new" href="http://www.atlassian.com/software/clover">Clover Code Coverage v2.1.0</a><i><br/>mer. juil. 2 2008 02:17:39 CEST</i>.</td>
+<td>&nbsp;</td><td style="BORDER-LEFT: #9c9c9c 1px solid;">&nbsp;</td><td>Clover: Open Source License registered to EasyMock . </td>
+</tr>
+</table>
+</td>
+</tr></table>
+<script type="text/javascript">
+    var ol_bgclass = "overBG";
+    var ol_fgclass = "overFG";
+    var ol_captionfontclass= "overCaption";
+    var ol_closefontclass = "closeFont";
+    var ol_closeclick = 1;
+    var ol_close = 'X';
+    var ol_wrap = 1;
+    var rootRelPath = '../../../';
+    var testsPerFile = -1;
+</script>
+<script src="RuntimeExceptionWrapper.js" type="text/javascript"></script>
+<script src="../../../help.js" type="text/javascript"></script>
+<script src="../../../clover.js" type="text/javascript"></script>
+<script src="../../../sorttable.js" type="text/javascript"></script>
+<script src="../../../overlib.js" type="text/javascript"><!-- overLIB (c) Erik Bosrup --></script>
+<script src="../../../overlib_shadow.js" type="text/javascript" ></script>
+<script src="../../../utils.js" type="text/javascript"></script>
+</body>
+
+</html>
