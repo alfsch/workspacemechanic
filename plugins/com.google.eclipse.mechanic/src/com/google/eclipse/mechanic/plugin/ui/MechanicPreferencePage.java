@@ -9,11 +9,7 @@
 
 package com.google.eclipse.mechanic.plugin.ui;
 
-import com.google.eclipse.mechanic.Task;
-import com.google.eclipse.mechanic.MechanicService;
-import com.google.eclipse.mechanic.internal.Util;
-import com.google.eclipse.mechanic.plugin.core.MechanicPlugin;
-import com.google.eclipse.mechanic.plugin.core.MechanicPreferences;
+import java.util.List;
 
 import org.eclipse.jface.preference.BooleanFieldEditor;
 import org.eclipse.jface.preference.FieldEditorPreferencePage;
@@ -25,8 +21,11 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 import org.eclipse.ui.PlatformUI;
 
-import java.io.File;
-import java.util.List;
+import com.google.eclipse.mechanic.MechanicService;
+import com.google.eclipse.mechanic.Task;
+import com.google.eclipse.mechanic.internal.Util;
+import com.google.eclipse.mechanic.plugin.core.MechanicPlugin;
+import com.google.eclipse.mechanic.plugin.core.MechanicPreferences;
 
 /**
  * Mechanic preferences page.
@@ -87,34 +86,12 @@ public class MechanicPreferencePage extends FieldEditorPreferencePage
         "Task scan frequency",
         getFieldEditorParent()));
 
-    addField(new PathEditor(MechanicPreferences.DIRS_PREF,
+    // TODO(konigsberg): When the set of task directories is empty
+    // and Add... is pressed, default to ${home}/.eclipse/mechanic perhaps.
+    // TODO(konigsberg): Load JSON AND path-separated, but only store JSON.
+    addField(new DirectoryOrUrlEditor(MechanicPreferences.DIRS_PREF,
         "Task source directories:", "Task source directories",
-        getFieldEditorParent()) {
-      
-          @Override
-          protected String[] parseString(String stringList) {
-            String[] array = super.parseString(stringList);
-            for (int i = 0; i < array.length; i++) {
-              array[i] = MechanicPreferences.doVariableSubstitution(array[i]);
-            }
-            return array;
-          }
-
-          // Fix for http://b/1645783 - make sure we can't store a null entry.
-          @Override
-          protected String createList(String[] items) {
-            StringBuilder path = new StringBuilder("");
-            String pathSeparator = "";
-            for (String item : items) {
-              if (item != null) {
-                path.append(pathSeparator);
-                path.append(item);
-                pathSeparator = File.pathSeparator;
-              }
-            }
-            return path.toString();
-          }
-        });
+        getFieldEditorParent()));
 
     blockedEditor = new TaskIdsListEditor(MechanicPreferences.BLOCKED_PREF,
         "Blocked tasks:", "Blocked tasks",
