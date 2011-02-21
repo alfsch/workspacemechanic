@@ -9,18 +9,21 @@
 
 package com.google.eclipse.mechanic.plugin.core;
 
-import com.google.eclipse.mechanic.Task;
-import com.google.eclipse.mechanic.internal.Util;
+import java.io.File;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.Collections;
+import java.util.List;
+import java.util.Set;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.Preferences;
 import org.eclipse.core.variables.IStringVariableManager;
 import org.eclipse.core.variables.VariablesPlugin;
 
-import java.io.File;
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
+import com.google.eclipse.mechanic.Task;
+import com.google.eclipse.mechanic.internal.TaskSourceParser;
+import com.google.eclipse.mechanic.internal.Util;
 
 /**
  * Class used to initialize and access various plugin related preference values.
@@ -71,41 +74,24 @@ public class MechanicPreferences {
   }
 
   /**
-   * Return a list of directories where tasks may be found.
+   * Return a list of task sources where tasks may be found.
    *
-   * @return list of directories where tasks may be found.
+   * @return list of task sources where tasks may be found.
+   * @throws URISyntaxException 
    */
-  public static List<File> getTaskSourceDirectories() {
+  public static List<URI> getTaskSources() throws URISyntaxException {
     Preferences prefs = getPreferences();
-    boolean updatePrefs = false;
     
     String paths = prefs.getString(DIRS_PREF);
 
-    List<File> dirs = Util.newArrayList();
-    for (String path : Util.split(paths, File.pathSeparator)) {
-      // http://b/1645783: directories named "null" somehow got added to default prefs
-      if ("null".equals(path)) {
-        updatePrefs = true;
-        continue;
-      }
-      dirs.add(new File(doVariableSubstitution(path)));
+    // Create static default parser.
+    TaskSourceParser parser = new TaskSourceParser();
+    
+    List<URI> sources = Util.newArrayList();
+    for (String source : parser.parse(paths)) {
+      sources.add(new URI(source));
     }
-    if (updatePrefs) {
-      String newPrefs = join(dirs);
-      prefs.setValue(DIRS_PREF, newPrefs);
-    }
-    return dirs;
-  }
-
-  private static String join(List<File> dirs) {
-    StringBuilder sb = new StringBuilder();
-    for(File dir : dirs) {
-      if (sb.length() > 0) {
-        sb.append(File.pathSeparator);
-      }
-      sb.append(String.valueOf(dir));
-    }
-    return sb.toString();
+    return sources;
   }
 
   /**

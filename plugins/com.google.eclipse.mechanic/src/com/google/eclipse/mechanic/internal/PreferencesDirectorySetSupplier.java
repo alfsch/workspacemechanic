@@ -34,8 +34,7 @@ public class PreferencesDirectorySetSupplier implements DirectorySetSupplier {
   public List<File> get() {
     // This removes duplicates, but ensures insertion order.
     Set<File> dirs = new LinkedHashSet<File>();
-    for (File dir : MechanicPreferences.getTaskSourceDirectories()) {
-
+    for (File dir : MechanicPreferences.getTaskSources()) {
       if (!dir.exists()) {
         log.log(new Status(IStatus.WARNING, MechanicPlugin.PLUGIN_ID,
             String.format("Directory '%s' does not exist.", dir)));

@@ -86,12 +86,8 @@ public class MechanicPreferencePage extends FieldEditorPreferencePage
         "Task scan frequency",
         getFieldEditorParent()));
 
-    // TODO(konigsberg): When the set of task directories is empty
-    // and Add... is pressed, default to ${home}/.eclipse/mechanic perhaps.
-    // TODO(konigsberg): Load JSON AND path-separated, but only store JSON.
     addField(new DirectoryOrUrlEditor(MechanicPreferences.DIRS_PREF,
-        "Task source directories:", "Task source directories",
-        getFieldEditorParent()));
+        "Task source directories:", getFieldEditorParent()));
 
     blockedEditor = new TaskIdsListEditor(MechanicPreferences.BLOCKED_PREF,
         "Blocked tasks:", "Blocked tasks",
