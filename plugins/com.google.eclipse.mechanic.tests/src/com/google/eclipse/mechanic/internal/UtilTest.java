@@ -13,11 +13,14 @@ import junit.framework.TestCase;
 
 import java.util.Arrays;
 
+import com.google.eclipse.mechanic.tests.internal.RunAsJUnitTest;
+
 /**
  * Tests for Util.
  * 
  * @author smckay@google.com (Steve McKay)
  */
+@RunAsJUnitTest
 public class UtilTest extends TestCase {
 
   public void testUnquote() {
@@ -118,6 +121,16 @@ public class UtilTest extends TestCase {
     } catch (IllegalStateException expected) {
       // as expected
     }
+  }
+
+  public void testEquals() {
+    Object first = new Object();
+    Object second = new Object();
+    assertTrue(Util.equals(null, null));
+    assertFalse(Util.equals(null, first));
+    assertFalse(Util.equals(first, null));
+    assertTrue(Util.equals(first, first));
+    assertFalse(Util.equals(first, second));
   }
 
   private void assertArray(String[] actual, String... expected) {

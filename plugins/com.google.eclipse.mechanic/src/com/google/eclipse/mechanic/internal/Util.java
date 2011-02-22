@@ -212,4 +212,11 @@ public final class Util {
   public static int hashCode(Object... objects) {
     return Arrays.hashCode(objects);
   }
+
+  /**
+   * Null-sensitive version of equals.
+   */
+  public static boolean equals(Object one, Object two) {
+    return ((one == null && two == null)) || (one != null && one.equals(two));
+  }
 }
