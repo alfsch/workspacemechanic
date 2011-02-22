@@ -50,7 +50,13 @@ public class TaskSourceParserTest extends TestCase {
   }
 
   public void testRoundTrip() {
-    // TODO before submit
+    String json = "[\"/home/user/path/.eclipse\",\"http://www.google.com/directory\"," +
+        "\"https://www.yahoo.com/directory?param\\u003dvalue%amp;term\"]";
+    assertEquals(json, parser.unparse(parser.parse(json)));
+
+    String[] items = new String[] { "/home/user/path/.eclipse", "http://www.google.com/directory",
+        "https://www.yahoo.com/directory?param=value%amp;term"};
+    assertTrue(Arrays.deepEquals(items, parser.parse(parser.unparse(items))));
   }
 
   private String createList(String... items) {
