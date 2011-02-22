@@ -25,13 +25,12 @@ public class UriTaskProviderModelParserTest extends TestCase {
       "metadata : {" +
       "  name: 'green hornet'," +
       "  description: 'i wear green and i fight crime'," +
-      "  contact: 'greenhornet.com'," +
-      "  rescanFrequencySeconds: 30" +
+      "  contact: 'greenhornet.com'" +
       "}";
 
-  private static final UriTaskProviderModel.Metadata GOOD_METADATA = new UriTaskProviderModel.Metadata(
-      "green hornet", "i wear green and i fight crime", "greenhornet.com", 30
-      );
+  private static final UriTaskProviderModel.Metadata GOOD_METADATA =
+      new UriTaskProviderModel.Metadata(
+      "green hornet", "i wear green and i fight crime", "greenhornet.com");
 
   private static final String BAD_METADATA_TEXT =
     "metadata : {" +
@@ -39,11 +38,12 @@ public class UriTaskProviderModelParserTest extends TestCase {
 
   private static final String MINIMAL_METADATA_TEXT =
     "metadata : {" +
-    "  rescanFrequencySeconds: 30" +
+    "  description: 'yo ho ho'" +
     "}";
 
-  private static final UriTaskProviderModel.Metadata MINIMAL_METADATA = new UriTaskProviderModel.Metadata(
-      null, null, null, 30);
+  private static final UriTaskProviderModel.Metadata MINIMAL_METADATA =
+      new UriTaskProviderModel.Metadata(
+      null, "yo ho ho", null);
 
   private static final String TASKS_TEXT = 
     "tasks: [" +
@@ -114,7 +114,7 @@ public class UriTaskProviderModelParserTest extends TestCase {
       fail("exception expected");
     } catch(RuntimeException e) {
       assertEquals("com.google.gson.JsonParseException", e.getClass().getName());
-      assertEquals(e.getMessage(), "rescanFrequencySeconds is required");
+      assertEquals("description is missing", e.getMessage());
     }
   }
 

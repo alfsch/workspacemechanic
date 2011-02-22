@@ -9,21 +9,22 @@
 
 package com.google.eclipse.mechanic.internal;
 
-import com.google.eclipse.mechanic.Task;
-import com.google.eclipse.mechanic.TaskCollector;
-import com.google.eclipse.mechanic.DirectoryIteratingTaskScanner;
-import com.google.eclipse.mechanic.LastModifiedPreferencesFileTask;
-import com.google.eclipse.mechanic.ReconcilingPreferencesFileTask;
-import com.google.eclipse.mechanic.plugin.core.ResourceTaskReference;
-import com.google.eclipse.mechanic.plugin.core.ResourceTaskProvider;
-
-import org.eclipse.core.runtime.Path;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.logging.Logger;
+
+import org.eclipse.core.runtime.Path;
+
+import com.google.eclipse.mechanic.DirectoryIteratingTaskScanner;
+import com.google.eclipse.mechanic.LastModifiedPreferencesFileTask;
+import com.google.eclipse.mechanic.ReconcilingPreferencesTask;
+import com.google.eclipse.mechanic.Task;
+import com.google.eclipse.mechanic.TaskCollector;
+import com.google.eclipse.mechanic.plugin.core.MechanicLog;
+import com.google.eclipse.mechanic.plugin.core.ResourceTaskProvider;
+import com.google.eclipse.mechanic.plugin.core.ResourceTaskReference;
 
 /**
  * Provides support for treating Elipse "epf" files as first class
@@ -62,6 +63,7 @@ import java.util.logging.Logger;
  */
 public final class PreferenceFileTaskScanner extends DirectoryIteratingTaskScanner {
   
+  private static final MechanicLog log = MechanicLog.getDefault();
   private static final Logger LOG = Logger.getLogger(
       PreferenceFileTaskScanner.class.getName());
 
@@ -74,17 +76,21 @@ public final class PreferenceFileTaskScanner extends DirectoryIteratingTaskScann
      * Scan our source. Add a new Task for each EPF found.
      */
     for (ResourceTaskReference taskRef : source.getTaskReferences(".epf")) {
-      LOG.fine(String.format("Loading preference file: %s", taskRef));
-
-      // will throw a RuntimeException in the event of a problem reading
-      // the epf file
-      Header header = new EpfTaskHeaderParser(taskRef).parseHeader();
-      if (header.getType().equals(TaskType.LASTMOD)) {
-        collector.add(new LastmodEpfTask(taskRef, header));
-      } else if (header.getType().equals(TaskType.RECONCILE)) {
-        collector.add(new ReconcilingEpfTask(taskRef, header));
-      } else {
-        throw new IllegalStateException("Unsupported Task Type");
+      try {
+        LOG.fine(String.format("Loading preferences from: %s", taskRef));
+  
+        // will throw a RuntimeException in the event of a problem reading
+        // the epf file
+        Header header = new EpfTaskHeaderParser(taskRef).parseHeader();
+        if (header.getType().equals(TaskType.LASTMOD)) {
+          collector.add(new LastmodEpfTask(taskRef, header));
+        } else if (header.getType().equals(TaskType.RECONCILE)) {
+          collector.add(new ReconcilingEpfTask(taskRef, header));
+        } else {
+          throw new IllegalStateException("Unsupported Task Type");
+        }
+      } catch(RuntimeException e) {
+        log.logError(e, "Loading preferences from: %s", taskRef);
       }
     }
   }
@@ -94,7 +100,7 @@ public final class PreferenceFileTaskScanner extends DirectoryIteratingTaskScann
    * with the preference values declared in the supplied file.
    */
   private static final class ReconcilingEpfTask
-      extends ReconcilingPreferencesFileTask {
+      extends ReconcilingPreferencesTask {
 
     private final Header header;
 

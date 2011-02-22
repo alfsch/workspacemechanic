@@ -68,22 +68,12 @@ public class MechanicPopupTest {
     popup.open();
 
     Shell shell = popup.getShell();
-    File file = copyWidgetToFile(shell);
+    copyWidgetToFile(shell);
     popup.close();
   }
 
-  private static final File tmpdir;
-  static {
-    File x = new File(System.getenv("TEMP"));
-    if (x.exists()) {
-      tmpdir = x;
-    } else {
-      tmpdir = new File("/tmp");
-    }
-  }
-
   public File copyWidgetToFile(Control control) throws IOException {
-    File file = tmpdir.createTempFile("MechanicalPopupTest", "jpg");
+    File file = File.createTempFile("MechanicalPopupTest", "jpg");
     file.deleteOnExit();
     Point size = control.getSize();
     GC gc = new GC(control);

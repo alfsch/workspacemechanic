@@ -44,8 +44,6 @@ import com.google.eclipse.mechanic.plugin.core.MechanicPreferences;
  *
  * @author smckay@google.com (Steve McKay)
  */
-// TODO(smckay): add a dialog close listener, reschedule mechanic if the
-// sleep time has changed.
 public class MechanicPreferencePage extends FieldEditorPreferencePage
     implements IWorkbenchPreferencePage {
 
@@ -87,7 +85,7 @@ public class MechanicPreferencePage extends FieldEditorPreferencePage
         getFieldEditorParent()));
 
     addField(new DirectoryOrUrlEditor(MechanicPreferences.DIRS_PREF,
-        "Task source directories:", getFieldEditorParent()));
+        "Task sources:", getFieldEditorParent()));
 
     blockedEditor = new TaskIdsListEditor(MechanicPreferences.BLOCKED_PREF,
         "Blocked tasks:", "Blocked tasks",

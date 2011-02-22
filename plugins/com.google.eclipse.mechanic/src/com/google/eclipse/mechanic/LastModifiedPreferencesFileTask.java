@@ -9,26 +9,25 @@
 
 package com.google.eclipse.mechanic;
 
-import com.google.eclipse.mechanic.internal.Util;
-import com.google.eclipse.mechanic.plugin.core.MechanicPlugin;
+import java.io.BufferedInputStream;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.util.Map;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Platform;
-import org.eclipse.core.runtime.Preferences;
-import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.preferences.ConfigurationScope;
 import org.eclipse.core.runtime.preferences.IExportedPreferences;
 import org.eclipse.core.runtime.preferences.IPreferenceFilter;
 import org.eclipse.core.runtime.preferences.IPreferencesService;
 import org.eclipse.core.runtime.preferences.InstanceScope;
 
-import java.io.BufferedInputStream;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
-import java.util.Map;
+import com.google.eclipse.mechanic.internal.Util;
+import com.google.eclipse.mechanic.plugin.core.MechanicLog;
+import com.google.eclipse.mechanic.plugin.core.MechanicPreferences;
 
 /**
  * Imports Eclipse preferences from a file. Preferences are in the
@@ -37,8 +36,7 @@ import java.util.Map;
  * @author smckay@google.com (Steve McKay)
  */
 public abstract class LastModifiedPreferencesFileTask extends CompositeTask {
-
-  private final Preferences prefs;
+  private final MechanicLog log = MechanicLog.getDefault();
 
   private final IPath file;
 
@@ -48,8 +46,6 @@ public abstract class LastModifiedPreferencesFileTask extends CompositeTask {
         file + " must be readable");
 
     this.file = file;
-
-    prefs = MechanicPlugin.getDefault().getPluginPreferences();
   }
 
   private final String getKey() {
@@ -71,8 +67,7 @@ public abstract class LastModifiedPreferencesFileTask extends CompositeTask {
    * but there is a newer version of the preferences file.
    */
   public boolean evaluate() {
-
-    long previous = prefs.getLong(getKey());
+    long previous = MechanicPreferences.getLong(getKey());
     return previous > 0L && previous >= file.toFile().lastModified();
   }
 
@@ -81,10 +76,10 @@ public abstract class LastModifiedPreferencesFileTask extends CompositeTask {
     long lastmod = file.toFile().lastModified();
     try {
       // Validate preferences
-      IStatus validStatus = Preferences.validatePreferenceVersions(file);
+      IStatus validStatus = MechanicPreferences.validatePreferencesFile(file);
       if (validStatus.isOK()) {
         transfer();
-        prefs.setValue(getKey(), lastmod);
+        MechanicPreferences.setValue(getKey(), lastmod);
       } else {
         throw new CoreException(validStatus);
       }
@@ -102,17 +97,17 @@ public abstract class LastModifiedPreferencesFileTask extends CompositeTask {
     try {
       input = new BufferedInputStream(new FileInputStream(file.toFile()));
     } catch (FileNotFoundException ex) {
-      MechanicPlugin.getDefault().getLog().log(new Status(IStatus.ERROR, MechanicPlugin.PLUGIN_ID,
-          0, ex.getMessage(), ex));
+      log.logError(ex);
     }
 
     IPreferenceFilter[] filters = new IPreferenceFilter[1];
     // Matches all prefs for both Instance and Config scope.
     filters[0] = new IPreferenceFilter() {
-
         public String[] getScopes() {
-            return new String[] { InstanceScope.SCOPE,
-                    ConfigurationScope.SCOPE };
+            return new String[] {
+                InstanceScope.SCOPE,
+                ConfigurationScope.SCOPE
+            };
         }
 
         @SuppressWarnings("rawtypes") // Eclipse doesn't do generics.
@@ -127,7 +122,7 @@ public abstract class LastModifiedPreferencesFileTask extends CompositeTask {
       // Apply the prefs with the filters so they're only imported and others aren't removed.
       service.applyPreferences(prefs, filters);
     } catch (CoreException ex) {
-      MechanicPlugin.getDefault().getLog().log(ex.getStatus());
+      log.log(ex.getStatus());
     }
     
   }

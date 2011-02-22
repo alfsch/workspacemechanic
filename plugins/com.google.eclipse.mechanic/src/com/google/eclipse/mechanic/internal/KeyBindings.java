@@ -91,6 +91,7 @@ public class KeyBindings {
 
 
   // TODO(konigsberg): This is broken atm.
+  @SuppressWarnings("unused")
   private static void printBindings(List<Binding> systemBindings) {
     StringBuilder output = new StringBuilder("[\n");
     for (Binding b : systemBindings) {

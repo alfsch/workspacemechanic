@@ -21,6 +21,7 @@ import org.eclipse.jface.dialogs.IInputValidator;
 class TaskResourceValidator implements IInputValidator {
   static final String PATH_DOES_NOT_EXIST = "The specified path does not exist.";
   static final String NOT_A_DIRECTORY = "Not a directory";
+  static final String CANNOT_READ = "Cannot read";
   static final String UNACCEPTABLE_PROTOCOL = "This protocol is not supported.";
   static final String RELATIVE_PATH = "Local directories must be absolute paths.";
   static final String SYNTAX_ERROR = "Invalid URL";
@@ -67,6 +68,14 @@ class TaskResourceValidator implements IInputValidator {
     if (!file.isDirectory()) {
       return NOT_A_DIRECTORY;
     }
+    if (!file.canRead()) {
+      return CANNOT_READ;
+    }
     return null;
+  }
+
+  @Override
+  public String toString() {
+    return "TaskResourceValidator: " + allowUrls;
   }
 };

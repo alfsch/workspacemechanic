@@ -10,19 +10,28 @@
 package com.google.eclipse.mechanic.plugin.core;
 
 import java.io.File;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
+import org.eclipse.core.internal.preferences.PreferencesService;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.ILog;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.Preferences;
+import org.eclipse.core.runtime.Platform;
+import org.eclipse.core.runtime.preferences.IEclipsePreferences;
+import org.eclipse.core.runtime.preferences.IEclipsePreferences.IPreferenceChangeListener;
+import org.eclipse.core.runtime.preferences.IPreferencesService;
+import org.eclipse.core.runtime.preferences.InstanceScope;
 import org.eclipse.core.variables.IStringVariableManager;
 import org.eclipse.core.variables.VariablesPlugin;
 
 import com.google.eclipse.mechanic.Task;
 import com.google.eclipse.mechanic.internal.FileTaskProvider;
+import com.google.eclipse.mechanic.internal.ResourceTaskProviderParser;
+import com.google.eclipse.mechanic.internal.UriTaskProvider;
 import com.google.eclipse.mechanic.internal.Util;
 
 /**
@@ -30,13 +39,19 @@ import com.google.eclipse.mechanic.internal.Util;
  *
  * @author smckay@google.com (Steve McKay)
  */
+@SuppressWarnings("restriction") // PreferencesService is the only access to validateVersions.
 public class MechanicPreferences {
-  private static final ILog log = MechanicPlugin.getDefault().getLog();
+  private static final IPreferencesService preferencesService = Platform.getPreferencesService();
+  private static final IEclipsePreferences pluginPreferences =
+      new InstanceScope().getNode(MechanicPlugin.PLUGIN_ID);
+
+  private static final MechanicLog log = MechanicLog.getDefault();
 
   /**
    * Preference string for directories containing tasks.
    *
-   * Stores a list of strings separated by the platform's file separator.
+   * Stores a list of strings separated by the platform's file separator, or as a GSON array of
+   * URIs.
    */
   public static final String DIRS_PREF = "mechanicSourceDirectories";
 
@@ -70,40 +85,68 @@ public class MechanicPreferences {
 
   public static final int MINIMUM_SLEEP_SECONDS = 10;
 
-  public void addListener(Preferences.IPropertyChangeListener listener) {
-    getPreferences().addPropertyChangeListener(listener);
+  public static void addListener(IPreferenceChangeListener listener) {
+    pluginPreferences.addPreferenceChangeListener(listener);
+  }
+
+  private static final Set<String> ignoredStrings = Util.newHashSet();
+  private static void addIgnoredString(String s) {
+    synchronized(ignoredStrings) {
+      ignoredStrings.add(s);
+    }
+  }
+  private static boolean isIgnoredString(String s) {
+    synchronized(ignoredStrings) {
+      return ignoredStrings.contains(s);
+    }
   }
 
   /**
-   * Return a list of task sources.
+   * Return a list of task sources where tasks may be found.
    *
-   * @return list of task sources.
+   * @return list of task sources where tasks may be found.
    */
-  public static List<ResourceTaskProvider> getTaskSources() {
-    Preferences prefs = getPreferences();
-    
-    String paths = prefs.getString(DIRS_PREF);
+  public static List<ResourceTaskProvider> getTaskProviders() {
+    String paths = preferencesService.getString(MechanicPlugin.PLUGIN_ID, DIRS_PREF, null, null);
 
-    List<ResourceTaskProvider> sources = Util.newArrayList();
-    for (String path : Util.split(paths, File.pathSeparator)) {
+    // Create static default parser.
+    ResourceTaskProviderParser parser = new ResourceTaskProviderParser();
+    List<ResourceTaskProvider> providers = Util.newArrayList();
+    for (String source : parser.parse(paths)) {
+      if (isIgnoredString(source)) {
+        continue;
+      }
+      URI uri;
+      try {
+        uri = new URI(source);
+      } catch (URISyntaxException e) {
+        log.logError(e, "Can't parse %s", source);
+        addIgnoredString(source);
+        continue;
+      }
+      ResourceTaskProvider provider;
+      if (uri.getScheme() != null) {
+        provider = new UriTaskProvider(uri);
+      } else {
+        provider = new FileTaskProvider(new File(source));
+      }
 
-      FileTaskProvider provider = new FileTaskProvider(new File(doVariableSubstitution(path)));
-      
       IStatus initializationStatus = provider.initialize();
       if (initializationStatus.isOK()) {
-        sources.add(provider);
+        providers.add(provider);
       } else {
         log.log(initializationStatus);
       }
     }
-    return sources;
+    return providers;
   }
 
   /**
    * Returns the number of seconds the mechanic should sleep between passes.
    */
   public static int getThreadSleepSeconds() {
-    return cleansSleepSeconds(getPreferences().getInt(SLEEPAGE_PREF));
+    int seconds = preferencesService.getInt(MechanicPlugin.PLUGIN_ID, SLEEPAGE_PREF, 0, null);
+    return cleansSleepSeconds(seconds);
   }
 
   /**
@@ -117,8 +160,7 @@ public class MechanicPreferences {
    * Returns a list of Task ids that have been blocked.
    */
   public static Set<String> getBlockedTaskIds() {
-    Preferences prefs = getPreferences();
-    String val = prefs.getString(BLOCKED_PREF);
+    String val = preferencesService.getString(MechanicPlugin.PLUGIN_ID, BLOCKED_PREF, null, null);
 
     if (val != null) {
       Set<String> set = Util.newHashSet();
@@ -132,7 +174,6 @@ public class MechanicPreferences {
    * Saves the supplied Task id set in the preferences system.
    */
   public static void setBlockedTaskIds(Set<String> ids) {
-    Preferences prefs = getPreferences();
     StringBuilder b = new StringBuilder();
 
     for (String id : ids) {
@@ -145,7 +186,7 @@ public class MechanicPreferences {
       }
       b.append(id);
     }
-    prefs.setValue(BLOCKED_PREF, b.toString());
+    pluginPreferences.put(BLOCKED_PREF, b.toString());
   }
 
   /**
@@ -161,15 +202,15 @@ public class MechanicPreferences {
    * Returns the mechanic help url.
    */
   public static String getHelpUrl() {
-    Preferences prefs = getPreferences();
-    return prefs.getString(HELP_URL_PREF);
+    return preferencesService.getString(MechanicPlugin.PLUGIN_ID, HELP_URL_PREF, null, null);
   }
-  
+
   /**
-   * Returns the plugin preferences without. Just a convenience method.
+   * returns the value of given key as a long.
    */
-  private static Preferences getPreferences() {
-    return MechanicPlugin.getDefault().getPluginPreferences();
+  public static long getLong(String key) {
+    return preferencesService.getLong(MechanicPlugin.PLUGIN_ID,
+        key, 0L, null);
   }
 
   /**
@@ -193,16 +234,27 @@ public class MechanicPreferences {
    * tasks fail.
    */
   public static boolean isShowPopup() {
-    Preferences prefs = getPreferences();
-    return prefs.getBoolean(SHOW_POPUP_PREF);
+    return preferencesService.getBoolean(MechanicPlugin.PLUGIN_ID, SHOW_POPUP_PREF, true, null);
   }
 
   /**
    * Disable the preference that shows the notification popup.
    */
   public static void doNotShowPopup() {
-    Preferences prefs = getPreferences();
-    prefs.setValue(SHOW_POPUP_PREF, false);
-    
+    pluginPreferences.putBoolean(SHOW_POPUP_PREF, false);
+  }
+
+  /**
+   * Get the validation status of a preferences file.
+   */
+  public static IStatus validatePreferencesFile(IPath path) {
+    return ((PreferencesService) preferencesService).validateVersions(path);
+  }
+
+  /**
+   * Set the value of a preference on the MechanicPreferences scope.
+   */
+  public static void setValue(String key, long value) {
+    pluginPreferences.putLong(key, value);
   }
 }

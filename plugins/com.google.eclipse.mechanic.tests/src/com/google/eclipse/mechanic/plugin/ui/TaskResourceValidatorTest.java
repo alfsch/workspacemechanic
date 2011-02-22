@@ -9,6 +9,7 @@
 package com.google.eclipse.mechanic.plugin.ui;
 
 import java.io.File;
+import java.io.IOException;
 
 import junit.framework.TestCase;
 
@@ -16,23 +17,37 @@ import com.google.eclipse.mechanic.tests.internal.RunAsJUnitTest;
 import static com.google.eclipse.mechanic.plugin.ui.TaskResourceValidator.*;
 
 /**
- * Tests for (@link {@link TaskResourceValidator}.
+ * Tests for {@link TaskResourceValidator}.
  */
 @RunAsJUnitTest
 public class TaskResourceValidatorTest extends TestCase {
   private static final TaskResourceValidator ALL_VALIDATOR = new TaskResourceValidator(true);
   private static final TaskResourceValidator PATH_VALIDATOR = new TaskResourceValidator(false);
   private File file;
+  File dir;
 
   @Override
   public void setUp() throws Exception {
     super.setUp();
     file = File.createTempFile("asfd", "fdas");
+    dir = File.createTempFile("xxx", "ooo");
+    // hack: delete the dir file, and make it a directory.
+    assertTrue(dir.delete());
+    assertTrue(dir.mkdir());
+    chmod(dir, "-r");
+  }
+
+  private void chmod(File path, String change) throws InterruptedException, IOException {
+    if (!path.isAbsolute()) {
+      fail("chmod function requires absolute paths");
+    }
+    assertEquals(0, new ProcessBuilder("chmod", change, path.getPath()).start().waitFor());
   }
 
   @Override
   public void tearDown() throws Exception {
-    file.delete();
+    assertTrue(file.delete());
+    assertTrue(dir.delete());
     super.tearDown();
   }
 
@@ -52,6 +67,10 @@ public class TaskResourceValidatorTest extends TestCase {
     validate(file.getParent(), null, null);
   }
 
+  public void testValidation_canRead() throws Exception {
+    validate(dir, CANNOT_READ, CANNOT_READ);
+  }
+
   public void testValidation_uri() {
     validate("http://www.google.com", null, RELATIVE_PATH);
     validate("https://www.google.com", null, RELATIVE_PATH);
@@ -68,7 +87,7 @@ public class TaskResourceValidatorTest extends TestCase {
 
   public void testValidation_syntax() {
     // What throws URI Syntax Exception?
-    validate("htpftp.wustl.edu/path", SYNTAX_ERROR, RELATIVE_PATH);
+    validate("htpftp.wustl.edu/path", RELATIVE_PATH, RELATIVE_PATH);
   }
 
   private void validate(File file, String expectedAll, String expectedPath) {
@@ -83,6 +102,6 @@ public class TaskResourceValidatorTest extends TestCase {
   private void validateImpl(String string, TaskResourceValidator validator,
       String expected) {
     String actual = validator.isValid(string);
-    assertEquals(expected, actual);
+    assertEquals("for " + validator, expected, actual);
   }
 }

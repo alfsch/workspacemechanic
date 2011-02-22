@@ -9,20 +9,9 @@
 
 package com.google.eclipse.mechanic.plugin.ui;
 
-import com.google.eclipse.mechanic.ChangeCollector;
-import com.google.eclipse.mechanic.MechanicStatus;
-import com.google.eclipse.mechanic.MechanicService;
-import com.google.eclipse.mechanic.RepairDecisionProvider;
-import com.google.eclipse.mechanic.StatusChangeListener;
-import com.google.eclipse.mechanic.StatusChangedEvent;
-import com.google.eclipse.mechanic.internal.Util;
-import com.google.eclipse.mechanic.plugin.core.MechanicPlugin;
-import com.google.eclipse.mechanic.plugin.core.MechanicPreferences;
+import java.util.Map;
 
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.ILog;
-import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IMenuListener;
@@ -45,7 +34,16 @@ import org.eclipse.ui.IWorkbenchActionConstants;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.menus.AbstractWorkbenchTrimWidget;
 
-import java.util.Map;
+import com.google.eclipse.mechanic.ChangeCollector;
+import com.google.eclipse.mechanic.MechanicService;
+import com.google.eclipse.mechanic.MechanicStatus;
+import com.google.eclipse.mechanic.RepairDecisionProvider;
+import com.google.eclipse.mechanic.StatusChangeListener;
+import com.google.eclipse.mechanic.StatusChangedEvent;
+import com.google.eclipse.mechanic.internal.Util;
+import com.google.eclipse.mechanic.plugin.core.MechanicLog;
+import com.google.eclipse.mechanic.plugin.core.MechanicPlugin;
+import com.google.eclipse.mechanic.plugin.core.MechanicPreferences;
 
 /**
  * Trim widget provides regular visual feedback to the user regarding the
@@ -55,12 +53,11 @@ import java.util.Map;
  * @author smckay@google.com (Steve McKay)
  */
 public final class MechanicStatusTrimWidget extends AbstractWorkbenchTrimWidget {
-  private static final ILog log = MechanicPlugin.getDefault().getLog();
+  private static final MechanicLog logg = MechanicLog.getDefault();
 
   // various actions used in our context menu...
   private static final Action prefsAction =
-      new OpenPreferencesAction(OpenPreferencesAction
-          .getPreferencesPageId(MechanicPlugin.PLUGIN_ID));
+      new OpenPreferencesAction("com.google.eclipse.mechanic.plugin.ui.MechanicPreferencePage");
 
   private static final Action helpAction = createHelpAction();
 
@@ -100,8 +97,8 @@ public final class MechanicStatusTrimWidget extends AbstractWorkbenchTrimWidget 
     try {
       return new OpenUrlAction(helpUrl, "Help...");
     } catch (RuntimeException e) {
-      log.log(new Status(IStatus.ERROR, MechanicPlugin.PLUGIN_ID, String.format(
-          "Could not initialize help action for URL %s: %s", helpUrl, e.getMessage()), e));
+      logg.logError(e, 
+          "Could not initialize help action for URL %s: %s", helpUrl, e.getMessage());
       return null;
     }
   }
@@ -290,10 +287,7 @@ public final class MechanicStatusTrimWidget extends AbstractWorkbenchTrimWidget 
   }
 
   /**
-   * Object representing the current state of the mechanic.
-   * 
-   * TODO(smckay): consider consolidating this type with TaskStatus, or just
-   * handling the string formatting via some other mechanism.
+   * Representation of the current state of the mechanic.
    */
   public enum DisplayStatus {
 

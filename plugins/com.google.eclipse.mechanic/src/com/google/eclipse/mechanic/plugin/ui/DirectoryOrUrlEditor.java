@@ -31,16 +31,10 @@ public class DirectoryOrUrlEditor extends ListEditor {
     }
   }
 
-  // TODO(konigsberg): When the set of task directories is empty
-  // and Add... is pressed, default to ${home}/.eclipse/mechanic perhaps.
 
   @Override
   protected String getNewInputObject() {
-    // Important: this "false" means the dialog doesn't permit URLs.
-    // Until this editor can properly store URLs along with paths,
-    // this should remain off.
-    // (Case in point, Windows uses ':' as the path separator. Do the math.)
-    TaskResourceDialog dialog = new TaskResourceDialog(getShell(), false);
+    TaskResourceDialog dialog = new TaskResourceDialog(getShell(), true);
     return (dialog.open() == Dialog.OK) ? dialog.getValue() : null;
   }
 

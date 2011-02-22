@@ -30,7 +30,7 @@ public abstract class ResourceTaskProvider {
 
 
   /**
-   * TODO: Remove the pathFilter
+   * TODO(konigsberg): Remove the pathFilter
    */
   public abstract List<ResourceTaskReference> getTaskReferences(String localPath, String extFilter);
 

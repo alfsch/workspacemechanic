@@ -20,13 +20,10 @@ public class UriTaskProviderModel {
     private final String name;
     private final String description;
     private final String contact;
-    private final int rescanFrequencySeconds;
-    public Metadata(String name, String description, String contact,
-        int rescanFrequencySeconds) {
+    public Metadata(String name, String description, String contact) {
+      this.description = Util.checkNotNull(description, "description is missing");
       this.name = name;
-      this.description = description;
       this.contact = contact;
-      this.rescanFrequencySeconds = rescanFrequencySeconds;
     }
 
     public String getDescription() {
@@ -38,15 +35,11 @@ public class UriTaskProviderModel {
     public String getContact() {
       return contact;
     }
-    public int getRescanFrequencySeconds() {
-      return rescanFrequencySeconds;
-    }
 
     @Override
     public String toString() {
       return "Metadata [name=" + name + ", description=" + description
-          + ", contact=" + contact + ", rescanFrequencySeconds="
-          + rescanFrequencySeconds + "]";
+          + ", contact=" + contact + "]";
     }
 
     @Override
@@ -65,8 +58,7 @@ public class UriTaskProviderModel {
       Metadata that = (Metadata) obj;
       return Util.equals(this.name, that.name) &&
           Util.equals(this.description, that.description) &&
-          Util.equals(this.contact, that.contact) &&
-          this.rescanFrequencySeconds == that.rescanFrequencySeconds;
+          Util.equals(this.contact, that.contact);
     }
   }
 

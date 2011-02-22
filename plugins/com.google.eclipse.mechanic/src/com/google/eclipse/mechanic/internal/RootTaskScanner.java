@@ -11,9 +11,6 @@ package com.google.eclipse.mechanic.internal;
 
 import com.google.eclipse.mechanic.TaskCollector;
 import com.google.eclipse.mechanic.TaskScanner;
-import com.google.eclipse.mechanic.plugin.core.MechanicPlugin;
-
-import org.eclipse.core.runtime.ILog;
 
 /**
  * A {@link TaskScanner} that loads and runs all other {@link TaskScanner}s.
@@ -23,9 +20,8 @@ import org.eclipse.core.runtime.ILog;
 public class RootTaskScanner implements TaskScanner {
 
   private static final RootTaskScanner instance = new RootTaskScanner();
-  private static final ILog log = MechanicPlugin.getDefault().getLog();
 
-  private final ScannerExtensionPoint scannersExtensionPoint = new ScannerExtensionPoint();
+  private final ScannersExtensionPoint scannersExtensionPoint = new ScannersExtensionPoint();
 
   public static RootTaskScanner getInstance() {
     return instance;

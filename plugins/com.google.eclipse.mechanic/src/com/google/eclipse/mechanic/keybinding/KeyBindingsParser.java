@@ -11,7 +11,6 @@ package com.google.eclipse.mechanic.keybinding;
 
 import java.io.Reader;
 import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -19,7 +18,7 @@ import java.util.Map.Entry;
 import com.google.eclipse.mechanic.internal.TaskType;
 import com.google.eclipse.mechanic.internal.Util;
 import com.google.eclipse.mechanic.keybinding.KeyBindingChangeSet.Bindings;
-import com.google.eclipse.mechanic.keybinding.KeyBindingsTask.MetaData;
+import com.google.eclipse.mechanic.keybinding.KeyBindingsModel.MetaData;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
@@ -82,10 +81,10 @@ import com.google.gson.reflect.TypeToken;
  */
 public class KeyBindingsParser {
 
-  //TODO: read from JSON file
-  //TODO: take in a "stream" as parameter?
+  //TODO(konigsberg, zorzella): read from JSON file
+  //TODO(konigsberg, zorzella): take in a "stream" as parameter?
   public static List<KeyBindingChangeSet> buildKeyChangeSets() {
-    ArrayList<KeyBindingChangeSet> result = Util.newArrayList();
+    List<KeyBindingChangeSet> result = Util.newArrayList();
 
     List<KeyBindingSpec> toAdd = Util.newArrayList();
     toAdd.add(new KeyBindingSpec(
@@ -123,23 +122,23 @@ public class KeyBindingsParser {
   private static final Gson GSON = new GsonBuilder()
       .setPrettyPrinting()
       .registerTypeAdapter(MetaData.class, new MetaDataAdapter())
-      .registerTypeAdapter(KeyBindingsTask.class, new KeyBindingsTaskAdapter())
+      .registerTypeAdapter(KeyBindingsModel.class, new KeyBindingsModelAdapter())
       .registerTypeAdapter(KeyBindingChangeSet.class, new KeyBindingChangeSetAdapter())
       .registerTypeAdapter(KeyBindingChangeSet.Bindings.class, new BindingsAdapter())
       .create();
 
-  public static String serialize(KeyBindingsTask task) {
-    return GSON.toJson(task);
+  public static String serialize(KeyBindingsModel model) {
+    return GSON.toJson(model);
   }
 
-  public static KeyBindingsTask deSerialize(Reader reader) {
-    return GSON.fromJson(reader, KeyBindingsTask.class);
+  public static KeyBindingsModel deSerialize(Reader reader) {
+    return GSON.fromJson(reader, KeyBindingsModel.class);
   }
 
   @Deprecated
-  public static KeyBindingsTask deSerialize(CharSequence json) {
+  public static KeyBindingsModel deSerialize(CharSequence json) {
     // TODO(konigsberg): Replace with the other deserialize method
-    return GSON.fromJson(json.toString(), KeyBindingsTask.class);
+    return GSON.fromJson(json.toString(), KeyBindingsModel.class);
   }
 
   private enum Action {
@@ -190,16 +189,19 @@ public class KeyBindingsParser {
     }
   }
 
-  public static class KeyBindingsTaskAdapter
-  implements JsonDeserializer<KeyBindingsTask> {
+  public static class KeyBindingsModelAdapter
+  implements JsonDeserializer<KeyBindingsModel> {
 
-    public KeyBindingsTask deserialize(JsonElement json, Type typeOfT,
+    public KeyBindingsModel deserialize(JsonElement json, Type typeOfT,
         JsonDeserializationContext context) throws JsonParseException {
       JsonObject jo = json.getAsJsonObject();
 
-      return new KeyBindingsTask(
-          (List<KeyBindingChangeSet>)
-              context.deserialize(jo.get("changeSets"), Types.changeSetsList),
+      @SuppressWarnings("unchecked") // Typecast with generic from Object is required.
+      List<KeyBindingChangeSet> changeSet = (List<KeyBindingChangeSet>)
+          context.deserialize(jo.get("changeSets"), Types.changeSetsList);
+
+      return new KeyBindingsModel(
+          changeSet,
           (MetaData) context.deserialize(jo.get("metadata"), Types.metaData));
     }
   }

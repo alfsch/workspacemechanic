@@ -16,7 +16,7 @@ import java.util.List;
 import junit.framework.TestCase;
 
 import com.google.eclipse.mechanic.internal.TaskType;
-import com.google.eclipse.mechanic.keybinding.KeyBindingsTask.MetaData;
+import com.google.eclipse.mechanic.keybinding.KeyBindingsModel.MetaData;
 import com.google.eclipse.mechanic.tests.internal.RunAsJUnitTest;
 
 @RunAsJUnitTest
@@ -99,22 +99,22 @@ public class KeyBindingsParserTest extends TestCase {
     "} ";
 
   public void testNoChangesets() {
-    KeyBindingsTask actual = KeyBindingsParser.deSerialize(TEST_NO_CHANGESETS);
-    KeyBindingsTask expected = buildExpected(false, false);
+    KeyBindingsModel actual = KeyBindingsParser.deSerialize(TEST_NO_CHANGESETS);
+    KeyBindingsModel expected = buildExpected(false, false);
 
     assertEquals(expected, actual);
   }
 
   public void testDefault() {
-    KeyBindingsTask actual = KeyBindingsParser.deSerialize(TEST_JSON);
-    KeyBindingsTask expected = buildExpected(true, false);
+    KeyBindingsModel actual = KeyBindingsParser.deSerialize(TEST_JSON);
+    KeyBindingsModel expected = buildExpected(true, false);
 
     assertEquals(expected, actual);
   }
 
   public void testFull() {
-    KeyBindingsTask actual = KeyBindingsParser.deSerialize(TEST_FULL);
-    KeyBindingsTask expected = buildExpected(true, true);
+    KeyBindingsModel actual = KeyBindingsParser.deSerialize(TEST_FULL);
+    KeyBindingsModel expected = buildExpected(true, true);
 
     assertEquals(expected, actual);
   }
@@ -131,13 +131,13 @@ public class KeyBindingsParserTest extends TestCase {
     testRoundTrip_entry(buildExpected(false, true));
   }
 
-  private void testRoundTrip_entry(KeyBindingsTask task) {
+  private void testRoundTrip_entry(KeyBindingsModel task) {
     String json = KeyBindingsParser.serialize(task);
-    KeyBindingsTask reconstituted = KeyBindingsParser.deSerialize(json);
+    KeyBindingsModel reconstituted = KeyBindingsParser.deSerialize(json);
     assertEquals(task, reconstituted);
   }
 
-  private KeyBindingsTask buildExpected(boolean hasChangeSets, boolean hasParams) {
+  private KeyBindingsModel buildExpected(boolean hasChangeSets, boolean hasParams) {
     MetaData metadata = new MetaData(
         "Zorzella's bindings",
         "Zorzella's bindings in the real world",
@@ -148,7 +148,7 @@ public class KeyBindingsParserTest extends TestCase {
       changeSets.add(buildExpectedChangeSetZero());
       changeSets.add(buildExpectedChangeSetOne(hasParams));
     }
-    KeyBindingsTask result = new KeyBindingsTask(changeSets, metadata);
+    KeyBindingsModel result = new KeyBindingsModel(changeSets, metadata);
     return result;
   }
 

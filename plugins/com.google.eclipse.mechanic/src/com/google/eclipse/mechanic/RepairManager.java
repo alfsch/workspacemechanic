@@ -9,18 +9,14 @@
 
 package com.google.eclipse.mechanic;
 
+import java.util.List;
+import java.util.Map;
+
 import com.google.eclipse.mechanic.RepairDecisionProvider.Decision;
 import com.google.eclipse.mechanic.RepairDecisionProvider.ResponseStatus;
 import com.google.eclipse.mechanic.internal.Util;
-import com.google.eclipse.mechanic.plugin.core.MechanicPlugin;
+import com.google.eclipse.mechanic.plugin.core.MechanicLog;
 import com.google.eclipse.mechanic.plugin.core.MechanicPreferences;
-
-import org.eclipse.core.runtime.ILog;
-import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.Status;
-
-import java.util.List;
-import java.util.Map;
 
 /**
  * Provides a controller for the process of selecting tasks to be repaired,
@@ -30,7 +26,7 @@ import java.util.Map;
  */
 public class RepairManager implements Runnable {
 
-  private static final ILog LOG = MechanicPlugin.getDefault().getLog();
+  private final MechanicLog log = MechanicLog.getDefault();
 
   private final MechanicService service;
   private final List<Task> failing;
@@ -91,17 +87,11 @@ public class RepairManager implements Runnable {
    * Execute action associated with the supplied Task.
    */
   private void repairItem(Task item) {
-
-    LOG.log(new Status(IStatus.INFO, MechanicPlugin.PLUGIN_ID, 
-        String.format("Repairing item: %s", item)));
+    log.logInfo("Repairing item: %s", item);
     try {
       item.getRepairAction().run();
     } catch (RuntimeException e) {
-      LOG.log(new Status(IStatus.ERROR, MechanicPlugin.PLUGIN_ID,
-          String.format("RepairAction failed: %s", e.getMessage()), e));
-      
-      // TODO(smckay): would be nice to log an error to a server where we
-      // can review them at our leisure.
+      log.logError(e, "RepairAction failed %s", e.getMessage());
     }
   }
 }

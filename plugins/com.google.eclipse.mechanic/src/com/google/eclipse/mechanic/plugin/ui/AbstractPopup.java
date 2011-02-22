@@ -117,7 +117,9 @@ public abstract class AbstractPopup {
   }
 
   public void close() {
-    shell.close();
+    if (!shell.isDisposed()) {
+      shell.close();
+    }
     dispose();
   }
 

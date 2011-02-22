@@ -9,29 +9,28 @@
 
 package com.google.eclipse.mechanic;
 
-import com.google.eclipse.mechanic.internal.RootTaskScanner;
-import com.google.eclipse.mechanic.internal.Util;
-import com.google.eclipse.mechanic.plugin.core.MechanicPlugin;
-import com.google.eclipse.mechanic.plugin.core.MechanicPreferences;
-
-import org.eclipse.core.runtime.ILog;
-import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.Preferences;
-import org.eclipse.core.runtime.Status;
-import org.eclipse.core.runtime.SubProgressMonitor;
-import org.eclipse.core.runtime.Preferences.PropertyChangeEvent;
-import org.eclipse.core.runtime.jobs.IJobChangeEvent;
-import org.eclipse.core.runtime.jobs.Job;
-import org.eclipse.core.runtime.jobs.JobChangeAdapter;
-import org.eclipse.swt.widgets.Display;
-
 import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
+
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.SubProgressMonitor;
+import org.eclipse.core.runtime.jobs.IJobChangeEvent;
+import org.eclipse.core.runtime.jobs.Job;
+import org.eclipse.core.runtime.jobs.JobChangeAdapter;
+import org.eclipse.core.runtime.preferences.IEclipsePreferences.IPreferenceChangeListener;
+import org.eclipse.core.runtime.preferences.IEclipsePreferences.PreferenceChangeEvent;
+import org.eclipse.swt.widgets.Display;
+
+import com.google.eclipse.mechanic.internal.RootTaskScanner;
+import com.google.eclipse.mechanic.internal.Util;
+import com.google.eclipse.mechanic.plugin.core.MechanicLog;
+import com.google.eclipse.mechanic.plugin.core.MechanicPreferences;
 
 /**
  * MechanicService provides basic services like scanning for and execution of
@@ -56,7 +55,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public final class MechanicService {
 
   private static final MechanicService instance = new MechanicService();
-  private static final ILog log = MechanicPlugin.getDefault().getLog();
 
   /**
    * Enumeration of the various states a task can be in.
@@ -64,6 +62,8 @@ public final class MechanicService {
   public enum TaskStatus {
     PASSED, FAILED, BLOCKED
   }
+
+  private final MechanicLog log = MechanicLog.getDefault();
 
   private final RootTaskScanner scanner = RootTaskScanner.getInstance();
   private final Set<Task> allTasks = new LinkedHashSet<Task>();
@@ -97,8 +97,7 @@ public final class MechanicService {
 
     // add a property change listener to the plugin prefs so we can
     // update our running config when prefs have been changed.
-    MechanicPlugin.getDefault().getPluginPreferences().addPropertyChangeListener(
-        new PropertyChangeListener());
+    MechanicPreferences.addListener(new PreferenceChangeListener());
 
     job = new ServiceJob();
   }
@@ -299,11 +298,7 @@ public final class MechanicService {
           taskStatus
               .put(task, task.getEvaluator().evaluate() ? TaskStatus.PASSED : TaskStatus.FAILED);
         } catch (RuntimeException e) {
-          log.log(new Status(IStatus.ERROR, MechanicPlugin.PLUGIN_ID, String.format(
-              "Evaluator test failed: %s", e.getMessage()), e));
-
-          // TODO(smckay): would be nice to log an error in a place where we
-          // can review them at our leisure.
+          log.logError(e, "Evaluator test failed for task %s", task);
         }
         monitor.worked(1);
       }
@@ -346,7 +341,6 @@ public final class MechanicService {
    */
   private List<Task> getFailingItems() {
 
-    // TODO(smckay): replace with a filtered iterable.
     List<Task> failing = Util.newArrayList();
     for (Task item : allTasks) {
       TaskStatus status = taskStatus.get(item);
@@ -401,8 +395,9 @@ public final class MechanicService {
 
     @Override
     public void done(IJobChangeEvent event) {
+      // This seems to double up a logged message with the job manager.
       if (!event.getResult().isOK()) {
-        log.log(event.getResult());
+        MechanicLog.getDefault().log(event.getResult());
       }
     }
   }
@@ -410,10 +405,8 @@ public final class MechanicService {
   /**
    * Wakes up the service when a preferences change is received.
    */
-  private class PropertyChangeListener implements Preferences.IPropertyChangeListener {
-
-    public void propertyChange(PropertyChangeEvent event) {
-
+  private class PreferenceChangeListener implements IPreferenceChangeListener {
+    public void preferenceChange(PreferenceChangeEvent event) {
       // if the service is stopped, we don't do anything.
       if (!MechanicService.getInstance().isStopped()) {
         MechanicService.getInstance().start();

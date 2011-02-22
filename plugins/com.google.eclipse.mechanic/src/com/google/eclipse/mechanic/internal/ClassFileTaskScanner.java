@@ -15,13 +15,10 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.eclipse.core.runtime.ILog;
-import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.Status;
-
 import com.google.eclipse.mechanic.DirectoryIteratingTaskScanner;
 import com.google.eclipse.mechanic.Task;
 import com.google.eclipse.mechanic.TaskCollector;
+import com.google.eclipse.mechanic.plugin.core.MechanicLog;
 import com.google.eclipse.mechanic.plugin.core.MechanicPlugin;
 import com.google.eclipse.mechanic.plugin.core.ResourceTaskReference;
 import com.google.eclipse.mechanic.plugin.core.ResourceTaskProvider;
@@ -40,7 +37,7 @@ public final class ClassFileTaskScanner extends DirectoryIteratingTaskScanner {
   private static final Logger DEBUGLOG = Logger.getLogger(
       ClassFileTaskScanner.class.getName());
 
-  private static final ILog LOG = MechanicPlugin.getDefault().getLog();
+  private final MechanicLog mechanicLog = MechanicLog.getDefault();
 
   // where we look for Java class tasks
   private static final String EXT_PATH = "com/google/eclipse/mechanic/ext";
@@ -71,7 +68,11 @@ public final class ClassFileTaskScanner extends DirectoryIteratingTaskScanner {
     if (!(taskSource instanceof FileTaskProvider)) {
       DEBUGLOG.log(Level.FINE, "Not loading class tasks from {0}", taskSource);
     }
-    for (ResourceTaskReference taskRef : taskSource.getTaskReferences(EXT_PATH, ".class")) {
+    List<ResourceTaskReference> taskReferences = taskSource.getTaskReferences(EXT_PATH, ".class");
+    if (taskReferences == null) {
+      return;
+    }
+    for (ResourceTaskReference taskRef : taskReferences) {
       Class<?> clazz = null;
       try {
 
@@ -122,17 +123,13 @@ public final class ClassFileTaskScanner extends DirectoryIteratingTaskScanner {
           collector.add(item);
         }
       } catch (RuntimeException e) {
-        LOG.log(new Status(IStatus.ERROR, MechanicPlugin.PLUGIN_ID,
-            String.format("Couldn't instantiate class: %s", clazz), e));
+        mechanicLog.logError(e, "Couldn't instantiate class: %s", clazz);
       }
     }
   }
 
   private void logExceptionLoadingTask(Throwable t, ResourceTaskReference taskRef) {
-    LOG.log(new Status(IStatus.ERROR, MechanicPlugin.PLUGIN_ID,
-        String.format("Couldn't load class from: %s (%s)",
-            taskRef.getName(), taskRef),
-        t));
+    mechanicLog.logError(t, "Couldn't load class from: %s (%s)", taskRef.getName(), taskRef);
   }
 
   /**

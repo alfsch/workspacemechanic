@@ -13,7 +13,7 @@ import com.google.eclipse.mechanic.internal.KeyBindings;
 import com.google.eclipse.mechanic.internal.Util;
 import com.google.eclipse.mechanic.keybinding.KeyBindingSpec;
 import com.google.eclipse.mechanic.keybinding.KeyBindingChangeSet;
-import com.google.eclipse.mechanic.keybinding.KeyBindingsTask;
+import com.google.eclipse.mechanic.keybinding.KeyBindingsModel;
 
 import org.eclipse.core.commands.Command;
 import org.eclipse.jface.bindings.Scheme;
@@ -38,10 +38,10 @@ public class KeyboardBindingsTask extends CompositeTask {
   private static final boolean ENABLED = 
     System.getProperty("KEYBOARD_MECHANIC_ENABLED", "false").equals("true");
 
-  private final KeyBindingsTask taskData;
+  private final KeyBindingsModel model;
 
-  public KeyboardBindingsTask(KeyBindingsTask taskData) {
-    this.taskData = Util.checkNotNull(taskData);
+  public KeyboardBindingsTask(KeyBindingsModel model) {
+    this.model = Util.checkNotNull(model);
   }
 
   public String getDescription() {
@@ -67,7 +67,7 @@ public class KeyboardBindingsTask extends CompositeTask {
     boolean dirty = false;
     // If "dirty" is set to true, it means we made some modification that
     // we still need to persist.
-    for(KeyBindingChangeSet changeSet : taskData.getKeyBindingsChangeSets()) {
+    for(KeyBindingChangeSet changeSet : model.getKeyBindingsChangeSets()) {
       dirty = dirty || doEvaluate(workbench, commandService, bindingService, changeSet);
     }
     
@@ -82,7 +82,7 @@ public class KeyboardBindingsTask extends CompositeTask {
 
     boolean dirty = false;
     
-    final KeyBindings model = new KeyBindings(bindingService.getBindings());
+    final KeyBindings bindings = new KeyBindings(bindingService.getBindings());
 
     final Scheme scheme = bindingService.getScheme(changes.getSchemeId());
 
@@ -98,7 +98,7 @@ public class KeyboardBindingsTask extends CompositeTask {
         throw new RuntimeException(e);
       }
 
-      if (model.addIfNotPresent(
+      if (bindings.addIfNotPresent(
           scheme, 
           changes.getPlatform(), 
           changes.getContextId(), 
@@ -119,7 +119,7 @@ public class KeyboardBindingsTask extends CompositeTask {
         //invalid key sequence?
         throw new RuntimeException(e);
       }
-      if (model.removeBindingIfPresent(
+      if (bindings.removeBindingIfPresent(
           scheme, 
           changes.getPlatform(), 
           changes.getContextId(), 
@@ -138,7 +138,7 @@ public class KeyboardBindingsTask extends CompositeTask {
       workbench.getDisplay().syncExec(new Runnable() {
         public void run() {
           try {
-            bindingService.savePreferences(scheme, model.toArray());
+            bindingService.savePreferences(scheme, bindings.toArray());
           } catch (IOException e) {
             throw new RuntimeException(e);
           }

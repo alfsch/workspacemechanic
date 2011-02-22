@@ -39,8 +39,6 @@ public class UriTaskProviderModelParser {
 
   private static final class Types {
     static final Type metadata = new TypeToken<UriTaskProviderModel.Metadata>(){}.getType();
-    static final Type string = new TypeToken<String>(){}.getType();
-    public static Type intType = new TypeToken<Integer>(){}.getType();
     public static Type uriArray = new TypeToken<URI[]>(){}.getType();
   }
 
@@ -49,15 +47,22 @@ public class UriTaskProviderModelParser {
         JsonDeserializationContext context) throws JsonParseException {
       JsonObject jo = json.getAsJsonObject();
 
-      Integer rescanFrequencySeconds = (Integer) context.deserialize(jo.get("rescanFrequencySeconds"), Types.intType);
-      if (rescanFrequencySeconds == null) {
-        throw new JsonParseException("rescanFrequencySeconds is required");
+      String description = deserialize(jo, "description");
+      if (description == null) {
+        throw new JsonParseException("description is missing");
       }
       return new UriTaskProviderModel.Metadata(
-          (String) context.deserialize(jo.get("name"), Types.string),
-          (String) context.deserialize(jo.get("description"), Types.string),
-          (String) context.deserialize(jo.get("contact"), Types.string),
-          rescanFrequencySeconds);
+          deserialize(jo, "name"),
+          description,
+          deserialize(jo, "contact"));
+    }
+
+    private String deserialize(JsonObject jo, String field) {
+      JsonElement val = jo.get(field);
+      if (val == null) {
+        return null;
+      }
+      return val.getAsString();
     }
   }
 
