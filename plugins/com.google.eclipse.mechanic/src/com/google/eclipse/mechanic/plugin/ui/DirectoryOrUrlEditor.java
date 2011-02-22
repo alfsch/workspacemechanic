@@ -8,26 +8,31 @@
  *******************************************************************************/
 package com.google.eclipse.mechanic.plugin.ui;
 
-import java.io.File;
-
 import org.eclipse.jface.dialogs.Dialog;
-import org.eclipse.jface.preference.PathEditor;
+import org.eclipse.jface.preference.ListEditor;
 import org.eclipse.swt.widgets.Composite;
 
-import com.google.eclipse.mechanic.plugin.core.MechanicPreferences;
+import com.google.eclipse.mechanic.internal.TaskSourceParser;
 
 /**
  * An editor that lets the user select either a URL resource or
  * directory path. Adding a path uses a filesystem-aware
  * dialog box while the URL editor is a plain text box.
  */
-public class DirectoryOrUrlEditor extends PathEditor {
+public class DirectoryOrUrlEditor extends ListEditor {
 
-  public DirectoryOrUrlEditor(String name, String labelText,
-      String dirChooserLabelText, Composite parent) {
-    super(name, labelText, dirChooserLabelText, parent);
+  private static final TaskSourceParser parser = new TaskSourceParser();
+
+  public DirectoryOrUrlEditor(String name, String labelText, Composite parent) {
+    init(name, labelText);
+    if (parent != null) {
+      // For testing.
+      createControl(parent);
+    }
   }
 
+  // TODO(konigsberg): When the set of task directories is empty
+  // and Add... is pressed, default to ${home}/.eclipse/mechanic perhaps.
 
   @Override
   protected String getNewInputObject() {
@@ -41,24 +46,11 @@ public class DirectoryOrUrlEditor extends PathEditor {
 
   @Override
   protected String[] parseString(String stringList) {
-    String[] array = super.parseString(stringList);
-    for (int i = 0; i < array.length; i++) {
-      array[i] = MechanicPreferences.doVariableSubstitution(array[i]);
-    }
-    return array;
+    return parser.parse(stringList);
   }
 
   @Override
   protected String createList(String[] items) {
-    StringBuilder path = new StringBuilder("");
-    String pathSeparator = "";
-    for (String item : items) {
-      if (item != null) {
-        path.append(pathSeparator);
-        path.append(item);
-        pathSeparator = File.pathSeparator;
-      }
-    }
-    return path.toString();
+    return parser.unparse(items);
   }
 }
