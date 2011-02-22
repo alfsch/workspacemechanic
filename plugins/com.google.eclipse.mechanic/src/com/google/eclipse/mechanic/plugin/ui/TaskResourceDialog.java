@@ -70,6 +70,7 @@ public class TaskResourceDialog extends InputDialog {
     return dialogArea;
   }
 
+  // For testing. TODO(konigsberg): remove and use SWTBot or something.
   public static void main(String[] args) {
     Display display = new Display();
     Shell shell = new Shell(display);

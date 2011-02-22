@@ -24,7 +24,7 @@ class TaskResourceValidator implements IInputValidator {
   static final String CANNOT_READ = "Cannot read";
   static final String UNACCEPTABLE_PROTOCOL = "This protocol is not supported.";
   static final String RELATIVE_PATH = "Local directories must be absolute paths.";
-  static final String SYNTAX_ERROR = "Invalid URL";
+  static final String INVALID_URL = "Invalid URL";
 
   private final boolean allowUrls;
 
@@ -53,7 +53,7 @@ class TaskResourceValidator implements IInputValidator {
       }
       return null;
     } catch (URISyntaxException e) {
-      return SYNTAX_ERROR;
+      return INVALID_URL;
     }
   }
 
@@ -78,4 +78,4 @@ class TaskResourceValidator implements IInputValidator {
   public String toString() {
     return "TaskResourceValidator: " + allowUrls;
   }
-};
+}

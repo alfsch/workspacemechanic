@@ -31,7 +31,6 @@ public class DirectoryOrUrlEditor extends ListEditor {
     }
   }
 
-
   @Override
   protected String getNewInputObject() {
     TaskResourceDialog dialog = new TaskResourceDialog(getShell(), true);
