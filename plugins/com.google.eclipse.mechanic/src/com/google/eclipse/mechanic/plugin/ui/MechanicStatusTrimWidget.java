@@ -53,7 +53,7 @@ import com.google.eclipse.mechanic.plugin.core.MechanicPreferences;
  * @author smckay@google.com (Steve McKay)
  */
 public final class MechanicStatusTrimWidget extends AbstractWorkbenchTrimWidget {
-  private static final MechanicLog logg = MechanicLog.getDefault();
+  private static final MechanicLog log = MechanicLog.getDefault();
 
   // various actions used in our context menu...
   private static final Action prefsAction =
@@ -97,7 +97,7 @@ public final class MechanicStatusTrimWidget extends AbstractWorkbenchTrimWidget 
     try {
       return new OpenUrlAction(helpUrl, "Help...");
     } catch (RuntimeException e) {
-      logg.logError(e, 
+      log.logError(e, 
           "Could not initialize help action for URL %s: %s", helpUrl, e.getMessage());
       return null;
     }
