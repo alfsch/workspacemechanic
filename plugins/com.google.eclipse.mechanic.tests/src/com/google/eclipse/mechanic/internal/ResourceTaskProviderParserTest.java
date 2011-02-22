@@ -15,17 +15,17 @@ import junit.framework.TestCase;
 import com.google.eclipse.mechanic.tests.internal.RunAsJUnitTest;
 
 /**
- * Tests for {@link TaskSourceParser}.
+ * Tests for {@link ResourceTaskProviderParser}.
  */
 @RunAsJUnitTest
-public class TaskSourceParserTest extends TestCase {
-  private static class TestParser extends TaskSourceParser {
+public class ResourceTaskProviderParserTest extends TestCase {
+  private static class TestParser extends ResourceTaskProviderParser {
     @Override
     public String doVariableSubstitution(String val) {
       return val;
     }
   };
-  private TaskSourceParser parser = new TestParser();
+  private ResourceTaskProviderParser parser = new TestParser();
 
   public void testParse() {
     assertResults(parser.parse(""));
@@ -39,28 +39,30 @@ public class TaskSourceParserTest extends TestCase {
   }
 
   public void testUnparse() {
-    assertEquals("[]", createList());
-    assertEquals("[\"x\"]", createList("x"));
-    assertEquals("[\"x\",\"x\"]", createList("x", "x"));
+    assertEquals("[]", parser.unparse());
+    assertEquals("[\"x\"]", parser.unparse("x"));
+    assertEquals("[\"x\",\"x\"]", parser.unparse("x", "x"));
     assertEquals(
         "[\"/home/user/path/.eclipse\",\"http://www.google.com/directory\"," +
             "\"https://www.yahoo.com/directory?param\\u003dvalue%amp;term\"]",
-        createList("/home/user/path/.eclipse", "http://www.google.com/directory",
+            parser.unparse("/home/user/path/.eclipse", "http://www.google.com/directory",
             "https://www.yahoo.com/directory?param=value%amp;term"));
   }
 
   public void testRoundTrip() {
-    String json = "[\"/home/user/path/.eclipse\",\"http://www.google.com/directory\"," +
-        "\"https://www.yahoo.com/directory?param\\u003dvalue%amp;term\"]";
-    assertEquals(json, parser.unparse(parser.parse(json)));
+    testRoundTripFromJson(
+        "[\"/home/user/path/.eclipse\",\"http://www.google.com/directory\"," +
+            "\"https://www.yahoo.com/directory?param\\u003dvalue%amp;term\"]");
+    testRoundTripFromList("/home/user/path/.eclipse", "http://www.google.com/directory",
+            "https://www.yahoo.com/directory?param=value%amp;term");
+  }
 
-    String[] items = new String[] { "/home/user/path/.eclipse", "http://www.google.com/directory",
-        "https://www.yahoo.com/directory?param=value%amp;term"};
+  private void testRoundTripFromList(String... items) {
     assertTrue(Arrays.deepEquals(items, parser.parse(parser.unparse(items))));
   }
 
-  private String createList(String... items) {
-    return parser.unparse(items);
+  private void testRoundTripFromJson(String string) {
+    assertEquals(string, parser.unparse(parser.parse(string)));
   }
 
   private void assertResults(String[] actual, String... expected) {

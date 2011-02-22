@@ -23,25 +23,25 @@ import com.google.eclipse.mechanic.plugin.core.ResourceTaskProvider;
  *
  * @author smckay@google.com (Steve McKay)
  */
-public class PreferencesDirectorySetSupplier implements TaskSourcesSupplier {
+public class RegisteredTaskProvidersSupplier implements ResourceTaskProviderSupplier {
 
-  private static final PreferencesDirectorySetSupplier instance
-      = new PreferencesDirectorySetSupplier();
+  private static final RegisteredTaskProvidersSupplier instance
+      = new RegisteredTaskProvidersSupplier();
 
-  public static PreferencesDirectorySetSupplier getInstance() {
+  public static RegisteredTaskProvidersSupplier getInstance() {
     return instance;
   }
 
   public List<ResourceTaskProvider> get() {
-    // This removes duplicates, but ensures insertion order.
-    Set<ResourceTaskProvider> sources = new LinkedHashSet<ResourceTaskProvider>();
-    for (ResourceTaskProvider source : MechanicPreferences.getTaskSources()) {
-      sources.add(source);
+   // This removes duplicates, but ensures insertion order.
+    Set<ResourceTaskProvider> providers = new LinkedHashSet<ResourceTaskProvider>();
+    for (ResourceTaskProvider provider : MechanicPreferences.getTaskProviders()) {
+      providers.add(provider);
     }
 
     // To ensure clients don't mutate the list.
     List<ResourceTaskProvider> list = Util.newArrayList();
-    list.addAll(sources);
+    list.addAll(providers);
     return Collections.unmodifiableList(list);
   }
 }

@@ -34,12 +34,11 @@ import java.util.logging.Logger;
  *
  * @author konigsberg@google.com (Robert Konigsberg)
  */
-// TODO(konigsberg): Rename to ScannersExtensionPoint. Will do after other changes.
-public class ScannerExtensionPoint {
+public class ScannersExtensionPoint {
   private static final String EXTENSION_POINT_NAME = "scanners";
   private static final String TAG_SCANNER = "scanner";
   private static final String ATTR_CLASS = "class";
-  private static final Logger LOG = Logger.getLogger(ScannerExtensionPoint.class.getName());
+  private static final Logger LOG = Logger.getLogger(ScannersExtensionPoint.class.getName());
 
   // Initialization On Demand Holder Idiom
   // http://crazybob.org/2007/01/lazy-loading-singletons.html

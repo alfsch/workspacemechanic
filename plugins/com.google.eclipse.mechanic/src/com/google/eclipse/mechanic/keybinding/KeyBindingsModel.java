@@ -16,20 +16,20 @@ import com.google.eclipse.mechanic.internal.Util;
 import com.google.gson.annotations.SerializedName;
 
 /**
- * A java representation of an KeyBindings task.
+ * A java representation of a KeyBindings task.
  *
  * <p>This, in disk, is represented as a JSON string.
  *
  * @author zorzella@google.com
  */
 // TODO(konigsberg): Rename to something better -- task is an overloaded name.
-public class KeyBindingsTask {
+public class KeyBindingsModel {
 
   @SerializedName("changeSets")
   private final List<KeyBindingChangeSet> keyBindingsChangeSets;
   private final MetaData metadata;
 
-  public KeyBindingsTask(List<KeyBindingChangeSet> object, MetaData metadata) {
+  public KeyBindingsModel(List<KeyBindingChangeSet> object, MetaData metadata) {
     this.keyBindingsChangeSets = object;
     this.metadata = metadata;
   }
@@ -49,10 +49,10 @@ public class KeyBindingsTask {
 
   @Override
   public boolean equals(Object obj) {
-    if (!(obj instanceof KeyBindingsTask)) {
+    if (!(obj instanceof KeyBindingsModel)) {
       return false;
     }
-    KeyBindingsTask that = (KeyBindingsTask)obj;
+    KeyBindingsModel that = (KeyBindingsModel)obj;
     return
       this.keyBindingsChangeSets.equals(that.keyBindingsChangeSets)
         &&

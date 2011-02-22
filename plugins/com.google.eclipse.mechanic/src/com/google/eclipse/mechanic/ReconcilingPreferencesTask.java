@@ -22,12 +22,12 @@ import com.google.eclipse.mechanic.plugin.core.ResourceTaskReference;
  * 
  * @author smckay@google.com (Steve McKay)
  */
-public abstract class ReconcilingPreferencesFileTask
+public abstract class ReconcilingPreferencesTask
     extends PreferenceReconcilerTask {
 
   private final ResourceTaskReference taskRef;
 
-  public ReconcilingPreferencesFileTask(ResourceTaskReference taskRef) {
+  public ReconcilingPreferencesTask(ResourceTaskReference taskRef) {
     this.taskRef = taskRef;
     initReconcilers();
   }
@@ -50,12 +50,12 @@ public abstract class ReconcilingPreferencesFileTask
     
     try {
       reader = new BufferedReader(new InputStreamReader(taskRef.newInputStream()));
-  
+
       for (String line = reader.readLine(); line != null;
           line = reader.readLine()) {
-  
+
         line = line.trim();
-  
+
         // if the line starts with a slash, we treat it as a preference
         if (line.length() > 0 && line.charAt(0) == '/') {
           addReconciler(createReconciler(line));

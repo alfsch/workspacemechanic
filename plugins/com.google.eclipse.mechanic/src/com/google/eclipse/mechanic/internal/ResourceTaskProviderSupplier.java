@@ -18,7 +18,7 @@ import com.google.eclipse.mechanic.plugin.core.ResourceTaskProvider;
  *
  * @author smckay@google.com (Steve McKay)
  */
-public interface TaskSourcesSupplier {
+public interface ResourceTaskProviderSupplier {
 
   /**
    * Returns a {@link List} of valid task providers.
