@@ -69,7 +69,7 @@ public final class MechanicService {
   private final Set<Task> allTasks = new LinkedHashSet<Task>();
   private final Map<Task, TaskStatus> taskStatus = Util.newHashMap();
   private final TaskCollector collector = new TaskCollector() {
-    // Serves as merely a proxy to allTasks.
+    // Serves as a proxy to allTasks.
     public void add(Task task) {
       allTasks.add(task);
     }
@@ -259,6 +259,9 @@ public final class MechanicService {
   private void updateTasks(IProgressMonitor monitor) {
 
     monitor.subTask("Looking For Tasks");
+
+    // TODO(konigsberg): Pre-validate the directories and urls here. Wonder if we should add
+    // something to scanner.
 
     // clear out the items
     allTasks.clear();

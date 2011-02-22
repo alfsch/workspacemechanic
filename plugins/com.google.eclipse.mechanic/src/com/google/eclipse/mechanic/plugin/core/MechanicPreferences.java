@@ -9,18 +9,21 @@
 
 package com.google.eclipse.mechanic.plugin.core;
 
-import com.google.eclipse.mechanic.Task;
-import com.google.eclipse.mechanic.internal.Util;
-
-import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.Preferences;
-import org.eclipse.core.variables.IStringVariableManager;
-import org.eclipse.core.variables.VariablesPlugin;
-
 import java.io.File;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
+
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.ILog;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Preferences;
+import org.eclipse.core.variables.IStringVariableManager;
+import org.eclipse.core.variables.VariablesPlugin;
+
+import com.google.eclipse.mechanic.Task;
+import com.google.eclipse.mechanic.internal.FileTaskProvider;
+import com.google.eclipse.mechanic.internal.Util;
 
 /**
  * Class used to initialize and access various plugin related preference values.
@@ -28,6 +31,7 @@ import java.util.Set;
  * @author smckay@google.com (Steve McKay)
  */
 public class MechanicPreferences {
+  private static final ILog log = MechanicPlugin.getDefault().getLog();
 
   /**
    * Preference string for directories containing tasks.
@@ -71,41 +75,28 @@ public class MechanicPreferences {
   }
 
   /**
-   * Return a list of directories where tasks may be found.
+   * Return a list of task sources.
    *
-   * @return list of directories where tasks may be found.
+   * @return list of task sources.
    */
-  public static List<File> getTaskSourceDirectories() {
+  public static List<ResourceTaskProvider> getTaskSources() {
     Preferences prefs = getPreferences();
-    boolean updatePrefs = false;
     
     String paths = prefs.getString(DIRS_PREF);
 
-    List<File> dirs = Util.newArrayList();
+    List<ResourceTaskProvider> sources = Util.newArrayList();
     for (String path : Util.split(paths, File.pathSeparator)) {
-      // http://b/1645783: directories named "null" somehow got added to default prefs
-      if ("null".equals(path)) {
-        updatePrefs = true;
-        continue;
-      }
-      dirs.add(new File(doVariableSubstitution(path)));
-    }
-    if (updatePrefs) {
-      String newPrefs = join(dirs);
-      prefs.setValue(DIRS_PREF, newPrefs);
-    }
-    return dirs;
-  }
 
-  private static String join(List<File> dirs) {
-    StringBuilder sb = new StringBuilder();
-    for(File dir : dirs) {
-      if (sb.length() > 0) {
-        sb.append(File.pathSeparator);
+      FileTaskProvider provider = new FileTaskProvider(new File(doVariableSubstitution(path)));
+      
+      IStatus initializationStatus = provider.initialize();
+      if (initializationStatus.isOK()) {
+        sources.add(provider);
+      } else {
+        log.log(initializationStatus);
       }
-      sb.append(String.valueOf(dir));
     }
-    return sb.toString();
+    return sources;
   }
 
   /**

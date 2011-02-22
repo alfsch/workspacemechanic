@@ -14,15 +14,12 @@ import com.google.eclipse.mechanic.TaskCollector;
 import com.google.eclipse.mechanic.DirectoryIteratingTaskScanner;
 import com.google.eclipse.mechanic.LastModifiedPreferencesFileTask;
 import com.google.eclipse.mechanic.ReconcilingPreferencesFileTask;
-import com.google.eclipse.mechanic.SuffixFileFilter;
+import com.google.eclipse.mechanic.plugin.core.ResourceTaskReference;
+import com.google.eclipse.mechanic.plugin.core.ResourceTaskProvider;
 
 import org.eclipse.core.runtime.Path;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileFilter;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -65,8 +62,6 @@ import java.util.logging.Logger;
  */
 public final class PreferenceFileTaskScanner extends DirectoryIteratingTaskScanner {
   
-  private static final FileFilter EPF_FILTER = new SuffixFileFilter(".epf");
-
   private static final Logger LOG = Logger.getLogger(
       PreferenceFileTaskScanner.class.getName());
 
@@ -74,27 +69,20 @@ public final class PreferenceFileTaskScanner extends DirectoryIteratingTaskScann
    * Adds tasks to the supplied collector.
    */
   @Override
-  protected void scan(File dir, TaskCollector collector) {
+  protected void scan(ResourceTaskProvider source, TaskCollector collector) {
     /**
-     * Scan our target directory. Add a new Task for each EPF file found.
+     * Scan our source. Add a new Task for each EPF found.
      */
-    File[] filesInDir = dir.listFiles(EPF_FILTER);
-    if (filesInDir == null) {
-      // listFiles() can return null if the directory doesn't exist or an IO error occurs.
-      LOG.fine("Unable to list Preference files for directory '" + dir + "'");
-      return;
-    }
-    for (File file : filesInDir) {
-      
-      LOG.fine(String.format("Loading preference file: %s", file.getPath()));
+    for (ResourceTaskReference taskRef : source.getTaskReferences(".epf")) {
+      LOG.fine(String.format("Loading preference file: %s", taskRef));
 
       // will throw a RuntimeException in the event of a problem reading
       // the epf file
-      Header header = new EpfTaskHeaderParser(file).parseHeader();
+      Header header = new EpfTaskHeaderParser(taskRef).parseHeader();
       if (header.getType().equals(TaskType.LASTMOD)) {
-        collector.add(new LastmodEpfTask(file, header));
+        collector.add(new LastmodEpfTask(taskRef, header));
       } else if (header.getType().equals(TaskType.RECONCILE)) {
-        collector.add(new ReconcilingEpfTask(file, header));
+        collector.add(new ReconcilingEpfTask(taskRef, header));
       } else {
         throw new IllegalStateException("Unsupported Task Type");
       }
@@ -110,8 +98,8 @@ public final class PreferenceFileTaskScanner extends DirectoryIteratingTaskScann
 
     private final Header header;
 
-    public ReconcilingEpfTask(File file, Header header) {
-      super(file);
+    public ReconcilingEpfTask(ResourceTaskReference taskRef, Header header) {
+      super(taskRef);
       this.header = header;
     }
 
@@ -132,8 +120,8 @@ public final class PreferenceFileTaskScanner extends DirectoryIteratingTaskScann
 
     private final Header header;
 
-    public LastmodEpfTask(File file, Header header) {
-      super(new Path(file.getPath()));
+    public LastmodEpfTask(ResourceTaskReference taskRef, Header header) {
+      super(new Path(taskRef.getPath()));
       this.header = header;
     }
 
@@ -161,25 +149,25 @@ public final class PreferenceFileTaskScanner extends DirectoryIteratingTaskScann
     // Consider it deprecated, but don't remove it; it's kept for backwards compatibility.
     private static final String OLD_TYPE_TAG = "@audit_type";
 
-    private final File file;
+    private final ResourceTaskReference taskRef;
     private TaskType type;
     private String title;
     private String description;
 
-    public EpfTaskHeaderParser(File file) {
-      this.file = file;
+    public EpfTaskHeaderParser(ResourceTaskReference taskRef) {
+      this.taskRef = taskRef;
 
       // give the file friendly default values
       type = TaskType.LASTMOD;
-      title = "Import preferences from file: " + file.getName();
-      description = "Imports the preferences from the file: " + file.getPath();
+      title = "Import preferences from: " + taskRef.getName();
+      description = "Imports the preferences from: " + taskRef.getPath();
     }
 
     Header parseHeader() {
       try {
-        return parseHeader(new FileInputStream(file));
-      } catch (FileNotFoundException e) {
-        throw new RuntimeException("Couldn't parse file.", e);
+        return parseHeader(taskRef.newInputStream());
+      } catch (IOException e) {
+        throw new RuntimeException("Couldn't parse " + taskRef.getPath(), e);
       }
     }
 
@@ -207,7 +195,7 @@ public final class PreferenceFileTaskScanner extends DirectoryIteratingTaskScann
         }
       } catch (IOException e) {
         throw new RuntimeException(
-            "Couldn't read prefs file: " + file.getPath(), e);
+            "Couldn't read " + taskRef.getPath(), e);
       } finally {
         if (reader != null) {
           try {

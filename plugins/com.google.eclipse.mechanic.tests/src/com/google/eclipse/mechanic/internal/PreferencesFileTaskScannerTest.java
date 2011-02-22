@@ -2,35 +2,78 @@
 
 package com.google.eclipse.mechanic.internal;
 
-import com.google.eclipse.mechanic.internal.PreferenceFileTaskScanner.*;
+import static org.easymock.EasyMock.*;
+
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 
 import junit.framework.TestCase;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
-
-import org.eclipse.core.runtime.Platform;
-import org.osgi.framework.Bundle;
+import com.google.eclipse.mechanic.internal.PreferenceFileTaskScanner.EpfTaskHeaderParser;
+import com.google.eclipse.mechanic.internal.PreferenceFileTaskScanner.Header;
+import com.google.eclipse.mechanic.plugin.core.ResourceTaskReference;
+import com.google.eclipse.mechanic.tests.internal.RunAsJUnitTest;
 
 /**
  * Tests for PreferencesFileTaskItemScanner
  * 
  * @author smckay@google.com (Steve McKay)
  */
+@RunAsJUnitTest
 public class PreferencesFileTaskScannerTest extends TestCase {
 
-  // TODO(konigsberg): generalize and reshare.
-  private InputStream getInputStream(String resource) throws IOException {
-    Bundle bundle = Platform.getBundle("com.google.eclipse.mechanic.tests");
-    URL url = bundle.getEntry(resource);
-    if (url != null) {
-      return url.openStream();
-    }
-    return null;
+  private static final String LASTMOD_EPF = join(
+      "# @title Import stuff.",
+      "# @description I'm a lastmod import.",
+      "# @audit_type LASTMOD",
+      "file_export_version=3.0",
+      "# misc ui settings",
+      "/instance/org.eclipse.ui/SHOW_TEXT_ON_PERSPECTIVE_BAR=false",
+      "/instance/org.eclipse.ui/DOCK_PERSPECTIVE_BAR=left");
+
+  private static final String RECONCILER_EPF = join(
+      "# @title I'm a reconciler task.",
+      "# @description Reconciles some stuff...",
+      "# @audit_type RECONCILE",
+      "file_export_version=3.0",
+      "# misc ui settings",
+      "/instance/org.eclipse.ui/SHOW_TEXT_ON_PERSPECTIVE_BAR=false",
+      "/instance/org.eclipse.ui/DOCK_PERSPECTIVE_BAR=left");
+
+  private static final String VANILLA_EPF = join(
+      "file_export_version=3.0",
+      "/instance/org.eclipse.ui/SHOW_TEXT_ON_PERSPECTIVE_BAR=false",
+      "/instance/org.eclipse.ui/DOCK_PERSPECTIVE_BAR=left",
+      "/instance/org.eclipse.ui/showIntro=false",
+      "# howdy");
+
+  private static final String TASKTYPE_LASTMOD_EPF = join(
+      "# @title Import stuff.",
+      "# @description I'm a lastmod import.",
+      "# @task_type LASTMOD",
+      "file_export_version=3.0",
+      "# misc ui settings",
+      "/instance/org.eclipse.ui/SHOW_TEXT_ON_PERSPECTIVE_BAR=false",
+      "/instance/org.eclipse.ui/DOCK_PERSPECTIVE_BAR=left");
+
+  private static final String TASKTYPE_RECONCILER_EPF = join(
+      "# @title I'm a reconciler task.",
+      "# @description Reconciles some stuff...",
+      "# @task_type RECONCILE",
+      "file_export_version=3.0",
+      "# misc ui settings",
+      "/instance/org.eclipse.ui/SHOW_TEXT_ON_PERSPECTIVE_BAR=false",
+      "/instance/org.eclipse.ui/DOCK_PERSPECTIVE_BAR=left");
+
+  private static String join(String... lines) {
+    return Util.join("\n", lines);
   }
 
+  private InputStream getInputStream(String text) {
+    return new ByteArrayInputStream(text.getBytes());
+  }
+
+  private ResourceTaskReference taskRef;
   private EpfTaskHeaderParser parser;
   private InputStream in;
   private Header header; 
@@ -39,13 +82,18 @@ public class PreferencesFileTaskScannerTest extends TestCase {
   protected void setUp() throws Exception {
     super.setUp();
 
-    // The File argument is actually ignored.
-    parser = new EpfTaskHeaderParser(new File("/foo/123.epf"));
+    taskRef = createMock(ResourceTaskReference.class);
+    expect(taskRef.getName()).andReturn("123.epf").anyTimes();
+    expect(taskRef.getPath()).andReturn("/foo/123.epf").anyTimes();
+    replay(taskRef);
+    // The argument is actually ignored.
+    parser = new EpfTaskHeaderParser(taskRef);
   }
 
   @Override
   protected void tearDown() throws Exception {
     in.close();
+    verify(taskRef);
     super.tearDown();
   }
     
@@ -55,7 +103,7 @@ public class PreferencesFileTaskScannerTest extends TestCase {
   # @audit_type LASTMOD
   */
   public void testHeaderParsing_lastmod() throws Exception {
-    in = getInputStream("testdata/lastmod.epf");
+    in = getInputStream(LASTMOD_EPF);
 
     header = parser.parseHeader(in);
     assertEquals(TaskType.LASTMOD, header.getType());
@@ -69,7 +117,7 @@ public class PreferencesFileTaskScannerTest extends TestCase {
   # @audit_type RECONCILE
   */
   public void testHeaderParsing_reconciler() throws Exception {
-    in = getInputStream("testdata/reconciler.epf");
+    in = getInputStream(RECONCILER_EPF);
 
     header = parser.parseHeader(in);
     assertEquals(TaskType.RECONCILE, header.getType());
@@ -78,15 +126,15 @@ public class PreferencesFileTaskScannerTest extends TestCase {
   }
 
   public void testHeaderParsing_vanilla() throws Exception {
-    in = getInputStream("testdata/vanilla.epf");
+    in = getInputStream(VANILLA_EPF);
 
     // vanilla.epf has no title or description so it uses
-    // the values from 789.epf (even though it's a nonexistent file)
-    parser = new EpfTaskHeaderParser(new File("/foo/789.epf"));
+    // values from the taskRef.
+    parser = new EpfTaskHeaderParser(taskRef);
     header = parser.parseHeader(in);
     assertEquals(TaskType.LASTMOD, header.getType());
-    assertEquals("Import preferences from file: 789.epf", header.getTitle());
-    assertEquals("Imports the preferences from the file: /foo/789.epf",
+    assertEquals("Import preferences from: 123.epf", header.getTitle());
+    assertEquals("Imports the preferences from: /foo/123.epf",
         header.getDescription());
   }
 
@@ -95,7 +143,7 @@ public class PreferencesFileTaskScannerTest extends TestCase {
    */
   public void testHeaderParsing_tasktype_lastmod() throws Exception {
 
-    in = getInputStream("testdata/tasktype_lastmod.epf");
+    in = getInputStream(TASKTYPE_LASTMOD_EPF);
 
     header = parser.parseHeader(in);
     assertEquals(TaskType.LASTMOD, header.getType());
@@ -107,7 +155,7 @@ public class PreferencesFileTaskScannerTest extends TestCase {
    * Testing that @task_type is processed.
    */
   public void testHeaderParsing_tasktype_reconcile() throws Exception {
-    in = getInputStream("testdata/tasktype_reconciler.epf");
+    in = getInputStream(TASKTYPE_RECONCILER_EPF);
 
     header = parser.parseHeader(in);
     assertEquals(TaskType.RECONCILE, header.getType());

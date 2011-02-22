@@ -10,9 +10,10 @@
 package com.google.eclipse.mechanic;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+
+import com.google.eclipse.mechanic.plugin.core.ResourceTaskReference;
 
 /**
  * Models an Eclipse preferences export file as a series of individual
@@ -24,10 +25,10 @@ import java.io.IOException;
 public abstract class ReconcilingPreferencesFileTask
     extends PreferenceReconcilerTask {
 
-  private final File file;
+  private final ResourceTaskReference taskRef;
 
-  public ReconcilingPreferencesFileTask(File file) {
-    this.file = file;
+  public ReconcilingPreferencesFileTask(ResourceTaskReference taskRef) {
+    this.taskRef = taskRef;
     initReconcilers();
   }
 
@@ -36,7 +37,7 @@ public abstract class ReconcilingPreferencesFileTask
    */
   @Override
   public String getId() {
-    return String.format("%s@%s", getClass().getName(), file.getPath());
+    return String.format("%s@%s", getClass().getName(), taskRef.getPath());
   }
 
   /**
@@ -48,7 +49,7 @@ public abstract class ReconcilingPreferencesFileTask
     BufferedReader reader = null;
     
     try {
-      reader = new BufferedReader(new FileReader(file));
+      reader = new BufferedReader(new InputStreamReader(taskRef.newInputStream()));
   
       for (String line = reader.readLine(); line != null;
           line = reader.readLine()) {
@@ -62,7 +63,7 @@ public abstract class ReconcilingPreferencesFileTask
       }
     } catch (IOException e) {
       throw new RuntimeException(
-          "Couldn't read file: " + file.getPath(), e);
+          "Couldn't read " + taskRef.getPath(), e);
     } finally {
       if (reader != null) {
         try {

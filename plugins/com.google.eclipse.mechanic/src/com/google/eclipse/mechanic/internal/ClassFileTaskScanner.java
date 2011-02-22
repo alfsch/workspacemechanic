@@ -9,24 +9,22 @@
 
 package com.google.eclipse.mechanic.internal;
 
-import com.google.eclipse.mechanic.Task;
-import com.google.eclipse.mechanic.TaskCollector;
-import com.google.eclipse.mechanic.DirectoryIteratingTaskScanner;
-import com.google.eclipse.mechanic.SuffixFileFilter;
-import com.google.eclipse.mechanic.plugin.core.MechanicPlugin;
-
-import org.eclipse.core.runtime.ILog;
-import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.Status;
-
-import java.io.File;
-import java.io.FileFilter;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import org.eclipse.core.runtime.ILog;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
+
+import com.google.eclipse.mechanic.DirectoryIteratingTaskScanner;
+import com.google.eclipse.mechanic.Task;
+import com.google.eclipse.mechanic.TaskCollector;
+import com.google.eclipse.mechanic.plugin.core.MechanicPlugin;
+import com.google.eclipse.mechanic.plugin.core.ResourceTaskReference;
+import com.google.eclipse.mechanic.plugin.core.ResourceTaskProvider;
 
 /**
  * Scans for {@link Task}s defined as Java class files.
@@ -44,8 +42,6 @@ public final class ClassFileTaskScanner extends DirectoryIteratingTaskScanner {
 
   private static final ILog LOG = MechanicPlugin.getDefault().getLog();
 
-  private static final FileFilter CLASS_FILTER = new SuffixFileFilter(".class");
-
   // where we look for Java class tasks
   private static final String EXT_PATH = "com/google/eclipse/mechanic/ext";
 
@@ -62,11 +58,7 @@ public final class ClassFileTaskScanner extends DirectoryIteratingTaskScanner {
    * Adds tasks to the supplied List.
    */
   @Override
-  protected void scan(File dir, TaskCollector collector) {
-    // dir points to the root of the task directory, we
-    // add the PACKAGE PATH to point to the dir with classes.
-    dir = new File(createPath(dir.getAbsolutePath(), EXT_PATH));
-
+  protected void scan(ResourceTaskProvider taskSource, TaskCollector collector) {
     /*
      * List of all task classes. We populate this list will
      * loading and resolving classes. Later, once all classes have been
@@ -75,12 +67,11 @@ public final class ClassFileTaskScanner extends DirectoryIteratingTaskScanner {
      */
     List<Class<?>> taskClasses = Util.newArrayList();
 
-    File[] filesInDir = dir.listFiles(CLASS_FILTER);
-    if (filesInDir == null) {
-      DEBUGLOG.fine("ClassFileTaskScanner: Unable to listFiles for directory '" + dir + "'");
-      return;
+    // HACK: This isn't really where this logic belongs, but it's a start.
+    if (!(taskSource instanceof FileTaskProvider)) {
+      DEBUGLOG.log(Level.FINE, "Not loading class tasks from {0}", taskSource);
     }
-    for (File file : filesInDir) {
+    for (ResourceTaskReference taskRef : taskSource.getTaskReferences(EXT_PATH, ".class")) {
       Class<?> clazz = null;
       try {
 
@@ -91,19 +82,21 @@ public final class ClassFileTaskScanner extends DirectoryIteratingTaskScanner {
          * the package directory, and any inner classes they've included
          * in their Tasks.
          */
-        DEBUGLOG.log(Level.FINE, "Loading class from {0}", file);
-        clazz = loader.classForFile(file);
+        DEBUGLOG.log(Level.FINE, "Loading class from {0}", taskRef);
+
+        // HACK: This isn't really where this logic belongs, but it's a start.
+        clazz = loader.classForTaskRef(taskRef);
 
       /*
        * We're attempting to load a stranger, so we need to protect against
        * all possible Throwable thingies.
        */
       } catch (ClassNotFoundException e) {
-        logExceptionLoadingTask(e, file);
+        logExceptionLoadingTask(e, taskRef);
       } catch (RuntimeException e) {
-        logExceptionLoadingTask(e, file);
+        logExceptionLoadingTask(e, taskRef);
       } catch (Error e) {
-        logExceptionLoadingTask(e, file);
+        logExceptionLoadingTask(e, taskRef);
       }
 
       /*
@@ -135,10 +128,10 @@ public final class ClassFileTaskScanner extends DirectoryIteratingTaskScanner {
     }
   }
 
-  private void logExceptionLoadingTask(Throwable t, File file) {
+  private void logExceptionLoadingTask(Throwable t, ResourceTaskReference taskRef) {
     LOG.log(new Status(IStatus.ERROR, MechanicPlugin.PLUGIN_ID,
-        String.format("Couldn't load class from file: %s (%s)",
-            file.getName(), file),
+        String.format("Couldn't load class from: %s (%s)",
+            taskRef.getName(), taskRef),
         t));
   }
 
@@ -178,12 +171,12 @@ public final class ClassFileTaskScanner extends DirectoryIteratingTaskScanner {
      *
      * @throws ClassNotFoundException
      */
-    public Class<?> classForFile(File file) throws ClassNotFoundException {
+    public Class<?> classForTaskRef(ResourceTaskReference taskRef) throws ClassNotFoundException {
       try {
-        String name = getClassName(file);
+        String name = getClassName(taskRef);
 
         // slurp up the bytes of the class file
-        InputStream in = new FileInputStream(file.getCanonicalPath());
+        InputStream in = taskRef.newInputStream();
         byte[] bytes = Util.readAll(in);
 
         // define the new class using ClassLoaders support methods
@@ -193,7 +186,7 @@ public final class ClassFileTaskScanner extends DirectoryIteratingTaskScanner {
         return clazz;
       } catch (IOException e) {
         throw new ClassNotFoundException(
-            "Couldn't load class for file: " + file);
+            "Couldn't load class for " + taskRef);
       }
     }
 
@@ -201,17 +194,10 @@ public final class ClassFileTaskScanner extends DirectoryIteratingTaskScanner {
      * Returns the java name including the package. Is assumed to be in the
      * package defined in EXT_PACKAGE.
      */
-    private String getClassName(File file) {
-      String name = file.getName();
+    private String getClassName(ResourceTaskReference taskRef) {
+      String name = taskRef.getName();
       int end = name.indexOf(".class");
       return String.format("%s.%s", EXT_PACKAGE, name.substring(0, end));
     }
-  }
-
-  /**
-   * Returns all elements joined by the local OS's path segment separator.
-   */
-  private static String createPath(String... elems) {
-    return Util.join(File.separator, elems);
   }
 }

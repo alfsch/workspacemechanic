@@ -26,17 +26,18 @@ import com.google.eclipse.mechanic.PreferenceReconcilerTask.Reconciler;
 import com.google.eclipse.mechanic.PreferenceReconcilerTask.Resolver;
 import com.google.eclipse.mechanic.PreferenceReconcilerTask.SimpleResolver;
 import com.google.eclipse.mechanic.PreferenceReconcilerTask.StringReplaceResolver;
+import com.google.eclipse.mechanic.tests.internal.RunAsJUnitTest;
 
 import junit.framework.TestCase;
 
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
-import org.osgi.service.prefs.BackingStoreException;
 
 /**
  * Tests for PreferenceReconcilerTask.
  *
  * @author smckay@google.com (Steve McKay)
  */
+@RunAsJUnitTest
 public class PreferenceReconcilerTaskTest extends TestCase {
 
   private static final Preference WEE = new ImmutablePreference(

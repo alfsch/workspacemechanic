@@ -12,7 +12,6 @@ package com.google.eclipse.mechanic;
 import com.google.eclipse.mechanic.internal.KeyBindings;
 import com.google.eclipse.mechanic.internal.Util;
 import com.google.eclipse.mechanic.keybinding.KeyBindingSpec;
-import com.google.eclipse.mechanic.keybinding.KeyBindingsParser;
 import com.google.eclipse.mechanic.keybinding.KeyBindingChangeSet;
 import com.google.eclipse.mechanic.keybinding.KeyBindingsTask;
 

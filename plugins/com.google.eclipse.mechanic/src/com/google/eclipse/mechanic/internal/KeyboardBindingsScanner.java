@@ -11,17 +11,16 @@ package com.google.eclipse.mechanic.internal;
 
 import com.google.eclipse.mechanic.DirectoryIteratingTaskScanner;
 import com.google.eclipse.mechanic.KeyboardBindingsTask;
-import com.google.eclipse.mechanic.SuffixFileFilter;
 import com.google.eclipse.mechanic.TaskCollector;
 import com.google.eclipse.mechanic.keybinding.KeyBindingsParser;
 import com.google.eclipse.mechanic.keybinding.KeyBindingsTask;
+import com.google.eclipse.mechanic.plugin.core.ResourceTaskReference;
+import com.google.eclipse.mechanic.plugin.core.ResourceTaskProvider;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileFilter;
-import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.logging.Logger;
@@ -34,42 +33,33 @@ import java.util.logging.Logger;
  */
 public class KeyboardBindingsScanner extends DirectoryIteratingTaskScanner {
 
-  private static final FileFilter KBD_FILTER = new SuffixFileFilter(".kbd");
-
   private static final Logger LOG = Logger.getLogger(
       KeyboardBindingsScanner.class.getName());
 
   @Override
-  public void scan(File dir, TaskCollector collector) {
+  public void scan(ResourceTaskProvider source, TaskCollector collector) {
     /**
-     * Scan our target directory. Add a new Task for each EPF file found.
+     * Scan our source. Add a new Task for each KBD found.
      */
-    File[] filesInDir = dir.listFiles(KBD_FILTER);
-    if (filesInDir == null) {
-      return;
-    }
-    for (File file : filesInDir) {
-      
-      LOG.fine(String.format("Loading preference file: %s", file.getPath()));
+    for (ResourceTaskReference taskRef : source.getTaskReferences(".kbd")) {
+      LOG.fine(String.format("Loading keyboard file: %s", taskRef));
 
       // will throw a RuntimeException in the event of a problem reading
       // the kbd file
-      Reader reader = toReader(file);
+      Reader reader;
+      try {
+        reader = toReader(taskRef.newInputStream());
+      } catch (IOException e) {
+        throw new RuntimeException(e);
+      }
       KeyBindingsTask taskData = KeyBindingsParser.deSerialize(reader);
       collector.add(new KeyboardBindingsTask(taskData));
     }
   }
 
-  private Reader toReader(File file)  {
-    try {
-      // Why do I have to write this - AGAIN.
-      FileInputStream is = new FileInputStream(file);
-      BufferedInputStream bis = new BufferedInputStream(is);
-      InputStreamReader reader = new InputStreamReader(bis);
-      return new BufferedReader(reader);
-    } catch (IOException e) {
-      // TODO(konigsberg): We need to build an infrastructure for reporting these errors.
-      throw new RuntimeException(e);
-    }
+  private Reader toReader(InputStream is)  {
+    BufferedInputStream bis = new BufferedInputStream(is);
+    InputStreamReader reader = new InputStreamReader(bis);
+    return new BufferedReader(reader);
   }
 }

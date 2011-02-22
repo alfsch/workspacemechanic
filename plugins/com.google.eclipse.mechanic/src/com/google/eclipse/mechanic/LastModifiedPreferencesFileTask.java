@@ -115,7 +115,7 @@ public abstract class LastModifiedPreferencesFileTask extends CompositeTask {
                     ConfigurationScope.SCOPE };
         }
 
-        @SuppressWarnings("unchecked") // Eclipse doesn't do generics.
+        @SuppressWarnings("rawtypes") // Eclipse doesn't do generics.
         public Map getMapping(String scope) {
             return null;
         }

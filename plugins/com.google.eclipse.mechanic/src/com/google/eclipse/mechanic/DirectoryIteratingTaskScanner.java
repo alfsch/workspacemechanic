@@ -9,14 +9,10 @@
 
 package com.google.eclipse.mechanic;
 
-import static com.google.eclipse.mechanic.internal.Util.checkArgument;
-import static com.google.eclipse.mechanic.internal.Util.checkNotNull;
-
-import com.google.eclipse.mechanic.internal.DirectorySetSupplier;
 import com.google.eclipse.mechanic.internal.PreferencesDirectorySetSupplier;
+import com.google.eclipse.mechanic.internal.TaskSourcesSupplier;
 import com.google.eclipse.mechanic.internal.Util;
-
-import java.io.File;
+import com.google.eclipse.mechanic.plugin.core.ResourceTaskProvider;
 
 /**
  * Scanner that looks in the registered directories for tasks.
@@ -25,26 +21,22 @@ import java.io.File;
  */
 public abstract class DirectoryIteratingTaskScanner implements TaskScanner {
 
-  private final DirectorySetSupplier dirs = PreferencesDirectorySetSupplier.getInstance();
+  private final TaskSourcesSupplier supplier = PreferencesDirectorySetSupplier.getInstance();
 
   public void scan(TaskCollector collector) {
     Util.checkNotNull(collector, "'collector' cannot be null.");
 
-    for (File dir : dirs.get()) {
-      checkNotNull(dir, "'dir' cannot be null.");
-      checkArgument(dir.exists(), String.format("Directory '%s' does not exist.", dir));
-      checkArgument(dir.canRead(), String.format("Directory '%s' is not readable.", dir));
-
-      scan(dir, collector);
+    for (ResourceTaskProvider source : supplier.get()) {
+      scan(source, collector);
     }
   }
 
   /**
-   * Scan a directory for tasks.
+   * Scan the source for tasks.
    *
-   * @param dir the directory to scan. A test has been made to ensure the
-   * dir is not null, that the directory exists and can be read.
+   * @param dir the source to scan. The source has already been validated via
+   *     {@link ResourceTaskProvider#validate()}.
    * @param collector the collector of tasks. Guaranteed to be not null.
    */
-  protected abstract void scan(File dir, TaskCollector collector);
+  protected abstract void scan(ResourceTaskProvider source, TaskCollector collector);
 }
