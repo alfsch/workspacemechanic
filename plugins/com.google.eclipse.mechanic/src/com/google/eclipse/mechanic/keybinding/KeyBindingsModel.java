@@ -22,7 +22,6 @@ import com.google.gson.annotations.SerializedName;
  *
  * @author zorzella@google.com
  */
-// TODO(konigsberg): Rename to something better -- task is an overloaded name.
 public class KeyBindingsModel {
 
   @SerializedName("changeSets")
