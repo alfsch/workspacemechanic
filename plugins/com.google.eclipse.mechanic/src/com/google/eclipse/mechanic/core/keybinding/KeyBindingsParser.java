@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *******************************************************************************/
 
-package com.google.eclipse.mechanic.keybinding;
+package com.google.eclipse.mechanic.core.keybinding;
 
 import java.io.Reader;
 import java.lang.reflect.Type;
@@ -15,10 +15,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import com.google.eclipse.mechanic.core.keybinding.KeyBindingChangeSet.Bindings;
+import com.google.eclipse.mechanic.core.keybinding.KeyBindingsModel.MetaData;
 import com.google.eclipse.mechanic.internal.TaskType;
 import com.google.eclipse.mechanic.internal.Util;
-import com.google.eclipse.mechanic.keybinding.KeyBindingChangeSet.Bindings;
-import com.google.eclipse.mechanic.keybinding.KeyBindingsModel.MetaData;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;

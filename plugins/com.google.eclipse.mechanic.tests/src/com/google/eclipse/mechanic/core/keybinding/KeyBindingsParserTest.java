@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *******************************************************************************/
 
-package com.google.eclipse.mechanic.keybinding;
+package com.google.eclipse.mechanic.core.keybinding;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -15,8 +15,12 @@ import java.util.List;
 
 import junit.framework.TestCase;
 
+import com.google.eclipse.mechanic.core.keybinding.KeyBindingChangeSet;
+import com.google.eclipse.mechanic.core.keybinding.KeyBindingSpec;
+import com.google.eclipse.mechanic.core.keybinding.KeyBindingsModel;
+import com.google.eclipse.mechanic.core.keybinding.KeyBindingsParser;
+import com.google.eclipse.mechanic.core.keybinding.KeyBindingsModel.MetaData;
 import com.google.eclipse.mechanic.internal.TaskType;
-import com.google.eclipse.mechanic.keybinding.KeyBindingsModel.MetaData;
 import com.google.eclipse.mechanic.tests.internal.RunAsJUnitTest;
 
 @RunAsJUnitTest

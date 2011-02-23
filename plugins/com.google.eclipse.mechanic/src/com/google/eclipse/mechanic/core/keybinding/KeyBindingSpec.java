@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *******************************************************************************/
 
-package com.google.eclipse.mechanic.keybinding;
+package com.google.eclipse.mechanic.core.keybinding;
 
 import com.google.eclipse.mechanic.internal.Util;
 

@@ -12,8 +12,8 @@ package com.google.eclipse.mechanic.internal;
 import com.google.eclipse.mechanic.DirectoryIteratingTaskScanner;
 import com.google.eclipse.mechanic.KeyboardBindingsTask;
 import com.google.eclipse.mechanic.TaskCollector;
-import com.google.eclipse.mechanic.keybinding.KeyBindingsParser;
-import com.google.eclipse.mechanic.keybinding.KeyBindingsModel;
+import com.google.eclipse.mechanic.core.keybinding.KeyBindingsModel;
+import com.google.eclipse.mechanic.core.keybinding.KeyBindingsParser;
 import com.google.eclipse.mechanic.plugin.core.ResourceTaskReference;
 import com.google.eclipse.mechanic.plugin.core.ResourceTaskProvider;
 

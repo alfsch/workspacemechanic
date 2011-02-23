@@ -9,11 +9,11 @@
 
 package com.google.eclipse.mechanic;
 
+import com.google.eclipse.mechanic.core.keybinding.KeyBindingChangeSet;
+import com.google.eclipse.mechanic.core.keybinding.KeyBindingSpec;
+import com.google.eclipse.mechanic.core.keybinding.KeyBindingsModel;
 import com.google.eclipse.mechanic.internal.KeyBindings;
 import com.google.eclipse.mechanic.internal.Util;
-import com.google.eclipse.mechanic.keybinding.KeyBindingSpec;
-import com.google.eclipse.mechanic.keybinding.KeyBindingChangeSet;
-import com.google.eclipse.mechanic.keybinding.KeyBindingsModel;
 
 import org.eclipse.core.commands.Command;
 import org.eclipse.jface.bindings.Scheme;

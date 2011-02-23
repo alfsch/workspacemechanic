@@ -9,7 +9,7 @@
 
 package com.google.eclipse.mechanic.internal;
 
-import com.google.eclipse.mechanic.keybinding.KeyBindingSpec;
+import com.google.eclipse.mechanic.core.keybinding.KeyBindingSpec;
 import com.google.gson.Gson;
 
 import org.eclipse.core.commands.Command;
