@@ -30,7 +30,7 @@ import com.google.eclipse.mechanic.MechanicStatus;
 import com.google.eclipse.mechanic.RepairDecisionProvider;
 import com.google.eclipse.mechanic.StatusChangeListener;
 import com.google.eclipse.mechanic.StatusChangedEvent;
-import com.google.eclipse.mechanic.core.internal.recorder.ChangeCollector;
+import com.google.eclipse.mechanic.core.recorder.ChangeCollector;
 import com.google.eclipse.mechanic.internal.Util;
 import com.google.eclipse.mechanic.plugin.core.MechanicLog;
 import com.google.eclipse.mechanic.plugin.core.MechanicPlugin;
