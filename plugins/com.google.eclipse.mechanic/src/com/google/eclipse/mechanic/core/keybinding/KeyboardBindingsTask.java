@@ -7,12 +7,9 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *******************************************************************************/
 
-package com.google.eclipse.mechanic;
+package com.google.eclipse.mechanic.core.keybinding;
 
-import com.google.eclipse.mechanic.core.keybinding.KeyBindingChangeSet;
-import com.google.eclipse.mechanic.core.keybinding.KeyBindingSpec;
-import com.google.eclipse.mechanic.core.keybinding.KeyBindingsModel;
-import com.google.eclipse.mechanic.internal.KeyBindings;
+import com.google.eclipse.mechanic.CompositeTask;
 import com.google.eclipse.mechanic.internal.Util;
 
 import org.eclipse.core.commands.Command;

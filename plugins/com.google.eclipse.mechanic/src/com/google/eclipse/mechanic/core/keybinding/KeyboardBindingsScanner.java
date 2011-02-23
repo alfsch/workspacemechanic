@@ -7,13 +7,10 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *******************************************************************************/
 
-package com.google.eclipse.mechanic.internal;
+package com.google.eclipse.mechanic.core.keybinding;
 
 import com.google.eclipse.mechanic.DirectoryIteratingTaskScanner;
-import com.google.eclipse.mechanic.KeyboardBindingsTask;
 import com.google.eclipse.mechanic.TaskCollector;
-import com.google.eclipse.mechanic.core.keybinding.KeyBindingsModel;
-import com.google.eclipse.mechanic.core.keybinding.KeyBindingsParser;
 import com.google.eclipse.mechanic.plugin.core.ResourceTaskReference;
 import com.google.eclipse.mechanic.plugin.core.ResourceTaskProvider;
 

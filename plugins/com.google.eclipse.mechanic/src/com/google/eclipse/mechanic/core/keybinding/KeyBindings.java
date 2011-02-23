@@ -7,9 +7,8 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *******************************************************************************/
 
-package com.google.eclipse.mechanic.internal;
+package com.google.eclipse.mechanic.core.keybinding;
 
-import com.google.eclipse.mechanic.core.keybinding.KeyBindingSpec;
 import com.google.gson.Gson;
 
 import org.eclipse.core.commands.Command;

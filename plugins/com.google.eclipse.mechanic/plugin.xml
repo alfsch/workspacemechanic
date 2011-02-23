@@ -37,7 +37,7 @@
       <scanner
             class="com.google.eclipse.mechanic.internal.ExtensionPointScanner"/>
       <scanner
-            class="com.google.eclipse.mechanic.internal.KeyboardBindingsScanner"/>
+            class="com.google.eclipse.mechanic.core.keybinding.KeyboardBindingsScanner"/>
    </extension>
    <extension
          point="org.eclipse.core.variables.valueVariables">
