@@ -10,7 +10,7 @@
 package com.google.eclipse.mechanic.plugin.ui;
 
 import com.google.eclipse.mechanic.plugin.core.MechanicPlugin;
-import com.google.eclipse.mechanic.plugin.ui.MechanicStatusTrimWidget.DisplayStatus;
+import com.google.eclipse.mechanic.plugin.ui.MechanicStatusControlContribution.DisplayStatus;
 
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.resource.ImageRegistry;

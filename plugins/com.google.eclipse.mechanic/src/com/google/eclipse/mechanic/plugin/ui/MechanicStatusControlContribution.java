@@ -1,12 +1,3 @@
-/*******************************************************************************
- * Copyright (C) 2007, Google Inc.
- *
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- *******************************************************************************/
-
 package com.google.eclipse.mechanic.plugin.ui;
 
 import java.util.Map;
@@ -32,7 +23,7 @@ import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkbenchActionConstants;
 import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.menus.AbstractWorkbenchTrimWidget;
+import org.eclipse.ui.menus.WorkbenchWindowControlContribution;
 
 import com.google.eclipse.mechanic.ChangeCollector;
 import com.google.eclipse.mechanic.MechanicService;
@@ -45,14 +36,8 @@ import com.google.eclipse.mechanic.plugin.core.MechanicLog;
 import com.google.eclipse.mechanic.plugin.core.MechanicPlugin;
 import com.google.eclipse.mechanic.plugin.core.MechanicPreferences;
 
-/**
- * Trim widget provides regular visual feedback to the user regarding the
- * TaskService status. When clicked, the widget will invoke the user input
- * dialog.
- * 
- * @author smckay@google.com (Steve McKay)
- */
-public final class MechanicStatusTrimWidget extends AbstractWorkbenchTrimWidget {
+public class MechanicStatusControlContribution extends WorkbenchWindowControlContribution {
+
   private static final MechanicLog log = MechanicLog.getDefault();
 
   // various actions used in our context menu...
@@ -81,8 +66,7 @@ public final class MechanicStatusTrimWidget extends AbstractWorkbenchTrimWidget 
   private Label label;
   private Map<DisplayStatus, Image> images;
 
-  public MechanicStatusTrimWidget() {
-
+  public MechanicStatusControlContribution() {
     // to be registered in our initialize method, and disposed of with us
     statusListener = new StatusChangeListener() {
       public void statusChanged(StatusChangedEvent e) {
@@ -104,8 +88,7 @@ public final class MechanicStatusTrimWidget extends AbstractWorkbenchTrimWidget 
   }
 
   @Override
-  public void fill(Composite parent, int oldSide, int newSide) {
-
+  protected Control createControl(Composite parent) {
     initImageCache();
 
     label = new Label(parent, SWT.CENTER);
@@ -129,6 +112,7 @@ public final class MechanicStatusTrimWidget extends AbstractWorkbenchTrimWidget 
     // TODO(smckay): figure out why updateDisplay must be called here and now
     // or else, the widget contents (label) will *never* get displayed.
     updateDisplay();
+    return label;
   }
 
   /**

@@ -17,22 +17,17 @@
       <initializer
             class="com.google.eclipse.mechanic.plugin.core.MechanicPreferencesInitializer"/>
    </extension>
-   <!-- TODO(smckay): replace the TrimGroup with a TrimContribution -->
    <extension point="org.eclipse.ui.menus">
-      <group id="com.google.eclipse.mechanic.TrimGroup">
-         <location>
-            <bar type="trim"/>
-             <order position="before" relativeTo="status"/>
-         </location>
-      </group>
-      <widget
-           id="com.google.eclipse.mechanic.plugin.ui.MechanicStatusTrimWidget"
-           class="com.google.eclipse.mechanic.plugin.ui.MechanicStatusTrimWidget">
-         <location>
-            <bar path="com.google.eclipse.mechanic.TrimGroup" type="trim"/>
-         </location>
-      </widget>
-   </extension>
+     <menuContribution
+           locationURI="toolbar:org.eclipse.ui.trim.status">
+     <toolbar id="com.google.eclipse.mechanic.contributedTrim">
+       <control
+         class="com.google.eclipse.mechanic.plugin.ui.MechanicStatusControlContribution"
+         id="com.google.eclipse.mechanic.plugin.ui.MechanicStatusControlContribution">
+       </control>
+    </toolbar>
+    </menuContribution>
+  </extension>
    <extension
          point="com.google.eclipse.mechanic.scanners">
       <scanner
