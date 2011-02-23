@@ -9,8 +9,10 @@
 
 package com.google.eclipse.mechanic;
 
+import java.util.List;
+
 import com.google.eclipse.mechanic.internal.RegisteredTaskProvidersSupplier;
-import com.google.eclipse.mechanic.internal.ResourceTaskProviderSupplier;
+import com.google.eclipse.mechanic.internal.Supplier;
 import com.google.eclipse.mechanic.internal.Util;
 import com.google.eclipse.mechanic.plugin.core.ResourceTaskProvider;
 
@@ -21,7 +23,7 @@ import com.google.eclipse.mechanic.plugin.core.ResourceTaskProvider;
  */
 public abstract class DirectoryIteratingTaskScanner implements TaskScanner {
 
-  private final ResourceTaskProviderSupplier supplier = RegisteredTaskProvidersSupplier.getInstance();
+  private final Supplier<List<ResourceTaskProvider>> supplier = RegisteredTaskProvidersSupplier.getInstance();
 
   public void scan(TaskCollector collector) {
     Util.checkNotNull(collector, "'collector' cannot be null.");

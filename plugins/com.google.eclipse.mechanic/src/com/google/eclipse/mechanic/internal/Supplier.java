@@ -9,19 +9,17 @@
 
 package com.google.eclipse.mechanic.internal;
 
-import java.util.List;
-
-import com.google.eclipse.mechanic.plugin.core.ResourceTaskProvider;
-
 /**
- * Supplies a list of task sources.
+ * General supplier interface.
  *
- * @author smckay@google.com (Steve McKay)
+ * @param <T> the type of object being supplied.
  */
-public interface ResourceTaskProviderSupplier {
+public interface Supplier<T> {
+
+  // This could be replaced with com.google.common.base.Supplier.
 
   /**
-   * Returns a {@link List} of valid task providers.
+   * Get a supplied instance of T.
    */
-  List<ResourceTaskProvider> get();
+  T get();
 }

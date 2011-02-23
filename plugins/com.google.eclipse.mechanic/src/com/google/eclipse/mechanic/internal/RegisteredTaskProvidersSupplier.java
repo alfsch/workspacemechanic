@@ -23,7 +23,8 @@ import com.google.eclipse.mechanic.plugin.core.ResourceTaskProvider;
  *
  * @author smckay@google.com (Steve McKay)
  */
-public class RegisteredTaskProvidersSupplier implements ResourceTaskProviderSupplier {
+public class RegisteredTaskProvidersSupplier implements
+    Supplier<List<ResourceTaskProvider>> {
 
   private static final RegisteredTaskProvidersSupplier instance
       = new RegisteredTaskProvidersSupplier();
