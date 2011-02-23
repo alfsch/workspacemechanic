@@ -25,12 +25,12 @@ import org.eclipse.ui.IWorkbenchActionConstants;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.menus.WorkbenchWindowControlContribution;
 
-import com.google.eclipse.mechanic.ChangeCollector;
 import com.google.eclipse.mechanic.MechanicService;
 import com.google.eclipse.mechanic.MechanicStatus;
 import com.google.eclipse.mechanic.RepairDecisionProvider;
 import com.google.eclipse.mechanic.StatusChangeListener;
 import com.google.eclipse.mechanic.StatusChangedEvent;
+import com.google.eclipse.mechanic.core.internal.recorder.ChangeCollector;
 import com.google.eclipse.mechanic.internal.Util;
 import com.google.eclipse.mechanic.plugin.core.MechanicLog;
 import com.google.eclipse.mechanic.plugin.core.MechanicPlugin;
@@ -434,7 +434,7 @@ public class MechanicStatusControlContribution extends WorkbenchWindowControlCon
         Shell parentShell = Display.getCurrent().getActiveShell();
         EpfOutputDialog dialog = new EpfOutputDialog(parentShell, 
             collector.getPreferences());
-        
+
         dialog.open();
       } catch (CoreException e) {
         MechanicPlugin.getDefault().getLog().log(e.getStatus());

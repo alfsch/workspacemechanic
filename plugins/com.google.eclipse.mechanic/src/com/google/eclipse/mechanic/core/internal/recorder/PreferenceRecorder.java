@@ -7,10 +7,9 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *******************************************************************************/
 
-package com.google.eclipse.mechanic;
+package com.google.eclipse.mechanic.core.internal.recorder;
 
 import com.google.eclipse.mechanic.internal.Util;
-import com.google.eclipse.mechanic.plugin.core.IPreferenceRecordingService;
 import com.google.eclipse.mechanic.plugin.core.MechanicPlugin;
 
 import org.eclipse.core.runtime.CoreException;

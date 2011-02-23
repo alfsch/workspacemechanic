@@ -10,7 +10,8 @@
 package com.google.eclipse.mechanic.plugin.core;
 
 import com.google.eclipse.mechanic.MechanicService;
-import com.google.eclipse.mechanic.internal.PreferenceRecordingService;
+import com.google.eclipse.mechanic.core.internal.recorder.IPreferenceRecordingService;
+import com.google.eclipse.mechanic.core.internal.recorder.PreferenceRecordingService;
 import com.google.eclipse.mechanic.internal.TasksExtensionPoint;
 import com.google.eclipse.mechanic.plugin.ui.PopupNotifier;
 
