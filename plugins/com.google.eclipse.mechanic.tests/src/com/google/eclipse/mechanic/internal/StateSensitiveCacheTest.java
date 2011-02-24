@@ -15,14 +15,11 @@ import static org.easymock.EasyMock.replay;
 import static org.easymock.EasyMock.verify;
 
 import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.MalformedURLException;
 import java.net.URI;
 import java.util.Collection;
-import java.util.Map;
 
 import junit.framework.TestCase;
 
@@ -41,27 +38,7 @@ import com.google.eclipse.mechanic.tests.internal.RunAsJUnitTest;
 @RunAsJUnitTest
 public class StateSensitiveCacheTest extends TestCase {
 
-  /**
-   * Contains some canned entries that prevent actually fetching content from the web.
-   */
-  static class TestInner extends ThreadsafeUriContentCache {
-
-    private final Map<String, String> map = Util.newHashMap();
-    // Number of cache requests.
-    public int count;
-
-    public TestInner() {
-      super(0);
-      map.put("http://www.google.com", "asdf");
-      map.put("http://www.imdb.com", "qwerty");
-    }
-
-    @Override
-    InputStream openStream(URI uri) throws IOException, MalformedURLException {
-      count++;
-      return new ByteArrayInputStream(map.get(uri.toASCIIString()).getBytes());
-    }
-  }
+  private final TestUriContentProvider delegate = new TestUriContentProvider();
 
   static class TestService implements IMechanicService {
     public IStatusChangeListener listener;
@@ -100,7 +77,17 @@ public class StateSensitiveCacheTest extends TestCase {
 
   public void testNPE() {
     try {
-      new StateSensitiveCache(null);
+      new StateSensitiveCache(null, null);
+      fail("npe expected");
+    } catch(NullPointerException e) {
+    }
+    try {
+      new StateSensitiveCache(createMock(IMechanicService.class), null);
+      fail("npe expected");
+    } catch(NullPointerException e) {
+    }
+    try {
+      new StateSensitiveCache(null, delegate);
       fail("npe expected");
     } catch(NullPointerException e) {
     }
@@ -111,7 +98,7 @@ public class StateSensitiveCacheTest extends TestCase {
     service.addTaskStatusChangeListener((IStatusChangeListener) anyObject());
     expectLastCall();
     replay(service);
-    StateSensitiveCache cache = new StateSensitiveCache(service);
+    StateSensitiveCache cache = new StateSensitiveCache(service, delegate);
     cache.initialize();
     verify(service);
   }
@@ -125,49 +112,39 @@ public class StateSensitiveCacheTest extends TestCase {
     service.removeTaskStatusChangeListener((IStatusChangeListener) anyObject());
     expectLastCall();
     replay(service);
-    StateSensitiveCache cache = new StateSensitiveCache(service);
+    StateSensitiveCache cache = new StateSensitiveCache(service, delegate);
     cache.initialize();
     cache.dispose();
     verify(service);
   }
 
-  public void testGet_cache() throws Exception {
-    IMechanicService service = createMock(IMechanicService.class);
-    TestInner inner = new TestInner();
-    StateSensitiveCache cache = new StateSensitiveCache(service, inner);
-    assertEquals(0, inner.count);
-    assertEquals("asdf", read(cache.get(new URI("http://www.google.com"))));
-    assertEquals(1, inner.count);
-    assertEquals("asdf", read(cache.get(new URI("http://www.google.com"))));
-    assertEquals(1, inner.count);
-    cache.clear();
-    assertEquals("asdf", read(cache.get(new URI("http://www.google.com"))));
-    assertEquals(2, inner.count);
-  }
-
   public void testGet_clear() throws Exception {
     TestService service = new TestService();
-    TestInner inner = new TestInner();
-    StateSensitiveCache cache = new StateSensitiveCache(service, inner);
+    StateSensitiveCache cache = new StateSensitiveCache(service, delegate);
 
     cache.initialize();
 
-    assertEquals(0, inner.count);
+    assertEquals(0, delegate.fetchCount());
+    assertEquals(0, delegate.clearCount());
+
     assertEquals("asdf", read(cache.get(new URI("http://www.google.com"))));
-    assertEquals(1, inner.count);
+    assertEquals(1, delegate.fetchCount());
+    assertEquals(0, delegate.clearCount());
 
     // This status doesn't clear the cache.
     service.listener.statusChanged(new StatusChangedEvent(MechanicStatus.FAILED));
 
     assertEquals("asdf", read(cache.get(new URI("http://www.google.com"))));
-    assertEquals(1, inner.count);
+    assertEquals(2, delegate.fetchCount());
+    assertEquals(0, delegate.clearCount());
 
     // This call will cause the cache to clear, and so, the
     // inner raw reading count will increase.
     service.listener.statusChanged(new StatusChangedEvent(MechanicStatus.UPDATING));
 
     assertEquals("asdf", read(cache.get(new URI("http://www.google.com"))));
-    assertEquals(2, inner.count);
+    assertEquals(3, delegate.fetchCount());
+    assertEquals(1, delegate.clearCount());
   }
 
   private String read(InputStream is) throws IOException {

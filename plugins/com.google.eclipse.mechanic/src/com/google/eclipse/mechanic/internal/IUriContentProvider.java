@@ -16,6 +16,13 @@ import java.net.URI;
  * Supplies InputStreams from URIs.
  */
 public interface IUriContentProvider {
+  /**
+   * Fetch the {@link InputStream} for this {@link URI}.
+   */
   InputStream get(URI uri) throws IOException;
+
+  /**
+   * Clear any cached information associated with this content provider.
+   */
   void clear();
 }

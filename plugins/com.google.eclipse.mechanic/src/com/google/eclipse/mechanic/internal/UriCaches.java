@@ -16,10 +16,29 @@ import com.google.eclipse.mechanic.MechanicService;
  * Web content caches.
  */
 public class UriCaches {
+
+  // While these static instances are nice, it's probably going to need be dynamic at runtime when
+  // someone complains "I don't want content cached for 12 hours!"
+
+  // Here's what this is saying:
+
+  // This content provider fetches URIs from the web using uri.toURL.openStream();
+  private static final IUriContentProvider standardProvider = new StandardContentProvider();
+
+  // This content provider fetches from the web and caches the results until |clear| is called.
+  private static final IUriContentProvider threadsafeUriContentCache =
+      new ThreadsafeUriContentCache(0, TimeUnit.MILLISECONDS, standardProvider);
+
+  // This content provider uses the cache above, and clears the entries when the mechanic status
+  // changes to Updating. It's the one used to fetch URL task metadata. This is the cache from
+  // which UriTaskProviderModel instances come from.
   private static final StateSensitiveCache stateSensitive =
-      new StateSensitiveCache(MechanicService.getInstance());
+      new StateSensitiveCache(MechanicService.getInstance(), threadsafeUriContentCache);
+
+  // This cache keeps its entries for 12 hours. It's used for fetching .epf and other files
+  // from the web.
   private static final IUriContentProvider lifetime =
-      new ThreadsafeUriContentCache(12, TimeUnit.HOURS);
+      new ThreadsafeUriContentCache(12, TimeUnit.HOURS, standardProvider);
 
   public static void initialize() {
     stateSensitive.initialize();

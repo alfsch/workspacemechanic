@@ -21,25 +21,18 @@ import com.google.eclipse.mechanic.StatusChangedEvent;
  * A {@link IUriContentProvider} that clears its cache when the Mechanic starts a
  * scanning session.
  */
-public class StateSensitiveCache implements IUriContentProvider {
+public final class StateSensitiveCache implements IUriContentProvider {
   private final IMechanicService service;
   private final IStatusChangeListener statusChangeListener;
-  private final IUriContentProvider cache;
+  private final IUriContentProvider delegate;
 
-  public StateSensitiveCache(IMechanicService service) {
-    this(service, new ThreadsafeUriContentCache());
-  }
-
-  /**
-   * package-private for testing.
-   */
-  StateSensitiveCache(IMechanicService service, IUriContentProvider cache) {
+  public StateSensitiveCache(IMechanicService service, IUriContentProvider delegate) {
     this.service = Util.checkNotNull(service);
-    this.cache = cache;
+    this.delegate = Util.checkNotNull(delegate);
     this.statusChangeListener = new IStatusChangeListener() {
       public void statusChanged(StatusChangedEvent event) {
         if (event.getStatus() == MechanicStatus.UPDATING) {
-          StateSensitiveCache.this.cache.clear();
+          StateSensitiveCache.this.delegate.clear();
         }
       }
     };
@@ -54,10 +47,10 @@ public class StateSensitiveCache implements IUriContentProvider {
   }
 
   public InputStream get(URI uri) throws IOException {
-    return cache.get(uri);
+    return delegate.get(uri);
   }
 
   public void clear() {
-    cache.clear();
+    delegate.clear();
   }
 }

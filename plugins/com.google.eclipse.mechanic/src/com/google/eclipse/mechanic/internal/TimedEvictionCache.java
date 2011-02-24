@@ -9,6 +9,7 @@
 package com.google.eclipse.mechanic.internal;
 
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 /**
  * A thread-safe map of objects that can optionally be evicted after a certain time
@@ -46,14 +47,16 @@ public class TimedEvictionCache<K, V> {
    *
    * @param <K> The type of keys stored in the cache.
    * @param <V> The type of values stored in the cache.
-   * @param durationMillis The duration, in milliseconds, that a cache entry is
+   * @param duration The duration, in {@code timeUnit} units, that a cache entry is
    * considered valid. If this value is zero (or negative) entries are
+   * @param timeUnit the duration unit of measurement.
    * not evicted until {@link #clear()} is called.
    */
-  public static <K, V>TimedEvictionCache<K, V> create(
-      long durationMillis) {
-    return new TimedEvictionCache<K, V>(durationMillis);
+  public static <K, V>TimedEvictionCache<K, V> create(long duration, TimeUnit timeUnit) {
+    return new TimedEvictionCache<K, V>(timeUnit.toMillis(duration));
   }
+  
+
 
   /** Package private for testing */
   TimedEvictionCache(long durationMillis) {
@@ -140,6 +143,4 @@ public class TimedEvictionCache<K, V> {
       return evictions;
     }
   }
-
-  
 }
