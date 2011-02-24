@@ -31,6 +31,7 @@ import org.eclipse.core.variables.VariablesPlugin;
 import com.google.eclipse.mechanic.Task;
 import com.google.eclipse.mechanic.internal.FileTaskProvider;
 import com.google.eclipse.mechanic.internal.ResourceTaskProviderParser;
+import com.google.eclipse.mechanic.internal.UriCaches;
 import com.google.eclipse.mechanic.internal.UriTaskProvider;
 import com.google.eclipse.mechanic.internal.Util;
 
@@ -126,7 +127,7 @@ public class MechanicPreferences {
       }
       ResourceTaskProvider provider;
       if (uri.getScheme() != null) {
-        provider = new UriTaskProvider(uri);
+        provider = new UriTaskProvider(uri, UriCaches.getStateSensitiveCache());
       } else {
         provider = new FileTaskProvider(new File(source));
       }
