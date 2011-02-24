@@ -9,15 +9,16 @@
 
 package com.google.eclipse.mechanic.plugin.core;
 
+import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.ui.plugin.AbstractUIPlugin;
+import org.osgi.framework.BundleContext;
+
 import com.google.eclipse.mechanic.MechanicService;
 import com.google.eclipse.mechanic.core.recorder.IPreferenceRecordingService;
 import com.google.eclipse.mechanic.core.recorder.PreferenceRecordingService;
 import com.google.eclipse.mechanic.internal.TasksExtensionPoint;
+import com.google.eclipse.mechanic.internal.UriCaches;
 import com.google.eclipse.mechanic.plugin.ui.PopupNotifier;
-
-import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.ui.plugin.AbstractUIPlugin;
-import org.osgi.framework.BundleContext;
 
 /**
  * Controls the plug-in life cycle, and provides access to convenient stuff
@@ -50,6 +51,9 @@ public class MechanicPlugin extends AbstractUIPlugin {
     // catch the first statuses.
     popupNotifier = new PopupNotifier(MechanicService.getInstance());
     popupNotifier.initialize();
+
+    UriCaches.initialize();
+
     // immediately start the mechanic service
     MechanicService.getInstance().start();
   }
@@ -57,9 +61,10 @@ public class MechanicPlugin extends AbstractUIPlugin {
   @Override 
   public void stop(BundleContext context) throws Exception {
     MechanicService.getInstance().stop();
+    UriCaches.destroy();
+    popupNotifier.dispose();
     TasksExtensionPoint.dispose();
     plugin = null;
-    popupNotifier.dispose();
     super.stop(context);
   }
 

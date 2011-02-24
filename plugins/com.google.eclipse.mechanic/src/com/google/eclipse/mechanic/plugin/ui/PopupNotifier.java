@@ -11,9 +11,9 @@ package com.google.eclipse.mechanic.plugin.ui;
 
 import java.util.concurrent.TimeUnit;
 
-import com.google.eclipse.mechanic.MechanicService;
+import com.google.eclipse.mechanic.IMechanicService;
 import com.google.eclipse.mechanic.RepairDecisionProvider;
-import com.google.eclipse.mechanic.StatusChangeListener;
+import com.google.eclipse.mechanic.IStatusChangeListener;
 import com.google.eclipse.mechanic.StatusChangedEvent;
 import com.google.eclipse.mechanic.plugin.core.MechanicPreferences;
 
@@ -21,7 +21,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.PlatformUI;
 
 /**
- * A {@link StatusChangeListener} that appears when tasks fail.
+ * A {@link IStatusChangeListener} that appears when tasks fail.
  *
  * <p>Use cases and conditions for when a popup will appear.
  *
@@ -61,9 +61,9 @@ public class PopupNotifier {
   // Popup appears for two minutes.
   private static final int POPUP_TIMEOUT_MILLIS = (int) TimeUnit.SECONDS.toMillis(60 * 2);
 
-  private final StatusChangeListener statusChangeListener;
+  private final IStatusChangeListener statusChangeListener;
 
-  private final MechanicService service;
+  private final IMechanicService service;
 
   /**
    * controls whether the next failure from the mechanic should result in showing the popup.
@@ -76,9 +76,9 @@ public class PopupNotifier {
    */
   private volatile boolean visible = false;
 
-  public PopupNotifier(MechanicService mechanicService) {
+  public PopupNotifier(IMechanicService mechanicService) {
     this.service = mechanicService;
-    this.statusChangeListener = new StatusChangeListener() {
+    this.statusChangeListener = new IStatusChangeListener() {
       public void statusChanged(StatusChangedEvent event) {
         switch (event.getStatus()) {
           case FAILED:

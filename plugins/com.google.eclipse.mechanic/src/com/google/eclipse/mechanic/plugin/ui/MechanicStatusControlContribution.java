@@ -1,3 +1,11 @@
+/*******************************************************************************
+ * Copyright (C) 2011, Google Inc.
+ *
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *******************************************************************************/
 package com.google.eclipse.mechanic.plugin.ui;
 
 import java.util.Map;
@@ -25,10 +33,11 @@ import org.eclipse.ui.IWorkbenchActionConstants;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.menus.WorkbenchWindowControlContribution;
 
+import com.google.eclipse.mechanic.IMechanicService;
 import com.google.eclipse.mechanic.MechanicService;
 import com.google.eclipse.mechanic.MechanicStatus;
 import com.google.eclipse.mechanic.RepairDecisionProvider;
-import com.google.eclipse.mechanic.StatusChangeListener;
+import com.google.eclipse.mechanic.IStatusChangeListener;
 import com.google.eclipse.mechanic.StatusChangedEvent;
 import com.google.eclipse.mechanic.core.recorder.ChangeCollector;
 import com.google.eclipse.mechanic.internal.Util;
@@ -36,6 +45,9 @@ import com.google.eclipse.mechanic.plugin.core.MechanicLog;
 import com.google.eclipse.mechanic.plugin.core.MechanicPlugin;
 import com.google.eclipse.mechanic.plugin.core.MechanicPreferences;
 
+/**
+ * Widget that appears in the status bar.
+ */
 public class MechanicStatusControlContribution extends WorkbenchWindowControlContribution {
 
   private static final MechanicLog log = MechanicLog.getDefault();
@@ -58,9 +70,9 @@ public class MechanicStatusControlContribution extends WorkbenchWindowControlCon
 
   private IAction stopRecordingAction = new StopRecordingAction();
 
-  private final MechanicService service = MechanicService.getInstance();
+  private final IMechanicService service = MechanicService.getInstance();
 
-  private final StatusChangeListener statusListener;
+  private final IStatusChangeListener statusListener;
 
   private MechanicStatus status;
   private Label label;
@@ -68,7 +80,7 @@ public class MechanicStatusControlContribution extends WorkbenchWindowControlCon
 
   public MechanicStatusControlContribution() {
     // to be registered in our initialize method, and disposed of with us
-    statusListener = new StatusChangeListener() {
+    statusListener = new IStatusChangeListener() {
       public void statusChanged(StatusChangedEvent e) {
         setMechanicStatus(e.getStatus());
         updateDisplay();
@@ -278,8 +290,8 @@ public class MechanicStatusControlContribution extends WorkbenchWindowControlCon
     PASSED("All tasks passed. Double click to re-check."), FAILED(new Object() {
       @Override
       public String toString() {
-        return String.format("%d failing tasks. Click to fix.", MechanicService.getInstance()
-            .getFailingItemCount());
+        return String.format("%d failing tasks. Click to fix.",
+            MechanicService.getInstance().getFailingItemCount());
       }
     }), UPDATING("Updating..."), STOPPED("Service is stopped.");
 

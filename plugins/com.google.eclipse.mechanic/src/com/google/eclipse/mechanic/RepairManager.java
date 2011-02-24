@@ -28,7 +28,7 @@ public class RepairManager implements Runnable {
 
   private final MechanicLog log = MechanicLog.getDefault();
 
-  private final MechanicService service;
+  private final IMechanicService service;
   private final List<Task> failing;
   private final RepairDecisionProvider choiceProvider;
 
@@ -37,13 +37,13 @@ public class RepairManager implements Runnable {
    * @param failing list of failing {@link Task}s. Doesn't modify the list.
    * @param choiceProvider a mechanism for determining how to react to failed tasks.
    */
-  public RepairManager(MechanicService service, List<Task> failing,
+  public RepairManager(IMechanicService service, List<Task> failing,
       RepairDecisionProvider choiceProvider) {
 
     Util.checkArgument(!failing.isEmpty(), "'failing' cannot be empty");
-    this.service = service;
-    this.failing = failing;
-    this.choiceProvider = choiceProvider;
+    this.service = Util.checkNotNull(service);
+    this.failing = Util.checkNotNull(failing);
+    this.choiceProvider = Util.checkNotNull(choiceProvider);
   }
 
   /**
