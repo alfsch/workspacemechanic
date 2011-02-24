@@ -13,8 +13,8 @@ package com.google.eclipse.mechanic;
 /**
  * Interface for collecting tasks from {@link TaskScanner}s.
  *
- * <p>This is the main communications channel between the {@link
- * com.google.eclipse.mechanic.MechanicService} and the {@link TaskScanner}s.
+ * <p>This is the main communications channel between the {@link MechanicService} and the
+ * {@link TaskScanner}s.
  *
  * @author konigsberg@google.com (Robert Konigsberg)
  */
