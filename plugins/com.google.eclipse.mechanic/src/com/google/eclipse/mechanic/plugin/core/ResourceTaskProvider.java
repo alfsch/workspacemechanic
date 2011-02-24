@@ -34,11 +34,17 @@ public abstract class ResourceTaskProvider {
    */
   public abstract List<ResourceTaskReference> getTaskReferences(String localPath, String extFilter);
 
+  /**
+   * Throws exception, ensures subclasses implement equals method.
+   */
   @Override
   public boolean equals(Object obj) {
     throw new RuntimeException(this.getClass().getName() + "doesn't implement equals");
   }
 
+  /**
+   * Throws exception, ensures subclasses implement hashCode method.
+   */
   @Override
   public int hashCode() {
     throw new RuntimeException(this.getClass().getName() + "doesn't implement hashCode");
