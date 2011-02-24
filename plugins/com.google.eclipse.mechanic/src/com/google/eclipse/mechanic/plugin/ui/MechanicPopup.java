@@ -11,9 +11,12 @@ package com.google.eclipse.mechanic.plugin.ui;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontData;
+import org.eclipse.swt.graphics.GC;
+import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -99,7 +102,19 @@ public class MechanicPopup extends AbstractPopup {
 
   private Hyperlink createHyperlink(Composite parent, String text,
       final Runnable runnable) {
-    Hyperlink hyperlink = new Hyperlink(parent, 0);
+    Hyperlink hyperlink = new Hyperlink(parent, 0) {
+      @Override
+      protected void paint(PaintEvent e) {
+        // From half of Hyperlink.paint, this removes the part that
+        // draws the focus border.
+        GC gc = e.gc;
+        Rectangle clientArea = getClientArea();
+        if (clientArea.width == 0 || clientArea.height == 0) {
+          return;
+        }
+        paintHyperlink(gc);
+      }
+    };
     Color background = parent.getBackground();
     hyperlink.setBackground(background);
     hyperlink.setText(text);
