@@ -63,17 +63,27 @@ public final class MechanicService {
     PASSED, FAILED, BLOCKED
   }
 
+  private static class Collector implements TaskCollector {
+    private final Set<Task> tasks = new LinkedHashSet<Task>();
+
+    public void add(Task task) {
+      tasks.add(task);
+    }
+
+    public Set<Task> getTasks() {
+      return tasks;
+    }
+
+    public void reset() {
+      tasks.clear();
+    }
+  }
+
   private final MechanicLog log = MechanicLog.getDefault();
 
   private final RootTaskScanner scanner = RootTaskScanner.getInstance();
-  private final Set<Task> allTasks = new LinkedHashSet<Task>();
   private final Map<Task, TaskStatus> taskStatus = Util.newHashMap();
-  private final TaskCollector collector = new TaskCollector() {
-    // Serves as a proxy to allTasks.
-    public void add(Task task) {
-      allTasks.add(task);
-    }
-  };
+  private final Collector collector = new Collector();
 
   // those registered to receive events we generate
   private final Set<StatusChangeListener> statusChangeListeners = Util.newHashSet();
@@ -241,7 +251,7 @@ public final class MechanicService {
    * Returns an immutable set of all the currently known tasks, passing or not.
    */
   public Set<Task> getAllKnownTasks() {
-    return Collections.unmodifiableSet(allTasks);
+    return Collections.unmodifiableSet(collector.getTasks());
   }
 
   /**
@@ -263,14 +273,14 @@ public final class MechanicService {
     // something to scanner.
 
     // clear out the items
-    allTasks.clear();
+    collector.reset();
     scanner.scan(collector);
 
     monitor.subTask("Evaluating Tasks");
     monitor.worked(1);
 
     // test tasks and figure out which ones are blocked
-    updateTaskStatus(new SubProgressMonitor(monitor, allTasks.size()));
+    updateTaskStatus(new SubProgressMonitor(monitor, collector.getTasks().size()));
 
     monitor.worked(1);
   }
@@ -283,11 +293,11 @@ public final class MechanicService {
 
     Set<String> blocked = MechanicPreferences.getBlockedTaskIds();
 
-    monitor.beginTask("", allTasks.size());
+    monitor.beginTask("", collector.getTasks().size());
     try {
       taskStatus.clear();
 
-      for (Task task : allTasks) {
+      for (Task task : collector.getTasks()) {
         monitor.subTask("Evaluating: " + task.getId());
 
         if (blocked.contains(task.getId())) {
@@ -342,7 +352,7 @@ public final class MechanicService {
   private List<Task> getFailingItems() {
 
     List<Task> failing = Util.newArrayList();
-    for (Task item : allTasks) {
+    for (Task item : collector.getTasks()) {
       TaskStatus status = taskStatus.get(item);
       if (TaskStatus.FAILED == status) {
         failing.add(item);
