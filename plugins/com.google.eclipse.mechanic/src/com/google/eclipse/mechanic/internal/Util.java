@@ -18,6 +18,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Misc util methods as previously provided by collections and base.
@@ -146,6 +147,13 @@ public final class Util {
   }
 
   /**
+   * Creates a {@code ConcurrentHashMap} instance.
+   */
+  public static <K, V> ConcurrentHashMap<K, V> newConcurrentHashMap() {
+    return new ConcurrentHashMap<K, V>();
+  }
+
+  /**
    * Creates an empty HashSet instance.
    */
   public static <E> HashSet<E> newHashSet() {
@@ -219,4 +227,17 @@ public final class Util {
   public static boolean equals(Object one, Object two) {
     return ((one == null && two == null)) || (one != null && one.equals(two));
   }
-}
+
+  /**
+   * Given an InputStream, return its contents as a byte array.
+   */
+  public static byte[] getBytes(InputStream is) throws IOException {
+    ByteArrayOutputStream os = new ByteArrayOutputStream();
+    int count;
+    byte[] data = new byte[8192];
+    while ((count = is.read(data, 0, data.length)) != -1) {
+      os.write(data, 0, count);
+    }
+    os.flush();
+    return os.toByteArray();
+  }}

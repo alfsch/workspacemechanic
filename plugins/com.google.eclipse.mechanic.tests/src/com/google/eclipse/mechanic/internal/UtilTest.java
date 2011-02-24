@@ -9,9 +9,12 @@
 
 package com.google.eclipse.mechanic.internal;
 
-import junit.framework.TestCase;
-
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Arrays;
+
+import junit.framework.TestCase;
 
 import com.google.eclipse.mechanic.tests.internal.RunAsJUnitTest;
 
@@ -131,6 +134,25 @@ public class UtilTest extends TestCase {
     assertFalse(Util.equals(first, null));
     assertTrue(Util.equals(first, first));
     assertFalse(Util.equals(first, second));
+  }
+
+  public void testGetBytes() throws Exception {
+    testGetBytes(new byte [ ] { });
+    testGetBytes(new byte [ ] { 1, 2, 3, 4, 5, 6, 7 });
+    testGetBytes("Now is the time to come to the aid of our contry.".getBytes());
+    StringBuilder big = new StringBuilder();
+    for (int i = 1; i < 1000; i++) {
+      big.append("this is a giant string, we want it to be very long. When it is very long");
+      big.append("then the string will be read in multiple chunks.");
+    }
+    testGetBytes(big.toString().getBytes());
+  }
+
+  private void testGetBytes(byte[] expected) throws IOException {
+    InputStream is = new ByteArrayInputStream(expected);
+    byte[] actual = Util.getBytes(is);
+    is.close();
+    assertTrue(Arrays.equals(expected, actual));
   }
 
   private void assertArray(String[] actual, String... expected) {
