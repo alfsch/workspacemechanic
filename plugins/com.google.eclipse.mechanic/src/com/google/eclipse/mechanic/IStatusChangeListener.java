@@ -15,7 +15,7 @@ package com.google.eclipse.mechanic;
  *
  * @author smckay@google.com (Steve McKay)
  */
-public interface StatusChangeListener {
+public interface IStatusChangeListener {
 
   void statusChanged(StatusChangedEvent event);
 

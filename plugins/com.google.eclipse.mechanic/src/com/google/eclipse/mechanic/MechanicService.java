@@ -33,14 +33,7 @@ import com.google.eclipse.mechanic.plugin.core.MechanicLog;
 import com.google.eclipse.mechanic.plugin.core.MechanicPreferences;
 
 /**
- * MechanicService provides basic services like scanning for and execution of
- * {@link Task}s. The service also provides hooks for other components to
- * interact with the service, display service information and invoke the basic
- * services.
- *
- * <p>To be of any use at all the service needs to be started when Eclipse
- * starts. This can easily be done using the {@code org.eclipse.ui.statup}
- * extension point.
+ * {@inheritDoc}
  *
  * <p>The service doesn't itself expose any UI components. This should be done
  * using an AbstractWorkbenchTrimWidget an IViewPart or some other GUI
@@ -52,7 +45,7 @@ import com.google.eclipse.mechanic.plugin.core.MechanicPreferences;
  *
  * @author smckay@google.com (Steve McKay)
  */
-public final class MechanicService {
+public final class MechanicService implements IMechanicService {
 
   private static final MechanicService instance = new MechanicService();
 
@@ -86,7 +79,8 @@ public final class MechanicService {
   private final Collector collector = new Collector();
 
   // those registered to receive events we generate
-  private final Set<StatusChangeListener> statusChangeListeners = Util.newHashSet();
+  // TODO(konigsberg): Change to CopyOnWriteArrayList
+  private final Set<IStatusChangeListener> statusChangeListeners = Util.newHashSet();
 
   // the job we use to run us periodically. We provide our own faux
   // job control as part of our interface.
@@ -99,7 +93,7 @@ public final class MechanicService {
   /**
    * Returns an instance of MechanicService.
    */
-  public static MechanicService getInstance() {
+  public static IMechanicService getInstance() {
     return instance;
   }
 
@@ -121,6 +115,8 @@ public final class MechanicService {
   }
 
   /**
+   * {@inheritDoc}
+   *
    * Causes the job to start as soon as possible. If the job is already running
    * it has no affect.
    */
@@ -131,11 +127,11 @@ public final class MechanicService {
   }
 
   /**
+   * {@inheritDoc}
+   *
    * Causes our Job to sleep, meaning that it will no longer be scheduled
    * to wake at certain intervals. Calling {@link #start()} or
    * {@link #reschedule()} will cause the job to run again.
-   *
-   * TODO(smckay): remember stopped state across sessions.
    */
   public void stop() {
 
@@ -148,6 +144,9 @@ public final class MechanicService {
     setStatus(MechanicStatus.STOPPED);
   }
 
+  /**
+   * {@inheritDoc}
+   */
   public boolean isStopped() {
     return currentStatus == MechanicStatus.STOPPED;
   }
@@ -172,17 +171,11 @@ public final class MechanicService {
     return Status.OK_STATUS;
   }
 
+
   /**
-   * Adds the supplied listener to status change events for the Mechanic (not the
-   * Job). UI components can use this facility to get notifications announcing
-   * changes in the MechanicService.
-   *
-   * <p>Callers of this method should note that Mechanic Service will
-   * immediately send a notification to the supplied listener when this method
-   * is called. Also, callers should remember to unsubscribe listeners when
-   * they are disposed (or otherwise reach the end of their life).
+   * {@inheritDoc}
    */
-  public void addTaskStatusChangeListener(StatusChangeListener listener) {
+  public void addTaskStatusChangeListener(IStatusChangeListener listener) {
     statusChangeListeners.add(listener);
     notifyListener(listener); // send courtesy update with current status
   }
@@ -193,7 +186,7 @@ public final class MechanicService {
    *
    * @param listener listener to receive status update notifications.
    */
-  public void removeTaskStatusChangeListener(StatusChangeListener listener) {
+  public void removeTaskStatusChangeListener(IStatusChangeListener listener) {
     statusChangeListeners.remove(listener);
   }
 
@@ -248,15 +241,14 @@ public final class MechanicService {
   }
 
   /**
-   * Returns an immutable set of all the currently known tasks, passing or not.
+   * {@inheritDoc}
    */
   public Set<Task> getAllKnownTasks() {
     return Collections.unmodifiableSet(collector.getTasks());
   }
 
   /**
-   * A temporary solution allowing the trim widget to display the number
-   * of failing items to the user.
+   * {@inheritDoc}
    */
   public int getFailingItemCount() {
     return getFailingItems().size();
@@ -331,7 +323,7 @@ public final class MechanicService {
    */
   private void notifyListeners() {
 
-    for (StatusChangeListener listener : statusChangeListeners) {
+    for (IStatusChangeListener listener : statusChangeListeners) {
       notifyListener(listener);
     }
   }
@@ -339,7 +331,7 @@ public final class MechanicService {
   /**
    * Sends a status changed notification to the specified listener.
    */
-  private void notifyListener(StatusChangeListener listener) {
+  private void notifyListener(IStatusChangeListener listener) {
 
     // sends a notification in the UI thread. If we get other
     // listeners in other threads we'll need to re-think this model
@@ -384,11 +376,11 @@ public final class MechanicService {
    */
   private static class NotificationDispatcher implements Runnable {
 
-    private final StatusChangeListener listener;
+    private final IStatusChangeListener listener;
 
     private final MechanicStatus status;
 
-    public NotificationDispatcher(StatusChangeListener listener, MechanicStatus status) {
+    public NotificationDispatcher(IStatusChangeListener listener, MechanicStatus status) {
       this.listener = listener;
       this.status = status;
     }
