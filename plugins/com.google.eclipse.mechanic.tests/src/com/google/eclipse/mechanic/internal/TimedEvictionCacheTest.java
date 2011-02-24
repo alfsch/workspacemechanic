@@ -13,6 +13,9 @@ import com.google.eclipse.mechanic.tests.internal.RunAsJUnitTest;
 
 import junit.framework.TestCase;
 
+/**
+ * Tests for {@link TimedEvictionCache}.
+ */
 @RunAsJUnitTest
 public class TimedEvictionCacheTest extends TestCase {
 
@@ -66,7 +69,6 @@ public class TimedEvictionCacheTest extends TestCase {
     }
   }
 
- 
   public void testCache() {
     TestingCache<String, String> cache = new TestingCache<String, String>(0);
     assertMetrics(cache, 0, 0, 0, 0);
