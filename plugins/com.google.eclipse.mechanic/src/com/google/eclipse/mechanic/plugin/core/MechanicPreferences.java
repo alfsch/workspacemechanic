@@ -127,7 +127,8 @@ public class MechanicPreferences {
       }
       ResourceTaskProvider provider;
       if (uri.getScheme() != null) {
-        provider = new UriTaskProvider(uri, UriCaches.getStateSensitiveCache());
+        provider = new UriTaskProvider(uri, UriCaches.getStateSensitiveCache(),
+            UriCaches.getLifetimeCache());
       } else {
         provider = new FileTaskProvider(new File(source));
       }

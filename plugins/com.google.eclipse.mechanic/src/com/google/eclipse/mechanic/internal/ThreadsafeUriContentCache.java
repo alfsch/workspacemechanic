@@ -18,6 +18,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import java.util.concurrent.FutureTask;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Stores content from URIs to prevent re-scanning for the same content.
@@ -32,8 +33,12 @@ public class ThreadsafeUriContentCache implements IUriContentProvider {
     cache = TimedEvictionCache.create(0L);
   }
 
-  public ThreadsafeUriContentCache(long lifetimeMillis) {
-    cache = TimedEvictionCache.create(lifetimeMillis);
+  public ThreadsafeUriContentCache(long durationMillis) {
+    cache = TimedEvictionCache.create(durationMillis);
+  }
+
+  public ThreadsafeUriContentCache(int duration, TimeUnit unit) {
+    this(unit.toMillis(duration));
   }
 
   public InputStream get(final URI uri) throws IOException {

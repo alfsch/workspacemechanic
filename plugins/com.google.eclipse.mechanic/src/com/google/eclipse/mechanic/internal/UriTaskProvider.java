@@ -10,7 +10,6 @@ package com.google.eclipse.mechanic.internal;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.MalformedURLException;
 import java.net.URI;
 import java.util.List;
 
@@ -23,12 +22,16 @@ import com.google.eclipse.mechanic.plugin.core.ResourceTaskReference;
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
 
+/**
+ * Provides information about tasks that come from URIs.
+ */
 public final class UriTaskProvider extends ResourceTaskProvider {
   private final URI uri;
 
   private UriTaskProviderModel model;
 
-  private final IUriContentProvider contentProvider;
+  private final IUriContentProvider stateSensitiveCache;
+  private final IUriContentProvider longTermCache;
 
   private final class TaskReference implements ResourceTaskReference {
     private final URI uri;
@@ -42,7 +45,7 @@ public final class UriTaskProvider extends ResourceTaskProvider {
     }
 
     public InputStream newInputStream() throws IOException {
-      return contentProvider.get(uri);
+      return longTermCache.get(uri);
     }
 
     public String getName() {
@@ -59,18 +62,29 @@ public final class UriTaskProvider extends ResourceTaskProvider {
     }
   }
 
-  public UriTaskProvider(URI uri, IUriContentProvider contentProvider) {
+  /**
+   * Create a new instance.
+   *
+   * <p>This constructor takes two caches. One has a shorter lifetime and so is more frequently
+   * polled, to get the list of tasks to process. The other has a longer lifetime (12 hours
+   * ATM) and is used to cache actual tasks (e.g. .epf files) which are much less likely to change.
+   *
+   * @param uri The URI that contains information about tasks.
+   * @param stateSensitiveCache short term cache.
+   * @param longTermCache long term cache.
+   */
+  public UriTaskProvider(URI uri, IUriContentProvider stateSensitiveCache,
+      IUriContentProvider longTermCache) {
     this.uri = Util.checkNotNull(uri);
-    this.contentProvider = Util.checkNotNull(contentProvider);
+    this.stateSensitiveCache = Util.checkNotNull(stateSensitiveCache);
+    this.longTermCache = Util.checkNotNull(longTermCache);
   }
 
   @Override
   public IStatus initialize() {
     InputStream inputStream;
     try {
-      inputStream = uri.toURL().openStream();
-    } catch (MalformedURLException e) {
-      return newExceptionStatus(e);
+      inputStream = stateSensitiveCache.get(uri);
     } catch (IOException e) {
       return newExceptionStatus(e);
     }

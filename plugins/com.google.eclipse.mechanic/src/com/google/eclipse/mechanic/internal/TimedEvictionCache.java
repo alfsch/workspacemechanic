@@ -23,7 +23,7 @@ import java.util.Map;
  */
 public class TimedEvictionCache<K, V> {
 
-  private final long lifetimeMillis;
+  private final long durationMillis;
   private final Object lock = new Object();
 
   private int requests;
@@ -46,18 +46,18 @@ public class TimedEvictionCache<K, V> {
    *
    * @param <K> The type of keys stored in the cache.
    * @param <V> The type of values stored in the cache.
-   * @param lifetimeMillis The duration, in milliseconds, that a cache entry is
+   * @param durationMillis The duration, in milliseconds, that a cache entry is
    * considered valid. If this value is zero (or negative) entries are
    * not evicted until {@link #clear()} is called.
    */
   public static <K, V>TimedEvictionCache<K, V> create(
-      long lifetimeMillis) {
-    return new TimedEvictionCache<K, V>(lifetimeMillis);
+      long durationMillis) {
+    return new TimedEvictionCache<K, V>(durationMillis);
   }
 
   /** Package private for testing */
-  TimedEvictionCache(long lifetimeMillis) {
-    this.lifetimeMillis = lifetimeMillis;
+  TimedEvictionCache(long durationMillis) {
+    this.durationMillis = durationMillis;
   }
 
   /**
@@ -80,7 +80,7 @@ public class TimedEvictionCache<K, V> {
         cache.put(key, candidate);
         return null;
       }
-      if (lifetimeMillis > 0 && ((now - prior.creationTimeMillis) > lifetimeMillis)) {
+      if (durationMillis > 0 && ((now - prior.creationTimeMillis) > durationMillis)) {
         evictions++;
         cache.put(key, candidate);
         return null;
