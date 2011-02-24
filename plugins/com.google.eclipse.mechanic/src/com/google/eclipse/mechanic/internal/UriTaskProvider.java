@@ -28,6 +28,8 @@ public final class UriTaskProvider extends ResourceTaskProvider {
 
   private UriTaskProviderModel model;
 
+  private final IUriContentProvider contentProvider;
+
   private final class TaskReference implements ResourceTaskReference {
     private final URI uri;
 
@@ -39,8 +41,8 @@ public final class UriTaskProvider extends ResourceTaskProvider {
       return UriTaskProvider.this;
     }
 
-    public InputStream newInputStream() throws MalformedURLException, IOException {
-      return uri.toURL().openStream();
+    public InputStream newInputStream() throws IOException {
+      return contentProvider.get(uri);
     }
 
     public String getName() {
@@ -57,8 +59,9 @@ public final class UriTaskProvider extends ResourceTaskProvider {
     }
   }
 
-  public UriTaskProvider(URI uri) {
+  public UriTaskProvider(URI uri, IUriContentProvider contentProvider) {
     this.uri = Util.checkNotNull(uri);
+    this.contentProvider = Util.checkNotNull(contentProvider);
   }
 
   @Override
