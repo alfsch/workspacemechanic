@@ -33,8 +33,6 @@ public class MechanicPlugin extends AbstractUIPlugin {
   // The shared instance
   private static MechanicPlugin plugin;
 
-  private static BundleContext context;
-
   private volatile IPreferenceRecordingService preferenceRecordingService =
       new PreferenceRecordingService();
 
@@ -47,7 +45,6 @@ public class MechanicPlugin extends AbstractUIPlugin {
   @Override 
   public void start(BundleContext context) throws Exception {
     super.start(context);
-    MechanicPlugin.context = context;
 
     // popup notifier must start before the mechanic service in order to
     // catch the first statuses.
@@ -72,14 +69,6 @@ public class MechanicPlugin extends AbstractUIPlugin {
    */
   public static MechanicPlugin getDefault() {
     return plugin;
-  }
-
-  /**
-   * Returns the {@link BundleContext} for this bundle (aka plugin). Useful
-   * for fiddling about with the underlying OSGi platform.
-   */
-  public BundleContext getBundleContext() {
-    return context;
   }
 
   /**
