@@ -28,6 +28,14 @@ public class UriCaches {
   // This provider is used for fetching .epf and other web resources.
   private static IUriContentProvider lifetime = null;
 
+  // Since |stateSensitive| and |lifetime| can change over time they
+  // can't be held on to by outside clients. These two proxies are
+  // passed to the callers and can be kept forever.
+  private static final ProxyUriContentProvider stateSensitiveProxy =
+        new ProxyUriContentProvider(null);
+  private static final ProxyUriContentProvider lifetimeProxy =
+      new ProxyUriContentProvider(null);
+
   private static final IPreferenceChangeListener listener =
       new IPreferenceChangeListener() {
     public void preferenceChange(PreferenceChangeEvent event) {
@@ -48,6 +56,7 @@ public class UriCaches {
 
     stateSensitive = new StateSensitiveCache(
         MechanicService.getInstance(), threadsafeUriContentCache);
+    stateSensitiveProxy.set(stateSensitive);
 
     boolean isEnabled = MechanicPreferences.isWebCacheEnabled();
     int ageHours = MechanicPreferences.getWebCacheEntryAgeHours();
@@ -56,6 +65,7 @@ public class UriCaches {
     } else {
       lifetime = standardProvider;
     }
+    lifetimeProxy.set(lifetime);
     stateSensitive.initialize();
 
     MechanicPreferences.addListener(listener);
@@ -81,13 +91,13 @@ public class UriCaches {
    * starts updating.
    */
   public static IUriContentProvider getStateSensitiveCache() {
-    return stateSensitive;
+    return stateSensitiveProxy;
   }
 
   /**
    * Get the content provider whose cache contents are cleared every 12 hours.
    */
   public static IUriContentProvider getLifetimeCache() {
-    return lifetime;
+    return lifetimeProxy;
   }
 }
