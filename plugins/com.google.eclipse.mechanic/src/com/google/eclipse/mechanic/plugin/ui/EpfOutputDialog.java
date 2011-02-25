@@ -9,8 +9,12 @@
 
 package com.google.eclipse.mechanic.plugin.ui;
 
-import com.google.eclipse.mechanic.internal.TaskType;
-import com.google.eclipse.mechanic.internal.EpfFileModel;
+import java.io.File;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
@@ -47,14 +51,9 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Text;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import com.google.eclipse.mechanic.internal.EpfFileModel;
+import com.google.eclipse.mechanic.internal.TaskType;
+import com.google.eclipse.mechanic.plugin.core.MechanicLog;
 
 /**
  * The dialog to obtain properties for outputting an EPF file.
@@ -62,7 +61,6 @@ import java.util.logging.Logger;
  * @author brianchin@google.com (Brian Chin)
  */
 public class EpfOutputDialog extends Dialog {
-  private static Logger LOG = Logger.getLogger(EpfOutputDialog.class.getName()); 
 
   /**
    * Provides labels and colors for cells to the saved preferences table. Handles
@@ -360,7 +358,7 @@ public class EpfOutputDialog extends Dialog {
       epfFile.writeFile(destinationPath);
       super.okPressed(); // Closes the dialog and returns an OK result
     } catch (IOException e) {
-      LOG.log(Level.SEVERE, "An IO exception occured", e);
+      MechanicLog.getDefault().logError(e, "Error while writing %s", destinationPath);
     }
   }
 
