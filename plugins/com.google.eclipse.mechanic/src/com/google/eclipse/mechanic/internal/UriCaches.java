@@ -10,42 +10,70 @@ package com.google.eclipse.mechanic.internal;
 
 import java.util.concurrent.TimeUnit;
 
+import org.eclipse.core.runtime.preferences.IEclipsePreferences.IPreferenceChangeListener;
+import org.eclipse.core.runtime.preferences.IEclipsePreferences.PreferenceChangeEvent;
+
 import com.google.eclipse.mechanic.MechanicService;
+import com.google.eclipse.mechanic.plugin.core.MechanicPreferences;
 
 /**
  * Web content caches.
  */
 public class UriCaches {
-
-  // While these static instances are nice, it's probably going to need be dynamic at runtime when
-  // someone complains "I don't want content cached for 12 hours!"
-
-  // Here's what this is saying:
-
-  // This content provider fetches URIs from the web using uri.toURL.openStream();
-  private static final IUriContentProvider standardProvider = new StandardContentProvider();
-
-  // This content provider fetches from the web and caches the results until |clear| is called.
-  private static final IUriContentProvider threadsafeUriContentCache =
-      new ThreadsafeUriContentCache(0, TimeUnit.MILLISECONDS, standardProvider);
-
   // This content provider uses the cache above, and clears the entries when the mechanic status
   // changes to Updating. It's the one used to fetch URL task metadata. This is the cache from
   // which UriTaskProviderModel instances come from.
-  private static final StateSensitiveCache stateSensitive =
-      new StateSensitiveCache(MechanicService.getInstance(), threadsafeUriContentCache);
+  private static StateSensitiveCache stateSensitive = null;
 
-  // This cache keeps its entries for 12 hours. It's used for fetching .epf and other files
-  // from the web.
-  private static final IUriContentProvider lifetime =
-      new ThreadsafeUriContentCache(12, TimeUnit.HOURS, standardProvider);
+  // This provider is used for fetching .epf and other web resources.
+  private static IUriContentProvider lifetime = null;
+
+  private static final IPreferenceChangeListener listener =
+      new IPreferenceChangeListener() {
+    public void preferenceChange(PreferenceChangeEvent event) {
+      if (MechanicPreferences.CACHE_URI_AGE_HOURS_PREF.equals(event.getKey()) ||
+          MechanicPreferences.CACHE_URI_CONTENT_PREF.equals(event.getKey())) {
+        resetCaches();
+      }
+    }
+  };
 
   public static void initialize() {
+    // This content provider fetches URIs from the web using uri.toURL.openStream();
+    IUriContentProvider standardProvider = new StandardContentProvider();
+
+    // This content provider fetches from the web and caches the results until |clear| is called.
+    IUriContentProvider threadsafeUriContentCache =
+        new ThreadsafeUriContentCache(0, TimeUnit.MILLISECONDS, standardProvider);
+
+    stateSensitive = new StateSensitiveCache(
+        MechanicService.getInstance(), threadsafeUriContentCache);
+
+    boolean isEnabled = MechanicPreferences.isWebCacheEnabled();
+    int ageHours = MechanicPreferences.getWebCacheEntryAgeHours();
+    if (isEnabled) {
+      lifetime = new ThreadsafeUriContentCache(ageHours, TimeUnit.HOURS, standardProvider);
+    } else {
+      lifetime = standardProvider;
+    }
     stateSensitive.initialize();
+
+    MechanicPreferences.addListener(listener);
+  }
+
+  private static void resetCaches() {
+    clear();
+    initialize();
+  }
+
+  public static void clear() {
+    lifetime.clear();
+    stateSensitive.dispose();
   }
 
   public static void destroy() {
-    stateSensitive.dispose();
+    clear();
+    MechanicPreferences.removeListener(listener);
   }
 
   /**

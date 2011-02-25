@@ -27,6 +27,7 @@ public final class ThreadsafeUriContentCache implements IUriContentProvider {
   // Do not store URLs in the cache. URL's hashCode is bad, as in, _really_ bad.
   private final TimedEvictionCache<URI, FutureTask<byte[]>> cache;
   private final IUriContentProvider delegate;
+  private final boolean cacheFileUris = false;
   private final Executor executor = Executors.newSingleThreadExecutor();
 
   public ThreadsafeUriContentCache(int duration, TimeUnit unit, IUriContentProvider delegate) {
@@ -37,6 +38,10 @@ public final class ThreadsafeUriContentCache implements IUriContentProvider {
   }
 
   public InputStream get(final URI uri) throws IOException {
+    // short cut -- no to cache URIs to files.
+    if (!cacheFileUris && "file".equals(uri.getScheme())) {
+      return delegate.get(uri);
+    }
     FutureTask<byte[]> future = new FutureTask<byte[]>(new Callable<byte[]>() {
       public byte[] call() throws IOException {
         return Util.getBytes(delegate.get(uri));

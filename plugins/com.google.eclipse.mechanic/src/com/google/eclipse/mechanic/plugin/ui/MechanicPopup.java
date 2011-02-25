@@ -137,13 +137,13 @@ public class MechanicPopup extends AbstractPopup {
   }
 
   /**
-   * Implement to correct configuration issues.
+   * Implement in subclass to correct configuration issues.
    */
   public void correctConfigurationIssues() {
   }
 
   /**
-   * Implement to hide popup
+   * Implement in subclass to hide popup
    */
   public void doNotShowPopup() {
   }

@@ -84,10 +84,31 @@ public class MechanicPreferences {
    */
   public static final String SHOW_POPUP_PREF = "showPopup";
 
+  /**
+   * Preference string to enable web content caching.
+   *
+   * <p>Stores a boolean.
+   */
+  public static final String CACHE_URI_CONTENT_PREF = "cacheUriContent";
+
+  /**
+   * Preference string that defines the maximum lifetime of web cache entries, in hours.
+   *
+   * <p>Stores an integer.
+   */
+  public static final String CACHE_URI_AGE_HOURS_PREF = "cacheUriAgeHours";
+
+  /**
+   * Minimum duration between tasks, in seconds.
+   */
   public static final int MINIMUM_SLEEP_SECONDS = 10;
 
   public static void addListener(IPreferenceChangeListener listener) {
     pluginPreferences.addPreferenceChangeListener(listener);
+  }
+
+  public static void removeListener(IPreferenceChangeListener listener) {
+    pluginPreferences.removePreferenceChangeListener(listener);
   }
 
   private static final Set<String> ignoredStrings = Util.newHashSet();
@@ -244,6 +265,23 @@ public class MechanicPreferences {
    */
   public static void doNotShowPopup() {
     pluginPreferences.putBoolean(SHOW_POPUP_PREF, false);
+  }
+
+  /**
+   * Return {@code true} if web caching is enabled.
+   */
+  public static boolean isWebCacheEnabled() {
+    return preferencesService.getBoolean(
+        MechanicPlugin.PLUGIN_ID, CACHE_URI_CONTENT_PREF, true, null);
+  }
+
+  /**
+   * Return the age of web cache entries, in hours. Meaningless when {@link
+   * #isWebCacheEnabled()} is {@code false}.
+   */
+  public static int getWebCacheEntryAgeHours() {
+    return preferencesService.getInt(
+        MechanicPlugin.PLUGIN_ID, CACHE_URI_AGE_HOURS_PREF, 0, null);
   }
 
   /**
