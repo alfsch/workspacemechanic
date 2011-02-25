@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -160,6 +161,13 @@ public final class Util {
     return new HashSet<E>();
   }
 
+
+  /**
+   * Creates an empty LinkedHashSet instance.
+   */
+  public static <E> LinkedHashSet<E> newLinkedHashSet() {
+    return new LinkedHashSet<E>();
+  }
   /**
    * Reads everything from an InputStream into a byte array.
    * Does not close the input stream.
@@ -240,4 +248,5 @@ public final class Util {
     }
     os.flush();
     return os.toByteArray();
-  }}
+  }
+}
