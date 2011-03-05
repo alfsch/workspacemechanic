@@ -64,7 +64,7 @@ public interface IMechanicService {
   /**
    * Returns an immutable set of all the currently known tasks, passing or not.
    */
-  Collection<? extends Task> getAllKnownTasks();
+  Collection<Task> getAllKnownTasks();
 
   /**
    * A temporary solution allowing the trim widget to display the number

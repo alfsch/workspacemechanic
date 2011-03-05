@@ -183,7 +183,7 @@ public class MechanicPreferencePage extends FieldEditorPreferencePage
     protected String getNewInputObject() {
 
       TaskSelectionDialog dlg = new TaskSelectionDialog(
-          shell, unblockedTasks);
+          shell, "Select a Task to block", unblockedTasks);
 
       // blocks until the user click OK or CANCEL
       dlg.open();

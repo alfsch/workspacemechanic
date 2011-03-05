@@ -66,7 +66,7 @@ public class StateSensitiveCacheTest extends TestCase {
       return null;
     }
 
-    public Collection<? extends Task> getAllKnownTasks() {
+    public Collection<Task> getAllKnownTasks() {
       return null;
     }
 

@@ -70,6 +70,8 @@ public class MechanicStatusControlContribution extends WorkbenchWindowControlCon
 
   private IAction stopRecordingAction = new StopRecordingAction();
 
+  private IAction showAllTasksAction = new ShowAllTasksAction();
+
   private final IMechanicService service = MechanicService.getInstance();
 
   private final IStatusChangeListener statusListener;
@@ -271,6 +273,8 @@ public class MechanicStatusControlContribution extends WorkbenchWindowControlCon
 
     menu.add(recordingMenu);
 
+    menu.add(showAllTasksAction);
+
     menu.add(new Separator());
     menu.add(prefsAction);
     if (helpAction != null) {
@@ -378,7 +382,7 @@ public class MechanicStatusControlContribution extends WorkbenchWindowControlCon
   }
 
   /**
-   * Action that stop the mechanic service.
+   * Action that stops the mechanic service.
    */
   private final class StopAction extends Action {
 
@@ -446,13 +450,32 @@ public class MechanicStatusControlContribution extends WorkbenchWindowControlCon
         Shell parentShell = Display.getCurrent().getActiveShell();
         EpfOutputDialog dialog = new EpfOutputDialog(parentShell, 
             collector.getPreferences());
-
         dialog.open();
       } catch (CoreException e) {
-        MechanicPlugin.getDefault().getLog().log(e.getStatus());
+        MechanicLog.getDefault().logError(e);
       }
     }
-
-
   }
+
+  /**
+   * Action that displays all existing tasks.
+   */
+  private final class ShowAllTasksAction extends Action {
+
+    public ShowAllTasksAction() {
+      setText("Show all tasks");
+    }
+
+    @Override
+    public void run() {
+      // Display dialog to get obtain properties of the saved task file
+      Shell parentShell = Display.getCurrent().getActiveShell();
+      TaskSelectionDialog dialog = new TaskSelectionDialog(parentShell,
+          "All known tasks",
+          MechanicService.getInstance().getAllKnownTasks());
+      dialog.setAddCancelButton(false);
+      dialog.open();
+    }
+  }
+
 }

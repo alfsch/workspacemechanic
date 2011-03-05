@@ -9,17 +9,22 @@
 
 package com.google.eclipse.mechanic.plugin.ui;
 
-import com.google.eclipse.mechanic.Task;
+import java.util.Collection;
 
-import org.eclipse.jface.viewers.ILabelProvider;
-import org.eclipse.jface.viewers.ILabelProviderListener;
-import org.eclipse.jface.viewers.IStructuredContentProvider;
-import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.jface.viewers.ArrayContentProvider;
+import org.eclipse.jface.viewers.ITableLabelProvider;
+import org.eclipse.jface.viewers.LabelProvider;
+import org.eclipse.jface.viewers.TableViewer;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.Table;
+import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.ui.dialogs.ListDialog;
 
-import java.util.List;
+import com.google.eclipse.mechanic.Task;
 
 /**
  * Allows the user to pick a single Task from a list of Tasks.
@@ -31,48 +36,67 @@ import java.util.List;
  */
 public final class TaskSelectionDialog extends ListDialog {
 
-  public TaskSelectionDialog(Shell parent, List<Task> items) {
+  public TaskSelectionDialog(Shell parent, String title,
+      Collection<Task> items) {
     super(parent);
     setInput(items);
-    setContentProvider(new ContentProvider());
-    setLabelProvider(new LabelProvider());
-    setTitle("Select a Task to block");
+    setContentProvider(ArrayContentProvider.getInstance());
+    setLabelProvider(new DefaultLabelProvider());
+    setTitle(title);
   }
 
-  /**
-   * Provides access to a list of Tasks.
-   */
-  private static class ContentProvider implements IStructuredContentProvider {
+  @Override
+  protected int getTableStyle() {
+    return SWT.BORDER | SWT.SINGLE | SWT.FULL_SELECTION;
+  }
 
-    @SuppressWarnings("unchecked")
-    public Object[] getElements(Object input) {
-      return ((List<Task>) input).toArray();
-    }
 
-    public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {}
-    public void dispose() {}
+  private TableColumn newTableColumn(Table table, String name, int width) {
+    TableColumn tc = new TableColumn(table, SWT.NONE, 0);
+    tc.setResizable(true);
+    tc.setText(name);
+    tc.setWidth(width);
+    return tc;
+  }
+
+  @Override
+  protected Control createDialogArea(Composite container) {
+    Control area = super.createDialogArea(container);
+    TableViewer tableViewer = getTableViewer();
+    Table table = tableViewer.getTable();
+    table.setHeaderVisible(true);
+    newTableColumn(table, "Name", 100);
+    newTableColumn(table, "ID", 100);
+    newTableColumn(table, "Description", 100);
+    tableViewer.refresh();
+    return area;
   }
 
   /**
    * Serializes Tasks for use in user facing dialogs.
    */
-  private static class LabelProvider implements ILabelProvider {
-
-    public String getText(Object element) {
-      Task item = ((Task) element);
-      return String.format("%s (%s)", item.getTitle(), item.getId());
-    }
+  private static class DefaultLabelProvider extends LabelProvider implements ITableLabelProvider {
 
     public boolean isLabelProperty(Object element, String property) {
       return false;
     }
 
-    public Image getImage(Object element) {
+    public Image getColumnImage(Object element, int columnIndex) {
       return null;
     }
 
-    public void dispose() {}
-    public void addListener(ILabelProviderListener listener) {}
-    public void removeListener(ILabelProviderListener listener) {}    
+    public String getColumnText(Object element, int columnIndex) {
+      Task item = ((Task) element);
+      switch(columnIndex) {
+      case 0:
+        return item.getTitle();
+      case 1:
+        return item.getId();
+      case 2:
+        return item.getDescription();
+      default:
+        return "" + columnIndex;
+      }
+    }
   }
 }

@@ -9,7 +9,6 @@
 
 package com.google.eclipse.mechanic;
 
-import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
@@ -171,7 +170,6 @@ public final class MechanicService implements IMechanicService {
     return Status.OK_STATUS;
   }
 
-
   /**
    * {@inheritDoc}
    */
@@ -244,7 +242,9 @@ public final class MechanicService implements IMechanicService {
    * {@inheritDoc}
    */
   public Set<Task> getAllKnownTasks() {
-    return Collections.unmodifiableSet(collector.getTasks());
+    Set<Task> set = Util.newLinkedHashSet();
+    set.addAll(collector.getTasks());
+    return set;
   }
 
   /**
@@ -260,9 +260,6 @@ public final class MechanicService implements IMechanicService {
   private void updateTasks(IProgressMonitor monitor) {
 
     monitor.subTask("Looking For Tasks");
-
-    // TODO(konigsberg): Pre-validate the directories and urls here. Wonder if we should add
-    // something to scanner.
 
     // clear out the items
     collector.reset();

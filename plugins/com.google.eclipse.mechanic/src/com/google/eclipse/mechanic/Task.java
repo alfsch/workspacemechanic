@@ -60,5 +60,4 @@ public interface Task {
    * into compliance.
    */
   public RepairAction getRepairAction();
-
 }
