@@ -82,6 +82,22 @@ public class UriTaskProviderModelParserTest extends TestCase {
     }
   }
 
+  public void testNoType_invalid() {
+    try {
+      UriTaskProviderModelParser.readForTests("{ tasks : [], metadata : { } }");
+      fail("Exception expected");
+    } catch(RuntimeException e) {
+    }
+  }
+
+  public void testBadType_invalid() {
+    try {
+      UriTaskProviderModelParser.readForTests("{ type : 'com.blah', tasks : [], metadata : { } }");
+      fail("Exception expected");
+    } catch(RuntimeException e) {
+    }
+  }
+
   public void testNoMetadata_invalid() {
     try {
       UriTaskProviderModelParser.readForTests("{ tasks : [ ] }");
@@ -127,7 +143,8 @@ public class UriTaskProviderModelParserTest extends TestCase {
   }
 
   private UriTaskProviderModel parse(String metadataText, String tasksText) {
-    String text = "{ " + metadataText + ", " + tasksText + "}";
+    String text = "{ type : 'com.google.eclipse.mechanic.UriTaskProviderModel', " +
+      metadataText + ", " + tasksText + "}";
     UriTaskProviderModel actual = UriTaskProviderModelParser.readForTests(text);
     return actual;
   }

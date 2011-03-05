@@ -67,11 +67,19 @@ public class UriTaskProviderModelParser {
   }
 
   private static class UriTaskModelAdapter implements JsonDeserializer<UriTaskProviderModel> {
+    private static final String TYPE = "com.google.eclipse.mechanic.UriTaskProviderModel";
+
     public UriTaskProviderModel deserialize(JsonElement json, Type typeOfT,
         JsonDeserializationContext context) throws JsonParseException {
       JsonObject jo = json.getAsJsonObject();
 
-      UriTaskProviderModel.Metadata metadata = (UriTaskProviderModel.Metadata) context.deserialize(jo.get("metadata"), Types.metadata);
+      JsonElement je = jo.get("type");
+      if (je == null || !je.getAsString().equals(TYPE)) {
+        throw new IllegalArgumentException(
+            String.format("URI task models must have an entry type='%s'", TYPE));
+      }
+      UriTaskProviderModel.Metadata metadata = (UriTaskProviderModel.Metadata) context.deserialize(
+          jo.get("metadata"), Types.metadata);
       if (metadata == null) {
         throw new JsonParseException("metadata is required");
       }
