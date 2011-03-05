@@ -30,7 +30,8 @@ public final class ThreadsafeUriContentCache implements IUriContentProvider {
   private final boolean cacheFileUris = false;
   private final Executor executor = Executors.newSingleThreadExecutor();
 
-  public ThreadsafeUriContentCache(int duration, TimeUnit unit, IUriContentProvider delegate) {
+  public ThreadsafeUriContentCache(int duration, TimeUnit unit,
+      IUriContentProvider delegate) {
     // TODO(konigsberg): create interface for cache so this constructor
     // doesn't require duration and timeunit all the time.
     cache = TimedEvictionCache.create(duration, unit);

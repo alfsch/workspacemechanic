@@ -33,7 +33,7 @@ public class MechanicPreferencesInitializer extends AbstractPreferenceInitialize
     store.setDefault(MechanicPreferences.HELP_URL_PREF,
         "http://code.google.com/a/eclipselabs.org/p/workspacemechanic/wiki/GettingStarted");
     store.setDefault(MechanicPreferences.SHOW_POPUP_PREF, true);
-    store.setDefault(MechanicPreferences.CACHE_URI_CONTENT_PREF, false);
-    store.setDefault(MechanicPreferences.CACHE_URI_AGE_HOURS_PREF, 12);
+//    store.setDefault(MechanicPreferences.CACHE_URI_CONTENT_PREF, false);
+//    store.setDefault(MechanicPreferences.CACHE_URI_AGE_HOURS_PREF, 12);
   }
 }

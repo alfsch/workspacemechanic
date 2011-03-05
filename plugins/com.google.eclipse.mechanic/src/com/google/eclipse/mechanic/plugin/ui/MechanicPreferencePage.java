@@ -15,9 +15,6 @@ import org.eclipse.jface.preference.BooleanFieldEditor;
 import org.eclipse.jface.preference.FieldEditorPreferencePage;
 import org.eclipse.jface.preference.IntegerFieldEditor;
 import org.eclipse.jface.preference.PathEditor;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Shell;
@@ -27,7 +24,6 @@ import org.eclipse.ui.PlatformUI;
 
 import com.google.eclipse.mechanic.MechanicService;
 import com.google.eclipse.mechanic.Task;
-import com.google.eclipse.mechanic.internal.UriCaches;
 import com.google.eclipse.mechanic.internal.Util;
 import com.google.eclipse.mechanic.plugin.core.MechanicPlugin;
 import com.google.eclipse.mechanic.plugin.core.MechanicPreferences;
@@ -101,51 +97,51 @@ public class MechanicPreferencePage extends FieldEditorPreferencePage
     addField(new BooleanFieldEditor(MechanicPreferences.SHOW_POPUP_PREF,
         "Show popup when tasks fail", getFieldEditorParent()));
 
-    addCacheFields(getFieldEditorParent());
+//    addCacheFields(getFieldEditorParent());
   }
 
-  private void addCacheFields(final Composite parent) {
-    final BooleanEditor cacheContentField = new BooleanEditor(MechanicPreferences.CACHE_URI_CONTENT_PREF,
-        "Enable web content cache", parent);
-
-    addField(cacheContentField);
-
-    final IntegerFieldEditor cacheAgeField = newMinimumRangeFieldEditor(
-        MechanicPreferences.CACHE_URI_AGE_HOURS_PREF,
-        "Cache entry lifetime (hours)",
-        0,
-        "Cache entry lifetime",
-        parent);
-
-    addField(cacheAgeField);
-
-    final Button clearCacheButton = new Button(parent, SWT.PUSH);
-    clearCacheButton.setText("Clear cache");
-    clearCacheButton.addSelectionListener(new SelectionAdapter() {
-      @Override
-      public void widgetSelected(SelectionEvent e) {
-        clearCacheButton.setEnabled(false);
-        try {
-          UriCaches.clear();
-        } finally {
-          clearCacheButton.setEnabled(true);
-        }
-      }
-    });
-
-    SelectionAdapter selectionChangeListener = new SelectionAdapter() {
-      @Override
-      public void widgetSelected(SelectionEvent e) {
-        cacheAgeField.setEnabled(cacheContentField.getBooleanValue(), parent);
-        clearCacheButton.setEnabled(cacheContentField.getBooleanValue());
-      }
-    };
-
-    cacheContentField.getControl().addSelectionListener(selectionChangeListener);
-
-    // triggers setting the field values.
-    selectionChangeListener.widgetSelected(null);
-  }
+//  private void addCacheFields(final Composite parent) {
+//    final BooleanEditor cacheContentField = new BooleanEditor(MechanicPreferences.CACHE_URI_CONTENT_PREF,
+//        "Enable web content cache", parent);
+//
+//    addField(cacheContentField);
+//
+//    final IntegerFieldEditor cacheAgeField = newMinimumRangeFieldEditor(
+//        MechanicPreferences.CACHE_URI_AGE_HOURS_PREF,
+//        "Cache entry lifetime (hours)",
+//        0,
+//        "Cache entry lifetime",
+//        parent);
+//
+//    addField(cacheAgeField);
+//
+//    final Button clearCacheButton = new Button(parent, SWT.PUSH);
+//    clearCacheButton.setText("Clear cache");
+//    clearCacheButton.addSelectionListener(new SelectionAdapter() {
+//      @Override
+//      public void widgetSelected(SelectionEvent e) {
+//        clearCacheButton.setEnabled(false);
+//        try {
+//          UriCaches.clear();
+//        } finally {
+//          clearCacheButton.setEnabled(true);
+//        }
+//      }
+//    });
+//
+//    SelectionAdapter selectionChangeListener = new SelectionAdapter() {
+//      @Override
+//      public void widgetSelected(SelectionEvent e) {
+//        cacheAgeField.setEnabled(cacheContentField.getBooleanValue(), parent);
+//        clearCacheButton.setEnabled(cacheContentField.getBooleanValue());
+//      }
+//    };
+//
+//    cacheContentField.getControl().addSelectionListener(selectionChangeListener);
+//
+//    // triggers setting the field values.
+//    selectionChangeListener.widgetSelected(null);
+//  }
 
   /*
    * Create an integer field editor with a minimum value.
