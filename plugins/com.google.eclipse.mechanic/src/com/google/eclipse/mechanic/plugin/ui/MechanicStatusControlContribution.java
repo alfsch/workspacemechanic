@@ -109,7 +109,7 @@ public class MechanicStatusControlContribution extends WorkbenchWindowControlCon
     label.setSize(22, 22);
     label.setEnabled(false);
 
-    RowLayout layout = new RowLayout(SWT.HORIZONTAL | SWT.BORDER);
+    RowLayout layout = new RowLayout(SWT.HORIZONTAL | SWT.VERTICAL | SWT.BORDER);
     layout.wrap = false;
     parent.setLayout(layout);
 
@@ -136,7 +136,7 @@ public class MechanicStatusControlContribution extends WorkbenchWindowControlCon
     images = Util.newHashMap();
 
     for (DisplayStatus ds : DisplayStatus.values()) {
-      String path = String.format("icons/%s.gif", ds.name().toLowerCase());
+      String path = String.format("icons/%s.png", ds.name().toLowerCase());
       ImageDescriptor desc = MechanicPlugin.getImageDescriptor(path);
       Image image = desc.createImage();
       images.put(ds, image);
@@ -144,7 +144,6 @@ public class MechanicStatusControlContribution extends WorkbenchWindowControlCon
   }
 
   private void updateDisplay() {
-
     /*
      * Don't do anything if the workbench is closed. Without this check we were
      * causing stack traces when workbench is closing.
@@ -159,7 +158,6 @@ public class MechanicStatusControlContribution extends WorkbenchWindowControlCon
       // as this may be the first update we've received, we enable our labels
       label.setEnabled(true);
       label.setImage(images.get(ds));
-      label.setSize(22, 22);
       label.setToolTipText(ds.toString());
     }
   }
