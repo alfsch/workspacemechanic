@@ -20,6 +20,6 @@ import org.eclipse.core.variables.IValueVariableInitializer;
  */
 public class UserHomeVariableInitializer implements IValueVariableInitializer {
   public void initialize(IValueVariable variable) {
-    variable.setValue(System.getenv("HOME"));
+    variable.setValue(System.getProperty("user.home"));
   }
 }
