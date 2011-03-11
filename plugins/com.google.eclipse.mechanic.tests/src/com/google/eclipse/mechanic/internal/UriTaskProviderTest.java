@@ -1,3 +1,11 @@
+/*******************************************************************************
+ * Copyright (C) 2011, Google Inc.
+ *
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *******************************************************************************/
 package com.google.eclipse.mechanic.internal;
 
 import static org.easymock.EasyMock.*;
@@ -14,6 +22,10 @@ import junit.framework.TestCase;
 import com.google.eclipse.mechanic.IResourceTaskReference;
 import com.google.eclipse.mechanic.tests.internal.RunAsJUnitTest;
 
+/**
+ * Tests for (@link {@link UriTaskProvider}.
+ *
+ */
 @RunAsJUnitTest
 public class UriTaskProviderTest extends TestCase {
   private static final String CONTENT =
