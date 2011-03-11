@@ -17,8 +17,15 @@ import com.google.eclipse.mechanic.plugin.core.ResourceTaskProvider;
  * A reference to a resource-based task.
  */
 public interface IResourceTaskReference {
+  /** Return the provider that created this task reference. */
   ResourceTaskProvider getProvider();
+
+  /** Return the name of the task reference. This is typically a local name. */
   String getName();
+
+  /** Return the task reference as an input stream. */
   InputStream newInputStream() throws IOException;
+
+  /** Return the task reference path. This is typically a full path. */
   String getPath();
 }

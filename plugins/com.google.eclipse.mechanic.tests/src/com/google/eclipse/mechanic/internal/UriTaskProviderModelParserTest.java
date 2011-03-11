@@ -10,6 +10,7 @@ package com.google.eclipse.mechanic.internal;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.List;
 
 import junit.framework.TestCase;
@@ -46,20 +47,21 @@ public class UriTaskProviderModelParserTest extends TestCase {
       null, "yo ho ho", null);
 
   private static final String TASKS_TEXT = 
-    "tasks: [" +
-    "  'http://www.google.com/path'," +
-    "  'http://www.google.com/path2'" +
-    "]";
+      "tasks: [" +
+      "  'http://www.google.com/path'," +
+      "  'http://www.google.com/path2'" +
+      "]";
 
-  private static final List<URI> TASKS = Util.newArrayList();
-  static {
-    try {
-      TASKS.add(new URI("http://www.google.com/path"));
-      TASKS.add(new URI("http://www.google.com/path2"));
-    } catch (URISyntaxException e) {
-      throw new RuntimeException(e);
-    }
-  }
+  private static final List<URI> TASKS = toList("http://www.google.com/path", "http://www.google.com/path2");
+
+  private static final String RELATIVE_TASKS_TEXT = 
+      "tasks: [" +
+      "  'path'," +
+      "  'path2'" +
+      "]";
+
+  private static final List<URI> RELATIVE_TASKS = toList("path", "path2");
+
 
   private static final String BAD_TASKS_TEXT = 
     "tasks: [" +
@@ -134,6 +136,12 @@ public class UriTaskProviderModelParserTest extends TestCase {
     }
   }
 
+  public void testRelativeResources() {
+    UriTaskProviderModel expected = new UriTaskProviderModel(GOOD_METADATA, RELATIVE_TASKS);
+    UriTaskProviderModel actual = parse(GOOD_METADATA_TEXT, RELATIVE_TASKS_TEXT);
+    assertEquals(expected, actual);
+  }
+
   private void testCombination(String metadataText, String tasksText,
       UriTaskProviderModel expected) {
     UriTaskProviderModel actual = parse(metadataText, tasksText);
@@ -147,5 +155,13 @@ public class UriTaskProviderModelParserTest extends TestCase {
       metadataText + ", " + tasksText + "}";
     UriTaskProviderModel actual = UriTaskProviderModelParser.readForTests(text);
     return actual;
+  }
+
+  private static List<URI> toList(String... raw) {
+    ArrayList<URI> list = Util.newArrayList();
+    for (String string : raw) {
+      list.add(URI.create(string));
+    }
+    return list;
   }
 }

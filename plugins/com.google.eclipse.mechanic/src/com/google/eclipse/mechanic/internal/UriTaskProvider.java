@@ -53,7 +53,7 @@ public final class UriTaskProvider extends ResourceTaskProvider {
     }
 
     public String getPath() {
-      return uri.getPath();
+      return uri.toString();
     }
 
     @Override
@@ -118,6 +118,10 @@ public final class UriTaskProvider extends ResourceTaskProvider {
     List<IResourceTaskReference> refs = Util.newArrayList();
     for (URI uri : model.getTasks()) {
       if (uri.getPath().endsWith(filterText)) {
+        if (!uri.isAbsolute()) {
+          // resolve 
+          uri = UriTaskProvider.this.uri.resolve(uri);
+        }
         refs.add(new TaskReference(uri));
       }
     }
