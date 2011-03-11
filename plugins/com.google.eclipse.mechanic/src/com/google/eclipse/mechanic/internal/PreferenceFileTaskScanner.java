@@ -18,13 +18,13 @@ import java.util.logging.Logger;
 import org.eclipse.core.runtime.Path;
 
 import com.google.eclipse.mechanic.DirectoryIteratingTaskScanner;
+import com.google.eclipse.mechanic.IResourceTaskProvider;
+import com.google.eclipse.mechanic.IResourceTaskReference;
 import com.google.eclipse.mechanic.LastModifiedPreferencesFileTask;
 import com.google.eclipse.mechanic.ReconcilingPreferencesTask;
 import com.google.eclipse.mechanic.Task;
 import com.google.eclipse.mechanic.TaskCollector;
 import com.google.eclipse.mechanic.plugin.core.MechanicLog;
-import com.google.eclipse.mechanic.plugin.core.ResourceTaskProvider;
-import com.google.eclipse.mechanic.plugin.core.ResourceTaskReference;
 
 /**
  * Provides support for treating Elipse "epf" files as first class
@@ -71,11 +71,11 @@ public final class PreferenceFileTaskScanner extends DirectoryIteratingTaskScann
    * Adds tasks to the supplied collector.
    */
   @Override
-  protected void scan(ResourceTaskProvider source, TaskCollector collector) {
+  protected void scan(IResourceTaskProvider source, TaskCollector collector) {
     /**
      * Scan our source. Add a new Task for each EPF found.
      */
-    for (ResourceTaskReference taskRef : source.getTaskReferences(".epf")) {
+    for (IResourceTaskReference taskRef : source.getTaskReferences(".epf")) {
       try {
         LOG.fine(String.format("Loading preferences from: %s", taskRef));
   
@@ -104,7 +104,7 @@ public final class PreferenceFileTaskScanner extends DirectoryIteratingTaskScann
 
     private final Header header;
 
-    public ReconcilingEpfTask(ResourceTaskReference taskRef, Header header) {
+    public ReconcilingEpfTask(IResourceTaskReference taskRef, Header header) {
       super(taskRef);
       this.header = header;
     }
@@ -126,7 +126,7 @@ public final class PreferenceFileTaskScanner extends DirectoryIteratingTaskScann
 
     private final Header header;
 
-    public LastmodEpfTask(ResourceTaskReference taskRef, Header header) {
+    public LastmodEpfTask(IResourceTaskReference taskRef, Header header) {
       super(new Path(taskRef.getPath()));
       this.header = header;
     }
@@ -155,12 +155,12 @@ public final class PreferenceFileTaskScanner extends DirectoryIteratingTaskScann
     // Consider it deprecated, but don't remove it; it's kept for backwards compatibility.
     private static final String OLD_TYPE_TAG = "@audit_type";
 
-    private final ResourceTaskReference taskRef;
+    private final IResourceTaskReference taskRef;
     private TaskType type;
     private String title;
     private String description;
 
-    public EpfTaskHeaderParser(ResourceTaskReference taskRef) {
+    public EpfTaskHeaderParser(IResourceTaskReference taskRef) {
       this.taskRef = taskRef;
 
       // give the file friendly default values

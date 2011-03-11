@@ -18,10 +18,10 @@ import java.util.List;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 
+import com.google.eclipse.mechanic.IResourceTaskReference;
 import com.google.eclipse.mechanic.SuffixFileFilter;
 import com.google.eclipse.mechanic.plugin.core.MechanicPlugin;
 import com.google.eclipse.mechanic.plugin.core.ResourceTaskProvider;
-import com.google.eclipse.mechanic.plugin.core.ResourceTaskReference;
 
 public final class FileTaskProvider extends ResourceTaskProvider {
   private final File dir;
@@ -29,7 +29,7 @@ public final class FileTaskProvider extends ResourceTaskProvider {
   /**
    * This is only public for ClassFileTaskScanner. See if we can make this private.
    */
-  public final class TaskReference implements ResourceTaskReference {
+  public final class TaskReference implements IResourceTaskReference {
     private final File file;
 
     public TaskReference(File file) {
@@ -69,7 +69,6 @@ public final class FileTaskProvider extends ResourceTaskProvider {
     return dir;
   }
 
-  @Override
   public IStatus initialize() {
     if (!dir.exists()) {
       return new Status(IStatus.WARNING, MechanicPlugin.PLUGIN_ID, 
@@ -82,8 +81,7 @@ public final class FileTaskProvider extends ResourceTaskProvider {
     return Status.OK_STATUS;
   }
 
-  @Override
-  public List<ResourceTaskReference> getTaskReferences(String localPath, String filter) {
+  public List<IResourceTaskReference> getTaskReferences(String localPath, String filter) {
     // dir points to the root of the task directory, we
     // add the PACKAGE PATH to point to the dir with classes.
     File localDir = new File(createPath(dir.getAbsolutePath(), localPath));
@@ -97,14 +95,14 @@ public final class FileTaskProvider extends ResourceTaskProvider {
     return Util.join(File.separator, elems);
   }
 
-  public List<ResourceTaskReference> getTaskReferences(String filterText) {
+  public List<IResourceTaskReference> getTaskReferences(String filterText) {
     SuffixFileFilter filter = new SuffixFileFilter(filterText);
 
     File[] filesInDir = dir.listFiles(filter);
     if (filesInDir == null) {
       return Collections.emptyList();
     }
-    List<ResourceTaskReference> refs = Util.newArrayList();
+    List<IResourceTaskReference> refs = Util.newArrayList();
     for (File file : filesInDir) {
       refs.add(new TaskReference(file));
     }

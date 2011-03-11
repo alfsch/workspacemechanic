@@ -9,16 +9,19 @@
 
 package com.google.eclipse.mechanic.internal;
 
-import static org.easymock.EasyMock.*;
+import static org.easymock.EasyMock.createMock;
+import static org.easymock.EasyMock.expect;
+import static org.easymock.EasyMock.replay;
+import static org.easymock.EasyMock.verify;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 
 import junit.framework.TestCase;
 
+import com.google.eclipse.mechanic.IResourceTaskReference;
 import com.google.eclipse.mechanic.internal.PreferenceFileTaskScanner.EpfTaskHeaderParser;
 import com.google.eclipse.mechanic.internal.PreferenceFileTaskScanner.Header;
-import com.google.eclipse.mechanic.plugin.core.ResourceTaskReference;
 import com.google.eclipse.mechanic.tests.internal.RunAsJUnitTest;
 
 /**
@@ -80,7 +83,7 @@ public class PreferencesFileTaskScannerTest extends TestCase {
     return new ByteArrayInputStream(text.getBytes());
   }
 
-  private ResourceTaskReference taskRef;
+  private IResourceTaskReference taskRef;
   private EpfTaskHeaderParser parser;
   private InputStream in;
   private Header header; 
@@ -89,7 +92,7 @@ public class PreferencesFileTaskScannerTest extends TestCase {
   protected void setUp() throws Exception {
     super.setUp();
 
-    taskRef = createMock(ResourceTaskReference.class);
+    taskRef = createMock(IResourceTaskReference.class);
     expect(taskRef.getName()).andReturn("123.epf").anyTimes();
     expect(taskRef.getPath()).andReturn("/foo/123.epf").anyTimes();
     replay(taskRef);

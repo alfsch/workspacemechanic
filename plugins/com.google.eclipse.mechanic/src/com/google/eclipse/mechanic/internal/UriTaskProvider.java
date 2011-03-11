@@ -16,9 +16,9 @@ import java.util.List;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 
+import com.google.eclipse.mechanic.IResourceTaskReference;
 import com.google.eclipse.mechanic.plugin.core.MechanicPlugin;
 import com.google.eclipse.mechanic.plugin.core.ResourceTaskProvider;
-import com.google.eclipse.mechanic.plugin.core.ResourceTaskReference;
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
 
@@ -33,7 +33,7 @@ public final class UriTaskProvider extends ResourceTaskProvider {
   private final IUriContentProvider stateSensitiveCache;
   private final IUriContentProvider longTermCache;
 
-  private final class TaskReference implements ResourceTaskReference {
+  private final class TaskReference implements IResourceTaskReference {
     private final URI uri;
 
     public TaskReference(URI uri) {
@@ -80,7 +80,6 @@ public final class UriTaskProvider extends ResourceTaskProvider {
     this.longTermCache = Util.checkNotNull(longTermCache);
   }
 
-  @Override
   public IStatus initialize() {
     InputStream inputStream;
     try {
@@ -109,15 +108,14 @@ public final class UriTaskProvider extends ResourceTaskProvider {
     return new Status(IStatus.ERROR, MechanicPlugin.PLUGIN_ID, "Can't initialize " + this, e);
   }
 
-  @Override
-  public List<ResourceTaskReference> getTaskReferences(String localPath, String filter) {
+  public List<IResourceTaskReference> getTaskReferences(String localPath, String filter) {
     // This is for class files, and we don't need to implement this. The function should be
     // removed anyway.
     return null;
   }
 
-  public List<ResourceTaskReference> getTaskReferences(String filterText) {
-    List<ResourceTaskReference> refs = Util.newArrayList();
+  public List<IResourceTaskReference> getTaskReferences(String filterText) {
+    List<IResourceTaskReference> refs = Util.newArrayList();
     for (URI uri : model.getTasks()) {
       if (uri.getPath().endsWith(filterText)) {
         refs.add(new TaskReference(uri));

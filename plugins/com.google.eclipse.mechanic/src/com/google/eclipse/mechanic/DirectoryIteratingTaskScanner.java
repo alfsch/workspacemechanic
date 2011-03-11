@@ -23,12 +23,12 @@ import com.google.eclipse.mechanic.plugin.core.ResourceTaskProvider;
  */
 public abstract class DirectoryIteratingTaskScanner implements TaskScanner {
 
-  private final Supplier<List<ResourceTaskProvider>> supplier = RegisteredTaskProvidersSupplier.getInstance();
+  private final Supplier<List<IResourceTaskProvider>> supplier = RegisteredTaskProvidersSupplier.getInstance();
 
   public void scan(TaskCollector collector) {
     Util.checkNotNull(collector, "'collector' cannot be null.");
 
-    for (ResourceTaskProvider source : supplier.get()) {
+    for (IResourceTaskProvider source : supplier.get()) {
       scan(source, collector);
     }
   }
@@ -40,5 +40,5 @@ public abstract class DirectoryIteratingTaskScanner implements TaskScanner {
    *     {@link ResourceTaskProvider#validate()}.
    * @param collector the collector of tasks. Guaranteed to be not null.
    */
-  protected abstract void scan(ResourceTaskProvider source, TaskCollector collector);
+  protected abstract void scan(IResourceTaskProvider source, TaskCollector collector);
 }

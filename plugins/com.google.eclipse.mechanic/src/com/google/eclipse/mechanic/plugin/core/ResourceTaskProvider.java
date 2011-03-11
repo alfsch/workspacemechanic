@@ -8,31 +8,14 @@
  *******************************************************************************/
 package com.google.eclipse.mechanic.plugin.core;
 
-import java.util.List;
-
-import org.eclipse.core.runtime.IStatus;
+import com.google.eclipse.mechanic.IResourceTaskProvider;
 
 /**
  * Provides resource-based tasks.
+ *
+ * <b>Note: this API needs some rework, and is very likely to change.
  */
-public abstract class ResourceTaskProvider {
-  /**
-   * Provides post-initialization validation of a provider.
-   *
-   * @return status of the initialization.
-   */
-  public abstract IStatus initialize();
-
-  /**
-   * TODO(konigsberg): Remove the filter parameter.
-   */
-  public abstract List<ResourceTaskReference> getTaskReferences(String extFilter);
-
-
-  /**
-   * TODO(konigsberg): Remove the pathFilter
-   */
-  public abstract List<ResourceTaskReference> getTaskReferences(String localPath, String extFilter);
+public abstract class ResourceTaskProvider implements IResourceTaskProvider {
 
   /**
    * Throws exception, ensures subclasses implement equals method.

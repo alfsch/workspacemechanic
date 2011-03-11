@@ -6,15 +6,17 @@
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  *******************************************************************************/
-package com.google.eclipse.mechanic.plugin.core;
+package com.google.eclipse.mechanic;
 
 import java.io.IOException;
 import java.io.InputStream;
 
+import com.google.eclipse.mechanic.plugin.core.ResourceTaskProvider;
+
 /**
  * A reference to a resource-based task.
  */
-public interface ResourceTaskReference {
+public interface IResourceTaskReference {
   ResourceTaskProvider getProvider();
   String getName();
   InputStream newInputStream() throws IOException;

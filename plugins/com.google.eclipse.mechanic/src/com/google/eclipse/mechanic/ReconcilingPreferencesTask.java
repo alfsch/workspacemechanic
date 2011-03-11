@@ -13,8 +13,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-import com.google.eclipse.mechanic.plugin.core.ResourceTaskReference;
-
 /**
  * Models an Eclipse preferences export file as a series of individual
  * preference reconcilers. If any of the reconcilers need fixing, they
@@ -25,9 +23,9 @@ import com.google.eclipse.mechanic.plugin.core.ResourceTaskReference;
 public abstract class ReconcilingPreferencesTask
     extends PreferenceReconcilerTask {
 
-  private final ResourceTaskReference taskRef;
+  private final IResourceTaskReference taskRef;
 
-  public ReconcilingPreferencesTask(ResourceTaskReference taskRef) {
+  public ReconcilingPreferencesTask(IResourceTaskReference taskRef) {
     this.taskRef = taskRef;
     initReconcilers();
   }

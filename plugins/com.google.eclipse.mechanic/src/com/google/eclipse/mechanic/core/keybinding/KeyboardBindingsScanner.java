@@ -9,11 +9,6 @@
 
 package com.google.eclipse.mechanic.core.keybinding;
 
-import com.google.eclipse.mechanic.DirectoryIteratingTaskScanner;
-import com.google.eclipse.mechanic.TaskCollector;
-import com.google.eclipse.mechanic.plugin.core.ResourceTaskReference;
-import com.google.eclipse.mechanic.plugin.core.ResourceTaskProvider;
-
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -21,6 +16,11 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.logging.Logger;
+
+import com.google.eclipse.mechanic.DirectoryIteratingTaskScanner;
+import com.google.eclipse.mechanic.IResourceTaskProvider;
+import com.google.eclipse.mechanic.IResourceTaskReference;
+import com.google.eclipse.mechanic.TaskCollector;
 
 /**
  * Scanner for keyboard bindings.
@@ -34,11 +34,11 @@ public class KeyboardBindingsScanner extends DirectoryIteratingTaskScanner {
       KeyboardBindingsScanner.class.getName());
 
   @Override
-  public void scan(ResourceTaskProvider source, TaskCollector collector) {
+  public void scan(IResourceTaskProvider source, TaskCollector collector) {
     /**
      * Scan our source. Add a new Task for each KBD found.
      */
-    for (ResourceTaskReference taskRef : source.getTaskReferences(".kbd")) {
+    for (IResourceTaskReference taskRef : source.getTaskReferences(".kbd")) {
       LOG.fine(String.format("Loading keyboard file: %s", taskRef));
 
       // will throw a RuntimeException in the event of a problem reading

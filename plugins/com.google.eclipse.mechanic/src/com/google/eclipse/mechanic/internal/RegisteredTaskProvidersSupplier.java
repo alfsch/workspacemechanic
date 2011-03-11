@@ -10,10 +10,10 @@
 package com.google.eclipse.mechanic.internal;
 
 import java.util.Collections;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.google.eclipse.mechanic.IResourceTaskProvider;
 import com.google.eclipse.mechanic.plugin.core.MechanicPreferences;
 import com.google.eclipse.mechanic.plugin.core.ResourceTaskProvider;
 
@@ -24,7 +24,7 @@ import com.google.eclipse.mechanic.plugin.core.ResourceTaskProvider;
  * @author smckay@google.com (Steve McKay)
  */
 public class RegisteredTaskProvidersSupplier implements
-    Supplier<List<ResourceTaskProvider>> {
+    Supplier<List<IResourceTaskProvider>> {
 
   private static final RegisteredTaskProvidersSupplier instance
       = new RegisteredTaskProvidersSupplier();
@@ -33,15 +33,15 @@ public class RegisteredTaskProvidersSupplier implements
     return instance;
   }
 
-  public List<ResourceTaskProvider> get() {
+  public List<IResourceTaskProvider> get() {
    // This removes duplicates, but ensures insertion order.
-    Set<ResourceTaskProvider> providers = new LinkedHashSet<ResourceTaskProvider>();
+    Set<ResourceTaskProvider> providers = Util.newLinkedHashSet();
     for (ResourceTaskProvider provider : MechanicPreferences.getTaskProviders()) {
       providers.add(provider);
     }
 
     // To ensure clients don't mutate the list.
-    List<ResourceTaskProvider> list = Util.newArrayList();
+    List<IResourceTaskProvider> list = Util.newArrayList();
     list.addAll(providers);
     return Collections.unmodifiableList(list);
   }

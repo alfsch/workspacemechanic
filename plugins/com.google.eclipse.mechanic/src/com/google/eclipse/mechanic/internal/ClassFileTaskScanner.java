@@ -16,12 +16,12 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.google.eclipse.mechanic.DirectoryIteratingTaskScanner;
+import com.google.eclipse.mechanic.IResourceTaskProvider;
+import com.google.eclipse.mechanic.IResourceTaskReference;
 import com.google.eclipse.mechanic.Task;
 import com.google.eclipse.mechanic.TaskCollector;
 import com.google.eclipse.mechanic.plugin.core.MechanicLog;
 import com.google.eclipse.mechanic.plugin.core.MechanicPlugin;
-import com.google.eclipse.mechanic.plugin.core.ResourceTaskReference;
-import com.google.eclipse.mechanic.plugin.core.ResourceTaskProvider;
 
 /**
  * Scans for {@link Task}s defined as Java class files.
@@ -55,7 +55,7 @@ public final class ClassFileTaskScanner extends DirectoryIteratingTaskScanner {
    * Adds tasks to the supplied List.
    */
   @Override
-  protected void scan(ResourceTaskProvider taskSource, TaskCollector collector) {
+  protected void scan(IResourceTaskProvider taskSource, TaskCollector collector) {
     /*
      * List of all task classes. We populate this list will
      * loading and resolving classes. Later, once all classes have been
@@ -68,11 +68,11 @@ public final class ClassFileTaskScanner extends DirectoryIteratingTaskScanner {
     if (!(taskSource instanceof FileTaskProvider)) {
       DEBUGLOG.log(Level.FINE, "Not loading class tasks from {0}", taskSource);
     }
-    List<ResourceTaskReference> taskReferences = taskSource.getTaskReferences(EXT_PATH, ".class");
+    List<IResourceTaskReference> taskReferences = taskSource.getTaskReferences(EXT_PATH, ".class");
     if (taskReferences == null) {
       return;
     }
-    for (ResourceTaskReference taskRef : taskReferences) {
+    for (IResourceTaskReference taskRef : taskReferences) {
       Class<?> clazz = null;
       try {
 
@@ -128,7 +128,7 @@ public final class ClassFileTaskScanner extends DirectoryIteratingTaskScanner {
     }
   }
 
-  private void logExceptionLoadingTask(Throwable t, ResourceTaskReference taskRef) {
+  private void logExceptionLoadingTask(Throwable t, IResourceTaskReference taskRef) {
     mechanicLog.logError(t, "Couldn't load class from: %s (%s)", taskRef.getName(), taskRef);
   }
 
@@ -168,7 +168,7 @@ public final class ClassFileTaskScanner extends DirectoryIteratingTaskScanner {
      *
      * @throws ClassNotFoundException
      */
-    public Class<?> classForTaskRef(ResourceTaskReference taskRef) throws ClassNotFoundException {
+    public Class<?> classForTaskRef(IResourceTaskReference taskRef) throws ClassNotFoundException {
       try {
         String name = getClassName(taskRef);
 
@@ -191,7 +191,7 @@ public final class ClassFileTaskScanner extends DirectoryIteratingTaskScanner {
      * Returns the java name including the package. Is assumed to be in the
      * package defined in EXT_PACKAGE.
      */
-    private String getClassName(ResourceTaskReference taskRef) {
+    private String getClassName(IResourceTaskReference taskRef) {
       String name = taskRef.getName();
       int end = name.indexOf(".class");
       return String.format("%s.%s", EXT_PACKAGE, name.substring(0, end));
