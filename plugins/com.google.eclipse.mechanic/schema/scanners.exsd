@@ -8,7 +8,7 @@
       <documentation>
          For registering scanners that find tasks to be run by the workspace mechanic.
 
-&lt;p&gt;Typically you can register individual tasks using the &amp;lt;task&amp;gt; extension point. Alternatively you can register an task scanner that is responsible for generating tasks en masse.
+&lt;p&gt;Typically you can register individual tasks using the &amp;lt;task&amp;gt; extension point. Alternatively you can register a task scanner that is responsible for generating tasks en masse.
       </documentation>
    </annotation>
 
