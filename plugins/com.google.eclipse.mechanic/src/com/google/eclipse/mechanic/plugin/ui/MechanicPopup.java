@@ -12,7 +12,6 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.PaintEvent;
-import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.graphics.GC;
@@ -115,8 +114,6 @@ public class MechanicPopup extends AbstractPopup {
         paintHyperlink(gc);
       }
     };
-    Color background = parent.getBackground();
-    hyperlink.setBackground(background);
     hyperlink.setText(text);
     hyperlink.setUnderlined(true);
     hyperlink.addHyperlinkListener(new HyperlinkAdapter() {
