@@ -65,6 +65,10 @@ public final class UriTaskProvider extends ResourceTaskProvider {
     public File asFile() {
       return null;
     }
+
+    public long getLastModified() throws IOException {
+      return longTermCache.lastModifiedTime(uri);
+    }
   }
 
   /**

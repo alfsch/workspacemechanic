@@ -38,6 +38,8 @@ import com.google.eclipse.mechanic.tests.internal.RunAsJUnitTest;
 @RunAsJUnitTest
 public class StateSensitiveCacheTest extends TestCase {
 
+  private static final URI WWW_GOOGLE_COM = TestUriContentProvider.WWW_GOOGLE_COM;
+
   private final TestUriContentProvider delegate = new TestUriContentProvider();
 
   static class TestService implements IMechanicService {
@@ -127,14 +129,14 @@ public class StateSensitiveCacheTest extends TestCase {
     assertEquals(0, delegate.fetchCount());
     assertEquals(0, delegate.clearCount());
 
-    assertEquals("asdf", read(cache.get(new URI("http://www.google.com"))));
+    assertEquals("asdf", read(cache.get(WWW_GOOGLE_COM)));
     assertEquals(1, delegate.fetchCount());
     assertEquals(0, delegate.clearCount());
 
     // This status doesn't clear the cache.
     service.listener.statusChanged(new StatusChangedEvent(MechanicStatus.FAILED));
 
-    assertEquals("asdf", read(cache.get(new URI("http://www.google.com"))));
+    assertEquals("asdf", read(cache.get(WWW_GOOGLE_COM)));
     assertEquals(2, delegate.fetchCount());
     assertEquals(0, delegate.clearCount());
 
@@ -142,7 +144,36 @@ public class StateSensitiveCacheTest extends TestCase {
     // inner raw reading count will increase.
     service.listener.statusChanged(new StatusChangedEvent(MechanicStatus.UPDATING));
 
-    assertEquals("asdf", read(cache.get(new URI("http://www.google.com"))));
+    assertEquals("asdf", read(cache.get(WWW_GOOGLE_COM)));
+    assertEquals(3, delegate.fetchCount());
+    assertEquals(1, delegate.clearCount());
+  }
+
+  public void testLastmod_clear() throws Exception {
+    TestService service = new TestService();
+    StateSensitiveCache cache = new StateSensitiveCache(service, delegate);
+
+    cache.initialize();
+
+    assertEquals(0, delegate.fetchCount());
+    assertEquals(0, delegate.clearCount());
+
+    assertEquals(1L, cache.lastModifiedTime(WWW_GOOGLE_COM));
+    assertEquals(1, delegate.fetchCount());
+    assertEquals(0, delegate.clearCount());
+
+    // This status doesn't clear the cache.
+    service.listener.statusChanged(new StatusChangedEvent(MechanicStatus.FAILED));
+
+    assertEquals(1L, cache.lastModifiedTime(WWW_GOOGLE_COM));
+    assertEquals(2, delegate.fetchCount());
+    assertEquals(0, delegate.clearCount());
+
+    // This call will cause the cache to clear, and so, the
+    // inner raw reading count will increase.
+    service.listener.statusChanged(new StatusChangedEvent(MechanicStatus.UPDATING));
+
+    assertEquals(1L, cache.lastModifiedTime(WWW_GOOGLE_COM));
     assertEquals(3, delegate.fetchCount());
     assertEquals(1, delegate.clearCount());
   }

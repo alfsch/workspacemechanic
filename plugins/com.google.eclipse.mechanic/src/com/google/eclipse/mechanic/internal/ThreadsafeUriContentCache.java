@@ -25,16 +25,19 @@ import java.util.concurrent.TimeUnit;
 public final class ThreadsafeUriContentCache implements IUriContentProvider {
 
   // Do not store URLs in the cache. URL's hashCode is bad, as in, _really_ bad.
-  private final TimedEvictionCache<URI, FutureTask<byte[]>> cache;
+  private final TimedEvictionCache<URI, FutureTask<byte[]>> contentCache;
+  private final TimedEvictionCache<URI, FutureTask<Long>> lastModCache;
   private final IUriContentProvider delegate;
   private final boolean cacheFileUris = false;
   private final Executor executor = Executors.newSingleThreadExecutor();
 
   public ThreadsafeUriContentCache(int duration, TimeUnit unit,
       IUriContentProvider delegate) {
-    // TODO(konigsberg): create interface for cache so this constructor
-    // doesn't require duration and timeunit all the time.
-    cache = TimedEvictionCache.create(duration, unit);
+    // TODO(konigsberg): create interface for cache so these constructors
+    // don't require duration and timeunit all the time.
+    contentCache = TimedEvictionCache.create(duration, unit);
+    lastModCache = TimedEvictionCache.create(duration, unit);
+
     this.delegate = Util.checkNotNull(delegate);
   }
 
@@ -49,7 +52,7 @@ public final class ThreadsafeUriContentCache implements IUriContentProvider {
       }
     });
 
-    FutureTask<byte[]> futureToFetch = cache.putIfAbsent(uri, future);
+    FutureTask<byte[]> futureToFetch = contentCache.putIfAbsent(uri, future);
     if (futureToFetch == null) {
       futureToFetch = future;
       executor.execute(future);
@@ -68,8 +71,39 @@ public final class ThreadsafeUriContentCache implements IUriContentProvider {
     }
   }
 
+  public long lastModifiedTime(final URI uri) throws IOException {
+    // short cut -- no to cache URIs to files.
+    if (!cacheFileUris && "file".equals(uri.getScheme())) {
+      return delegate.lastModifiedTime(uri);
+    }
+    FutureTask<Long> future = new FutureTask<Long>(new Callable<Long>() {
+      public Long call() throws IOException {
+        return delegate.lastModifiedTime(uri);
+      }
+    });
+
+    FutureTask<Long> futureToFetch = lastModCache.putIfAbsent(uri, future);
+    if (futureToFetch == null) {
+      futureToFetch = future;
+      executor.execute(future);
+    }
+
+    try {
+      return futureToFetch.get();
+    } catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
+      throw new IOException(e);
+    } catch (ExecutionException e) {
+      if (e.getCause() instanceof IOException) {
+        throw (IOException) e.getCause();
+      }
+      throw new IOException(e);
+    }
+  }
+
   public void clear() {
-    cache.clear();
+    contentCache.clear();
+    lastModCache.clear();
     delegate.clear();
   }
 }

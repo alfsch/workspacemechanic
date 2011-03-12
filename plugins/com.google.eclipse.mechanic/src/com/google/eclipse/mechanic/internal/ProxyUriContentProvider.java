@@ -28,6 +28,10 @@ public final class ProxyUriContentProvider implements IUriContentProvider {
     return delegate.get(uri);
   }
 
+  public long lastModifiedTime(URI uri) throws IOException {
+    return delegate.lastModifiedTime(uri);
+  }
+
   public void clear() {
     delegate.clear();
   }

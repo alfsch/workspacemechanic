@@ -19,6 +19,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.preferences.ConfigurationScope;
 import org.eclipse.core.runtime.preferences.IExportedPreferences;
 import org.eclipse.core.runtime.preferences.IPreferenceFilter;
@@ -44,9 +45,7 @@ public abstract class LastModifiedPreferencesFileTask extends CompositeTask {
   public LastModifiedPreferencesFileTask(IResourceTaskReference taskRef) {
     this.taskRef = taskRef;
     this.file = taskRef.asFile();
-    // TODO(konigsberg): Make URL task refs file-readable.
-    Util.checkArgument(file != null, taskRef + " must be a local file to work with LASTMOD. (for now)"); 
-    Util.checkArgument(file.canRead(), file + " must be readable");
+    Util.checkArgument(file == null || file.canRead(), file + " must be readable");
   }
 
   private final String getKey() {
@@ -68,23 +67,25 @@ public abstract class LastModifiedPreferencesFileTask extends CompositeTask {
    * but there is a newer version of the preferences file.
    */
   public boolean evaluate() {
-    if (file == null) {
-      log.logWarning("Resource %s is not a file resource and can't be a last mod preference task.", taskRef);
-    }
     long previous = MechanicPreferences.getLong(getKey());
-    return previous > 0L && previous >= file.lastModified();
+    try {
+      return previous > 0L && previous >= taskRef.getLastModified();
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
   }
 
   public void run() {
-    if (file == null) {
-      return;
-    }
     // grab the lastmod time just before we import the file
-    long lastmod = file.lastModified();
     try {
+      long lastmod = taskRef.getLastModified();
+
       // TODO(konigsberg): validate preferences for URIs by storing the contents locally on disk?
+
       // Validate preferences
-      IStatus validStatus = MechanicPreferences.validatePreferencesFile(new Path(file.getPath()));
+      IStatus validStatus = file != null ?
+          MechanicPreferences.validatePreferencesFile(new Path(file.getPath())) :
+          Status.OK_STATUS;
       if (validStatus.isOK()) {
         transfer();
         MechanicPreferences.setValue(getKey(), lastmod);
@@ -92,6 +93,8 @@ public abstract class LastModifiedPreferencesFileTask extends CompositeTask {
         throw new CoreException(validStatus);
       }
     } catch (CoreException e) {
+      throw new RuntimeException("Couldn't import preferences.", e);
+    } catch (IOException e) {
       throw new RuntimeException("Couldn't import preferences.", e);
     }
   }

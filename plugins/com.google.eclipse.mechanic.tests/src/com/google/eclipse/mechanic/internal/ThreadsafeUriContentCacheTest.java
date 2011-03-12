@@ -21,18 +21,31 @@ import junit.framework.TestCase;
  * Tests for {@link ThreadsafeUriContentCache}.
  */
 public class ThreadsafeUriContentCacheTest extends TestCase {
+  private static final URI WWW_GOOGLE_COM = TestUriContentProvider.WWW_GOOGLE_COM;
 
   private final TestUriContentProvider delegate = new TestUriContentProvider();
 
   public void testGet_cache() throws Exception {
     ThreadsafeUriContentCache cache = new ThreadsafeUriContentCache(0, TimeUnit.MILLISECONDS, delegate);
     assertEquals(0, delegate.fetchCount());
-    assertEquals("asdf", read(cache.get(new URI("http://www.google.com"))));
+    assertEquals("asdf", read(cache.get(WWW_GOOGLE_COM)));
     assertEquals(1, delegate.fetchCount());
-    assertEquals("asdf", read(cache.get(new URI("http://www.google.com"))));
+    assertEquals("asdf", read(cache.get(WWW_GOOGLE_COM)));
     assertEquals(1, delegate.fetchCount());
     cache.clear();
-    assertEquals("asdf", read(cache.get(new URI("http://www.google.com"))));
+    assertEquals("asdf", read(cache.get(WWW_GOOGLE_COM)));
+    assertEquals(2, delegate.fetchCount());
+  }
+
+  public void testLastmod_cache() throws Exception {
+    ThreadsafeUriContentCache cache = new ThreadsafeUriContentCache(0, TimeUnit.MILLISECONDS, delegate);
+    assertEquals(0, delegate.fetchCount());
+    assertEquals(1L, cache.lastModifiedTime(WWW_GOOGLE_COM));
+    assertEquals(1, delegate.fetchCount());
+    assertEquals(1L, cache.lastModifiedTime(WWW_GOOGLE_COM));
+    assertEquals(1, delegate.fetchCount());
+    cache.clear();
+    assertEquals(1L, cache.lastModifiedTime(WWW_GOOGLE_COM));
     assertEquals(2, delegate.fetchCount());
   }
 

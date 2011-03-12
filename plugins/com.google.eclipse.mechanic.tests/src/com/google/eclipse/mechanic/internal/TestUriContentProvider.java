@@ -17,7 +17,11 @@ import java.util.Map;
  * Contains some canned entries that prevent actually fetching content from the web.
  */
 public final class TestUriContentProvider implements IUriContentProvider {
+  public static final URI WWW_GOOGLE_COM = URI.create("http://www.google.com");
+  public static final URI WWW_IMDB_COM = URI.create("http://www.imdb.com");
+
   private final Map<String, String> map = Util.newHashMap();
+  private final Map<String, Long> lastmod = Util.newHashMap();
 
   private int fetches;
   private int clears;
@@ -25,6 +29,8 @@ public final class TestUriContentProvider implements IUriContentProvider {
   public TestUriContentProvider() {
     map.put("http://www.google.com", "asdf");
     map.put("http://www.imdb.com", "qwerty");
+    lastmod.put("http://www.google.com", 1L);
+    lastmod.put("http://www.imdb.com", 2L);
   }
 
   public InputStream get(URI uri) throws IOException {
@@ -42,5 +48,11 @@ public final class TestUriContentProvider implements IUriContentProvider {
 
   public int fetchCount() {
     return fetches;
+  }
+
+  public long lastModifiedTime(URI uri) throws IOException {
+    fetches++;
+    Long l = lastmod.get(uri.toASCIIString());
+    return l == null ? 0 : l;
   }
 }

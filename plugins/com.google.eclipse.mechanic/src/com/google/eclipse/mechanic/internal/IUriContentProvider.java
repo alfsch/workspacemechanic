@@ -22,6 +22,13 @@ public interface IUriContentProvider {
   InputStream get(URI uri) throws IOException;
 
   /**
+   * Fetch the last modified time of this {@link URI} in milliseconds since the epoch.
+   *
+   * This function can return 0 if the last modified time is not known.
+   */
+  long lastModifiedTime(URI uri) throws IOException;
+
+  /**
    * Clear any cached information associated with this content provider.
    */
   void clear();

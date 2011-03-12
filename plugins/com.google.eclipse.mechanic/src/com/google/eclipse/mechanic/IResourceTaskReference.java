@@ -27,6 +27,11 @@ public interface IResourceTaskReference {
   /** Return the task reference as an input stream. */
   InputStream newInputStream() throws IOException;
 
+  /**
+   * Return the time this resource was last modified, in milliseconds since the epoch.
+   */
+  long getLastModified() throws IOException;
+
   /** Return the task reference path. This is typically a full path. */
   String getPath();
 
