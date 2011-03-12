@@ -64,13 +64,36 @@ public class MechanicLog {
   /**
    * Log info to the Eclipse log.
    *
-   * @param t the throwable.
    * @param fmt string format
    * @param args args that accompany the string format. If this is empty, fmt is assumed to be
    * an unformatted string.
    */
   public void logInfo(String fmt, Object... args) {
+    log(IStatus.INFO, fmt, args);
+  }
+
+  /**
+   * Log warning to the Eclipse log.
+   *
+   * @param fmt string format
+   * @param args args that accompany the string format. If this is empty, fmt is assumed to be
+   * an unformatted string.
+   */
+  public void logWarning(String fmt, Object... args) {
+    log(IStatus.WARNING, fmt, args);
+  }
+
+
+  /**
+   * Log a message to the Eclipse log.
+   *
+   * @param severity message severity. Reference {@link IStatus#getSeverity()}.
+   * @param fmt string format
+   * @param args args that accompany the string format. If this is empty, fmt is assumed to be
+   * an unformatted string.
+   */
+  public void log(int severity, String fmt, Object... args) {
     String text = (args.length > 0) ? String.format(fmt, args) : fmt;
-    log(new Status(IStatus.INFO, MechanicPlugin.PLUGIN_ID, text));
+    log(new Status(severity, MechanicPlugin.PLUGIN_ID, text));
   }
 }
