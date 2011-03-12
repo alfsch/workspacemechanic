@@ -15,8 +15,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.logging.Logger;
 
-import org.eclipse.core.runtime.Path;
-
 import com.google.eclipse.mechanic.DirectoryIteratingTaskScanner;
 import com.google.eclipse.mechanic.IResourceTaskProvider;
 import com.google.eclipse.mechanic.IResourceTaskReference;
@@ -127,7 +125,7 @@ public final class PreferenceFileTaskScanner extends DirectoryIteratingTaskScann
     private final Header header;
 
     public LastmodEpfTask(IResourceTaskReference taskRef, Header header) {
-      super(new Path(taskRef.getPath()));
+      super(taskRef);
       this.header = header;
     }
 

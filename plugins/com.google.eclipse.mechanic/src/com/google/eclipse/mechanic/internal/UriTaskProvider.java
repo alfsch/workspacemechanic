@@ -8,6 +8,7 @@
  *******************************************************************************/
 package com.google.eclipse.mechanic.internal;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
@@ -59,6 +60,10 @@ public final class UriTaskProvider extends ResourceTaskProvider {
     @Override
     public String toString() {
       return uri.toString();
+    }
+
+    public File asFile() {
+      return null;
     }
   }
 

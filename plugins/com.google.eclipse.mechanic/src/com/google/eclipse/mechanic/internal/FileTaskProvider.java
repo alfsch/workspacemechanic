@@ -56,6 +56,14 @@ public final class FileTaskProvider extends ResourceTaskProvider {
     public String toString() {
       return file.getPath();
     }
+
+    public long getLastModified() {
+      return file.lastModified();
+    }
+
+    public File asFile() {
+      return file;
+    }
   }
 
   public FileTaskProvider(File dir) {

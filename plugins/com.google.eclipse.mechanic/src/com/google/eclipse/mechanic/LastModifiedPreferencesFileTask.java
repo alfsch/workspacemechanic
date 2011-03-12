@@ -10,14 +10,14 @@
 package com.google.eclipse.mechanic;
 
 import java.io.BufferedInputStream;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
 
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.preferences.ConfigurationScope;
 import org.eclipse.core.runtime.preferences.IExportedPreferences;
@@ -38,14 +38,15 @@ import com.google.eclipse.mechanic.plugin.core.MechanicPreferences;
 public abstract class LastModifiedPreferencesFileTask extends CompositeTask {
   private final MechanicLog log = MechanicLog.getDefault();
 
-  private final IPath file;
+  private final IResourceTaskReference taskRef;
+  private final File file;
 
-  public LastModifiedPreferencesFileTask(IPath file) {
-
-    Util.checkArgument(file.toFile().canRead(),
-        file + " must be readable");
-
-    this.file = file;
+  public LastModifiedPreferencesFileTask(IResourceTaskReference taskRef) {
+    this.taskRef = taskRef;
+    this.file = taskRef.asFile();
+    // TODO(konigsberg): Make URL task refs file-readable.
+    Util.checkArgument(file != null, taskRef + " must be a local file to work with LASTMOD. (for now)"); 
+    Util.checkArgument(file.canRead(), file + " must be readable");
   }
 
   private final String getKey() {
@@ -59,7 +60,7 @@ public abstract class LastModifiedPreferencesFileTask extends CompositeTask {
   public String getId() {
     return String.format("%s@%s",
         getClass().getName(),
-        file.toFile().getPath());
+        taskRef.getPath());
   }
 
   /**
@@ -67,16 +68,23 @@ public abstract class LastModifiedPreferencesFileTask extends CompositeTask {
    * but there is a newer version of the preferences file.
    */
   public boolean evaluate() {
+    if (file == null) {
+      log.logWarning("Resource %s is not a file resource and can't be a last mod preference task.", taskRef);
+    }
     long previous = MechanicPreferences.getLong(getKey());
-    return previous > 0L && previous >= file.toFile().lastModified();
+    return previous > 0L && previous >= file.lastModified();
   }
 
   public void run() {
+    if (file == null) {
+      return;
+    }
     // grab the lastmod time just before we import the file
-    long lastmod = file.toFile().lastModified();
+    long lastmod = file.lastModified();
     try {
+      // TODO(konigsberg): validate preferences for URIs by storing the contents locally on disk?
       // Validate preferences
-      IStatus validStatus = MechanicPreferences.validatePreferencesFile(file);
+      IStatus validStatus = MechanicPreferences.validatePreferencesFile(new Path(file.getPath()));
       if (validStatus.isOK()) {
         transfer();
         MechanicPreferences.setValue(getKey(), lastmod);
@@ -95,9 +103,9 @@ public abstract class LastModifiedPreferencesFileTask extends CompositeTask {
   private void transfer() {
     InputStream input = null;
     try {
-      input = new BufferedInputStream(new FileInputStream(file.toFile()));
-    } catch (FileNotFoundException ex) {
-      log.logError(ex);
+      input = new BufferedInputStream(taskRef.newInputStream());
+    } catch (IOException e) {
+      log.logError(e);
     }
 
     IPreferenceFilter[] filters = new IPreferenceFilter[1];

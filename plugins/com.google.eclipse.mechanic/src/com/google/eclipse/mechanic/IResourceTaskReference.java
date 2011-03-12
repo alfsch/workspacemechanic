@@ -8,6 +8,7 @@
  *******************************************************************************/
 package com.google.eclipse.mechanic;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -28,4 +29,9 @@ public interface IResourceTaskReference {
 
   /** Return the task reference path. This is typically a full path. */
   String getPath();
+
+  /**
+   * Return the File representation of this resource. Is {@code null} when this file isn't on disk.
+   */
+  File asFile();
 }
