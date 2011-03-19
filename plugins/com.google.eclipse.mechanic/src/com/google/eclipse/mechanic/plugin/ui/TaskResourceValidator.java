@@ -53,7 +53,7 @@ class TaskResourceValidator implements IInputValidator {
       }
       return null;
     } catch (URISyntaxException e) {
-      return INVALID_URL;
+      return validateFile(newText);
     }
   }
 

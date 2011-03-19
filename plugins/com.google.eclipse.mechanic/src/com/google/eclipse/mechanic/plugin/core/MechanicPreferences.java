@@ -15,6 +15,7 @@ import java.net.URISyntaxException;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.ConcurrentMap;
 
 import org.eclipse.core.internal.preferences.PreferencesService;
 import org.eclipse.core.runtime.CoreException;
@@ -112,17 +113,8 @@ public class MechanicPreferences {
     pluginPreferences.removePreferenceChangeListener(listener);
   }
 
-  private static final Set<String> ignoredStrings = Util.newHashSet();
-  private static void addIgnoredString(String s) {
-    synchronized(ignoredStrings) {
-      ignoredStrings.add(s);
-    }
-  }
-  private static boolean isIgnoredString(String s) {
-    synchronized(ignoredStrings) {
-      return ignoredStrings.contains(s);
-    }
-  }
+  // CHM used for thread-safe map.
+  private static final ConcurrentMap<String, String> sourcesFailingInitialization = Util.newConcurrentHashMap();
 
   /**
    * Return a list of task sources where tasks may be found.
@@ -140,8 +132,12 @@ public class MechanicPreferences {
         IStatus initializationStatus = provider.initialize();
         if (initializationStatus.isOK()) {
           providers.add(provider);
+          sourcesFailingInitialization.remove(source);
         } else {
-          log.log(initializationStatus);
+          if (!sourcesFailingInitialization.containsKey(source)) {
+            sourcesFailingInitialization.put(source, source);
+            log.log(initializationStatus);
+          }
         }
       }
     }
@@ -149,9 +145,6 @@ public class MechanicPreferences {
   }
 
   private static ResourceTaskProvider toProvider(String source) {
-    if (isIgnoredString(source)) {
-      return null;
-    }
     URI uri;
     try {
       uri = new URI(source);

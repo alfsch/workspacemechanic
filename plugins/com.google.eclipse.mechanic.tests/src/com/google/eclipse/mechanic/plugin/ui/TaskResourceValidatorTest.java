@@ -23,18 +23,22 @@ import static com.google.eclipse.mechanic.plugin.ui.TaskResourceValidator.*;
 public class TaskResourceValidatorTest extends TestCase {
   private static final TaskResourceValidator ALL_VALIDATOR = new TaskResourceValidator(true);
   private static final TaskResourceValidator PATH_VALIDATOR = new TaskResourceValidator(false);
-  private File file;
-  File dir;
+  private File tempFile;
+  File tempUnreadableDir;
+
+  private static final boolean IS_WINDOWS = System.getProperty("os.name").startsWith("Windows ");
 
   @Override
   public void setUp() throws Exception {
     super.setUp();
-    file = File.createTempFile("asfd", "fdas");
-    dir = File.createTempFile("xxx", "ooo");
+    tempFile = File.createTempFile("asfd", "fdas");
+    tempUnreadableDir = File.createTempFile("xxx", "ooo");
     // hack: delete the dir file, and make it a directory.
-    assertTrue(dir.delete());
-    assertTrue(dir.mkdir());
-    chmod(dir, "-r");
+    assertTrue(tempUnreadableDir.delete());
+    assertTrue(tempUnreadableDir.mkdir());
+    if (!IS_WINDOWS) {
+      chmod(tempUnreadableDir, "-r");
+    }
   }
 
   private void chmod(File path, String change) throws InterruptedException, IOException {
@@ -46,17 +50,17 @@ public class TaskResourceValidatorTest extends TestCase {
 
   @Override
   public void tearDown() throws Exception {
-    assertTrue(file.delete());
-    assertTrue(dir.delete());
+    assertTrue(tempFile.delete());
+    assertTrue(tempUnreadableDir.delete());
     super.tearDown();
   }
 
   public void testValidation_doesnotexist() {
-    validate(new File(file, "fakesubdir"), PATH_DOES_NOT_EXIST, PATH_DOES_NOT_EXIST);
+    validate(new File(tempFile, "fakesubdir"), PATH_DOES_NOT_EXIST, PATH_DOES_NOT_EXIST);
   }
 
   public void testValidation_file() throws Exception {
-    validate(file, NOT_A_DIRECTORY, NOT_A_DIRECTORY);
+    validate(tempFile, NOT_A_DIRECTORY, NOT_A_DIRECTORY);
   }
 
   public void testValidation_relative() {
@@ -64,11 +68,13 @@ public class TaskResourceValidatorTest extends TestCase {
   }
 
   public void testValidation_directory() {
-    validate(file.getParent(), null, null);
+    validate(tempFile.getParent(), null, null);
   }
 
   public void testValidation_canRead() throws Exception {
-    validate(dir, CANNOT_READ, CANNOT_READ);
+    if (!IS_WINDOWS) {
+      validate(tempUnreadableDir, CANNOT_READ, CANNOT_READ);
+    }
   }
 
   public void testValidation_uri() {
@@ -102,6 +108,6 @@ public class TaskResourceValidatorTest extends TestCase {
   private void validateImpl(String string, TaskResourceValidator validator,
       String expected) {
     String actual = validator.isValid(string);
-    assertEquals("for " + validator, expected, actual);
+    assertEquals("for " + string + " and " + validator, expected, actual);
   }
 }

@@ -30,7 +30,7 @@ public class ResourceTaskProviderParserTest extends TestCase {
   public void testParse() {
     assertResults(parser.parse(""));
     assertResults(parser.parse("x"), "x");
-    assertResults(parser.parse("x:y"), "x", "y");
+    assertResults(parser.parse("x" + System.getProperty("path.separator") + "y"), "x", "y");
     assertResults(parser.parse(
         "['/home/user/path/.eclipse','http://www.google.com/directory'," +
             "'https://www.yahoo.com/directory?param\\u003dvalue%amp;term']"),
