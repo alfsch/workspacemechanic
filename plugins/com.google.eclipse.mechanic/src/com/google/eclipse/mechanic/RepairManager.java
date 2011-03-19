@@ -87,11 +87,11 @@ public class RepairManager implements Runnable {
    * Execute action associated with the supplied Task.
    */
   private void repairItem(Task item) {
-    log.logInfo("Repairing item: %s", item);
+    log.logInfo("Repairing item: %s", item.getId());
     try {
       item.getRepairAction().run();
     } catch (RuntimeException e) {
-      log.logError(e, "RepairAction failed %s", e.getMessage());
+      log.logError(e, "RepairAction failed for %s, %s", item.getId(), e.getMessage());
     }
   }
 }

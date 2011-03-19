@@ -34,6 +34,11 @@ public abstract class CompositeTask implements CompositeTaskInterface {
     return getId().hashCode();
   }
 
+  @Override
+  public String toString() {
+    return getId();
+  }
+
   /**
    * Returns true if the supplied Object is an Task with the same
    * id.
