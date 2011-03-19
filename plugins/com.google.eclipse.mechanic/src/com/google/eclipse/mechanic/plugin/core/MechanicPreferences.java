@@ -15,6 +15,7 @@ import java.net.URISyntaxException;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.ConcurrentMap;
 
 import org.eclipse.core.internal.preferences.PreferencesService;
 import org.eclipse.core.runtime.CoreException;
@@ -123,6 +124,9 @@ public class MechanicPreferences {
     }
   }
 
+  // CHM used for thread-safe map.
+  private static final ConcurrentMap<String, String> sourcesFailingInitialization = Util.newConcurrentHashMap();
+
   /**
    * Return a list of task sources where tasks may be found.
    *
@@ -131,38 +135,47 @@ public class MechanicPreferences {
   public static List<ResourceTaskProvider> getTaskProviders() {
     String paths = preferencesService.getString(MechanicPlugin.PLUGIN_ID, DIRS_PREF, null, null);
 
-    // Create static default parser.
     ResourceTaskProviderParser parser = new ResourceTaskProviderParser();
     List<ResourceTaskProvider> providers = Util.newArrayList();
     for (String source : parser.parse(paths)) {
-      if (isIgnoredString(source)) {
-        continue;
-      }
-      URI uri;
-      try {
-        uri = new URI(source);
-      } catch (URISyntaxException e) {
-        log.logError(e, "Can't parse %s", source);
-        addIgnoredString(source);
-        continue;
-      }
-      ResourceTaskProvider provider;
-      if (uri.getScheme() != null) {
-        provider = new UriTaskProvider(uri, UriCaches.getStateSensitiveCache(),
-//            UriCaches.getLifetimeCache());
-            UriCaches.getStateSensitiveCache());
-      } else {
-        provider = new FileTaskProvider(new File(source));
-      }
-
-      IStatus initializationStatus = provider.initialize();
-      if (initializationStatus.isOK()) {
-        providers.add(provider);
-      } else {
-        log.log(initializationStatus);
+      ResourceTaskProvider provider = toProvider(source);
+      if (provider != null) {
+        IStatus initializationStatus = provider.initialize();
+        if (initializationStatus.isOK()) {
+          providers.add(provider);
+          sourcesFailingInitialization.remove(source);
+        } else {
+          if (!sourcesFailingInitialization.containsKey(source)) {
+            sourcesFailingInitialization.put(source, source);
+            log.log(initializationStatus);
+          }
+        }
       }
     }
     return providers;
+  }
+
+  private static ResourceTaskProvider toProvider(String source) {
+    if (isIgnoredString(source)) {
+      return null;
+    }
+    URI uri;
+    try {
+      uri = new URI(source);
+      if (uri.getScheme() != null) {
+        return new UriTaskProvider(uri, UriCaches.getStateSensitiveCache(),
+//            UriCaches.getLifetimeCache());
+            UriCaches.getStateSensitiveCache());
+      } else {
+        return new FileTaskProvider(new File(source));
+      }
+    } catch (URISyntaxException e) {
+      // This is a fall-through for files like C:\path\to\file
+      return new FileTaskProvider(new File(source));
+//      log.logError(e, "Can't parse %s", source);
+//      addIgnoredString(source);
+//      return null;
+    }
   }
 
   /**

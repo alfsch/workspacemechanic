@@ -14,6 +14,8 @@ import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.expectLastCall;
 import static org.easymock.EasyMock.replay;
 
+import java.io.File;
+
 import com.google.eclipse.mechanic.PreferenceReconcilerTask.CompositeReconciler;
 import com.google.eclipse.mechanic.PreferenceReconcilerTask.ContainsMatcher;
 import com.google.eclipse.mechanic.PreferenceReconcilerTask.EqualsMatcher;
@@ -77,7 +79,8 @@ public class PreferenceReconcilerTaskTest extends TestCase {
 
   public void testPathAppendResolver() {
     Resolver r = new PathAppendResolver(HAA);
-    assertEquals("wee:haa", r.resolve("wee"));
+    assertEquals("wee" + File.pathSeparator + "haa",
+        r.resolve("wee"));
   }
 
   public void testStringReplaceResolver() {
