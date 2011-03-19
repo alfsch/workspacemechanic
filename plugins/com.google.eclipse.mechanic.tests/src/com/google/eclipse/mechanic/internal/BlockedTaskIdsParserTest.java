@@ -43,7 +43,7 @@ public class BlockedTaskIdsParserTest extends TestCase {
     assertEquals(
         "[\"com.google.eclipse.path$Class@/Path/To/Thing\"," +
         "\"com.google.eclipse.path2@file://path/to/thing\"," +
-        "\"com.google.eclipse.path3@http://www.google.com/path.json?term\u0026term2\"]",
+        "\"com.google.eclipse.path3@http://www.google.com/path.json?term\\u0026term2\"]",
         parser.unparse(x, y, z));
   }
 
