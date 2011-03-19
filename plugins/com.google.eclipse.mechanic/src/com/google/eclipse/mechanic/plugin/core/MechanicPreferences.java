@@ -29,6 +29,7 @@ import org.eclipse.core.variables.IStringVariableManager;
 import org.eclipse.core.variables.VariablesPlugin;
 
 import com.google.eclipse.mechanic.Task;
+import com.google.eclipse.mechanic.internal.BlockedTaskIdsParser;
 import com.google.eclipse.mechanic.internal.FileTaskProvider;
 import com.google.eclipse.mechanic.internal.ResourceTaskProviderParser;
 import com.google.eclipse.mechanic.internal.UriCaches;
@@ -131,38 +132,40 @@ public class MechanicPreferences {
   public static List<ResourceTaskProvider> getTaskProviders() {
     String paths = preferencesService.getString(MechanicPlugin.PLUGIN_ID, DIRS_PREF, null, null);
 
-    // Create static default parser.
     ResourceTaskProviderParser parser = new ResourceTaskProviderParser();
     List<ResourceTaskProvider> providers = Util.newArrayList();
     for (String source : parser.parse(paths)) {
-      if (isIgnoredString(source)) {
-        continue;
-      }
-      URI uri;
-      try {
-        uri = new URI(source);
-      } catch (URISyntaxException e) {
-        log.logError(e, "Can't parse %s", source);
-        addIgnoredString(source);
-        continue;
-      }
-      ResourceTaskProvider provider;
-      if (uri.getScheme() != null) {
-        provider = new UriTaskProvider(uri, UriCaches.getStateSensitiveCache(),
-//            UriCaches.getLifetimeCache());
-            UriCaches.getStateSensitiveCache());
-      } else {
-        provider = new FileTaskProvider(new File(source));
-      }
-
-      IStatus initializationStatus = provider.initialize();
-      if (initializationStatus.isOK()) {
-        providers.add(provider);
-      } else {
-        log.log(initializationStatus);
+      ResourceTaskProvider provider = toProvider(source);
+      if (provider != null) {
+        IStatus initializationStatus = provider.initialize();
+        if (initializationStatus.isOK()) {
+          providers.add(provider);
+        } else {
+          log.log(initializationStatus);
+        }
       }
     }
     return providers;
+  }
+
+  private static ResourceTaskProvider toProvider(String source) {
+    if (isIgnoredString(source)) {
+      return null;
+    }
+    URI uri;
+    try {
+      uri = new URI(source);
+      if (uri.getScheme() != null) {
+        return new UriTaskProvider(uri, UriCaches.getStateSensitiveCache(),
+//             UriCaches.getLifetimeCache());
+            UriCaches.getStateSensitiveCache());
+      } else {
+        return new FileTaskProvider(new File(source));
+      }
+    } catch (URISyntaxException e) {
+      // This is a fall-through for files like C:\path\to\file
+      return new FileTaskProvider(new File(source));
+    }
   }
 
   /**
@@ -181,36 +184,26 @@ public class MechanicPreferences {
   }
 
   /**
-   * Returns a list of Task ids that have been blocked.
+   * Returns a mutable set of blocked Task ids.
    */
   public static Set<String> getBlockedTaskIds() {
-    String val = preferencesService.getString(MechanicPlugin.PLUGIN_ID, BLOCKED_PREF, null, null);
+    BlockedTaskIdsParser parser = new BlockedTaskIdsParser();
 
-    if (val != null) {
-      Set<String> set = Util.newHashSet();
-      Collections.addAll(set, Util.split(val, File.pathSeparator));
-      return set;
-    }
-    return Collections.emptySet();
+    String val = preferencesService.getString(MechanicPlugin.PLUGIN_ID, BLOCKED_PREF, null, null);
+    Set<String> set = Util.newHashSet();
+    Collections.addAll(set, parser.parse(val));
+    return set;
   }
 
   /**
    * Saves the supplied Task id set in the preferences system.
    */
   public static void setBlockedTaskIds(Set<String> ids) {
-    StringBuilder b = new StringBuilder();
+    BlockedTaskIdsParser parser = new BlockedTaskIdsParser();
 
-    for (String id : ids) {
-      if (id.contains(File.pathSeparator)) {
-        throw new IllegalStateException(
-            String.format("ids cannot contain '%s'", File.pathSeparator));
-      }
-      if (b.length() > 0) {
-        b.append(File.pathSeparatorChar);
-      }
-      b.append(id);
-    }
-    pluginPreferences.put(BLOCKED_PREF, b.toString());
+    String unparse = parser.unparse(ids.toArray(new String[0]));
+
+    pluginPreferences.put(BLOCKED_PREF, unparse);
   }
 
   /**
