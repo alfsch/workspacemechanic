@@ -62,12 +62,12 @@ public final class ThreadsafeUriContentCache implements IUriContentProvider {
       return new ByteArrayInputStream(futureToFetch.get());
     } catch (InterruptedException e) {
       Thread.currentThread().interrupt();
-      throw new IOException(e);
+      throw newIoException(e);
     } catch (ExecutionException e) {
       if (e.getCause() instanceof IOException) {
         throw (IOException) e.getCause();
       }
-      throw new IOException(e);
+      throw newIoException(e);
     }
   }
 
@@ -92,12 +92,12 @@ public final class ThreadsafeUriContentCache implements IUriContentProvider {
       return futureToFetch.get();
     } catch (InterruptedException e) {
       Thread.currentThread().interrupt();
-      throw new IOException(e);
+      throw newIoException(e);
     } catch (ExecutionException e) {
       if (e.getCause() instanceof IOException) {
         throw (IOException) e.getCause();
       }
-      throw new IOException(e);
+      throw newIoException(e);
     }
   }
 
@@ -105,5 +105,10 @@ public final class ThreadsafeUriContentCache implements IUriContentProvider {
     contentCache.clear();
     lastModCache.clear();
     delegate.clear();
+  }
+
+  private static IOException newIoException(Exception e) {
+    // IOException(Throwable cause) wasn't introduced until Java 6.
+    return (IOException) new IOException().initCause(e);
   }
 }
