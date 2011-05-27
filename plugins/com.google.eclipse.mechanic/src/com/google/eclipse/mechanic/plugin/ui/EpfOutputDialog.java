@@ -147,6 +147,13 @@ public class EpfOutputDialog extends Dialog {
     getButton(IDialogConstants.OK_ID).setEnabled(false); 
   }
 
+  
+  @Override
+  protected void configureShell(Shell shell) {
+    super.configureShell(shell);
+    shell.setText("Preference Recorder");
+  }
+
   @Override
   protected Control createDialogArea(Composite parent) {
     final Composite container = (Composite) super.createDialogArea(parent);
