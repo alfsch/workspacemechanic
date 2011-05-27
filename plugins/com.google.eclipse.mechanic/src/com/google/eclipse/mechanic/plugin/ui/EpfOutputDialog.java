@@ -20,6 +20,7 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.layout.TableColumnLayout;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.CheckStateChangedEvent;
@@ -45,7 +46,6 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
@@ -219,8 +219,14 @@ public class EpfOutputDialog extends Dialog {
 
       private void doFileDialog() {
         FileDialog fd = new FileDialog(container.getShell(), SWT.SAVE);
+        // TODO: initialize dialog with filename. It's not as simple as
+        // setFilename() unfortunately.
         fd.setOverwrite(true);
-        savedLocationText.setText(fd.open());
+        fd.setFilterExtensions(new String[] { "*.epf" });
+        String file = fd.open();
+        if (file != null) {
+          savedLocationText.setText(file);
+        }
         willVerifyOverwrite = false; // Should override the listener on the text box
       }
     });
@@ -309,6 +315,10 @@ public class EpfOutputDialog extends Dialog {
 
     File parentDir = destFile.getParentFile();
 
+    if (parentDir == null) {
+      return false;
+    }
+
     if (!parentDir.exists()) {
       return false;
     }
@@ -327,16 +337,22 @@ public class EpfOutputDialog extends Dialog {
     }
 
     IPath destinationPath = new Path(savedFileLocation);
-    
+
+    String fileExtension = destinationPath.getFileExtension();
+    if (!"epf".equals(fileExtension)) {
+      String message = String.format("The file \"%s\" does not have an .epf extension. Add it?", destinationPath);
+      if (MessageDialog.openQuestion(this.getShell(), "Add .epf to filename?", message)) {
+        destinationPath = destinationPath.addFileExtension("epf");
+        willVerifyOverwrite = true;
+      }
+    }
     // If the user picked a file via the dialog and that file exists, then they've already been 
     // asked if the file should be overwritten, and we shouldn't ask again. If not, then we need 
     // to check if the file exists and, if so, ask them now.
     if (willVerifyOverwrite) {
       if (destinationPath.toFile().exists()) {
-        MessageBox mb = new MessageBox(this.getShell(), SWT.ICON_QUESTION | SWT.YES | SWT.NO);
-        mb.setMessage(
-            String.format("The file \"%s\" will be overwritten. Is this OK?", savedFileLocation));
-        if (mb.open() != SWT.YES) {
+        String message = String.format("The file \"%s\" will be overwritten. Is this OK?", destinationPath);
+        if (!MessageDialog.openQuestion(this.getShell(), "Overwrite?", message)) {
           return;
         }
       }

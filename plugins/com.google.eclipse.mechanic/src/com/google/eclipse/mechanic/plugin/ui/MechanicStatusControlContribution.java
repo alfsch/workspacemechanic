@@ -17,6 +17,7 @@ import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseEvent;
@@ -446,9 +447,14 @@ public class MechanicStatusControlContribution extends WorkbenchWindowControlCon
 
         // Display dialog to get obtain properties of the saved task file
         Shell parentShell = Display.getCurrent().getActiveShell();
-        EpfOutputDialog dialog = new EpfOutputDialog(parentShell, 
-            collector.getPreferences());
-        dialog.open();
+        Map<String, String> preferences = collector.getPreferences();
+        if (preferences.isEmpty()) {
+          MessageDialog.openWarning(parentShell,  "No preferences",
+              "No changes to preferences were made.");
+        } else {
+          EpfOutputDialog dialog = new EpfOutputDialog(parentShell,  preferences);
+          dialog.open();
+        }
       } catch (CoreException e) {
         MechanicLog.getDefault().logError(e);
       }
