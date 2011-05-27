@@ -63,7 +63,6 @@ public final class TaskSelectionDialog extends ListDialog {
   @Override
   protected Control createDialogArea(Composite container) {
     Control area = super.createDialogArea(container);
-    System.out.println(getWidthInChars());
     TableViewer tableViewer = getTableViewer();
     Table table = tableViewer.getTable();
     table.setHeaderVisible(true);
