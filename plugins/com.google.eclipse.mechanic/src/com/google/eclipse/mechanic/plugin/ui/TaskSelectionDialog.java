@@ -42,6 +42,7 @@ public final class TaskSelectionDialog extends ListDialog {
     setInput(items);
     setContentProvider(ArrayContentProvider.getInstance());
     setLabelProvider(new DefaultLabelProvider());
+    setWidthInChars(80);
     setTitle(title);
   }
 
@@ -62,12 +63,13 @@ public final class TaskSelectionDialog extends ListDialog {
   @Override
   protected Control createDialogArea(Composite container) {
     Control area = super.createDialogArea(container);
+    System.out.println(getWidthInChars());
     TableViewer tableViewer = getTableViewer();
     Table table = tableViewer.getTable();
     table.setHeaderVisible(true);
-    newTableColumn(table, "Name", 100);
-    newTableColumn(table, "ID", 100);
-    newTableColumn(table, "Description", 100);
+    newTableColumn(table, "Description", 200);
+    newTableColumn(table, "ID", 200);
+    newTableColumn(table, "Name", 200);
     tableViewer.refresh();
     return area;
   }
@@ -77,6 +79,7 @@ public final class TaskSelectionDialog extends ListDialog {
    */
   private static class DefaultLabelProvider extends LabelProvider implements ITableLabelProvider {
 
+    @Override
     public boolean isLabelProperty(Object element, String property) {
       return false;
     }
