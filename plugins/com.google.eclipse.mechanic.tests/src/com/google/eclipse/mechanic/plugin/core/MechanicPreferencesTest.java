@@ -94,6 +94,18 @@ public class MechanicPreferencesTest extends TestCase {
     assertEquals(Long.MAX_VALUE, getLong(pref));
   }
 
+  public void testWithFunnyKey() {
+    String pref =
+        "com.google.eclipse.mechanic.internal.PreferenceFileTaskScanner$" +
+        "LastmodEpfTask@" + 
+        "/Users/kberg/.eclipse/mechanic/showlinenumbers.epf_lastmod";
+
+    assertEquals(0, getLong(pref));
+    setLong(pref, 1);
+    assertEquals(1, getLong(pref));
+    setLong(pref, Long.MAX_VALUE);
+    assertEquals(Long.MAX_VALUE, getLong(pref));
+  }
   //public static List<ResourceTaskProvider> getTaskProviders() {
   //public static int getThreadSleepSeconds() {
   //public static String doVariableSubstitution(String input) {
