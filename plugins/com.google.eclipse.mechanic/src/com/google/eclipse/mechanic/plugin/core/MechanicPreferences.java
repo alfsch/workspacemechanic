@@ -17,15 +17,11 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ConcurrentMap;
 
-import org.eclipse.core.internal.preferences.PreferencesService;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.Platform;
-import org.eclipse.core.runtime.preferences.IEclipsePreferences;
-import org.eclipse.core.runtime.preferences.IEclipsePreferences.IPreferenceChangeListener;
-import org.eclipse.core.runtime.preferences.IPreferencesService;
-import org.eclipse.core.runtime.preferences.InstanceScope;
+import org.eclipse.core.runtime.Preferences;
+import org.eclipse.core.runtime.Preferences.IPropertyChangeListener;
 import org.eclipse.core.variables.IStringVariableManager;
 import org.eclipse.core.variables.VariablesPlugin;
 
@@ -40,13 +36,19 @@ import com.google.eclipse.mechanic.internal.Util;
 /**
  * Class used to initialize and access various plugin related preference values.
  *
- * @author smckay@google.com (Steve McKay)
+ * <p> API Note: I tried using the newer API (as the Preferences API was
+ * deprecated, but I had such a bizarre issue? As evidenced by the test
+ * in MechanicPreferencesTest.testWithFunnyKey.
  */
-@SuppressWarnings("restriction") // PreferencesService is the only access to validateVersions.
+@SuppressWarnings("deprecation") // Uses the old-style API.
 public class MechanicPreferences {
-  private static final IPreferencesService preferencesService = Platform.getPreferencesService();
-  private static final IEclipsePreferences pluginPreferences =
-      InstanceScope.INSTANCE.getNode(MechanicPlugin.PLUGIN_ID);
+ 
+  /**
+   * Returns the plugin preferences. Just a convenience method.
+   */
+  private static Preferences getPreferences() {
+    return MechanicPlugin.getDefault().getPluginPreferences();
+  }
 
   private static final MechanicLog log = MechanicLog.getDefault();
 
@@ -105,12 +107,14 @@ public class MechanicPreferences {
    */
   public static final int MINIMUM_SLEEP_SECONDS = 10;
 
-  public static void addListener(IPreferenceChangeListener listener) {
-    pluginPreferences.addPreferenceChangeListener(listener);
+  public static void addListener(IPropertyChangeListener listener) {
+    Preferences prefs = getPreferences();
+    prefs.addPropertyChangeListener(listener);
   }
 
-  public static void removeListener(IPreferenceChangeListener listener) {
-    pluginPreferences.removePreferenceChangeListener(listener);
+  public static void removeListener(IPropertyChangeListener listener) {
+    Preferences prefs = getPreferences();
+    prefs.removePropertyChangeListener(listener);
   }
 
   // CHM used for thread-safe map.
@@ -122,7 +126,7 @@ public class MechanicPreferences {
    * @return list of task sources where tasks may be found.
    */
   public static List<ResourceTaskProvider> getTaskProviders() {
-    String paths = preferencesService.getString(MechanicPlugin.PLUGIN_ID, DIRS_PREF, null, null);
+    String paths = getString(DIRS_PREF);
 
     ResourceTaskProviderParser parser = new ResourceTaskProviderParser();
     List<ResourceTaskProvider> providers = Util.newArrayList();
@@ -165,7 +169,7 @@ public class MechanicPreferences {
    * Returns the number of seconds the mechanic should sleep between passes.
    */
   public static int getThreadSleepSeconds() {
-    int seconds = preferencesService.getInt(MechanicPlugin.PLUGIN_ID, SLEEPAGE_PREF, 0, null);
+    int seconds = getInt(SLEEPAGE_PREF);
     return cleanSleepSeconds(seconds);
   }
 
@@ -182,7 +186,7 @@ public class MechanicPreferences {
   public static Set<String> getBlockedTaskIds() {
     BlockedTaskIdsParser parser = new BlockedTaskIdsParser();
 
-    String val = preferencesService.getString(MechanicPlugin.PLUGIN_ID, BLOCKED_PREF, null, null);
+    String val = getString(BLOCKED_PREF);
     Set<String> set = Util.newHashSet();
     Collections.addAll(set, parser.parse(val));
     return set;
@@ -196,7 +200,8 @@ public class MechanicPreferences {
 
     String unparse = parser.unparse(ids.toArray(new String[0]));
 
-    pluginPreferences.put(BLOCKED_PREF, unparse);
+    Preferences prefs = getPreferences();
+    prefs.setValue(BLOCKED_PREF, unparse);
   }
 
   /**
@@ -212,22 +217,47 @@ public class MechanicPreferences {
    * Returns the mechanic help url.
    */
   public static String getHelpUrl() {
-    return preferencesService.getString(MechanicPlugin.PLUGIN_ID, HELP_URL_PREF, null, null);
+    return getString(HELP_URL_PREF);
+  }
+
+  /**
+   * returns the value of given key as a int.
+   */
+  public static int getInt(String key) {
+    Preferences prefs = getPreferences();
+    return prefs.getInt(key);
   }
 
   /**
    * returns the value of given key as a long.
    */
   public static long getLong(String key) {
-    return preferencesService.getLong(MechanicPlugin.PLUGIN_ID,
-        key, 0L, null);
+    Preferences prefs = getPreferences();
+    return prefs.getLong(key);
   }
 
   /**
    * Set the long value of a preference on the MechanicPreferences scope.
    */
   public static void setLong(String key, long value) {
-    pluginPreferences.putLong(key, value);
+    Preferences prefs = getPreferences();
+    prefs.setValue(key, value);
+  }
+
+  /**
+   * returns the value of given key as a string.
+   */
+  public static String getString(String key) {
+    Preferences prefs = getPreferences();
+    return prefs.getString(key);
+  }
+
+  /**
+   * Set the string value of a preference on the MechanicPreferences scope.
+   */
+  public static void setString(String key, String value) {
+    Preferences prefs = getPreferences();
+    prefs.setValue(key, value);
   }
 
   /**
@@ -251,14 +281,16 @@ public class MechanicPreferences {
    * tasks fail.
    */
   public static boolean isShowPopup() {
-    return preferencesService.getBoolean(MechanicPlugin.PLUGIN_ID, SHOW_POPUP_PREF, true, null);
+    Preferences prefs = getPreferences();
+    return prefs.getBoolean(SHOW_POPUP_PREF);
   }
 
   /**
    * Disable the preference that shows the notification popup.
    */
   public static void doNotShowPopup() {
-    pluginPreferences.putBoolean(SHOW_POPUP_PREF, false);
+    Preferences prefs = getPreferences();
+    prefs.setValue(SHOW_POPUP_PREF, false);
   }
 
   /**
@@ -267,7 +299,8 @@ public class MechanicPreferences {
    * <p>For tests only.
    */
   public static void showPopup() {
-    pluginPreferences.putBoolean(SHOW_POPUP_PREF, true);
+    Preferences prefs = getPreferences();
+    prefs.setValue(SHOW_POPUP_PREF, true);
   }
 
 //  /**
@@ -291,6 +324,6 @@ public class MechanicPreferences {
    * Get the validation status of a preferences file.
    */
   public static IStatus validatePreferencesFile(IPath path) {
-    return ((PreferencesService) preferencesService).validateVersions(path);
+    return Preferences.validatePreferenceVersions(path);
   }
 }

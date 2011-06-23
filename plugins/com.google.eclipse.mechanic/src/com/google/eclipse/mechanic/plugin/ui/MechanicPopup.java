@@ -24,6 +24,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.forms.events.HyperlinkAdapter;
 import org.eclipse.ui.forms.events.HyperlinkEvent;
 import org.eclipse.ui.forms.widgets.Hyperlink;
+import org.osgi.service.prefs.BackingStoreException;
 
 /**
  * Business end of the popup.
@@ -94,7 +95,11 @@ public class MechanicPopup extends AbstractPopup {
     createHyperlink(parent, "Disable this popup", new Runnable() {
       public void run() {
         close();
-        doNotShowPopup();
+        try {
+          doNotShowPopup();
+        } catch (BackingStoreException e) {
+          throw new RuntimeException(e);
+        }
       }
     });
   }
@@ -142,6 +147,6 @@ public class MechanicPopup extends AbstractPopup {
   /**
    * Implement in subclass to hide popup
    */
-  public void doNotShowPopup() {
+  public void doNotShowPopup() throws BackingStoreException {
   }
 }

@@ -42,14 +42,15 @@ public abstract class LastModifiedPreferencesFileTask extends CompositeTask {
   private final IResourceTaskReference taskRef;
   private final File file;
 
+  private final String id;
+  private final String key;
+
   public LastModifiedPreferencesFileTask(IResourceTaskReference taskRef) {
     this.taskRef = taskRef;
     this.file = taskRef.asFile();
     Util.checkArgument(file == null || file.canRead(), file + " must be readable");
-  }
-
-  private final String getKey() {
-    return String.format("%s_lastmod", getId());
+    this.id = String.format("%s@%s", getClass().getName(), taskRef.getPath());
+    this.key = String.format("%s_lastmod", id);
   }
 
   /**
@@ -57,9 +58,7 @@ public abstract class LastModifiedPreferencesFileTask extends CompositeTask {
    */
   @Override
   public String getId() {
-    return String.format("%s@%s",
-        getClass().getName(),
-        taskRef.getPath());
+    return id;
   }
 
   /**
@@ -67,7 +66,7 @@ public abstract class LastModifiedPreferencesFileTask extends CompositeTask {
    * but there is a newer version of the preferences file.
    */
   public boolean evaluate() {
-    long previous = MechanicPreferences.getLong(getKey());
+    long previous = MechanicPreferences.getLong(key);
     try {
       return previous > 0L && previous >= taskRef.getLastModified();
     } catch (IOException e) {
@@ -88,7 +87,7 @@ public abstract class LastModifiedPreferencesFileTask extends CompositeTask {
           Status.OK_STATUS;
       if (validStatus.isOK()) {
         transfer();
-        MechanicPreferences.setLong(getKey(), lastmod);
+        MechanicPreferences.setLong(key, lastmod);
       } else {
         throw new CoreException(validStatus);
       }

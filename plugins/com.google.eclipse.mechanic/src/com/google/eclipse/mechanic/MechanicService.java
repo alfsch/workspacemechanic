@@ -17,13 +17,13 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Preferences.IPropertyChangeListener;
+import org.eclipse.core.runtime.Preferences.PropertyChangeEvent;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.core.runtime.jobs.IJobChangeEvent;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.core.runtime.jobs.JobChangeAdapter;
-import org.eclipse.core.runtime.preferences.IEclipsePreferences.IPreferenceChangeListener;
-import org.eclipse.core.runtime.preferences.IEclipsePreferences.PreferenceChangeEvent;
 import org.eclipse.swt.widgets.Display;
 
 import com.google.eclipse.mechanic.internal.RootTaskScanner;
@@ -404,8 +404,9 @@ public final class MechanicService implements IMechanicService {
   /**
    * Wakes up the service when a preferences change is received.
    */
-  private class PreferenceChangeListener implements IPreferenceChangeListener {
-    public void preferenceChange(PreferenceChangeEvent event) {
+  @SuppressWarnings("deprecation")
+  private class PreferenceChangeListener implements IPropertyChangeListener {
+    public void propertyChange(PropertyChangeEvent event) {
       // if the service is stopped, we don't do anything.
       if (!MechanicService.getInstance().isStopped()) {
         MechanicService.getInstance().start();
