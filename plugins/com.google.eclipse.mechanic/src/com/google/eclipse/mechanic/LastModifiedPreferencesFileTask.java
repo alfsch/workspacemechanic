@@ -88,7 +88,7 @@ public abstract class LastModifiedPreferencesFileTask extends CompositeTask {
           Status.OK_STATUS;
       if (validStatus.isOK()) {
         transfer();
-        MechanicPreferences.setValue(getKey(), lastmod);
+        MechanicPreferences.setLong(getKey(), lastmod);
       } else {
         throw new CoreException(validStatus);
       }

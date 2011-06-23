@@ -46,7 +46,7 @@ import com.google.eclipse.mechanic.internal.Util;
 public class MechanicPreferences {
   private static final IPreferencesService preferencesService = Platform.getPreferencesService();
   private static final IEclipsePreferences pluginPreferences =
-      new InstanceScope().getNode(MechanicPlugin.PLUGIN_ID);
+      InstanceScope.INSTANCE.getNode(MechanicPlugin.PLUGIN_ID);
 
   private static final MechanicLog log = MechanicLog.getDefault();
 
@@ -166,13 +166,13 @@ public class MechanicPreferences {
    */
   public static int getThreadSleepSeconds() {
     int seconds = preferencesService.getInt(MechanicPlugin.PLUGIN_ID, SLEEPAGE_PREF, 0, null);
-    return cleansSleepSeconds(seconds);
+    return cleanSleepSeconds(seconds);
   }
 
   /**
    * Ensures the supplied sleep duration falls in an acceptable range.
    */
-  public static int cleansSleepSeconds(int seconds) {
+  public static int cleanSleepSeconds(int seconds) {
     return Math.max(seconds, MINIMUM_SLEEP_SECONDS);
   }
 
@@ -224,6 +224,13 @@ public class MechanicPreferences {
   }
 
   /**
+   * Set the long value of a preference on the MechanicPreferences scope.
+   */
+  public static void setLong(String key, long value) {
+    pluginPreferences.putLong(key, value);
+  }
+
+  /**
    * Perform variable substitution on a string. Used for translating the task directories,
    * which can contain variables.
    *
@@ -254,6 +261,15 @@ public class MechanicPreferences {
     pluginPreferences.putBoolean(SHOW_POPUP_PREF, false);
   }
 
+  /**
+   * Enable preference that shows the notification popup.
+   *
+   * <p>For tests only.
+   */
+  public static void showPopup() {
+    pluginPreferences.putBoolean(SHOW_POPUP_PREF, true);
+  }
+
 //  /**
 //   * Return {@code true} if web caching is enabled.
 //   */
@@ -276,12 +292,5 @@ public class MechanicPreferences {
    */
   public static IStatus validatePreferencesFile(IPath path) {
     return ((PreferencesService) preferencesService).validateVersions(path);
-  }
-
-  /**
-   * Set the value of a preference on the MechanicPreferences scope.
-   */
-  public static void setValue(String key, long value) {
-    pluginPreferences.putLong(key, value);
   }
 }
