@@ -11,6 +11,7 @@ package com.google.eclipse.mechanic.plugin.ui;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -103,7 +104,8 @@ public class EpfOutputDialog extends Dialog {
     }
   }
 
-  private Map<String, String> preferences;
+  // TODO(konigsberg): Make ImmutableList
+  private final Map<String, String> preferences;
   private String title = "";
   private String description = "";
   private String savedFileLocation = "";
@@ -111,6 +113,7 @@ public class EpfOutputDialog extends Dialog {
   private ITableLabelProvider labelProvider = new EPFOutputLabelProvider();
   private Set<String> selectedKeys;
   private boolean willVerifyOverwrite = true;
+  private CheckboxTableViewer acceptedPreferences;
 
   /**
    * Create an output dialog for the given shell.
@@ -122,8 +125,8 @@ public class EpfOutputDialog extends Dialog {
    */
   public EpfOutputDialog(Shell parentShell, Map<String, String> preferences) {
     super(parentShell);
-    this.preferences = new HashMap<String, String>(preferences);
-    this.selectedKeys = preferences.keySet();
+    this.preferences = Collections.unmodifiableMap(preferences);
+    this.selectedKeys = new HashSet<String>(preferences.keySet());
   }
 
   @Override
@@ -134,20 +137,38 @@ public class EpfOutputDialog extends Dialog {
   @Override
   protected Point getInitialSize() {
     Point p =  super.getInitialSize();
-    
     return new Point(p.x, p.y * 3 / 2);
   }
   
   @Override
   protected void createButtonsForButtonBar(Composite parent) {
+    createButton(parent, IDialogConstants.SELECT_ALL_ID, "Select All", false);
+    createButton(parent, IDialogConstants.DESELECT_ALL_ID, "Deselect All", false);
+
     super.createButtonsForButtonBar(parent);
-    
+
     // Initial values for the dialog aren't valid, so set the button to 
     // be disabled initially
     getButton(IDialogConstants.OK_ID).setEnabled(false); 
   }
 
   
+  @Override
+  protected void buttonPressed(int buttonId) {
+    super.buttonPressed(buttonId);
+    if (buttonId == IDialogConstants.SELECT_ALL_ID) {
+      acceptedPreferences.setAllChecked(true);
+      selectedKeys.clear();
+      selectedKeys.addAll(preferences.keySet());
+      validate();
+    }
+    if (buttonId == IDialogConstants.DESELECT_ALL_ID) {
+      acceptedPreferences.setAllChecked(false);
+      selectedKeys.clear();
+      validate();
+    }
+  }
+
   @Override
   protected void configureShell(Shell shell) {
     super.configureShell(shell);
@@ -250,7 +271,7 @@ public class EpfOutputDialog extends Dialog {
     TableColumnLayout columnLayout = new TableColumnLayout();
     tableContainer.setLayout(columnLayout);
 
-    final CheckboxTableViewer acceptedPreferences =
+    acceptedPreferences =
         CheckboxTableViewer.newCheckList(tableContainer, SWT.SINGLE | SWT.FULL_SELECTION);
     Table acceptedPreferencesTable = acceptedPreferences.getTable();
     acceptedPreferencesTable.setHeaderVisible(true);
@@ -286,7 +307,7 @@ public class EpfOutputDialog extends Dialog {
 
     return container;
   }
-  
+
   private void validate() {
     this.getButton(IDialogConstants.OK_ID).setEnabled(isReady());
   }
