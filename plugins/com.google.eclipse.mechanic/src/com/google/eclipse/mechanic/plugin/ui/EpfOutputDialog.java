@@ -53,6 +53,7 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Text;
 
 import com.google.eclipse.mechanic.internal.EpfFileModel;
+import com.google.eclipse.mechanic.internal.EpfFileModelWriter;
 import com.google.eclipse.mechanic.internal.TaskType;
 import com.google.eclipse.mechanic.plugin.core.MechanicLog;
 
@@ -364,6 +365,10 @@ public class EpfOutputDialog extends Dialog {
       return; // Should never happen, since we disable OK when not ready
     }
 
+    writeEpfFile();
+  }
+
+  private void writeEpfFile() {
     IPath destinationPath = new Path(savedFileLocation);
 
     String fileExtension = destinationPath.getFileExtension();
@@ -399,7 +404,7 @@ public class EpfOutputDialog extends Dialog {
     }
 
     try {
-      epfFile.writeFile(destinationPath);
+      EpfFileModelWriter.write(epfFile, destinationPath);
       super.okPressed(); // Closes the dialog and returns an OK result
     } catch (IOException e) {
       MechanicLog.getDefault().logError(e, "Error while writing %s", destinationPath);
