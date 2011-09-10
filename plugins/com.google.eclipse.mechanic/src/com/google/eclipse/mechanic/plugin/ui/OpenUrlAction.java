@@ -9,8 +9,6 @@
 
 package com.google.eclipse.mechanic.plugin.ui;
 
-import static java.lang.String.format;
-
 import org.eclipse.jface.action.Action;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
@@ -51,13 +49,12 @@ public final class OpenUrlAction extends Action {
   /**
    * Creates a new instance using the supplied string url and
    * label text.
+   * @throws MalformedURLException when the URL text is invalid.
+   *
+   * @throws IllegalArgumentException when the URL is invalid.
    */
-  public OpenUrlAction(String url, String text) {
-    try {
-      this.url = new URL(url);
-    } catch (MalformedURLException e) {
-      throw new IllegalArgumentException(format("Bad url: '%s'.", url), e);
-    }
+  public OpenUrlAction(String url, String text) throws MalformedURLException {
+    this.url = new URL(url);
     setText(text);
   }
 

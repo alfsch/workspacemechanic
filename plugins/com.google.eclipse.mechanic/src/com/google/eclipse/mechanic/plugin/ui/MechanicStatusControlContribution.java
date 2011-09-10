@@ -8,6 +8,7 @@
  *******************************************************************************/
 package com.google.eclipse.mechanic.plugin.ui;
 
+import java.net.MalformedURLException;
 import java.util.Map;
 
 import org.eclipse.core.runtime.CoreException;
@@ -35,12 +36,13 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.menus.WorkbenchWindowControlContribution;
 
 import com.google.eclipse.mechanic.IMechanicService;
+import com.google.eclipse.mechanic.IStatusChangeListener;
 import com.google.eclipse.mechanic.MechanicService;
 import com.google.eclipse.mechanic.MechanicStatus;
 import com.google.eclipse.mechanic.RepairDecisionProvider;
-import com.google.eclipse.mechanic.IStatusChangeListener;
 import com.google.eclipse.mechanic.StatusChangedEvent;
 import com.google.eclipse.mechanic.core.recorder.ChangeCollector;
+import com.google.eclipse.mechanic.core.recorder.IPreferenceRecordingService;
 import com.google.eclipse.mechanic.internal.Util;
 import com.google.eclipse.mechanic.plugin.core.MechanicLog;
 import com.google.eclipse.mechanic.plugin.core.MechanicPlugin;
@@ -77,27 +79,30 @@ public class MechanicStatusControlContribution extends WorkbenchWindowControlCon
 
   private final IStatusChangeListener statusListener;
 
+  private final IPreferenceRecordingService preferenceRecordingService;
+
   private MechanicStatus status;
   private Label label;
   private Map<DisplayStatus, Image> images;
 
   public MechanicStatusControlContribution() {
+    this.preferenceRecordingService = MechanicPlugin.getDefault().getPreferenceRecordingService();
     // to be registered in our initialize method, and disposed of with us
-    statusListener = new IStatusChangeListener() {
+    this.statusListener = new IStatusChangeListener() {
       public void statusChanged(StatusChangedEvent e) {
         setMechanicStatus(e.getStatus());
         updateDisplay();
       }
     };
+    updateRecordingStatusMenuItems(preferenceRecordingService.isRecording());
   }
 
   private static Action createHelpAction() {
     String helpUrl = MechanicPreferences.getHelpUrl();
     try {
       return new OpenUrlAction(helpUrl, "Help...");
-    } catch (RuntimeException e) {
-      log.logError(e, 
-          "Could not initialize help action for URL %s: %s", helpUrl, e.getMessage());
+    } catch (MalformedURLException e) {
+      log.logError(e,  "Could not initialize help action for URL %s: %s", helpUrl, e.getMessage());
       return null;
     }
   }
@@ -402,6 +407,11 @@ public class MechanicStatusControlContribution extends WorkbenchWindowControlCon
     }
   }
 
+  private void updateRecordingStatusMenuItems(boolean recording) {
+    startRecordingAction.setEnabled(!recording);
+    stopRecordingAction.setEnabled(recording);
+  }
+
   /**
    * Action to start recording preferences.
    */
@@ -414,11 +424,9 @@ public class MechanicStatusControlContribution extends WorkbenchWindowControlCon
     @Override
     public void run() {
       try {
-        // Update menu items
-        this.setEnabled(false);
-        stopRecordingAction.setEnabled(true);
+        updateRecordingStatusMenuItems(true);
 
-        MechanicPlugin.getDefault().getPreferenceRecordingService().startRecording();
+        preferenceRecordingService.startRecording();
       } catch (CoreException e) {
         MechanicPlugin.getDefault().getLog().log(e.getStatus());
       }
@@ -431,7 +439,6 @@ public class MechanicStatusControlContribution extends WorkbenchWindowControlCon
   public class StopRecordingAction extends Action {
     public StopRecordingAction() {
       super("Stop Recording...");
-      this.setEnabled(false);
     }
 
     @Override
@@ -439,11 +446,9 @@ public class MechanicStatusControlContribution extends WorkbenchWindowControlCon
       try {
         // Stop recording, and collect results
         ChangeCollector collector = new ChangeCollector();
-        MechanicPlugin.getDefault().getPreferenceRecordingService().endRecording(collector);
+        preferenceRecordingService.endRecording(collector);
 
-        // Change states of the menu items
-        this.setEnabled(false);
-        startRecordingAction.setEnabled(true);
+        updateRecordingStatusMenuItems(false);
 
         // Display dialog to get obtain properties of the saved task file
         Shell parentShell = Display.getCurrent().getActiveShell();
