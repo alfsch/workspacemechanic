@@ -66,10 +66,20 @@ public final class FileTaskProvider extends ResourceTaskProvider {
     }
   }
 
-  public FileTaskProvider(File dir) {
-    this.dir = Util.checkNotNull(dir);
-  }
+  private static final String SEPARATOR = System.getProperty("file.separator");
 
+  public FileTaskProvider(File dir) {
+    dir = Util.checkNotNull(dir);
+    String path = dir.getPath();
+    if (path.startsWith("~" + SEPARATOR)) {
+      dir = new File(System.getProperty("user.home"), path.substring(1));
+    } else if (path.startsWith(".."  + SEPARATOR)) {
+      dir = new File(new File(System.getProperty("user.dir"), ".."), path.substring(2));
+    } else if (path.startsWith("." + SEPARATOR)) {
+      dir = new File(System.getProperty("user.dir"), path.substring(1));
+    }
+    this.dir = dir;
+  }
   /**
    * REMOVE as we move things along.
    */
