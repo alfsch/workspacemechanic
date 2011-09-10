@@ -46,7 +46,7 @@ public class EpfFileModel {
     this.description = description;
     this.taskType = taskType;
   }
-  
+
   /**
    * Adds a preference entry to this file.
    * @param key the preference's key
