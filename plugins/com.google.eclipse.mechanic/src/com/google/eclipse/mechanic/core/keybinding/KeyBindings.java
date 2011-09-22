@@ -32,7 +32,7 @@ import java.util.Map;
  * @author zorzella@google.com
  * @author konigsberg@google.com
  */
-public class KeyBindings {
+class KeyBindings {
 
   /*
    * If you're trying to interpret key bindings, this comment block will be useful.
