@@ -28,81 +28,103 @@ import com.google.eclipse.mechanic.tests.internal.RunAsJUnitTest;
 public class KeyBindingsParserTest extends TestCase {
 
   private static final String TEST_NO_CHANGESETS =
-    "{" +
-    "  'metadata' : {" +
-    "    'shortDescription' : 'Zorzella\\'s bindings'," +
-    "    'description' : 'Zorzella\\'s bindings in the real world'," +
-    "    'type' : 'LASTMOD'" + // Comma: *1
-    "  }, " +
-    "  'changeSets' : [" +
-    "  ]" +
-    "} ";
+    "{\n" +
+    "  'metadata' : {\n" +
+    "    'shortDescription' : 'Zorzella\\'s bindings',\n" +
+    "    'description' : 'Zorzella\\'s bindings in the real world',\n" +
+    "    'type' : 'LASTMOD'\n" + // Comma: *1
+    "  }, \n" +
+    "  'changeSets' : [\n" +
+    "  ]\n" +
+    "}\n";
 
   // *1 indicates that there used to be a comma at the end of the line, but
   // that's not supported in strict mode.
   private static final String TEST_JSON =
-    "{" +
-    "  'metadata' : {" +
-    "    'shortDescription' : 'Zorzella\\'s bindings'," +
-    "    'description' : 'Zorzella\\'s bindings in the real world'," +
-    "    'type' : 'LASTMOD'" + // Comma: *1
-    "  }, " +
-    "  'changeSets' : [" +
-    "    {" +
-    "      'scheme' : 'org.eclipse.ui.emacsAcceleratorConfiguration'," +
-    "      'platform' : 'Windows'," +
-    "      'context' : 'org.eclipse.ui.contexts.window'," +
-    "      'bindings' : [" +
-    "        {'action' : 'rem', 'keys' : 'Shift+Alt+Q X'}," +
-    "        {'action' : 'add', 'keys' : 'Shift+Alt+Q T', 'command' : {'id' : 'a.b.c.d.e'}}" + // Comma: *1
-    "      ]" +
-    "    }," +
-    "    {" +
-    "      'scheme' : 'org.eclipse.ui.defaultAcceleratorConfiguration'," +
-    "      'platform' : 'Windows'," +
-    "      'context' : 'org.eclipse.ui.contexts.window'," +
-    "      'bindings' : [" +
-    "        {'action' : 'rem', 'keys' : 'Shift+Alt+Q X'}," +
-    "        {'action' : 'add', 'keys' : 'Shift+Alt+Q T', 'command' : {'id' : 'a.b.c.d.e'}}" + // Comma: *1
-    "      ]" +
-    "    }" + // Comma *1
-    "  ]" +
-    "} ";
+    "{\n" +
+    "  'metadata' : {\n" +
+    "    'shortDescription' : 'Zorzella\\'s bindings',\n" +
+    "    'description' : 'Zorzella\\'s bindings in the real world',\n" +
+    "    'type' : 'LASTMOD'\n" + // Comma: *1
+    "  }, \n" +
+    "  'changeSets' : [\n" +
+    "    {\n" +
+    "      'scheme' : 'org.eclipse.ui.emacsAcceleratorConfiguration',\n" +
+    "      'platform' : 'Windows',\n" +
+    "      'context' : 'org.eclipse.ui.contexts.window',\n" +
+    "      'bindings' : [\n" +
+    "        {'action' : 'rem', 'keys' : 'Shift+Alt+Q X'},\n" +
+    "        {'action' : 'add', 'keys' : 'Shift+Alt+Q T', 'command' : {'id' : 'a.b.c.d.e'}}\n" + // Comma: *1
+    "      ]\n" +
+    "    },\n" +
+    "    {\n" +
+    "      'scheme' : 'org.eclipse.ui.defaultAcceleratorConfiguration',\n" +
+    "      'platform' : 'Windows',\n" +
+    "      'context' : 'org.eclipse.ui.contexts.window',\n" +
+    "      'bindings' : [\n" +
+    "        {'action' : 'rem', 'keys' : 'Shift+Alt+Q X'},\n" +
+    "        {'action' : 'add', 'keys' : 'Shift+Alt+Q T', 'command' : {'id' : 'a.b.c.d.e'}}\n" + // Comma: *1
+    "      ]\n" +
+    "    }\n" + // Comma *1
+    "  ]\n" +
+    "}\n";
 
 
   // *1 indicates that there used to be a comma at the end of the line, but
   // that's not supported in strict mode.
   private static final String TEST_FULL =
-    "{" +
-    "  'metadata' : {" +
-    "    'shortDescription' : 'Zorzella\\'s bindings'," +
-    "    'description' : 'Zorzella\\'s bindings in the real world'," +
-    "    'type' : 'LASTMOD'" +
-    "  }, " +
-    "  'changeSets' : [" +
-    "    {" +
-    "      'scheme' : 'org.eclipse.ui.emacsAcceleratorConfiguration'," +
-    "      'platform' : 'Windows'," +
-    "      'context' : 'org.eclipse.ui.contexts.window'," +
-    "      'bindings' : [" +
-    "        {'action' : 'rem', 'keys' : 'Shift+Alt+Q X'}," +
-    "        {'action' : 'add', 'keys' : 'Shift+Alt+Q T'," +
-    "          'command' : {'id' : 'a.b.c.d.e', 'parameters' : { }}}" +
-    "      ]" +
-    "    }," +
-    "    {" +
-    "      'scheme' : 'org.eclipse.ui.defaultAcceleratorConfiguration'," +
-    "      'platform' : 'Windows'," +
-    "      'context' : 'org.eclipse.ui.contexts.window'," +
-    "      'bindings' : [" +
-    "        {'action' : 'rem', 'keys' : 'Shift+Alt+Q X'}," +
-    "        {'action' : 'add', 'keys' : 'Shift+Alt+Q T'," +
-    "          'command' : {'id' : 'a.b.c.d.e', 'parameters' : { 'a' : '1', 'b' : '2' }}}" +
-    "      ]" +
-    "    }" + // Comma *1
-    "  ]" +
-    "} ";
+    "{\n" +
+    "  'metadata' : {\n" +
+    "    'shortDescription' : 'Zorzella\\'s bindings',\n" +
+    "    'description' : 'Zorzella\\'s bindings in the real world',\n" +
+    "    'type' : 'LASTMOD'\n" +
+    "  }, \n" +
+    "  'changeSets' : [\n" +
+    "    {\n" +
+    "      'scheme' : 'org.eclipse.ui.emacsAcceleratorConfiguration',\n" +
+    "      'platform' : 'Windows',\n" +
+    "      'context' : 'org.eclipse.ui.contexts.window',\n" +
+    "      'bindings' : [\n" +
+    "        {'action' : 'rem', 'keys' : 'Shift+Alt+Q X'},\n" +
+    "        {'action' : 'add', 'keys' : 'Shift+Alt+Q T',\n" +
+    "          'command' : {'id' : 'a.b.c.d.e', 'parameters' : { }}}\n" +
+    "      ]\n" +
+    "    },\n" +
+    "    {\n" +
+    "      'scheme' : 'org.eclipse.ui.defaultAcceleratorConfiguration',\n" +
+    "      'platform' : 'Windows',\n" +
+    "      'context' : 'org.eclipse.ui.contexts.window',\n" +
+    "      'bindings' : [\n" +
+    "        {'action' : 'rem', 'keys' : 'Shift+Alt+Q X'},\n" +
+    "        {'action' : 'add', 'keys' : 'Shift+Alt+Q T',\n" +
+    "          'command' : {'id' : 'a.b.c.d.e', 'parameters' : { 'a' : '1', 'b' : '2' }}}\n" +
+    "      ]\n" +
+    "    }\n" + // Comma *1
+    "  ]\n" +
+    "}\n";
 
+  private static final String TEST_NO_PLATFORM =
+      "{\n" +
+      "  'metadata' : {\n" +
+      "    'shortDescription' : 'Zorzella\\'s bindings',\n" +
+      "    'description' : 'Zorzella\\'s bindings in the real world',\n" +
+      "    'type' : 'LASTMOD'\n" +
+      "  }, \n" +
+      "  'changeSets' : [\n" +
+      "    {\n" +
+      "      'scheme' : 'org.eclipse.ui.defaultAcceleratorConfiguration',\n" +
+      //  No platform should work
+      "      'context' : 'org.eclipse.ui.contexts.window',\n" +
+      "      'bindings' : [\n" +
+      "        {'action' : 'rem', 'keys' : 'Shift+Alt+Q X'},\n" +
+      "        {'action' : 'add', 'keys' : 'Shift+Alt+Q T',\n" +
+      "          'command' : {'id' : 'a.b.c.d.e', 'parameters' : { 'a' : '1', 'b' : '2' }}}\n" +
+      "      ]\n" +
+      "    }\n" + // Comma *1
+      "  ]\n" +
+      "}\n";
+
+  
   public void testNoChangesets() {
     KeyBindingsModel actual = KeyBindingsParser.deSerialize(new StringReader(TEST_NO_CHANGESETS));
     KeyBindingsModel expected = buildExpected(false, false);
@@ -124,19 +146,24 @@ public class KeyBindingsParserTest extends TestCase {
     assertEquals(expected, actual);
   }
 
+  public void testNoPlatform() {
+    KeyBindingsModel actual = KeyBindingsParser.deSerialize(new StringReader(TEST_NO_PLATFORM));
+    // Just want to know this did not throw
+  }
+
   public void testRoundTrip_basic() {
-    testRoundTrip_entry(buildExpected(false, false));
+    doTestRoundTrip_entry(buildExpected(false, false));
   }
 
   public void testRoundTrip_extended() {
-    testRoundTrip_entry(buildExpected(true, false));
+    doTestRoundTrip_entry(buildExpected(true, false));
   }
 
   public void testRoundTrip_full() {
-    testRoundTrip_entry(buildExpected(false, true));
+    doTestRoundTrip_entry(buildExpected(false, true));
   }
 
-  private void testRoundTrip_entry(KeyBindingsModel task) {
+  private void doTestRoundTrip_entry(KeyBindingsModel task) {
     String json = KeyBindingsParser.serialize(task);
     KeyBindingsModel reconstituted = KeyBindingsParser.deSerialize(new StringReader(json));
     assertEquals(task, reconstituted);

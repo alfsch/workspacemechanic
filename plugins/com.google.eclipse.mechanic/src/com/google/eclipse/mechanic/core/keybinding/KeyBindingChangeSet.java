@@ -78,7 +78,7 @@ final class KeyBindingChangeSet {
       String contextId,
       Bindings bindings) {
     this.schemeId = Util.checkNotNull(schemeId);
-    this.platform = Util.checkNotNull(platform);
+    this.platform = platform;
     this.contextId = Util.checkNotNull(contextId);
     this.bindings = Util.checkNotNull(bindings);
   }

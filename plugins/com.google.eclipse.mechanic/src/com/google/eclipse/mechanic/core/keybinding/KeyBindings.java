@@ -9,6 +9,7 @@
 
 package com.google.eclipse.mechanic.core.keybinding;
 
+import com.google.eclipse.mechanic.internal.Util;
 import com.google.gson.Gson;
 
 import org.eclipse.core.commands.Command;
@@ -235,7 +236,7 @@ class KeyBindings {
       KeySequence triggerSequence,
       Command command,
       Map<String, String> params) {
-    Binding binding = find(scheme, triggerSequence, command.getId(), params);
+    Binding binding = find(scheme, platform, triggerSequence, command.getId(), params);
     // If no binding exists, create the user binding, add it and return true.
     if (binding == null) {
       addUserBinding(createBinding(scheme, platform, contextId, triggerSequence, command, params));
@@ -249,7 +250,7 @@ class KeyBindings {
     if ((binding.getType() == Binding.SYSTEM)) {
       // Finding a user binding to a null command.
       // ZORZELLA: do we even need to supply params?
-      Binding userBinding = find(scheme, triggerSequence, null, params, userBindings);
+      Binding userBinding = find(scheme, platform, triggerSequence, null, params, userBindings);
       if (userBinding != null) {
         userBindings.remove(userBinding);
         return true;
@@ -271,16 +272,16 @@ class KeyBindings {
       Command command,
       Map<String, String> params) {
 
-    Binding binding = find(scheme, triggerSequence, command.getId(), params, userBindings);
+    Binding binding = find(scheme, platform, triggerSequence, command.getId(), params, userBindings);
 
     if (binding != null) {
       userBindings.remove(binding);
       return true;
     }
 
-    binding = find(scheme, triggerSequence, command.getId(), params, systemBindings);
+    binding = find(scheme, platform, triggerSequence, command.getId(), params, systemBindings);
     if (binding != null) {
-      if (find(scheme, triggerSequence, null, params, userBindings) == null) {
+      if (find(scheme, platform, triggerSequence, null, params, userBindings) == null) {
         addUserBinding(createBinding(scheme, platform, contextId, triggerSequence, null, params));
         return true;
       }
@@ -295,16 +296,17 @@ class KeyBindings {
     userBindings.add(binding);
   }
 
-  public Binding find(
+  private Binding find(
       Scheme scheme,
+      String platform,
       KeySequence triggerSequence,
       String cid,
       Map<String, String> params) {
-    Binding userBinding = find(scheme, triggerSequence, cid, params, userBindings);
+    Binding userBinding = find(scheme, platform, triggerSequence, cid, params, userBindings);
     if (userBinding != null) {
       return userBinding;
     }
-    return find(scheme, triggerSequence, cid, params, systemBindings);
+    return find(scheme, platform, triggerSequence, cid, params, systemBindings);
   }
 
   /**
@@ -314,13 +316,15 @@ class KeyBindings {
    */
   private Binding find(
       Scheme scheme,
+      String platform,
       KeySequence triggerSequence,
       String cid,
       Map<String,String> params,
       List<Binding> list) {
     for (Binding binding : list) {
       if (binding.getSchemeId().equals(scheme.getId())
-        && (binding.getTriggerSequence().equals(triggerSequence))) {
+        && (binding.getTriggerSequence().equals(triggerSequence))
+        && Util.equals(binding.getPlatform(), platform)) {
           ParameterizedCommand param = binding.getParameterizedCommand();
           if (param == null) {
             if (cid == null) {

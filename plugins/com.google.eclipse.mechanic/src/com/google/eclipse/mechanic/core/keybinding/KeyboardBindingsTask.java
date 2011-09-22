@@ -11,6 +11,7 @@ package com.google.eclipse.mechanic.core.keybinding;
 
 import com.google.eclipse.mechanic.CompositeTask;
 import com.google.eclipse.mechanic.internal.Util;
+import com.google.eclipse.mechanic.plugin.core.MechanicLog;
 
 import org.eclipse.core.commands.Command;
 import org.eclipse.jface.bindings.Scheme;
@@ -29,12 +30,14 @@ import java.io.IOException;
  * @author zorzella@google.com
  * @author konigsberg@google.com
  */
-public class KeyboardBindingsTask extends CompositeTask {
+class KeyboardBindingsTask extends CompositeTask {
 
   // TODO: temporary, which still under dev
   private static final boolean ENABLED = 
     System.getProperty("KEYBOARD_MECHANIC_ENABLED", "false").equals("true");
 
+  private final MechanicLog log = MechanicLog.getDefault();
+  
   private final KeyBindingsModel model;
 
   public KeyboardBindingsTask(KeyBindingsModel model) {
@@ -46,7 +49,7 @@ public class KeyboardBindingsTask extends CompositeTask {
   }
 
   public String getTitle() {
-    return "Keyboard diagnotics";
+    return "Keyboard binding diagnotics";
   }
 
   public boolean evaluate() {
@@ -54,7 +57,7 @@ public class KeyboardBindingsTask extends CompositeTask {
       return true;
     }
 
-    //TODO(zorzella): can we get workbench and commandService once, rather than
+    //TODO(zorzella): NTH -- can we get workbench and commandService once, rather than
     //at every evaluate?
     IWorkbench workbench = PlatformUI.getWorkbench();
     ICommandService commandService = (ICommandService) workbench.getService(ICommandService.class);
@@ -65,13 +68,29 @@ public class KeyboardBindingsTask extends CompositeTask {
     // If "dirty" is set to true, it means we made some modification that
     // we still need to persist.
     for(KeyBindingChangeSet changeSet : model.getKeyBindingsChangeSets()) {
-      dirty = dirty || doEvaluate(workbench, commandService, bindingService, changeSet);
+      dirty = dirty || doEvaluate(workbench, commandService, bindingService, changeSet).isDirty;
     }
     
     return !dirty;
   }
 
-  private boolean doEvaluate(
+  private static final class EvaluationResult {
+
+    private final boolean isDirty;
+    private final Scheme scheme;
+    private final KeyBindings keyBindings;
+
+    public EvaluationResult(
+        final boolean isDirty,
+        final Scheme scheme,
+        final KeyBindings keyBindings) {
+      this.isDirty = isDirty;
+      this.scheme = scheme;
+      this.keyBindings = keyBindings;
+    }
+  }
+  
+  private EvaluationResult doEvaluate(
       IWorkbench workbench, 
       ICommandService commandService,
       final IBindingService bindingService, 
@@ -85,7 +104,10 @@ public class KeyboardBindingsTask extends CompositeTask {
 
     for (KeyBindingSpec toAdd : changes.toAdd()) {
       Command commandToAdd = commandService.getCommand(toAdd.getCid());
-      //TODO(zorzella): if command == null, log and ignore
+      if (!commandToAdd.isDefined()) {
+        log.logWarning("Command '" + toAdd.getCid() + "' does not exist.");
+        continue;
+      }
       KeySequence triggerSequence;
       try {
         triggerSequence = KeySequence.getInstance(toAdd.getKeySequence());
@@ -107,7 +129,23 @@ public class KeyboardBindingsTask extends CompositeTask {
     }
 
     for (KeyBindingSpec toRemove : changes.toRemove()) {
-      Command commandToRemove = commandService.getCommand(toRemove.getCid());
+      // TODO(zorzella): removing command is currently totally broken. This code
+      // was written with the idea that we would have a cid to work with, and
+      // the JSON parsing was written with the idea that "rem"s would not take a
+      // command. We should likely support both: if "rem" has a command, we'd
+      // specifically look for it. If it does not, we should look for an Eclipse
+      // (system) keybinding for that.
+      if (true) {
+        continue;
+      }
+      Command commandToRemove;
+      try {
+        commandToRemove = commandService.getCommand(toRemove.getCid());
+      } catch (RuntimeException e) {
+        //TODO(zorzella): how to issue an error to the user that there was an
+        //invalid commmand?
+        throw e;
+      }
       KeySequence triggerSequence;
       try {
         triggerSequence = KeySequence.getInstance(toRemove.getKeySequence());
@@ -127,28 +165,35 @@ public class KeyboardBindingsTask extends CompositeTask {
       }
     }
 
-    //TODO(zorzella): this last step is the repair action, and should be called
-    //in the run method instead.
-    
-    // If there was any modification, persist it
-    if (dirty) {
-      workbench.getDisplay().syncExec(new Runnable() {
-        public void run() {
-          try {
-            bindingService.savePreferences(scheme, bindings.toArray());
-          } catch (IOException e) {
-            throw new RuntimeException(e);
-          }
-        }
-      });
-    }
-    return dirty;
+    return new EvaluationResult(dirty, scheme, bindings);
   }
 
   public void run() {
     if (!ENABLED) {
       return;
     }
-    // TODO(zorzella): fix
+    
+    IWorkbench workbench = PlatformUI.getWorkbench();
+    ICommandService commandService = (ICommandService) workbench.getService(ICommandService.class);
+    final IBindingService bindingService =
+        (IBindingService) workbench.getService(IBindingService.class);
+    
+    for(KeyBindingChangeSet changeSet : model.getKeyBindingsChangeSets()) {
+      final EvaluationResult result = doEvaluate(workbench, commandService, bindingService, changeSet);
+      // If there was any modification, persist it
+      if (result.isDirty) {
+        workbench.getDisplay().syncExec(new Runnable() {
+          public void run() {
+            try {
+              bindingService.savePreferences(result.scheme, result.keyBindings.toArray());
+            } catch (IOException e) {
+              throw new RuntimeException(e);
+            }
+          }
+        });
+      }
+    }
   }
 }
+
+// TODO(zorzella): RootTaskScanner.scan's "for" should try/catch. Add test.
