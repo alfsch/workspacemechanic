@@ -9,6 +9,7 @@
 
 package com.google.eclipse.mechanic.core.keybinding;
 
+import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -103,21 +104,21 @@ public class KeyBindingsParserTest extends TestCase {
     "} ";
 
   public void testNoChangesets() {
-    KeyBindingsModel actual = KeyBindingsParser.deSerialize(TEST_NO_CHANGESETS);
+    KeyBindingsModel actual = KeyBindingsParser.deSerialize(new StringReader(TEST_NO_CHANGESETS));
     KeyBindingsModel expected = buildExpected(false, false);
 
     assertEquals(expected, actual);
   }
 
   public void testDefault() {
-    KeyBindingsModel actual = KeyBindingsParser.deSerialize(TEST_JSON);
+    KeyBindingsModel actual = KeyBindingsParser.deSerialize(new StringReader(TEST_JSON));
     KeyBindingsModel expected = buildExpected(true, false);
 
     assertEquals(expected, actual);
   }
 
   public void testFull() {
-    KeyBindingsModel actual = KeyBindingsParser.deSerialize(TEST_FULL);
+    KeyBindingsModel actual = KeyBindingsParser.deSerialize(new StringReader(TEST_FULL));
     KeyBindingsModel expected = buildExpected(true, true);
 
     assertEquals(expected, actual);
@@ -137,7 +138,7 @@ public class KeyBindingsParserTest extends TestCase {
 
   private void testRoundTrip_entry(KeyBindingsModel task) {
     String json = KeyBindingsParser.serialize(task);
-    KeyBindingsModel reconstituted = KeyBindingsParser.deSerialize(json);
+    KeyBindingsModel reconstituted = KeyBindingsParser.deSerialize(new StringReader(json));
     assertEquals(task, reconstituted);
   }
 

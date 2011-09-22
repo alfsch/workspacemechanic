@@ -135,12 +135,6 @@ public class KeyBindingsParser {
     return GSON.fromJson(reader, KeyBindingsModel.class);
   }
 
-  @Deprecated
-  public static KeyBindingsModel deSerialize(CharSequence json) {
-    // TODO(konigsberg): Replace with the other deserialize method
-    return GSON.fromJson(json.toString(), KeyBindingsModel.class);
-  }
-
   private enum Action {
     ADD("add"),
     REMOVE("rem"),
