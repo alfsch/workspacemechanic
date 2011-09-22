@@ -21,8 +21,7 @@ import com.google.gson.annotations.SerializedName;
  *
  * @author zorzella@google.com
  */
-// TODO: make package-protected
-public final class KeyBindingChangeSet {
+final class KeyBindingChangeSet {
 
   static final class Bindings {
     private final Collection<KeyBindingSpec> toAdd;
