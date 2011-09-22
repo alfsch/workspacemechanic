@@ -17,19 +17,26 @@ import org.eclipse.core.runtime.Status;
  * Abstraction on top of {@link ILog}.
  */
 public class MechanicLog {
-  private static final MechanicLog DEFAULT = new MechanicLog(MechanicPlugin.getDefault());
+  private static MechanicLog DEFAULT;
 
   private final ILog log;
 
   /**
    * Get the default instance.
    */
-  public static MechanicLog getDefault() {
+  public synchronized static MechanicLog getDefault() {
+    if (DEFAULT == null) {
+      DEFAULT = new MechanicLog(MechanicPlugin.getDefault());
+    }
     return DEFAULT;
   }
 
   MechanicLog(Plugin plugin) {
-    log = plugin.getLog();
+    this(plugin.getLog());
+  }
+
+  public MechanicLog(ILog log) {
+    this.log = log;
   }
 
   /**

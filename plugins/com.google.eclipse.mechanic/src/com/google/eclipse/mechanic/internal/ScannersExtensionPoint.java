@@ -34,7 +34,7 @@ import java.util.logging.Logger;
  *
  * @author konigsberg@google.com (Robert Konigsberg)
  */
-public class ScannersExtensionPoint {
+public class ScannersExtensionPoint implements ScannersExtensionPointInterface {
   private static final String EXTENSION_POINT_NAME = "scanners";
   private static final String TAG_SCANNER = "scanner";
   private static final String ATTR_CLASS = "class";
