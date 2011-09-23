@@ -79,45 +79,7 @@ import com.google.gson.reflect.TypeToken;
  *
  * @author zorzella@google.com
  */
-public class KeyBindingsParser {
-
-  //TODO(konigsberg, zorzella): read from JSON file
-  //TODO(konigsberg, zorzella): take in a "stream" as parameter?
-  public static List<KeyBindingChangeSet> buildKeyChangeSets() {
-    List<KeyBindingChangeSet> result = Util.newArrayList();
-
-    List<KeyBindingSpec> toAdd = Util.newArrayList();
-    toAdd.add(new KeyBindingSpec(
-        "org.eclipse.ui.edit.text.cut.line.to.end",
-        "Shift+Ctrl+Delete"));
-    toAdd.add(new KeyBindingSpec(
-        "org.eclipse.ui.navigate.showIn",
-        "Shift+Alt+Q A B C")
-          .withParam("org.eclipse.ui.navigate.showIn.targetId", "org.eclipse.pde.runtime.RegistryBrowser"));
-
-    List<KeyBindingSpec> toRemove = Util.newArrayList();
-    toRemove.add(new KeyBindingSpec(
-        "org.eclipse.ui.edit.text.cut.line.to.end",
-        "Shift+Ctrl+Alt+Delete"));
-    toRemove.add(new KeyBindingSpec(
-        "org.eclipse.jdt.ui.navigate.open.type",
-        "Shift+Ctrl+T"));
-    toRemove.add(new KeyBindingSpec(
-        "org.eclipse.ui.views.showView",
-        "Shift+Alt+Q X")
-          .withParam("org.eclipse.ui.views.showView.viewId",
-              //TODO(zorzella): wrong!
-              "org.eclipse.ui.views.ProblemView"));
-
-    result.add(new KeyBindingChangeSet(
-        "org.eclipse.ui.defaultAcceleratorConfiguration",
-        "",
-        "org.eclipse.ui.contexts.window",
-        toAdd,
-        toRemove));
-
-    return result;
-  }
+class KeyBindingsParser {
 
   private static final Gson GSON = new GsonBuilder()
       .setPrettyPrinting()

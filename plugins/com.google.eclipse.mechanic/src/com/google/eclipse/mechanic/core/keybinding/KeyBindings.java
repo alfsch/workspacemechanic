@@ -10,6 +10,7 @@
 package com.google.eclipse.mechanic.core.keybinding;
 
 import com.google.eclipse.mechanic.internal.Util;
+import com.google.eclipse.mechanic.plugin.core.MechanicLog;
 import com.google.gson.Gson;
 
 import org.eclipse.core.commands.Command;
@@ -19,10 +20,14 @@ import org.eclipse.jface.bindings.Scheme;
 import org.eclipse.jface.bindings.keys.KeyBinding;
 import org.eclipse.jface.bindings.keys.KeySequence;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -42,8 +47,8 @@ class KeyBindings {
    * and system bindings in the model implementation.
    *
    * One of the tricks of managing keyboard bindings is that of removing a system binding. To
-   * remove a system binding from (scheme, triggerSequence) that to (command, params),
-   * we create a 'user' binding from (scheme, triggerSequence) to a null command.
+   * remove a system binding from scheme+platform+context+triggerSequence to command+params,
+   * we create a 'user' binding from scheme+platform+context+triggerSequence to a null command.
    * The system binding still exists, we've just created a user binding that overrides it.
    *
    * This has some implications for both adding and removing bindings, discussed further, below.
@@ -53,10 +58,14 @@ class KeyBindings {
 
   private final List<Binding> userBindings;
   private final List<Binding> systemBindings;
+  // TODO(zorzella): this is to be a multimap
+  private final Map<Qualifier, Binding> userBindingsMap;
+  private final Map<Qualifier, Binding> systemBindingsMap;
 
   /**
    * Creates a new instance from a defined set of bindings.
    */
+  @SuppressWarnings("unchecked")
   public KeyBindings(Binding[] bindings) {
     List<Binding> ub = new ArrayList<Binding>();
     List<Binding> sb = new ArrayList<Binding>();
@@ -72,41 +81,102 @@ class KeyBindings {
     }
     this.userBindings = ub;
     this.systemBindings = Collections.unmodifiableList(sb);
+    this.userBindingsMap = buildQualifierToBindingMap(userBindings);
+    this.systemBindingsMap = buildQualifierToBindingMap(systemBindings);
 
     printBindings();
+  }
 
+  private static final class Qualifier {
+    private final String scheme;
+    private final String platform;
+    private final String context;
+
+    public Qualifier(
+        final String scheme,
+        final String platform,
+        final String context) {
+      this.scheme = scheme;
+      this.platform = platform;
+      this.context = context;
+    }
+    
+    @Override
+    public boolean equals(Object obj) {
+      if (!(obj instanceof Qualifier)) {
+        return false;
+      }
+      Qualifier that = (Qualifier)obj;
+      return Util.equals(this.scheme, that.scheme) 
+          && Util.equals(this.platform, that.platform)
+          && Util.equals(this.context, that.context);
+    }
+    
+    @Override
+    public int hashCode() {
+      return Util.hashCode(this.scheme, this.platform, this.context);
+    }
+  }
+  
+  private Map<Qualifier,Binding> buildQualifierToBindingMap(List<Binding> bindings) {
+    Map<Qualifier,Binding> result = new HashMap<Qualifier,Binding>();
+    for (Binding binding : bindings) {
+      result.put(
+          new Qualifier(
+              binding.getSchemeId(),
+              binding.getPlatform(),
+              binding.getContextId()),
+          binding);
+    }
+    return result;
   }
 
   private void printBindings() {
     if (!DEBUG) {
       return;
     }
+    
     System.out.println("SYSTEM");
-    // printBindings(systemBindings);
+    printBindings(BindingType.SYSTEM, systemBindings);
     System.out.println("USER");
-    // printBindings(userBindings);
+    printBindings(BindingType.USER, userBindings);
   }
 
-  private static final boolean JSON = true;
+  private enum BindingType {
+    USER,
+    SYSTEM,
+    ;
+  }
+  
+  private static final boolean OUTPUT_JSON_USING_JSON_PARSER = false;
 
+  private final MechanicLog log = MechanicLog.getDefault();
 
   // TODO(konigsberg): This is broken atm.
   @SuppressWarnings("unused")
-  private static void printBindings(List<Binding> systemBindings) {
+  private void printBindings(BindingType bindingType, List<Binding> bindings) {
     StringBuilder output = new StringBuilder("[\n");
-    for (Binding b : systemBindings) {
+    for (Binding b : bindings) {
 
-      CharSequence toPrint;
-      if (JSON) {
+      if (OUTPUT_JSON_USING_JSON_PARSER) {
         output.append(serializeToJson(b)).append(",\n");
       } else {
-        toPrint = serializeToZ(b);
+        output.append(serializeToZ(b)).append(",\n");
       }
     }
     output.append("]");
-    deserialize(output);
-
     System.out.println(output);
+    try {
+      File tempFile = File.createTempFile("CURRENT-" + bindingType + "-", ".kbd");
+      PrintStream stream = new PrintStream(new FileOutputStream(tempFile));
+      stream.print(output);
+      System.out.println("Successfully wrote to: " + tempFile.getName());
+//      deserialize(output);
+//      System.out.println("Successfully deserialized.");
+    } catch (Exception e) {
+      System.out.println("Error");
+      log.logError(e);
+    }
   }
 
   @SuppressWarnings("unchecked")
@@ -182,7 +252,7 @@ class KeyBindings {
   }
 
   private static String formatCommand(Binding b) {
-    if (JSON) {
+    if (OUTPUT_JSON_USING_JSON_PARSER) {
       return formatCommandJSON(b);
     } else {
     return formatCommandZ(b);
@@ -354,18 +424,12 @@ class KeyBindings {
    */
   private boolean equalMaps(
       Map<String,String> first,
-      Map<String, String> second) {
+      Map<String,String> second) {
     if (first == null) {
       first = Collections.emptyMap();
     }
     if (second == null) {
       second = Collections.emptyMap();
-    }
-    if (DEBUG) {
-      for(Map.Entry<String,String> e : first.entrySet()) {
-        System.out.println(e.getKey() + ":" + e.getValue());
-        System.out.println(e.getKey().getClass() + ":" + e.getValue().getClass());
-      }
     }
     return second.equals(first);
   }

@@ -32,15 +32,36 @@ import java.io.IOException;
  */
 class KeyboardBindingsTask extends CompositeTask {
 
-  // TODO: temporary, which still under dev
-  private static final boolean ENABLED = 
-    System.getProperty("KEYBOARD_MECHANIC_ENABLED", "false").equals("true");
-
-  private final MechanicLog log = MechanicLog.getDefault();
-  
+  // TODO: temporarily disabled -- this is still under dev
+  private final boolean enabled;
+  private final MechanicLog log;
+  private final IWorkbench workbench;
+  private final ICommandService commandService;
+  private final IBindingService bindingService;
   private final KeyBindingsModel model;
 
   public KeyboardBindingsTask(KeyBindingsModel model) {
+    this(
+        System.getProperty("KEYBOARD_MECHANIC_ENABLED", "false").equals("true"),
+        MechanicLog.getDefault(),
+        PlatformUI.getWorkbench(),
+        (ICommandService) PlatformUI.getWorkbench().getService(ICommandService.class),
+        (IBindingService) PlatformUI.getWorkbench().getService(IBindingService.class),
+        model);
+  }
+  
+  KeyboardBindingsTask(
+      boolean enabled,
+      MechanicLog log,
+      IWorkbench workbench,
+      ICommandService commandService,
+      IBindingService bindingService,
+      KeyBindingsModel model) {
+    this.enabled = enabled;
+    this.log = log;
+    this.workbench = workbench;
+    this.commandService = commandService;
+    this.bindingService = bindingService;
     this.model = Util.checkNotNull(model);
   }
 
@@ -53,16 +74,9 @@ class KeyboardBindingsTask extends CompositeTask {
   }
 
   public boolean evaluate() {
-    if (!ENABLED) {
+    if (!enabled) {
       return true;
     }
-
-    //TODO(zorzella): NTH -- can we get workbench and commandService once, rather than
-    //at every evaluate?
-    IWorkbench workbench = PlatformUI.getWorkbench();
-    ICommandService commandService = (ICommandService) workbench.getService(ICommandService.class);
-    final IBindingService bindingService =
-        (IBindingService) workbench.getService(IBindingService.class);
 
     boolean dirty = false;
     // If "dirty" is set to true, it means we made some modification that
@@ -91,10 +105,10 @@ class KeyboardBindingsTask extends CompositeTask {
   }
   
   private EvaluationResult doEvaluate(
-      IWorkbench workbench, 
-      ICommandService commandService,
+      final IWorkbench workbench, 
+      final ICommandService commandService,
       final IBindingService bindingService, 
-      KeyBindingChangeSet changes) {
+      final KeyBindingChangeSet changes) {
 
     boolean dirty = false;
     
@@ -169,14 +183,9 @@ class KeyboardBindingsTask extends CompositeTask {
   }
 
   public void run() {
-    if (!ENABLED) {
+    if (!enabled) {
       return;
     }
-    
-    IWorkbench workbench = PlatformUI.getWorkbench();
-    ICommandService commandService = (ICommandService) workbench.getService(ICommandService.class);
-    final IBindingService bindingService =
-        (IBindingService) workbench.getService(IBindingService.class);
     
     for(KeyBindingChangeSet changeSet : model.getKeyBindingsChangeSets()) {
       final EvaluationResult result = doEvaluate(workbench, commandService, bindingService, changeSet);

@@ -32,8 +32,6 @@ import com.google.eclipse.mechanic.plugin.core.MechanicLog;
 import com.google.eclipse.mechanic.plugin.core.MechanicPreferences;
 
 /**
- * {@inheritDoc}
- *
  * <p>The service doesn't itself expose any UI components. This should be done
  * using an AbstractWorkbenchTrimWidget an IViewPart or some other GUI
  * component.

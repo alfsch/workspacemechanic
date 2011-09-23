@@ -22,7 +22,7 @@ import com.google.gson.annotations.SerializedName;
  *
  * @author zorzella@google.com
  */
-public class KeyBindingsModel {
+class KeyBindingsModel {
 
   @SerializedName("changeSets")
   private final List<KeyBindingChangeSet> keyBindingsChangeSets;
