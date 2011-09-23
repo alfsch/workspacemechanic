@@ -8,5 +8,6 @@
 			<attribute name="javadoc_location" value="jar:platform:/resource/com.google.eclipse.mechanic/lib/google-gson-1.6/gson-1.6-javadoc.jar!/"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="lib/guava-r09.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
