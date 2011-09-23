@@ -24,7 +24,7 @@ import com.google.gson.annotations.SerializedName;
  */
 class KeyBindingsModel {
 
-  @SerializedName("changeSets")
+  @SerializedName(KeyBindingsParser.CHANGE_SETS_JSON_KEY)
   private final List<KeyBindingChangeSet> keyBindingsChangeSets;
   private final MetaData metadata;
 

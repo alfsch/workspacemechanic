@@ -9,9 +9,11 @@
 
 package com.google.eclipse.mechanic.core.keybinding;
 
+import com.google.common.base.Preconditions;
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.Multimap;
 import com.google.eclipse.mechanic.internal.Util;
 import com.google.eclipse.mechanic.plugin.core.MechanicLog;
-import com.google.gson.Gson;
 
 import org.eclipse.core.commands.Command;
 import org.eclipse.core.commands.ParameterizedCommand;
@@ -20,15 +22,8 @@ import org.eclipse.jface.bindings.Scheme;
 import org.eclipse.jface.bindings.keys.KeyBinding;
 import org.eclipse.jface.bindings.keys.KeySequence;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.PrintStream;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -54,19 +49,22 @@ class KeyBindings {
    * This has some implications for both adding and removing bindings, discussed further, below.
    */
 
-  private static final boolean DEBUG = true;
-
+  final MechanicLog log;
+  // TODO: probably get rid of these two by leveraging userBindingsMap and systemBindingsMap
   private final List<Binding> userBindings;
   private final List<Binding> systemBindings;
-  // TODO(zorzella): this is to be a multimap
-  private final Map<Qualifier, Binding> userBindingsMap;
-  private final Map<Qualifier, Binding> systemBindingsMap;
+  final Multimap<Qualifier, Binding> userBindingsMap;
+  final Multimap<Qualifier, Binding> systemBindingsMap;
 
   /**
    * Creates a new instance from a defined set of bindings.
    */
-  @SuppressWarnings("unchecked")
   public KeyBindings(Binding[] bindings) {
+    this(MechanicLog.getDefault(), bindings);
+  }
+  
+  KeyBindings(MechanicLog log, Binding[] bindings) {
+    this.log = log;
     List<Binding> ub = new ArrayList<Binding>();
     List<Binding> sb = new ArrayList<Binding>();
 
@@ -84,21 +82,26 @@ class KeyBindings {
     this.userBindingsMap = buildQualifierToBindingMap(userBindings);
     this.systemBindingsMap = buildQualifierToBindingMap(systemBindings);
 
-    printBindings();
+    new KeyBindingsManualFormatter(this).printBindings();
   }
 
-  private static final class Qualifier {
-    private final String scheme;
-    private final String platform;
-    private final String context;
+  /**
+   * Qualifies a binding by scheme/platform/context
+   * 
+   * <p>If platform is {@code null}, this applies to all platforms.
+   */
+  static final class Qualifier {
+    final String scheme;
+    final String platform;
+    final String context;
 
     public Qualifier(
         final String scheme,
         final String platform,
         final String context) {
-      this.scheme = scheme;
+      this.scheme = Preconditions.checkNotNull(scheme);
       this.platform = platform;
-      this.context = context;
+      this.context = Preconditions.checkNotNull(context);
     }
     
     @Override
@@ -118,8 +121,8 @@ class KeyBindings {
     }
   }
   
-  private Map<Qualifier,Binding> buildQualifierToBindingMap(List<Binding> bindings) {
-    Map<Qualifier,Binding> result = new HashMap<Qualifier,Binding>();
+  private Multimap<Qualifier,Binding> buildQualifierToBindingMap(List<Binding> bindings) {
+    Multimap<Qualifier,Binding> result = ArrayListMultimap.create();
     for (Binding binding : bindings) {
       result.put(
           new Qualifier(
@@ -129,169 +132,6 @@ class KeyBindings {
           binding);
     }
     return result;
-  }
-
-  private void printBindings() {
-    if (!DEBUG) {
-      return;
-    }
-    
-    System.out.println("SYSTEM");
-    printBindings(BindingType.SYSTEM, systemBindings);
-    System.out.println("USER");
-    printBindings(BindingType.USER, userBindings);
-  }
-
-  private enum BindingType {
-    USER,
-    SYSTEM,
-    ;
-  }
-  
-  private static final boolean OUTPUT_JSON_USING_JSON_PARSER = false;
-
-  private final MechanicLog log = MechanicLog.getDefault();
-
-  // TODO(konigsberg): This is broken atm.
-  @SuppressWarnings("unused")
-  private void printBindings(BindingType bindingType, List<Binding> bindings) {
-    StringBuilder output = new StringBuilder("[\n");
-    for (Binding b : bindings) {
-
-      if (OUTPUT_JSON_USING_JSON_PARSER) {
-        output.append(serializeToJson(b)).append(",\n");
-      } else {
-        output.append(serializeToZ(b)).append(",\n");
-      }
-    }
-    output.append("]");
-    System.out.println(output);
-    try {
-      File tempFile = File.createTempFile("CURRENT-" + bindingType + "-", ".kbd");
-      PrintStream stream = new PrintStream(new FileOutputStream(tempFile));
-      stream.print(output);
-      System.out.println("Successfully wrote to: " + tempFile.getName());
-//      deserialize(output);
-//      System.out.println("Successfully deserialized.");
-    } catch (Exception e) {
-      System.out.println("Error");
-      log.logError(e);
-    }
-  }
-
-  @SuppressWarnings("unchecked")
-  private static void deserialize(CharSequence json) {
-    Object[] o = (Object[]) deSerializeFromJson(json);
-    Map<String,Object> x = (Map<String,Object>) o[0];
-
-    Map<String, Object> command = (Map<String,Object>)x.get("command");
-
-    KeyBindingSpec binding = new KeyBindingSpec(
-        command.get("id").toString(),
-        x.get("keys").toString());
-
-    Object temp = command.get("parameters");
-    if (temp != null) {
-      Map<String, String> params = (Map<String,String>)temp;
-      for (String param : params.keySet()) {
-        binding = binding.withParam(param, params.get(param));
-      }
-    }
-  }
-
-  private static CharSequence serializeToJson(Binding b) {
-    boolean remove = b.getParameterizedCommand() == null;
-    String platform = b.getPlatform();
-
-    Map<String, Object> map = new LinkedHashMap<String, Object>();
-    map.put("action", remove ? "rem" : "add");
-    map.put("platform", platform == null ? "" : platform);
-    map.put("scheme", b.getSchemeId());
-    map.put("context", b.getContextId());
-    map.put("keys", b.getTriggerSequence().format());
-    if (!remove) {
-      Map<String,Object> commandMap = new LinkedHashMap<String, Object>();
-      ParameterizedCommand parameterizedCommand = b.getParameterizedCommand();
-      Command command = parameterizedCommand.getCommand();
-      commandMap.put("id", command.getId());
-
-      @SuppressWarnings("unchecked") // Eclipse doesn't support generics
-      Map<String,String> parameters = parameterizedCommand.getParameterMap();
-      if (parameters.size() > 0) {
-        commandMap.put("parameters", parameters);
-      }
-      map.put("command", commandMap);
-    }
-    String json = new Gson().toJson(map);
-    return json;
-  }
-
-  private static Object deSerializeFromJson(CharSequence json) {
-    Object o = new Gson().fromJson(json.toString(), Object.class);
-    return o;
-  }
-
-  private static CharSequence serializeToZ(Binding b) {
-      String formattedCommand = formatCommand(b);
-      boolean remove = false;
-      if (formattedCommand.equals("")) {
-        remove = true;
-      }
-      String platform = b.getPlatform();
-
-      StringBuilder toPrint = new StringBuilder();
-      toPrint.append(remove ? "-" : "+").append("{");
-      toPrint.append(platform == null ? "" : platform).append(":");
-      toPrint.append(b.getSchemeId()).append(":");
-      toPrint.append(b.getContextId()).append(":");
-      toPrint.append(b.getTriggerSequence().format()).append("}");
-      if (!remove) {
-        toPrint.append(":").append(formattedCommand);
-      }
-      return toPrint;
-  }
-
-  private static String formatCommand(Binding b) {
-    if (OUTPUT_JSON_USING_JSON_PARSER) {
-      return formatCommandJSON(b);
-    } else {
-    return formatCommandZ(b);
-    }
-  }
-
-  private static String formatCommandJSON(Binding b) {
-    return null;
-  }
-
-  private static String formatCommandZ(Binding b) {
-
-    ParameterizedCommand parameterizedCommand = b.getParameterizedCommand();
-    if (parameterizedCommand == null) {
-      return "";
-    }
-    Command command = parameterizedCommand.getCommand();
-    StringBuilder sb = new StringBuilder("{" + command.getId());
-    @SuppressWarnings("unchecked")
-    Map<String,String> parameterMap = parameterizedCommand.getParameterMap();
-    String prefix = "[";
-    sb.append(prefix);
-    if (parameterMap.size() > 0) {
-      for (String key : parameterMap.keySet()) {
-        sb.append(prefix);
-        prefix = ",";
-        sb.append(urlEncoded(key) + "=" + urlEncoded(parameterMap.get(key)));
-      }
-    }
-    sb.append("]}");
-    return sb.toString();
-  }
-
-  private static String urlEncoded(String key) {
-    try {
-      return URLEncoder.encode(key, "US-ASCII");
-    } catch (UnsupportedEncodingException e) {
-      throw new RuntimeException(e);
-    }
   }
 
   /**
@@ -455,7 +295,7 @@ class KeyBindings {
     return newBinding;
   }
 
-  /**
+ /**
    * Provides the full set of bindings as an array, to be supplied by the binding service.
    */
   public Binding[] toArray() {

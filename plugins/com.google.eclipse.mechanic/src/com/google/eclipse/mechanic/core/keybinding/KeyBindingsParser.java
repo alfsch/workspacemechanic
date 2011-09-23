@@ -81,6 +81,23 @@ import com.google.gson.reflect.TypeToken;
  */
 class KeyBindingsParser {
 
+  static final String METADATA_JSON_KEY = "metadata";
+  static final String ADD_JSON_KEY = "add";
+  static final String REM_JSON_KEY = "rem";
+  static final String BINDINGS_JSON_KEY = "bindings";
+  static final String CONTEXT_JSON_KEY = "context";
+  static final String PLATFORM_JSON_KEY = "platform";
+  static final String SCHEME_JSON_KEY = "scheme";
+  static final String TYPE_JSON_KEY = "type";
+  static final String DESCRIPTION_JSON_KEY = "description";
+  static final String SHORT_DESCRIPTION_JSON_KEY = "shortDescription";
+  static final String CHANGE_SETS_JSON_KEY = "changeSets";
+  static final String ACTION_JSON_KEY = "action";
+  static final String COMMAND_JSON_KEY = "command";
+  static final String COMMAND_PARAMETERS_JSON_KEY = "parameters";
+  static final String COMMAND_ID_JSON_KEY = "id";
+  static final String KEYS_JSON_KEY = "keys";
+ 
   private static final Gson GSON = new GsonBuilder()
       .setPrettyPrinting()
       .registerTypeAdapter(MetaData.class, new MetaDataAdapter())
@@ -98,8 +115,8 @@ class KeyBindingsParser {
   }
 
   private enum Action {
-    ADD("add"),
-    REMOVE("rem"),
+    ADD(ADD_JSON_KEY),
+    REMOVE(REM_JSON_KEY),
     ;
 
     private final String label;
@@ -134,19 +151,21 @@ class KeyBindingsParser {
   public static class MetaDataAdapter
       implements JsonDeserializer<MetaData> {
 
+
     public MetaData deserialize(JsonElement json, Type typeOfT,
         JsonDeserializationContext context) throws JsonParseException {
       JsonObject jo = json.getAsJsonObject();
 
       return new MetaData(
-          (String) context.deserialize(jo.get("shortDescription"), Types.string),
-          (String) context.deserialize(jo.get("description"), Types.string),
-          (TaskType) context.deserialize(jo.get("type"), Types.taskType));
+          (String) context.deserialize(jo.get(SHORT_DESCRIPTION_JSON_KEY), Types.string),
+          (String) context.deserialize(jo.get(DESCRIPTION_JSON_KEY), Types.string),
+          (TaskType) context.deserialize(jo.get(TYPE_JSON_KEY), Types.taskType));
     }
   }
 
   public static class KeyBindingsModelAdapter
-  implements JsonDeserializer<KeyBindingsModel> {
+      implements JsonDeserializer<KeyBindingsModel> {
+
 
     public KeyBindingsModel deserialize(JsonElement json, Type typeOfT,
         JsonDeserializationContext context) throws JsonParseException {
@@ -154,26 +173,27 @@ class KeyBindingsParser {
 
       @SuppressWarnings("unchecked") // Typecast with generic from Object is required.
       List<KeyBindingChangeSet> changeSet = (List<KeyBindingChangeSet>)
-          context.deserialize(jo.get("changeSets"), Types.changeSetsList);
+          context.deserialize(jo.get(CHANGE_SETS_JSON_KEY), Types.changeSetsList);
 
       return new KeyBindingsModel(
           changeSet,
-          (MetaData) context.deserialize(jo.get("metadata"), Types.metaData));
+          (MetaData) context.deserialize(jo.get(METADATA_JSON_KEY), Types.metaData));
     }
   }
 
   public static class KeyBindingChangeSetAdapter
       implements JsonDeserializer<KeyBindingChangeSet> {
 
+
     public KeyBindingChangeSet deserialize(JsonElement json, Type typeOfT,
         JsonDeserializationContext context) throws JsonParseException {
       JsonObject jo = json.getAsJsonObject();
 
       return new KeyBindingChangeSet(
-          (String) context.deserialize(jo.get("scheme"), Types.string),
-          (String) context.deserialize(jo.get("platform"), Types.string),
-          (String) context.deserialize(jo.get("context"), Types.string),
-          (Bindings) context.deserialize(jo.get("bindings"), Types.bindings));
+          (String) context.deserialize(jo.get(SCHEME_JSON_KEY), Types.string),
+          (String) context.deserialize(jo.get(PLATFORM_JSON_KEY), Types.string),
+          (String) context.deserialize(jo.get(CONTEXT_JSON_KEY), Types.string),
+          (Bindings) context.deserialize(jo.get(BINDINGS_JSON_KEY), Types.bindings));
     }
   }
 
@@ -186,33 +206,33 @@ class KeyBindingsParser {
       JsonArray array = new JsonArray();
 
       for (KeyBindingSpec keyBindingSpec : bindings.toAdd()) {
-        array.add(serialize("add", keyBindingSpec));
+        array.add(serialize(ADD_JSON_KEY, keyBindingSpec));
       }
 
       for (KeyBindingSpec keyBindingSpec : bindings.toRemove()) {
-        array.add(serialize("rem", keyBindingSpec));
+        array.add(serialize(REM_JSON_KEY, keyBindingSpec));
       }
       return array;
     }
 
     private JsonElement serialize(String action, KeyBindingSpec keyBindingSpec) {
       JsonObject jo = new JsonObject();
-      jo.addProperty("action", action);
-      jo.addProperty("keys", keyBindingSpec.getKeySequence());
+      jo.addProperty(ACTION_JSON_KEY, action);
+      jo.addProperty(KEYS_JSON_KEY, keyBindingSpec.getKeySequence());
 
       JsonObject cjo = new JsonObject();
       if (keyBindingSpec.getCid() != null) {
-        cjo.addProperty("id", keyBindingSpec.getCid());
+        cjo.addProperty(COMMAND_ID_JSON_KEY, keyBindingSpec.getCid());
       }
       if (!keyBindingSpec.getParameters().isEmpty()) {
         JsonObject paramjo = new JsonObject();
         for (Map.Entry<String, String> entry : keyBindingSpec.getParameters().entrySet()) {
           paramjo.addProperty(entry.getKey(), entry.getValue());
         }
-        cjo.add("parameters", paramjo);
+        cjo.add(COMMAND_PARAMETERS_JSON_KEY, paramjo);
       }
       if (!cjo.entrySet().isEmpty()) {
-        jo.add("command", cjo);
+        jo.add(COMMAND_JSON_KEY, cjo);
       }
       return jo;
     }
@@ -225,18 +245,18 @@ class KeyBindingsParser {
       for (JsonElement jsonElement : ja) {
         JsonObject jo = jsonElement.getAsJsonObject();
 
-        String keySequence = jo.get("keys").getAsString();
-        Action action = actionForLabel(jo.get("action").getAsString());
+        String keySequence = jo.get(KEYS_JSON_KEY).getAsString();
+        Action action = actionForLabel(jo.get(ACTION_JSON_KEY).getAsString());
 
         switch(action) {
           case ADD:
-            JsonObject command = jo.getAsJsonObject("command");
+            JsonObject command = jo.getAsJsonObject(COMMAND_JSON_KEY);
 
           KeyBindingSpec bindingSpec = new KeyBindingSpec(
-              command.get("id").getAsString(),
+              command.get(COMMAND_ID_JSON_KEY).getAsString(),
               keySequence);
 
-          JsonObject params = command.getAsJsonObject("parameters");
+          JsonObject params = command.getAsJsonObject(COMMAND_PARAMETERS_JSON_KEY);
           if (params != null) {
             for (Entry<String, JsonElement> entry : params.entrySet()) {
               bindingSpec = bindingSpec.withParam(entry.getKey(), entry.getValue().getAsString());
