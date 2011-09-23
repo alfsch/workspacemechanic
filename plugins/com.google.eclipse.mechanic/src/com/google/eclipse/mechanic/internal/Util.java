@@ -25,7 +25,11 @@ import java.util.concurrent.ConcurrentHashMap;
  * Misc util methods as previously provided by collections and base.
  *
  * @author smckay@google.com (Steve McKay)
+ * 
+ * @deprecated Now that we depend on guava, all these methods (which were
+ * originally copied from it anyway) have better counterparts.
  */
+@Deprecated
 public final class Util {
 
   private static final int BUF_SIZE = 4096;
