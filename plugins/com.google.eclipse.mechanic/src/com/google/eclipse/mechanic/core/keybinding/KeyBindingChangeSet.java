@@ -76,6 +76,7 @@ final class KeyBindingChangeSet {
       String schemeId,
       String platform,
       String contextId,
+      String action,
       Bindings bindings) {
     this.schemeId = Util.checkNotNull(schemeId);
     this.platform = platform;
@@ -87,9 +88,11 @@ final class KeyBindingChangeSet {
       String schemeId,
       String platform,
       String contextId,
+      String action,
+      // TODO add and remove are now mutually exclusive
       Collection<KeyBindingSpec> toAdd,
       Collection<KeyBindingSpec> toRemove) {
-    this(schemeId, platform, contextId, new Bindings(toAdd, toRemove));
+    this(schemeId, platform, contextId, action, new Bindings(toAdd, toRemove));
   }
 
   public String getSchemeId() {

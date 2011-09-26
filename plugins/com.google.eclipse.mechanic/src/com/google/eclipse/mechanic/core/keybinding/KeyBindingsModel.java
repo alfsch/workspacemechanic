@@ -11,6 +11,7 @@ package com.google.eclipse.mechanic.core.keybinding;
 
 import java.util.List;
 
+import com.google.common.collect.ImmutableList;
 import com.google.eclipse.mechanic.internal.TaskType;
 import com.google.eclipse.mechanic.internal.Util;
 import com.google.gson.annotations.SerializedName;
@@ -25,11 +26,11 @@ import com.google.gson.annotations.SerializedName;
 class KeyBindingsModel {
 
   @SerializedName(KeyBindingsParser.CHANGE_SETS_JSON_KEY)
-  private final List<KeyBindingChangeSet> keyBindingsChangeSets;
+  private final ImmutableList<KeyBindingChangeSet> keyBindingsChangeSets;
   private final MetaData metadata;
 
-  public KeyBindingsModel(List<KeyBindingChangeSet> object, MetaData metadata) {
-    this.keyBindingsChangeSets = object;
+  public KeyBindingsModel(List<KeyBindingChangeSet> changeSets, MetaData metadata) {
+    this.keyBindingsChangeSets = ImmutableList.copyOf(changeSets);
     this.metadata = metadata;
   }
 

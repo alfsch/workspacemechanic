@@ -121,13 +121,14 @@ class KeyBindingsManualFormatter {
       }
       output
           .append(i(2)).append(kvcn(KeyBindingsParser.CONTEXT_JSON_KEY, q.context))
+          .append(i(2)).append(kvcn(KeyBindingsParser.ACTION_JSON_KEY, KeyBindingsParser.ADD_JSON_KEY))
           .append(i(2)).append(quote(KeyBindingsParser.BINDINGS_JSON_KEY)).append(" : [\n");
       for (Binding b : bindings.get(q)) {
         if (b.getParameterizedCommand() == null) {
           // TODO: Phase II support removing bindings
           continue;
         }
-        output.append(serializeToZ(b)).append(",\n");
+        output.append(serializeToZ(b));
         
         // TODO: GSON is not happy about trailing commas. Either make
         // GSON happy, or suppress trailing whitespaces
@@ -144,13 +145,14 @@ class KeyBindingsManualFormatter {
       boolean remove = false;
       if (b.getParameterizedCommand() == null) {
         remove = true;
+        // TODO implement remove
+        throw new UnsupportedOperationException("Implement removing.");
       }
       String platform = b.getPlatform();
 
       StringBuilder toPrint = new StringBuilder()
           .append(i(3))
               .append("{")
-              .append(kvc(KeyBindingsParser.ACTION_JSON_KEY, remove ? "rem" : "add"))
               .append(kvc(KeyBindingsParser.KEYS_JSON_KEY, b.getTriggerSequence().format()))
               .append(kd(KeyBindingsParser.COMMAND_JSON_KEY, formatCommand(b)))
               .append("},\n");

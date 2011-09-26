@@ -51,18 +51,18 @@ import com.google.gson.reflect.TypeToken;
       "scheme" : "org.eclipse.ui.emacsAcceleratorConfiguration",
       "platform" : "",
       "context" : "org.eclipse.ui.contexts.window",
+      "action" : "add",
       "bindings" : [
-        {"action" : "rem", "keys" : "Shift+Alt+Q X"},
-        {"action" : "add", "keys" : "Shift+Alt+Q T", "command" : {"id" : "a.b.c.d.e"}}
+        {"keys" : "Shift+Alt+Q T", "command" : {"id" : "a.b.c.d.e"}}
       ]
     },
     {
       "scheme" : "org.eclipse.ui.defaultAcceleratorConfiguration",
       "platform" : "",
       "context" : "org.eclipse.ui.contexts.window",
+      "action" : "add",
       "bindings" : [
-        {"action" : "rem", "keys" : "Shift+Alt+Q X"},
-        {"action" : "add", "keys" : "Shift+Alt+Q T", "command" : {"id" : "a.b.c.d.e"}}
+        {"keys" : "Shift+Alt+Q T", "command" : {"id" : "a.b.c.d.e"}}
       ]
     },
   ]
@@ -83,7 +83,7 @@ class KeyBindingsParser {
 
   static final String METADATA_JSON_KEY = "metadata";
   static final String ADD_JSON_KEY = "add";
-  static final String REM_JSON_KEY = "rem";
+  static final String REM_JSON_KEY = "remove";
   static final String BINDINGS_JSON_KEY = "bindings";
   static final String CONTEXT_JSON_KEY = "context";
   static final String PLATFORM_JSON_KEY = "platform";
@@ -172,11 +172,14 @@ class KeyBindingsParser {
       JsonObject jo = json.getAsJsonObject();
 
       @SuppressWarnings("unchecked") // Typecast with generic from Object is required.
-      List<KeyBindingChangeSet> changeSet = (List<KeyBindingChangeSet>)
+      List<KeyBindingChangeSet> changeSets = (List<KeyBindingChangeSet>)
           context.deserialize(jo.get(CHANGE_SETS_JSON_KEY), Types.changeSetsList);
 
+      // This allows for a trailing comma in the changeset
+      changeSets.remove(null);
+      
       return new KeyBindingsModel(
-          changeSet,
+          changeSets,
           (MetaData) context.deserialize(jo.get(METADATA_JSON_KEY), Types.metaData));
     }
   }
@@ -193,6 +196,7 @@ class KeyBindingsParser {
           (String) context.deserialize(jo.get(SCHEME_JSON_KEY), Types.string),
           (String) context.deserialize(jo.get(PLATFORM_JSON_KEY), Types.string),
           (String) context.deserialize(jo.get(CONTEXT_JSON_KEY), Types.string),
+          (String) context.deserialize(jo.get(ACTION_JSON_KEY), Types.string),
           (Bindings) context.deserialize(jo.get(BINDINGS_JSON_KEY), Types.bindings));
     }
   }
@@ -208,10 +212,10 @@ class KeyBindingsParser {
       for (KeyBindingSpec keyBindingSpec : bindings.toAdd()) {
         array.add(serialize(ADD_JSON_KEY, keyBindingSpec));
       }
-
-      for (KeyBindingSpec keyBindingSpec : bindings.toRemove()) {
-        array.add(serialize(REM_JSON_KEY, keyBindingSpec));
-      }
+//
+//      for (KeyBindingSpec keyBindingSpec : bindings.toRemove()) {
+//        array.add(serialize(REM_JSON_KEY, keyBindingSpec));
+//      }
       return array;
     }
 
@@ -246,7 +250,7 @@ class KeyBindingsParser {
         JsonObject jo = jsonElement.getAsJsonObject();
 
         String keySequence = jo.get(KEYS_JSON_KEY).getAsString();
-        Action action = actionForLabel(jo.get(ACTION_JSON_KEY).getAsString());
+        Action action = Action.ADD;//actionForLabel(jo.get(ACTION_JSON_KEY).getAsString());
 
         switch(action) {
           case ADD:

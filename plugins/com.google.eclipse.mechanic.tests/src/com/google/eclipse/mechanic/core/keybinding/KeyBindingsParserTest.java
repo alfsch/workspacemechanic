@@ -52,20 +52,29 @@ public class KeyBindingsParserTest extends TestCase {
     "      'scheme' : 'org.eclipse.ui.emacsAcceleratorConfiguration',\n" +
     "      'platform' : 'Windows',\n" +
     "      'context' : 'org.eclipse.ui.contexts.window',\n" +
+    "      'action' : 'add',\n" +
     "      'bindings' : [\n" +
-    "        {'action' : 'rem', 'keys' : 'Shift+Alt+Q X'},\n" +
-    "        {'action' : 'add', 'keys' : 'Shift+Alt+Q T', 'command' : {'id' : 'a.b.c.d.e'}}\n" + // Comma: *1
+    "        {'keys' : 'Shift+Alt+Q T', 'command' : {'id' : 'a.b.c.d.e'}}\n" + // Comma: *1
     "      ]\n" +
     "    },\n" +
+//    "    {\n" +
+//    "      'scheme' : 'org.eclipse.ui.emacsAcceleratorConfiguration',\n" +
+//    "      'platform' : 'Windows',\n" +
+//    "      'context' : 'org.eclipse.ui.contexts.window',\n" +
+//    "      'action' : 'remove',\n" +
+//    "      'bindings' : [\n" +
+//    "        {'keys' : 'Shift+Alt+Q X'}\n" + // Comma: *1
+//    "      ]\n" +
+//    "    },\n" +
     "    {\n" +
     "      'scheme' : 'org.eclipse.ui.defaultAcceleratorConfiguration',\n" +
     "      'platform' : 'Windows',\n" +
     "      'context' : 'org.eclipse.ui.contexts.window',\n" +
+    "      'action' : 'add',\n" +
     "      'bindings' : [\n" +
-    "        {'action' : 'rem', 'keys' : 'Shift+Alt+Q X'},\n" +
-    "        {'action' : 'add', 'keys' : 'Shift+Alt+Q T', 'command' : {'id' : 'a.b.c.d.e'}}\n" + // Comma: *1
+    "        {'keys' : 'Shift+Alt+Q T', 'command' : {'id' : 'a.b.c.d.e'}}\n" + // Comma: *1
     "      ]\n" +
-    "    }\n" + // Comma *1
+    "    },\n" + // Comma *1
     "  ]\n" +
     "}\n";
 
@@ -84,19 +93,28 @@ public class KeyBindingsParserTest extends TestCase {
     "      'scheme' : 'org.eclipse.ui.emacsAcceleratorConfiguration',\n" +
     "      'platform' : 'Windows',\n" +
     "      'context' : 'org.eclipse.ui.contexts.window',\n" +
+    "      'action' : 'add',\n" +
     "      'bindings' : [\n" +
-    "        {'action' : 'rem', 'keys' : 'Shift+Alt+Q X'},\n" +
-    "        {'action' : 'add', 'keys' : 'Shift+Alt+Q T',\n" +
+    "        {'keys' : 'Shift+Alt+Q T',\n" +
     "          'command' : {'id' : 'a.b.c.d.e', 'parameters' : { }}}\n" +
     "      ]\n" +
     "    },\n" +
+//    "    {\n" +
+//    "      'scheme' : 'org.eclipse.ui.emacsAcceleratorConfiguration',\n" +
+//    "      'platform' : 'Windows',\n" +
+//    "      'context' : 'org.eclipse.ui.contexts.window',\n" +
+//    "      'action' : 'remove',\n" +
+//    "      'bindings' : [\n" +
+//    "        {'keys' : 'Shift+Alt+Q X'}\n" + // Comma *1
+//    "      ]\n" +
+//    "    },\n" +
     "    {\n" +
     "      'scheme' : 'org.eclipse.ui.defaultAcceleratorConfiguration',\n" +
     "      'platform' : 'Windows',\n" +
     "      'context' : 'org.eclipse.ui.contexts.window',\n" +
+    "      'action' : 'add',\n" +
     "      'bindings' : [\n" +
-    "        {'action' : 'rem', 'keys' : 'Shift+Alt+Q X'},\n" +
-    "        {'action' : 'add', 'keys' : 'Shift+Alt+Q T',\n" +
+    "        {'keys' : 'Shift+Alt+Q T',\n" +
     "          'command' : {'id' : 'a.b.c.d.e', 'parameters' : { 'a' : '1', 'b' : '2' }}}\n" +
     "      ]\n" +
     "    }\n" + // Comma *1
@@ -115,9 +133,9 @@ public class KeyBindingsParserTest extends TestCase {
       "      'scheme' : 'org.eclipse.ui.defaultAcceleratorConfiguration',\n" +
       //  No platform should work
       "      'context' : 'org.eclipse.ui.contexts.window',\n" +
+      "      'action' : 'add',\n" +
       "      'bindings' : [\n" +
-      "        {'action' : 'rem', 'keys' : 'Shift+Alt+Q X'},\n" +
-      "        {'action' : 'add', 'keys' : 'Shift+Alt+Q T',\n" +
+      "        {'keys' : 'Shift+Alt+Q T',\n" +
       "          'command' : {'id' : 'a.b.c.d.e', 'parameters' : { 'a' : '1', 'b' : '2' }}}\n" +
       "      ]\n" +
       "    }\n" + // Comma *1
@@ -186,7 +204,7 @@ public class KeyBindingsParserTest extends TestCase {
 
   private KeyBindingChangeSet buildExpectedChangeSetZero() {
     Collection<KeyBindingSpec> toRemove = new ArrayList<KeyBindingSpec>();
-    toRemove.add(new KeyBindingSpec(null, "Shift+Alt+Q X"));
+//    toRemove.add(new KeyBindingSpec(null, "Shift+Alt+Q X"));
 
     Collection<KeyBindingSpec> toAdd = new ArrayList<KeyBindingSpec>();
     KeyBindingSpec spec = new KeyBindingSpec("a.b.c.d.e", "Shift+Alt+Q T");
@@ -196,13 +214,14 @@ public class KeyBindingsParserTest extends TestCase {
         "org.eclipse.ui.emacsAcceleratorConfiguration",
         "Windows",
         "org.eclipse.ui.contexts.window",
+        "add",
         toAdd, toRemove
         );
   }
 
   private KeyBindingChangeSet buildExpectedChangeSetOne(boolean hasParams) {
     Collection<KeyBindingSpec> toRemove = new ArrayList<KeyBindingSpec>();
-    toRemove.add(new KeyBindingSpec(null, "Shift+Alt+Q X"));
+//    toRemove.add(new KeyBindingSpec(null, "Shift+Alt+Q X"));
 
     Collection<KeyBindingSpec> toAdd = new ArrayList<KeyBindingSpec>();
     KeyBindingSpec spec = new KeyBindingSpec("a.b.c.d.e", "Shift+Alt+Q T");
@@ -215,6 +234,7 @@ public class KeyBindingsParserTest extends TestCase {
         "org.eclipse.ui.defaultAcceleratorConfiguration",
         "Windows",
         "org.eclipse.ui.contexts.window",
+        "add",
         toAdd, toRemove
         );
   }

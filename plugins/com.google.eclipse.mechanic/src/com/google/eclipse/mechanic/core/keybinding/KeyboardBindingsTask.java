@@ -108,15 +108,15 @@ class KeyboardBindingsTask extends CompositeTask {
       final IWorkbench workbench, 
       final ICommandService commandService,
       final IBindingService bindingService, 
-      final KeyBindingChangeSet changes) {
+      final KeyBindingChangeSet changeSet) {
 
     boolean dirty = false;
     
     final KeyBindings bindings = new KeyBindings(bindingService.getBindings());
 
-    final Scheme scheme = bindingService.getScheme(changes.getSchemeId());
+    final Scheme scheme = bindingService.getScheme(changeSet.getSchemeId());
 
-    for (KeyBindingSpec toAdd : changes.toAdd()) {
+    for (KeyBindingSpec toAdd : changeSet.toAdd()) {
       Command commandToAdd = commandService.getCommand(toAdd.getCid());
       if (!commandToAdd.isDefined()) {
         log.logWarning("Command '" + toAdd.getCid() + "' does not exist.");
@@ -133,8 +133,8 @@ class KeyboardBindingsTask extends CompositeTask {
 
       if (bindings.addIfNotPresent(
           scheme, 
-          changes.getPlatform(), 
-          changes.getContextId(), 
+          changeSet.getPlatform(), 
+          changeSet.getContextId(), 
           triggerSequence, 
           commandToAdd, 
           toAdd.getParameters())) {
@@ -142,7 +142,7 @@ class KeyboardBindingsTask extends CompositeTask {
       }
     }
 
-    for (KeyBindingSpec toRemove : changes.toRemove()) {
+    for (KeyBindingSpec toRemove : changeSet.toRemove()) {
       // TODO(zorzella): removing command is currently totally broken. This code
       // was written with the idea that we would have a cid to work with, and
       // the JSON parsing was written with the idea that "rem"s would not take a
@@ -170,8 +170,8 @@ class KeyboardBindingsTask extends CompositeTask {
       }
       if (bindings.removeBindingIfPresent(
           scheme, 
-          changes.getPlatform(), 
-          changes.getContextId(), 
+          changeSet.getPlatform(), 
+          changeSet.getContextId(), 
           triggerSequence, 
           commandToRemove, 
           toRemove.getParameters())) {
