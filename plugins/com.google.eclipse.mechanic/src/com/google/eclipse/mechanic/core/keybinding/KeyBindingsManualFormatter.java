@@ -101,7 +101,7 @@ class KeyBindingsManualFormatter {
     return result.toString();
   }
   
-  private String getBindingsPrintout(BindingType bindingType, Multimap<Qualifier,Binding> bindings) {
+  String getBindingsPrintout(BindingType bindingType, Multimap<Qualifier,Binding> bindings) {
     StringBuilder output = new StringBuilder()
         .append("{\n")
         .append(i(1)).append(quote(KeyBindingsParser.METADATA_JSON_KEY)).append(" : {\n")
@@ -153,8 +153,9 @@ class KeyBindingsManualFormatter {
       StringBuilder toPrint = new StringBuilder()
           .append(i(3))
               .append("{")
-              .append(kvc(KeyBindingsParser.KEYS_JSON_KEY, b.getTriggerSequence().format()))
-              .append(kd(KeyBindingsParser.COMMAND_JSON_KEY, formatCommand(b)))
+              .append(kvcs(KeyBindingsParser.KEYS_JSON_KEY, b.getTriggerSequence().format()))
+//              .append(kd(KeyBindingsParser.COMMAND_JSON_KEY, formatCommand(b)))
+              .append(formatCommand(b))
               .append("},\n");
       return toPrint;
   }
@@ -166,15 +167,15 @@ class KeyBindingsManualFormatter {
     }
     
     Command command = parameterizedCommand.getCommand();
-    StringBuilder result = new StringBuilder("{")
-        .append(kvc(KeyBindingsParser.COMMAND_ID_JSON_KEY, command.getId()));
+    StringBuilder result = new StringBuilder()   //"{")
+        .append(kvcs(KeyBindingsParser.COMMAND_JSON_KEY, command.getId()));
     
     @SuppressWarnings("unchecked")
     Map<String,String> parameterMap = parameterizedCommand.getParameterMap();
     if (parameterMap.size() > 0) {
       result.append(kd(KeyBindingsParser.COMMAND_PARAMETERS_JSON_KEY, formatParameters(parameterMap)));
     }
-    result.append("}");
+//    result.append("}");
     return result.toString();
   }
 
@@ -207,6 +208,10 @@ class KeyBindingsManualFormatter {
   
   private static String kv(String key, String value) {
     return quote(key) + " : " + quote(value);
+  }
+  
+  private static String kvcs(String key, String value) {
+    return quote(key) + " : " + quote(value) + ", ";
   }
   
   private static String kvc(String key, String value) {

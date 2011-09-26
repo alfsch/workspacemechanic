@@ -53,7 +53,7 @@ import com.google.gson.reflect.TypeToken;
       "context" : "org.eclipse.ui.contexts.window",
       "action" : "add",
       "bindings" : [
-        {"keys" : "Shift+Alt+Q T", "command" : {"id" : "a.b.c.d.e"}}
+        {"keys" : "Shift+Alt+Q T", "cmd" : "a.b.c.d.e"}
       ]
     },
     {
@@ -62,7 +62,7 @@ import com.google.gson.reflect.TypeToken;
       "context" : "org.eclipse.ui.contexts.window",
       "action" : "add",
       "bindings" : [
-        {"keys" : "Shift+Alt+Q T", "command" : {"id" : "a.b.c.d.e"}}
+        {"keys" : "Shift+Alt+Q T", "cmd" : "a.b.c.d.e"}
       ]
     },
   ]
@@ -93,9 +93,8 @@ class KeyBindingsParser {
   static final String SHORT_DESCRIPTION_JSON_KEY = "shortDescription";
   static final String CHANGE_SETS_JSON_KEY = "changeSets";
   static final String ACTION_JSON_KEY = "action";
-  static final String COMMAND_JSON_KEY = "command";
-  static final String COMMAND_PARAMETERS_JSON_KEY = "parameters";
-  static final String COMMAND_ID_JSON_KEY = "id";
+  static final String COMMAND_JSON_KEY = "cmd";
+  static final String COMMAND_PARAMETERS_JSON_KEY = "params";
   static final String KEYS_JSON_KEY = "keys";
  
   private static final Gson GSON = new GsonBuilder()
@@ -224,19 +223,15 @@ class KeyBindingsParser {
       jo.addProperty(ACTION_JSON_KEY, action);
       jo.addProperty(KEYS_JSON_KEY, keyBindingSpec.getKeySequence());
 
-      JsonObject cjo = new JsonObject();
       if (keyBindingSpec.getCid() != null) {
-        cjo.addProperty(COMMAND_ID_JSON_KEY, keyBindingSpec.getCid());
+        jo.addProperty(COMMAND_JSON_KEY, keyBindingSpec.getCid());
       }
       if (!keyBindingSpec.getParameters().isEmpty()) {
         JsonObject paramjo = new JsonObject();
         for (Map.Entry<String, String> entry : keyBindingSpec.getParameters().entrySet()) {
           paramjo.addProperty(entry.getKey(), entry.getValue());
         }
-        cjo.add(COMMAND_PARAMETERS_JSON_KEY, paramjo);
-      }
-      if (!cjo.entrySet().isEmpty()) {
-        jo.add(COMMAND_JSON_KEY, cjo);
+        jo.add(COMMAND_PARAMETERS_JSON_KEY, paramjo);
       }
       return jo;
     }
@@ -254,13 +249,14 @@ class KeyBindingsParser {
 
         switch(action) {
           case ADD:
-            JsonObject command = jo.getAsJsonObject(COMMAND_JSON_KEY);
+          String command = jo.get(COMMAND_JSON_KEY).getAsString();
 
           KeyBindingSpec bindingSpec = new KeyBindingSpec(
-              command.get(COMMAND_ID_JSON_KEY).getAsString(),
+//              command.get(COMMAND_ID_JSON_KEY).getAsString(),
+              command,
               keySequence);
 
-          JsonObject params = command.getAsJsonObject(COMMAND_PARAMETERS_JSON_KEY);
+          JsonObject params = jo.getAsJsonObject(COMMAND_PARAMETERS_JSON_KEY);
           if (params != null) {
             for (Entry<String, JsonElement> entry : params.entrySet()) {
               bindingSpec = bindingSpec.withParam(entry.getKey(), entry.getValue().getAsString());

@@ -54,7 +54,7 @@ public class KeyBindingsParserTest extends TestCase {
     "      'context' : 'org.eclipse.ui.contexts.window',\n" +
     "      'action' : 'add',\n" +
     "      'bindings' : [\n" +
-    "        {'keys' : 'Shift+Alt+Q T', 'command' : {'id' : 'a.b.c.d.e'}}\n" + // Comma: *1
+    "        {'keys' : 'Shift+Alt+Q T', 'cmd' : 'a.b.c.d.e'}\n" + // Comma: *1
     "      ]\n" +
     "    },\n" +
 //    "    {\n" +
@@ -72,7 +72,7 @@ public class KeyBindingsParserTest extends TestCase {
     "      'context' : 'org.eclipse.ui.contexts.window',\n" +
     "      'action' : 'add',\n" +
     "      'bindings' : [\n" +
-    "        {'keys' : 'Shift+Alt+Q T', 'command' : {'id' : 'a.b.c.d.e'}}\n" + // Comma: *1
+    "        {'keys' : 'Shift+Alt+Q T', 'cmd' : 'a.b.c.d.e'}\n" + // Comma: *1
     "      ]\n" +
     "    },\n" + // Comma *1
     "  ]\n" +
@@ -95,8 +95,7 @@ public class KeyBindingsParserTest extends TestCase {
     "      'context' : 'org.eclipse.ui.contexts.window',\n" +
     "      'action' : 'add',\n" +
     "      'bindings' : [\n" +
-    "        {'keys' : 'Shift+Alt+Q T',\n" +
-    "          'command' : {'id' : 'a.b.c.d.e', 'parameters' : { }}}\n" +
+    "        {'keys' : 'Shift+Alt+Q T', 'cmd' : 'a.b.c.d.e', 'params' : { }}\n" +
     "      ]\n" +
     "    },\n" +
 //    "    {\n" +
@@ -114,8 +113,7 @@ public class KeyBindingsParserTest extends TestCase {
     "      'context' : 'org.eclipse.ui.contexts.window',\n" +
     "      'action' : 'add',\n" +
     "      'bindings' : [\n" +
-    "        {'keys' : 'Shift+Alt+Q T',\n" +
-    "          'command' : {'id' : 'a.b.c.d.e', 'parameters' : { 'a' : '1', 'b' : '2' }}}\n" +
+    "        {'keys' : 'Shift+Alt+Q T', 'cmd' : 'a.b.c.d.e', 'params' : { 'a' : '1', 'b' : '2' }}\n" +
     "      ]\n" +
     "    }\n" + // Comma *1
     "  ]\n" +
@@ -135,8 +133,7 @@ public class KeyBindingsParserTest extends TestCase {
       "      'context' : 'org.eclipse.ui.contexts.window',\n" +
       "      'action' : 'add',\n" +
       "      'bindings' : [\n" +
-      "        {'keys' : 'Shift+Alt+Q T',\n" +
-      "          'command' : {'id' : 'a.b.c.d.e', 'parameters' : { 'a' : '1', 'b' : '2' }}}\n" +
+      "        {'keys' : 'Shift+Alt+Q T', 'cmd' : 'a.b.c.d.e', 'params' : { 'a' : '1', 'b' : '2' }}\n" +
       "      ]\n" +
       "    }\n" + // Comma *1
       "  ]\n" +
