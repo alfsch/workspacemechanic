@@ -95,14 +95,15 @@ final class KbaChangeSet {
     return this.schemeId.equals(that.schemeId)
         && this.platform.equals(that.platform)
         && this.contextId.equals(that.contextId)
+        && this.actionLabel.equals(that.actionLabel)
         && this.bindingList.equals(that.bindingList);
   }
 
   @Override
   public String toString() {
     return String.format(
-        "schemeId: %s\nplatform: %s\ncontextId: %s\nbindings: %s",
-        this.schemeId, this.platform, this.contextId, this.bindingList);
+        "schemeId: %s\nplatform: %s\ncontextId: %s\naction: %s\nbindings: %s",
+        this.schemeId, this.platform, this.contextId, this.actionLabel, this.bindingList);
   }
   
   enum Action {

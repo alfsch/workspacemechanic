@@ -72,8 +72,8 @@ class KeyBindingsAudit {
 
   public static final class KbaMetaData {
 
-    private final String shortDescription;
-    private final String description;
+    final String shortDescription;
+    final String description;
     // TODO(zorzella): should this always be reconcile?
     private final TaskType type;
 

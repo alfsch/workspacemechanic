@@ -9,6 +9,7 @@
 
 package com.google.eclipse.mechanic.core.keybinding;
 
+import com.google.common.base.Objects;
 import com.google.eclipse.mechanic.CompositeTask;
 import com.google.eclipse.mechanic.internal.Util;
 import com.google.eclipse.mechanic.plugin.core.MechanicLog;
@@ -38,16 +39,16 @@ class KeyboardBindingsTask extends CompositeTask {
   private final IWorkbench workbench;
   private final ICommandService commandService;
   private final IBindingService bindingService;
-  private final KeyBindingsAudit model;
+  private final KeyBindingsAudit audit;
 
-  public KeyboardBindingsTask(KeyBindingsAudit model) {
+  public KeyboardBindingsTask(KeyBindingsAudit audit) {
     this(
         System.getProperty("KEYBOARD_MECHANIC_ENABLED", "false").equals("true"),
         MechanicLog.getDefault(),
         PlatformUI.getWorkbench(),
         (ICommandService) PlatformUI.getWorkbench().getService(ICommandService.class),
         (IBindingService) PlatformUI.getWorkbench().getService(IBindingService.class),
-        model);
+        audit);
   }
   
   KeyboardBindingsTask(
@@ -56,21 +57,21 @@ class KeyboardBindingsTask extends CompositeTask {
       IWorkbench workbench,
       ICommandService commandService,
       IBindingService bindingService,
-      KeyBindingsAudit model) {
+      KeyBindingsAudit audit) {
     this.enabled = enabled;
     this.log = log;
     this.workbench = workbench;
     this.commandService = commandService;
     this.bindingService = bindingService;
-    this.model = Util.checkNotNull(model);
+    this.audit = Util.checkNotNull(audit);
   }
 
   public String getDescription() {
-    return "Ensures certain keybindings exist, and ensures that others don't.";
+    return this.audit.getMetadata().description;
   }
 
   public String getTitle() {
-    return "Keyboard binding diagnotics";
+    return "Keyboard binding fixes: " + this.audit.getMetadata().shortDescription;
   }
 
   public boolean evaluate() {
@@ -81,7 +82,7 @@ class KeyboardBindingsTask extends CompositeTask {
     boolean dirty = false;
     // If "dirty" is set to true, it means we made some modification that
     // we still need to persist.
-    for(KbaChangeSet changeSet : model.getKeyBindingsChangeSets()) {
+    for(KbaChangeSet changeSet : audit.getKeyBindingsChangeSets()) {
       dirty = dirty || doEvaluate(changeSet).isDirty;
     }
     
@@ -183,7 +184,7 @@ class KeyboardBindingsTask extends CompositeTask {
       return;
     }
     
-    for(KbaChangeSet changeSet : model.getKeyBindingsChangeSets()) {
+    for(KbaChangeSet changeSet : audit.getKeyBindingsChangeSets()) {
       final EvaluationResult result = doEvaluate(changeSet);
       // If there was any modification, persist it
       if (result.isDirty) {
@@ -198,5 +199,19 @@ class KeyboardBindingsTask extends CompositeTask {
         });
       }
     }
+  }
+  
+  @Override
+  public boolean equals(Object obj) {
+    if (!(obj instanceof KeyboardBindingsTask)) {
+      return false;
+    }
+    KeyboardBindingsTask that = (KeyboardBindingsTask)obj;
+    return Objects.equal(this.audit, that.audit);
+  }
+  
+  @Override
+  public int hashCode() {
+    return Objects.hashCode(this.audit);
   }
 }

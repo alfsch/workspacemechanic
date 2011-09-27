@@ -53,7 +53,7 @@ public final class MechanicService implements IMechanicService {
     PASSED, FAILED, BLOCKED
   }
 
-  private static class Collector implements TaskCollector {
+  static class Collector implements TaskCollector {
     private final Set<Task> tasks = new LinkedHashSet<Task>();
 
     public void add(Task task) {
@@ -66,6 +66,11 @@ public final class MechanicService implements IMechanicService {
 
     public void reset() {
       tasks.clear();
+    }
+    
+    @Override
+    public String toString() {
+      return tasks.toString();
     }
   }
 
