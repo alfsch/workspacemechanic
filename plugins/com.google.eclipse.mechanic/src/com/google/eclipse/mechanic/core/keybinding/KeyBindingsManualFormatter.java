@@ -19,6 +19,7 @@ import com.google.eclipse.mechanic.core.keybinding.KbaChangeSet.KbaBindingList;
 import com.google.eclipse.mechanic.plugin.core.MechanicLog;
 
 import org.eclipse.core.commands.ParameterizedCommand;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.jface.bindings.Binding;
 
 import java.io.File;
@@ -46,31 +47,47 @@ import java.util.Map;
  */
 class KeyBindingsManualFormatter {
 
-  private static final boolean DEBUG = true;
-
+  private final boolean debugDumpSystemBindings;
   private final MechanicLog log;
+  private final File tempDir;
   private final Map<KbaChangeSetQualifier, KbaChangeSet> userBindingsMap;
   private final Map<KbaChangeSetQualifier, KbaChangeSet> systemBindingsMap;
 
   /**
    * Creates a new instance from a defined set of bindings.
    */
-  public KeyBindingsManualFormatter(MechanicLog log,
-      Multimap<KbaChangeSetQualifier, Binding> userBindingsMap,
-      Multimap<KbaChangeSetQualifier, Binding> systemBindingsMap) {
-    this(log, 
+  public KeyBindingsManualFormatter(
+      final MechanicLog log,
+      final Multimap<KbaChangeSetQualifier, Binding> userBindingsMap,
+      final Multimap<KbaChangeSetQualifier, Binding> systemBindingsMap) {
+    this(System.getProperty("KEYBOARD_MECHANIC_DEBUG_DUMP_SYSTEM_BINDINGS", "false").equals("true"),
+        log,
+        tempDir(),
         transform(userBindingsMap),
         transform(systemBindingsMap));
   }
 
-  public KeyBindingsManualFormatter(MechanicLog log,
-      Map<KbaChangeSetQualifier, KbaChangeSet> userBindingsMap,
-      Map<KbaChangeSetQualifier, KbaChangeSet> systemBindingsMap) {
+  private static File tempDir() {
+    String dirName = System.getProperty("java.io.tmpdir");
+    File file = new File(dirName, "workspace-mechanic-kbd");
+    file.mkdir();
+    file.deleteOnExit();
+    return file;
+  }
+  
+  public KeyBindingsManualFormatter(
+      final boolean debugDumpSystemBindings,
+      final MechanicLog log,
+      final File tempDir,
+      final Map<KbaChangeSetQualifier, KbaChangeSet> userBindingsMap,
+      final Map<KbaChangeSetQualifier, KbaChangeSet> systemBindingsMap) {
+    this.debugDumpSystemBindings = debugDumpSystemBindings;
     this.log = log;
+    this.tempDir = tempDir;
     this.userBindingsMap = userBindingsMap;
     this.systemBindingsMap = systemBindingsMap;
   }
-  
+
   private static Map<KbaChangeSetQualifier, KbaChangeSet> transform(Multimap<KbaChangeSetQualifier, Binding> orig) {
     Map<KbaChangeSetQualifier, KbaChangeSet> result = Maps.newHashMap();
     for (KbaChangeSetQualifier q : orig.keySet()) {
@@ -117,40 +134,25 @@ class KeyBindingsManualFormatter {
     ;
   }
 
-  void printBindings() {
-    if (!DEBUG) {
-      return;
+  void dumpBindingsToFile() {
+    if (debugDumpSystemBindings) {
+      dumpBindingsToFile(BindingType.SYSTEM, systemBindingsMap);
     }
-    
-    System.out.println("SYSTEM");
-    printBindings(BindingType.SYSTEM, systemBindingsMap);
-    System.out.println("USER");
-    printBindings(BindingType.USER, userBindingsMap);
+    dumpBindingsToFile(BindingType.USER, userBindingsMap);
   }
 
   
-  private void printBindings(BindingType bindingType, Map<KbaChangeSetQualifier, KbaChangeSet> kbaChangeSet) {
+  private void dumpBindingsToFile(BindingType bindingType, Map<KbaChangeSetQualifier, KbaChangeSet> kbaChangeSet) {
     String output = getBindingsPrintout(bindingType, kbaChangeSet);
-//    System.out.println(output);
     try {
-      File tempFile = File.createTempFile("CURRENT-" + bindingType + "-", ".kbd");
+      File tempFile = new File(tempDir, "CURRENT-" + bindingType + ".kbd");
+      tempFile.deleteOnExit();
       PrintStream stream = new PrintStream(new FileOutputStream(tempFile));
       stream.print(output);
-      System.out.println("Successfully wrote to: " + tempFile.getName());
-      //      deserialize(output);
-      //      System.out.println("Successfully deserialized.");
+      log.log(IStatus.OK, "Successfully wrote '%s'", tempFile.getAbsolutePath());
     } catch (Exception e) {
-      System.out.println("Error");
       log.logError(e);
     }
-  }
-  
-  private static String i(int indentNumber) {
-    StringBuilder result = new StringBuilder();
-    for (int i=0; i<indentNumber; i++) {
-      result.append("  ");
-    }
-    return result.toString();
   }
   
   static String getBindingsPrintout(BindingType bindingType, Map<KbaChangeSetQualifier,KbaChangeSet> bindings) {
@@ -164,7 +166,7 @@ class KeyBindingsManualFormatter {
         .append(i(1)).append(quote(KeyBindingsParser.CHANGE_SETS_JSON_KEY)).append(" : [\n");
     for (KbaChangeSetQualifier q : bindings.keySet()) {
       output
-          .append(i(1)).append("{\n")
+          .append(i(2)).append("{\n")
           .append(i(2)).append(kvcn(KeyBindingsParser.SCHEME_JSON_KEY, q.scheme));
       
       if (q.platform != null) {
@@ -176,20 +178,20 @@ class KeyBindingsManualFormatter {
           .append(i(2)).append(kvcn(KeyBindingsParser.ACTION_JSON_KEY, KeyBindingsParser.ADD_JSON_KEY))
           .append(i(2)).append(quote(KeyBindingsParser.BINDINGS_JSON_KEY)).append(" : [\n");
       for (KbaBinding b : bindings.get(q).getBindingList()) {
-        output.append(serializeToZ(b));
+        output.append(formatKbaBinding(b));
         
         // TODO: GSON is not happy about trailing commas. Either make
         // GSON happy, or suppress trailing whitespaces
       }
       output.append(i(3)).append("]\n")
-          .append(i(2)).append("}\n")
-          .append(i(1)).append("]\n");
+          .append(i(2)).append("},\n");
     }
+    output.append(i(1)).append("]\n");
     output.append("}");
     return output.toString();
   }
 
-  private static CharSequence serializeToZ(KbaBinding b) {
+  private static CharSequence formatKbaBinding(KbaBinding b) {
       boolean remove = false;
       StringBuilder toPrint = new StringBuilder()
           .append(i(3))
@@ -201,12 +203,13 @@ class KeyBindingsManualFormatter {
   }
 
   private static String formatCommand(KbaBinding b) {
-    StringBuilder result = new StringBuilder()   //"{")
-        .append(kvcs(KeyBindingsParser.COMMAND_JSON_KEY, b.getCid()));
+    StringBuilder result = new StringBuilder()
+        .append(kv(KeyBindingsParser.COMMAND_JSON_KEY, b.getCid()));
     
     Map<String,String> parameterMap = b.getParameters();
     if (parameterMap.size() > 0) {
-      result.append(kd(KeyBindingsParser.COMMAND_PARAMETERS_JSON_KEY, formatParameters(parameterMap)));
+      result.append(", ")
+          .append(kd(KeyBindingsParser.COMMAND_PARAMETERS_JSON_KEY, formatParameters(parameterMap)));
     }
     return result.toString();
   }
@@ -221,11 +224,8 @@ class KeyBindingsManualFormatter {
       }
     };
     Iterable<String> transformed = Iterables.transform(parameterMap.keySet(), function);
-    sb.append(Joiner.on(",").join(transformed));
+    sb.append(Joiner.on(", ").join(transformed));
     
-//    for (String key : parameterMap.keySet()) {
-//        sb.append(kvc(urlEncoded(key), urlEncoded(parameterMap.get(key))));
-//    }
     sb.append("}");
     return sb.toString();
   }
@@ -239,7 +239,16 @@ class KeyBindingsManualFormatter {
   }
 
   // Beging quick-and-dirty methods to help us format the output
-  private static String kd(String key, String data) {
+
+  private static String i(int indentNumber) {
+    StringBuilder result = new StringBuilder();
+    for (int i=0; i<indentNumber; i++) {
+      result.append("  ");
+    }
+    return result.toString();
+  }
+  
+ private static String kd(String key, String data) {
     return quote(key) + " : " + data;
   }
   
@@ -255,10 +264,6 @@ class KeyBindingsManualFormatter {
     return quote(key) + " : " + quote(value) + ", ";
   }
   
-  private static String kvc(String key, String value) {
-    return quote(key) + " : " + quote(value) + ",";
-  }
-
   private static String kvcn(String key, String value) {
     return quote(key) + " : " + quote(value) + ",\n";
   }

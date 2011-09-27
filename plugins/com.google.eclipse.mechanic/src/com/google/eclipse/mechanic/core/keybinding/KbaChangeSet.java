@@ -9,8 +9,11 @@
 
 package com.google.eclipse.mechanic.core.keybinding;
 
+import java.util.Arrays;
 import java.util.Collection;
 
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Iterables;
 import com.google.eclipse.mechanic.internal.Util;
 import com.google.gson.annotations.SerializedName;
 
@@ -142,9 +145,12 @@ final class KbaChangeSet {
   static final class KbaBindingList {
     private final Collection<KbaBinding> list;
 
-    public KbaBindingList(Collection<KbaBinding> list) {
-      // TODO: ImmutableList
-      this.list = Util.checkNotNull(list);
+    public KbaBindingList(KbaBinding... list) {
+      this(Arrays.asList(list));
+    }
+    
+    public KbaBindingList(Iterable<KbaBinding> list) {
+      this.list = ImmutableList.copyOf(list);
     }
 
     @Override

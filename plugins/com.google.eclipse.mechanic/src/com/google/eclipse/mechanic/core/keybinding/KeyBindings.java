@@ -50,9 +50,10 @@ class KeyBindings {
    */
 
   final MechanicLog log;
-  // TODO: probably get rid of these two by leveraging userBindingsMap and systemBindingsMap
   private final List<Binding> userBindings;
   private final List<Binding> systemBindings;
+  // At the moment, at least, the maps start drifting away from the lists as
+  // the lists are modified
   final Multimap<KbaChangeSetQualifier, Binding> userBindingsMap;
   final Multimap<KbaChangeSetQualifier, Binding> systemBindingsMap;
 
@@ -81,11 +82,9 @@ class KeyBindings {
     this.systemBindings = Collections.unmodifiableList(sb);
     this.userBindingsMap = buildQualifierToBindingMap(userBindings);
     this.systemBindingsMap = buildQualifierToBindingMap(systemBindings);
-
-    new KeyBindingsManualFormatter(this.log, this.userBindingsMap, this.systemBindingsMap).printBindings();
   }
 
-  private Multimap<KbaChangeSetQualifier,Binding> buildQualifierToBindingMap(List<Binding> bindings) {
+  static Multimap<KbaChangeSetQualifier,Binding> buildQualifierToBindingMap(List<Binding> bindings) {
     Multimap<KbaChangeSetQualifier,Binding> result = ArrayListMultimap.create();
     for (Binding binding : bindings) {
       result.put(

@@ -9,20 +9,14 @@
 
 package com.google.eclipse.mechanic.core.keybinding;
 
-import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-import com.google.common.collect.Multimap;
 import com.google.eclipse.mechanic.core.keybinding.KbaChangeSet.Action;
 import com.google.eclipse.mechanic.core.keybinding.KbaChangeSet.KbaBindingList;
 import com.google.eclipse.mechanic.core.keybinding.KeyBindingsManualFormatter.BindingType;
 
-import org.eclipse.jface.bindings.Binding;
 import org.junit.Test;
 
 import java.io.StringReader;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -30,39 +24,59 @@ import java.util.Map;
  */
 public class KeyBindingsManualFormatterTest {
 
-//  @Ignore("Remove trailing commas")
+  private static final KbaChangeSetQualifier QUALIFIER = new KbaChangeSetQualifier(
+      "org.eclipse.ui.defaultAcceleratorConfiguration",
+      null, // platform
+      "org.eclipse.ui.contexts.window",
+      Action.ADD.toString());
+  
   @Test
-  public void testARoundTrip() {
-    BindingType bindingType = BindingType.USER;
-    Multimap<KbaChangeSetQualifier, Binding> bindings = ArrayListMultimap.create();
-    String contextId = "org.eclipse.ui.contexts.window";
-    String schemeId = "org.eclipse.ui.defaultAcceleratorConfiguration";
-    String platform = null;
-    KbaChangeSetQualifier q = new KbaChangeSetQualifier(
-        schemeId,
-        platform,
-        contextId,
-        Action.ADD.toString());
+  public void testARoundTripCommandWithParams() {
     
-    Map<KbaChangeSetQualifier, KbaChangeSet> m = Maps.newHashMap();
+    Map<KbaChangeSetQualifier, KbaChangeSet> map = kbaMap(new KbaBindingList(
+        kbaBindingCommandWithParams()));
+    
+    String json = KeyBindingsManualFormatter.getBindingsPrintout(BindingType.USER, map);
+    KeyBindingsAudit kbaFromJson = KeyBindingsParser.deSerialize(new StringReader(json));
+  }
+
+  @Test
+  public void testARoundTripCommandWithNoParams() {
+    
+    Map<KbaChangeSetQualifier, KbaChangeSet> map = kbaMap(new KbaBindingList(
+        kbaBindingCommandWithNoParams()));
+    
+    String json = KeyBindingsManualFormatter.getBindingsPrintout(BindingType.USER, map);
+    KeyBindingsAudit kbaFromJson = KeyBindingsParser.deSerialize(new StringReader(json));
+  }
+  
+  private static ImmutableMap<KbaChangeSetQualifier, KbaChangeSet> kbaMap(
+      KbaBindingList kbaBindingList) {
+    return ImmutableMap.<KbaChangeSetQualifier, KbaChangeSet>builder()
+        .put(QUALIFIER, kbaChangeSetFor(kbaBindingList))
+        .build();
+  }
+
+  private static KbaChangeSet kbaChangeSetFor(KbaBindingList kbaBindingList) {
+    return new KbaChangeSet(QUALIFIER.scheme, QUALIFIER.platform, QUALIFIER.context, QUALIFIER.action, kbaBindingList);
+  }
+
+  private static KbaBinding kbaBindingCommandWithNoParams() {
+    KbaBinding kbaBinding = new KbaBinding(
+      "Ctrl+/",
+      "org.eclipse.jdt.ui.edit.text.java.toggle.comment");
+    return kbaBinding;
+  }
+
+  private static KbaBinding kbaBindingCommandWithParams() {
     Map<String,String> params = ImmutableMap.<String,String>builder()
         .put("org.eclipse.ui.views.showView.viewId", "org.eclipse.jdt.debug.ui.DisplayView")
         .build();
     
-    List<KbaBinding> list = Lists.newArrayList();
-    KbaBinding binding = new KbaBinding(
-        "Shift+Alt+Q I",
-        "org.eclipse.ui.views.showView",
-        params);
-    list.add(binding);
-    KbaBindingList bindingSpecList = new KbaBindingList(list);
-    
-    KbaChangeSet value = new KbaChangeSet(schemeId, platform, contextId, Action.ADD.toString(), bindingSpecList);
-    m.put(q, value);
-    
-    Map<KbaChangeSetQualifier, KbaChangeSet> n = null;
-    String json = KeyBindingsManualFormatter.getBindingsPrintout(bindingType, m);
-
-    KeyBindingsAudit kbaFromJson = KeyBindingsParser.deSerialize(new StringReader(json));
+    KbaBinding kbaBinding = new KbaBinding(
+      "Shift+Alt+Q I",
+      "org.eclipse.ui.views.showView",
+      params);
+    return kbaBinding;
   }
 }

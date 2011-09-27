@@ -82,7 +82,7 @@ class KeyboardBindingsTask extends CompositeTask {
     // If "dirty" is set to true, it means we made some modification that
     // we still need to persist.
     for(KbaChangeSet changeSet : model.getKeyBindingsChangeSets()) {
-      dirty = dirty || doEvaluate(workbench, commandService, bindingService, changeSet).isDirty;
+      dirty = dirty || doEvaluate(changeSet).isDirty;
     }
     
     return !dirty;
@@ -105,9 +105,6 @@ class KeyboardBindingsTask extends CompositeTask {
   }
   
   private EvaluationResult doEvaluate(
-      final IWorkbench workbench, 
-      final ICommandService commandService,
-      final IBindingService bindingService, 
       final KbaChangeSet changeSet) {
 
     boolean dirty = false;
@@ -187,7 +184,7 @@ class KeyboardBindingsTask extends CompositeTask {
     }
     
     for(KbaChangeSet changeSet : model.getKeyBindingsChangeSets()) {
-      final EvaluationResult result = doEvaluate(workbench, commandService, bindingService, changeSet);
+      final EvaluationResult result = doEvaluate(changeSet);
       // If there was any modification, persist it
       if (result.isDirty) {
         workbench.getDisplay().syncExec(new Runnable() {
@@ -203,5 +200,3 @@ class KeyboardBindingsTask extends CompositeTask {
     }
   }
 }
-
-// TODO(zorzella): RootTaskScanner.scan's "for" should try/catch. Add test.
