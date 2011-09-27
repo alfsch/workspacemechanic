@@ -51,9 +51,18 @@ final class KbaBoostrapper extends CompositeTask {
 
     for (Binding binding : bindingService.getBindings()) {
       if (binding.getType() == Binding.USER) {
-        ub.add(binding);
+        if (binding.getParameterizedCommand() == null) {
+          // TODO: support removing commands
+        } else {
+          ub.add(binding);
+        }
       } else if (binding.getType() == Binding.SYSTEM) {
-        sb.add(binding);
+        if (binding.getParameterizedCommand() == null) {
+          // Uh? I have no idea what these mean, but they exist -- they are system
+          // bindings to no command.
+        } else {
+          sb.add(binding);
+        }
       } else {
         throw new UnsupportedOperationException("Unexpected binding type: " + binding.getType());
       }

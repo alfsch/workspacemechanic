@@ -95,10 +95,15 @@ class KeyBindingsManualFormatter {
       Function<Binding, KbaBinding> function = new Function<Binding, KbaBinding>() {
         public KbaBinding apply(Binding binding) {
           ParameterizedCommand cmd = binding.getParameterizedCommand();
+          if (cmd == null) {
+            // TODO a null command means a remove. Implement removes. For now,
+            // we expect these to have been not sent.
+            throw new UnsupportedOperationException();
+          }
           Map<String,String> parameterMap = paramMap(cmd);
           return new KbaBinding(
               binding.getTriggerSequence().format(),
-              cmd == null ? null : cmd.getId(),
+              cmd.getId(),
               parameterMap);
         }
 
@@ -115,7 +120,7 @@ class KeyBindingsManualFormatter {
           return (Map<String,String>)tmp;
         }
       };
-      Collection<KbaBinding> transformed = Lists.transform(Lists.newArrayList(bindings), function);
+      Iterable<KbaBinding> transformed = Iterables.transform(bindings, function);
       KbaBindingList bindingSpecList = new KbaBindingList(transformed);
       KbaChangeSet changeSet = new KbaChangeSet(
           q.scheme,
