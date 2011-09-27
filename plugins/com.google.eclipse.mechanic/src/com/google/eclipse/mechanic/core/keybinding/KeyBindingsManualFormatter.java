@@ -9,11 +9,15 @@
 
 package com.google.eclipse.mechanic.core.keybinding;
 
+import com.google.common.base.Function;
+import com.google.common.base.Joiner;
+import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
-import com.google.eclipse.mechanic.core.keybinding.KeyBindings.Qualifier;
+import com.google.eclipse.mechanic.core.keybinding.KbaChangeSet.KbaBindingList;
 import com.google.eclipse.mechanic.plugin.core.MechanicLog;
 
-import org.eclipse.core.commands.Command;
 import org.eclipse.core.commands.ParameterizedCommand;
 import org.eclipse.jface.bindings.Binding;
 
@@ -22,6 +26,8 @@ import java.io.FileOutputStream;
 import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Map;
 
 /**
@@ -30,6 +36,12 @@ import java.util.Map;
  * <p>The reason a JSON formatter is not used is so that the output, which is
  * meant to be read by a person, is carefully tinkered with to be readable.
  *
+ * <p>The usage for this class is the following: 1. user creates a few
+ * keybindings through the regular Eclipse UI; 2. user wants to create an audit
+ * based on these bindings; 3. user triggers this code (still TODO) which spits
+ * out a file for him/her to bootstrap. This will be the canonical, documented
+ * and simplest way to create a .kbd audit file.
+ *
  * @author zorzella@google.com
  */
 class KeyBindingsManualFormatter {
@@ -37,29 +49,69 @@ class KeyBindingsManualFormatter {
   private static final boolean DEBUG = true;
 
   private final MechanicLog log;
-  // TODO: probably get rid of these two by leveraging userBindingsMap and systemBindingsMap
-//  private final List<Binding> userBindings;
-//  private final List<Binding> systemBindings;
-  private final Multimap<Qualifier, Binding> userBindingsMap;
-  private final Multimap<Qualifier, Binding> systemBindingsMap;
-
-  private final KeyBindings keyBindings;
+  private final Map<KbaChangeSetQualifier, KbaChangeSet> userBindingsMap;
+  private final Map<KbaChangeSetQualifier, KbaChangeSet> systemBindingsMap;
 
   /**
    * Creates a new instance from a defined set of bindings.
    */
-  public KeyBindingsManualFormatter(KeyBindings keyBindings) {
-    this.keyBindings = keyBindings;
-    this.log = keyBindings.log;
-//    this.userBindings = ub;
-//    this.systemBindings = Collections.unmodifiableList(sb);
-    this.userBindingsMap = keyBindings.userBindingsMap;
-    this.systemBindingsMap = keyBindings.systemBindingsMap;
-
-    printBindings();
+  public KeyBindingsManualFormatter(MechanicLog log,
+      Multimap<KbaChangeSetQualifier, Binding> userBindingsMap,
+      Multimap<KbaChangeSetQualifier, Binding> systemBindingsMap) {
+    this(log, 
+        transform(userBindingsMap),
+        transform(systemBindingsMap));
   }
 
-  private enum BindingType {
+  public KeyBindingsManualFormatter(MechanicLog log,
+      Map<KbaChangeSetQualifier, KbaChangeSet> userBindingsMap,
+      Map<KbaChangeSetQualifier, KbaChangeSet> systemBindingsMap) {
+    this.log = log;
+    this.userBindingsMap = userBindingsMap;
+    this.systemBindingsMap = systemBindingsMap;
+  }
+  
+  private static Map<KbaChangeSetQualifier, KbaChangeSet> transform(Multimap<KbaChangeSetQualifier, Binding> orig) {
+    Map<KbaChangeSetQualifier, KbaChangeSet> result = Maps.newHashMap();
+    for (KbaChangeSetQualifier q : orig.keySet()) {
+      Collection<Binding> bindings = orig.get(q);
+      Function<Binding, KbaBinding> function = new Function<Binding, KbaBinding>() {
+        public KbaBinding apply(Binding binding) {
+          ParameterizedCommand cmd = binding.getParameterizedCommand();
+          Map<String,String> parameterMap = paramMap(cmd);
+          return new KbaBinding(
+              binding.getTriggerSequence().format(),
+              cmd == null ? null : cmd.getId(),
+              parameterMap);
+        }
+
+        @SuppressWarnings({ "unchecked", "cast" })
+        private Map<String,String> paramMap(ParameterizedCommand cmd) {
+          if (cmd == null) {
+            return Collections.emptyMap();
+          }
+          @SuppressWarnings("rawtypes")
+          Map tmp = cmd.getParameterMap();
+          if (tmp == null) {
+            return Collections.emptyMap();
+          }
+          return (Map<String,String>)tmp;
+        }
+      };
+      Collection<KbaBinding> transformed = Lists.transform(Lists.newArrayList(bindings), function);
+      KbaBindingList bindingSpecList = new KbaBindingList(transformed);
+      KbaChangeSet changeSet = new KbaChangeSet(
+          q.scheme,
+          q.platform,
+          q.context,
+          KbaChangeSet.Action.ADD.toString(),
+          bindingSpecList);
+      result.put(q, changeSet);
+    }
+    return result;
+  }
+
+  enum BindingType {
     USER,
     SYSTEM,
     ;
@@ -77,8 +129,8 @@ class KeyBindingsManualFormatter {
   }
 
   
-  private void printBindings(BindingType bindingType, Multimap<Qualifier,Binding> bindings) {
-    String output = getBindingsPrintout(bindingType, bindings);
+  private void printBindings(BindingType bindingType, Map<KbaChangeSetQualifier, KbaChangeSet> kbaChangeSet) {
+    String output = getBindingsPrintout(bindingType, kbaChangeSet);
 //    System.out.println(output);
     try {
       File tempFile = File.createTempFile("CURRENT-" + bindingType + "-", ".kbd");
@@ -101,7 +153,7 @@ class KeyBindingsManualFormatter {
     return result.toString();
   }
   
-  String getBindingsPrintout(BindingType bindingType, Multimap<Qualifier,Binding> bindings) {
+  static String getBindingsPrintout(BindingType bindingType, Map<KbaChangeSetQualifier,KbaChangeSet> bindings) {
     StringBuilder output = new StringBuilder()
         .append("{\n")
         .append(i(1)).append(quote(KeyBindingsParser.METADATA_JSON_KEY)).append(" : {\n")
@@ -110,7 +162,7 @@ class KeyBindingsManualFormatter {
         .append(i(2)).append(kvn(KeyBindingsParser.TYPE_JSON_KEY, "LASTMOD"))
         .append(i(1)).append("},\n")
         .append(i(1)).append(quote(KeyBindingsParser.CHANGE_SETS_JSON_KEY)).append(" : [\n");
-    for (Qualifier q : bindings.keySet()) {
+    for (KbaChangeSetQualifier q : bindings.keySet()) {
       output
           .append(i(1)).append("{\n")
           .append(i(2)).append(kvcn(KeyBindingsParser.SCHEME_JSON_KEY, q.scheme));
@@ -123,11 +175,7 @@ class KeyBindingsManualFormatter {
           .append(i(2)).append(kvcn(KeyBindingsParser.CONTEXT_JSON_KEY, q.context))
           .append(i(2)).append(kvcn(KeyBindingsParser.ACTION_JSON_KEY, KeyBindingsParser.ADD_JSON_KEY))
           .append(i(2)).append(quote(KeyBindingsParser.BINDINGS_JSON_KEY)).append(" : [\n");
-      for (Binding b : bindings.get(q)) {
-        if (b.getParameterizedCommand() == null) {
-          // TODO: Phase II support removing bindings
-          continue;
-        }
+      for (KbaBinding b : bindings.get(q).getBindingList()) {
         output.append(serializeToZ(b));
         
         // TODO: GSON is not happy about trailing commas. Either make
@@ -141,50 +189,43 @@ class KeyBindingsManualFormatter {
     return output.toString();
   }
 
-  private static CharSequence serializeToZ(Binding b) {
+  private static CharSequence serializeToZ(KbaBinding b) {
       boolean remove = false;
-      if (b.getParameterizedCommand() == null) {
-        remove = true;
-        // TODO implement remove
-        throw new UnsupportedOperationException("Implement removing.");
-      }
-      String platform = b.getPlatform();
-
       StringBuilder toPrint = new StringBuilder()
           .append(i(3))
               .append("{")
-              .append(kvcs(KeyBindingsParser.KEYS_JSON_KEY, b.getTriggerSequence().format()))
-//              .append(kd(KeyBindingsParser.COMMAND_JSON_KEY, formatCommand(b)))
+              .append(kvcs(KeyBindingsParser.KEYS_JSON_KEY, b.getKeySequence()))
               .append(formatCommand(b))
               .append("},\n");
       return toPrint;
   }
 
-  private static String formatCommand(Binding b) {
-    ParameterizedCommand parameterizedCommand = b.getParameterizedCommand();
-    if (parameterizedCommand == null) {
-      return "";
-    }
-    
-    Command command = parameterizedCommand.getCommand();
+  private static String formatCommand(KbaBinding b) {
     StringBuilder result = new StringBuilder()   //"{")
-        .append(kvcs(KeyBindingsParser.COMMAND_JSON_KEY, command.getId()));
+        .append(kvcs(KeyBindingsParser.COMMAND_JSON_KEY, b.getCid()));
     
-    @SuppressWarnings("unchecked")
-    Map<String,String> parameterMap = parameterizedCommand.getParameterMap();
+    Map<String,String> parameterMap = b.getParameters();
     if (parameterMap.size() > 0) {
       result.append(kd(KeyBindingsParser.COMMAND_PARAMETERS_JSON_KEY, formatParameters(parameterMap)));
     }
-//    result.append("}");
     return result.toString();
   }
 
-  private static String formatParameters(Map<String, String> parameterMap) {
+  private static String formatParameters(final Map<String, String> parameterMap) {
     StringBuilder sb = new StringBuilder();
     sb.append("{");
-    for (String key : parameterMap.keySet()) {
-        sb.append(kvc(urlEncoded(key), urlEncoded(parameterMap.get(key))));
-    }
+    
+    Function<String,String> function = new Function<String, String>() {
+      public String apply(String key) {
+        return kv(urlEncoded(key), urlEncoded(parameterMap.get(key)));
+      }
+    };
+    Iterable<String> transformed = Iterables.transform(parameterMap.keySet(), function);
+    sb.append(Joiner.on(",").join(transformed));
+    
+//    for (String key : parameterMap.keySet()) {
+//        sb.append(kvc(urlEncoded(key), urlEncoded(parameterMap.get(key))));
+//    }
     sb.append("}");
     return sb.toString();
   }

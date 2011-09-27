@@ -17,63 +17,67 @@ import com.google.eclipse.mechanic.internal.Util;
 import com.google.gson.annotations.SerializedName;
 
 /**
- * A java representation of a KeyBindings task.
+ * A java representation of a .kbd audit, abbreviated as KBA.
  *
  * <p>This, in disk, is represented as a JSON string.
+ * 
+ * <p>This class operates with primitive types (Strings, ints, lists), not with
+ * Eclipse constructs.
  *
  * @author zorzella@google.com
  */
-class KeyBindingsModel {
+class KeyBindingsAudit {
 
+  @SerializedName(KeyBindingsParser.METADATA_JSON_KEY)
+  private final KbaMetaData kbaMetadata;
   @SerializedName(KeyBindingsParser.CHANGE_SETS_JSON_KEY)
-  private final ImmutableList<KeyBindingChangeSet> keyBindingsChangeSets;
-  private final MetaData metadata;
+  private final ImmutableList<KbaChangeSet> kbaChangeSetList;
 
-  public KeyBindingsModel(List<KeyBindingChangeSet> changeSets, MetaData metadata) {
-    this.keyBindingsChangeSets = ImmutableList.copyOf(changeSets);
-    this.metadata = metadata;
+  public KeyBindingsAudit(List<KbaChangeSet> changeSets, KbaMetaData metadata) {
+    this.kbaChangeSetList = ImmutableList.copyOf(changeSets);
+    this.kbaMetadata = metadata;
   }
 
-  public List<KeyBindingChangeSet> getKeyBindingsChangeSets() {
-    return keyBindingsChangeSets;
+  public List<KbaChangeSet> getKeyBindingsChangeSets() {
+    return kbaChangeSetList;
   }
 
-  public MetaData getMetadata() {
-    return metadata;
+  public KbaMetaData getMetadata() {
+    return kbaMetadata;
   }
 
   @Override
   public int hashCode() {
-    return Util.hashCode(this.keyBindingsChangeSets, this.metadata);
+    return Util.hashCode(this.kbaChangeSetList, this.kbaMetadata);
   }
 
   @Override
   public boolean equals(Object obj) {
-    if (!(obj instanceof KeyBindingsModel)) {
+    if (!(obj instanceof KeyBindingsAudit)) {
       return false;
     }
-    KeyBindingsModel that = (KeyBindingsModel)obj;
+    KeyBindingsAudit that = (KeyBindingsAudit)obj;
     return
-      this.keyBindingsChangeSets.equals(that.keyBindingsChangeSets)
+      this.kbaChangeSetList.equals(that.kbaChangeSetList)
         &&
-      this.metadata.equals(that.metadata);
+      this.kbaMetadata.equals(that.kbaMetadata);
   }
 
   @Override
   public String toString() {
     return String.format(
         "metadata: %s, keyBindingsChangeSets: %s",
-        this.metadata, this.keyBindingsChangeSets);
+        this.kbaMetadata, this.kbaChangeSetList);
   }
 
-  public static final class MetaData {
+  public static final class KbaMetaData {
 
     private final String shortDescription;
     private final String description;
     // TODO(zorzella): should this always be reconcile?
     private final TaskType type;
 
-    public MetaData(String shortDescription, String description, TaskType type) {
+    public KbaMetaData(String shortDescription, String description, TaskType type) {
       this.shortDescription = Util.checkNotNull(shortDescription);
       this.description = Util.checkNotNull(description);
       this.type = Util.checkNotNull(type);
@@ -86,10 +90,10 @@ class KeyBindingsModel {
 
     @Override
     public boolean equals(Object obj) {
-      if (!(obj instanceof MetaData)) {
+      if (!(obj instanceof KbaMetaData)) {
         return false;
       }
-      MetaData that = (MetaData)obj;
+      KbaMetaData that = (KbaMetaData)obj;
       return
         this.shortDescription.equals(that.shortDescription)
           &&

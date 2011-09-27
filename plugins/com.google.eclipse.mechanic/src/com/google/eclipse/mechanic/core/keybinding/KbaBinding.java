@@ -19,28 +19,28 @@ import java.util.Map;
  *
  * <p>Note that not all the information necessary to define a key binding is
  * present in this structure. This "missing" information is rather part of the
- * containing {@link KeyBindingChangeSet}.
+ * containing {@link KbaChangeSet}.
  *
  * <p>This class is immutable, but provides the "immutable self-builder" pattern
  * for specifying parameters. See {@link #withParam(String, String)}.
  *
  * @author zorzella@google.com
  */
-public final class KeyBindingSpec {
+public final class KbaBinding {
 
   private final String cid;
   private final String keySequence;
   private final Map<String,String> parameters;
 
-  public KeyBindingSpec(
-      String cid,
-      String keySequence) {
-    this(cid, keySequence, Util.<String, String>newHashMap());
+  public KbaBinding(
+      String keySequence,
+      String cid) {
+    this(keySequence, cid, Util.<String, String>newHashMap());
   }
 
-  public KeyBindingSpec(
-      String cid,
+  public KbaBinding(
       String keySequence,
+      String cid,
       Map<String,String> parameters) {
     this.cid = cid;
     this.keySequence = Util.checkNotNull(keySequence);
@@ -67,11 +67,11 @@ public final class KeyBindingSpec {
    * <p>This is provided for convenience of progressively building this class
    * without requiring a map builder or mutable map.
    */
-  public KeyBindingSpec withParam(String id, String value) {
+  public KbaBinding withParam(String id, String value) {
     Map<String, String> temp = Util.newHashMap();
     temp.putAll(parameters);
     temp.put(id, value);
-    return new KeyBindingSpec(this.cid, this.keySequence, temp);
+    return new KbaBinding(this.keySequence, this.cid, temp);
   }
 
   @Override
@@ -81,10 +81,10 @@ public final class KeyBindingSpec {
 
   @Override
   public boolean equals(Object obj) {
-    if (!(obj instanceof KeyBindingSpec)) {
+    if (!(obj instanceof KbaBinding)) {
       return false;
     }
-    KeyBindingSpec that = (KeyBindingSpec)obj;
+    KbaBinding that = (KbaBinding)obj;
     if (this.cid == null) {
       if (that.cid != null) {
         return false;

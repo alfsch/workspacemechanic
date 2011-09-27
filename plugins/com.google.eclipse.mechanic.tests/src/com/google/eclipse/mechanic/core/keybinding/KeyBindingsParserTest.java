@@ -16,11 +16,11 @@ import java.util.List;
 
 import junit.framework.TestCase;
 
-import com.google.eclipse.mechanic.core.keybinding.KeyBindingChangeSet;
-import com.google.eclipse.mechanic.core.keybinding.KeyBindingSpec;
-import com.google.eclipse.mechanic.core.keybinding.KeyBindingsModel;
+import com.google.eclipse.mechanic.core.keybinding.KbaChangeSet;
+import com.google.eclipse.mechanic.core.keybinding.KbaBinding;
+import com.google.eclipse.mechanic.core.keybinding.KeyBindingsAudit;
 import com.google.eclipse.mechanic.core.keybinding.KeyBindingsParser;
-import com.google.eclipse.mechanic.core.keybinding.KeyBindingsModel.MetaData;
+import com.google.eclipse.mechanic.core.keybinding.KeyBindingsAudit.KbaMetaData;
 import com.google.eclipse.mechanic.internal.TaskType;
 import com.google.eclipse.mechanic.tests.internal.RunAsJUnitTest;
 
@@ -141,28 +141,28 @@ public class KeyBindingsParserTest extends TestCase {
 
   
   public void testNoChangesets() {
-    KeyBindingsModel actual = KeyBindingsParser.deSerialize(new StringReader(TEST_NO_CHANGESETS));
-    KeyBindingsModel expected = buildExpected(false, false);
+    KeyBindingsAudit actual = KeyBindingsParser.deSerialize(new StringReader(TEST_NO_CHANGESETS));
+    KeyBindingsAudit expected = buildExpected(false, false);
 
     assertEquals(expected, actual);
   }
 
   public void testDefault() {
-    KeyBindingsModel actual = KeyBindingsParser.deSerialize(new StringReader(TEST_JSON));
-    KeyBindingsModel expected = buildExpected(true, false);
+    KeyBindingsAudit actual = KeyBindingsParser.deSerialize(new StringReader(TEST_JSON));
+    KeyBindingsAudit expected = buildExpected(true, false);
 
     assertEquals(expected, actual);
   }
 
   public void testFull() {
-    KeyBindingsModel actual = KeyBindingsParser.deSerialize(new StringReader(TEST_FULL));
-    KeyBindingsModel expected = buildExpected(true, true);
+    KeyBindingsAudit actual = KeyBindingsParser.deSerialize(new StringReader(TEST_FULL));
+    KeyBindingsAudit expected = buildExpected(true, true);
 
     assertEquals(expected, actual);
   }
 
   public void testNoPlatform() {
-    KeyBindingsModel actual = KeyBindingsParser.deSerialize(new StringReader(TEST_NO_PLATFORM));
+    KeyBindingsAudit actual = KeyBindingsParser.deSerialize(new StringReader(TEST_NO_PLATFORM));
     // Just want to know this did not throw
   }
 
@@ -178,61 +178,54 @@ public class KeyBindingsParserTest extends TestCase {
     doTestRoundTrip_entry(buildExpected(false, true));
   }
 
-  private void doTestRoundTrip_entry(KeyBindingsModel task) {
+  private void doTestRoundTrip_entry(KeyBindingsAudit task) {
     String json = KeyBindingsParser.serialize(task);
-    KeyBindingsModel reconstituted = KeyBindingsParser.deSerialize(new StringReader(json));
+    KeyBindingsAudit reconstituted = KeyBindingsParser.deSerialize(new StringReader(json));
     assertEquals(task, reconstituted);
   }
 
-  private KeyBindingsModel buildExpected(boolean hasChangeSets, boolean hasParams) {
-    MetaData metadata = new MetaData(
+  private KeyBindingsAudit buildExpected(boolean hasChangeSets, boolean hasParams) {
+    KbaMetaData metadata = new KbaMetaData(
         "Zorzella's bindings",
         "Zorzella's bindings in the real world",
         TaskType.LASTMOD
         );
-    List<KeyBindingChangeSet> changeSets = new ArrayList<KeyBindingChangeSet>();
+    List<KbaChangeSet> changeSets = new ArrayList<KbaChangeSet>();
     if (hasChangeSets) {
       changeSets.add(buildExpectedChangeSetZero());
       changeSets.add(buildExpectedChangeSetOne(hasParams));
     }
-    KeyBindingsModel result = new KeyBindingsModel(changeSets, metadata);
+    KeyBindingsAudit result = new KeyBindingsAudit(changeSets, metadata);
     return result;
   }
 
-  private KeyBindingChangeSet buildExpectedChangeSetZero() {
-    Collection<KeyBindingSpec> toRemove = new ArrayList<KeyBindingSpec>();
-//    toRemove.add(new KeyBindingSpec(null, "Shift+Alt+Q X"));
-
-    Collection<KeyBindingSpec> toAdd = new ArrayList<KeyBindingSpec>();
-    KeyBindingSpec spec = new KeyBindingSpec("a.b.c.d.e", "Shift+Alt+Q T");
+  private KbaChangeSet buildExpectedChangeSetZero() {
+    Collection<KbaBinding> toAdd = new ArrayList<KbaBinding>();
+    KbaBinding spec = new KbaBinding("Shift+Alt+Q T", "a.b.c.d.e");
     toAdd.add(spec);
 
-    return new KeyBindingChangeSet(
+    return new KbaChangeSet(
         "org.eclipse.ui.emacsAcceleratorConfiguration",
         "Windows",
         "org.eclipse.ui.contexts.window",
         "add",
-        toAdd, toRemove
+        toAdd
         );
   }
 
-  private KeyBindingChangeSet buildExpectedChangeSetOne(boolean hasParams) {
-    Collection<KeyBindingSpec> toRemove = new ArrayList<KeyBindingSpec>();
-//    toRemove.add(new KeyBindingSpec(null, "Shift+Alt+Q X"));
-
-    Collection<KeyBindingSpec> toAdd = new ArrayList<KeyBindingSpec>();
-    KeyBindingSpec spec = new KeyBindingSpec("a.b.c.d.e", "Shift+Alt+Q T");
+  private KbaChangeSet buildExpectedChangeSetOne(boolean hasParams) {
+    Collection<KbaBinding> toAdd = new ArrayList<KbaBinding>();
+    KbaBinding spec = new KbaBinding("Shift+Alt+Q T", "a.b.c.d.e");
     if (hasParams) {
       spec = spec.withParam("a", "1").withParam("b", "2");
     }
     toAdd.add(spec);
 
-    return new KeyBindingChangeSet(
+    return new KbaChangeSet(
         "org.eclipse.ui.defaultAcceleratorConfiguration",
         "Windows",
         "org.eclipse.ui.contexts.window",
         "add",
-        toAdd, toRemove
-        );
+        toAdd);
   }
 }

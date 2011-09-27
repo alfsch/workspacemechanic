@@ -15,8 +15,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import com.google.eclipse.mechanic.core.keybinding.KeyBindingChangeSet.Bindings;
-import com.google.eclipse.mechanic.core.keybinding.KeyBindingsModel.MetaData;
+import com.google.eclipse.mechanic.core.keybinding.KbaChangeSet.KbaBindingList;
+import com.google.eclipse.mechanic.core.keybinding.KeyBindingsAudit.KbaMetaData;
 import com.google.eclipse.mechanic.internal.TaskType;
 import com.google.eclipse.mechanic.internal.Util;
 import com.google.gson.Gson;
@@ -62,7 +62,7 @@ import com.google.gson.reflect.TypeToken;
       "context" : "org.eclipse.ui.contexts.window",
       "action" : "add",
       "bindings" : [
-        {"keys" : "Shift+Alt+Q T", "cmd" : "a.b.c.d.e"}
+        {'keys' : 'Shift+Alt+Q I', 'cmd' : 'org.eclipse.ui.views.showView', 'params' : {'org.eclipse.ui.views.showView.viewId' : 'org.eclipse.jdt.debug.ui.DisplayView' }},
       ]
     },
   ]
@@ -71,11 +71,9 @@ import com.google.gson.reflect.TypeToken;
  * </pre>
  *
  * This file starts out with metadata (for mechanic's own use), then it has a
- * "changes" section, that being a list of what we internally call
- * {@link KeyBindingChangeSet}, each specific to a single scheme/platform/context,
- * and containing a list of binding changes (internally split into two lists of
- * {@link KeyBindingSpec}, one for bindings to add, another for bindings to
- * remove).
+ * "changeSets" section, that being a list of what we internally call
+ * {@link KbaChangeSet}, each specific to a single scheme/platform/context/action,
+ * and containing a list of binding changes.
  *
  * @author zorzella@google.com
  */
@@ -99,63 +97,38 @@ class KeyBindingsParser {
  
   private static final Gson GSON = new GsonBuilder()
       .setPrettyPrinting()
-      .registerTypeAdapter(MetaData.class, new MetaDataAdapter())
-      .registerTypeAdapter(KeyBindingsModel.class, new KeyBindingsModelAdapter())
-      .registerTypeAdapter(KeyBindingChangeSet.class, new KeyBindingChangeSetAdapter())
-      .registerTypeAdapter(KeyBindingChangeSet.Bindings.class, new BindingsAdapter())
+      .registerTypeAdapter(KbaMetaData.class, new MetaDataAdapter())
+      .registerTypeAdapter(KeyBindingsAudit.class, new KeyBindingsModelAdapter())
+      .registerTypeAdapter(KbaChangeSet.class, new KeyBindingChangeSetAdapter())
+      .registerTypeAdapter(KbaChangeSet.KbaBindingList.class, new BindingsAdapter())
       .create();
 
-  public static String serialize(KeyBindingsModel model) {
+  public static String serialize(KeyBindingsAudit model) {
     return GSON.toJson(model);
   }
 
-  public static KeyBindingsModel deSerialize(Reader reader) {
-    return GSON.fromJson(reader, KeyBindingsModel.class);
-  }
-
-  private enum Action {
-    ADD(ADD_JSON_KEY),
-    REMOVE(REM_JSON_KEY),
-    ;
-
-    private final String label;
-
-    Action(String label) {
-      this.label = label;
-    }
-
-    static Action forLabel(String label) {
-      for (Action action : values()) {
-        if (action.label.equals(label)) {
-          return action;
-        }
-      }
-      throw new IllegalArgumentException(label);
-    }
-  }
-
-  private static Action actionForLabel(Object label) {
-    return Action.forLabel((String)label);
+  public static KeyBindingsAudit deSerialize(Reader reader) {
+    return GSON.fromJson(reader, KeyBindingsAudit.class);
   }
 
   private static final class Types {
     static final Type changeSetsList =
-        new TypeToken<List<KeyBindingChangeSet>>(){}.getType();
-    static final Type metaData = new TypeToken<MetaData>(){}.getType();
+        new TypeToken<List<KbaChangeSet>>(){}.getType();
+    static final Type metaData = new TypeToken<KbaMetaData>(){}.getType();
     static final Type string = new TypeToken<String>(){}.getType();
-    static final Type bindings = new TypeToken<Bindings>(){}.getType();
+    static final Type bindings = new TypeToken<KbaBindingList>(){}.getType();
     static final Type taskType = new TypeToken<TaskType>(){}.getType();
   }
 
   public static class MetaDataAdapter
-      implements JsonDeserializer<MetaData> {
+      implements JsonDeserializer<KbaMetaData> {
 
 
-    public MetaData deserialize(JsonElement json, Type typeOfT,
+    public KbaMetaData deserialize(JsonElement json, Type typeOfT,
         JsonDeserializationContext context) throws JsonParseException {
       JsonObject jo = json.getAsJsonObject();
 
-      return new MetaData(
+      return new KbaMetaData(
           (String) context.deserialize(jo.get(SHORT_DESCRIPTION_JSON_KEY), Types.string),
           (String) context.deserialize(jo.get(DESCRIPTION_JSON_KEY), Types.string),
           (TaskType) context.deserialize(jo.get(TYPE_JSON_KEY), Types.taskType));
@@ -163,53 +136,52 @@ class KeyBindingsParser {
   }
 
   public static class KeyBindingsModelAdapter
-      implements JsonDeserializer<KeyBindingsModel> {
+      implements JsonDeserializer<KeyBindingsAudit> {
 
-
-    public KeyBindingsModel deserialize(JsonElement json, Type typeOfT,
+    public KeyBindingsAudit deserialize(JsonElement json, Type typeOfT,
         JsonDeserializationContext context) throws JsonParseException {
       JsonObject jo = json.getAsJsonObject();
 
       @SuppressWarnings("unchecked") // Typecast with generic from Object is required.
-      List<KeyBindingChangeSet> changeSets = (List<KeyBindingChangeSet>)
+      List<KbaChangeSet> changeSets = (List<KbaChangeSet>)
           context.deserialize(jo.get(CHANGE_SETS_JSON_KEY), Types.changeSetsList);
 
-      // This allows for a trailing comma in the changeset
+      // This allows for a trailing comma in the changeSet
       changeSets.remove(null);
       
-      return new KeyBindingsModel(
+      return new KeyBindingsAudit(
           changeSets,
-          (MetaData) context.deserialize(jo.get(METADATA_JSON_KEY), Types.metaData));
+          (KbaMetaData) context.deserialize(jo.get(METADATA_JSON_KEY), Types.metaData));
     }
   }
 
   public static class KeyBindingChangeSetAdapter
-      implements JsonDeserializer<KeyBindingChangeSet> {
+      implements JsonDeserializer<KbaChangeSet> {
 
 
-    public KeyBindingChangeSet deserialize(JsonElement json, Type typeOfT,
+    public KbaChangeSet deserialize(JsonElement json, Type typeOfT,
         JsonDeserializationContext context) throws JsonParseException {
       JsonObject jo = json.getAsJsonObject();
 
-      return new KeyBindingChangeSet(
+      return new KbaChangeSet(
           (String) context.deserialize(jo.get(SCHEME_JSON_KEY), Types.string),
           (String) context.deserialize(jo.get(PLATFORM_JSON_KEY), Types.string),
           (String) context.deserialize(jo.get(CONTEXT_JSON_KEY), Types.string),
           (String) context.deserialize(jo.get(ACTION_JSON_KEY), Types.string),
-          (Bindings) context.deserialize(jo.get(BINDINGS_JSON_KEY), Types.bindings));
+          (KbaBindingList) context.deserialize(jo.get(BINDINGS_JSON_KEY), Types.bindings));
     }
   }
 
   public static class BindingsAdapter
-      implements JsonSerializer<KeyBindingChangeSet.Bindings>,
-      JsonDeserializer<KeyBindingChangeSet.Bindings>{
+      implements JsonSerializer<KbaChangeSet.KbaBindingList>,
+      JsonDeserializer<KbaChangeSet.KbaBindingList>{
 
-    public JsonElement serialize(Bindings bindings, Type typeOfSrc,
+    public JsonElement serialize(KbaBindingList bindings, Type typeOfSrc,
         JsonSerializationContext context) {
       JsonArray array = new JsonArray();
 
-      for (KeyBindingSpec keyBindingSpec : bindings.toAdd()) {
-        array.add(serialize(ADD_JSON_KEY, keyBindingSpec));
+      for (KbaBinding keyBindingSpec : bindings.getList()) {
+        array.add(serialize(keyBindingSpec));
       }
 //
 //      for (KeyBindingSpec keyBindingSpec : bindings.toRemove()) {
@@ -218,9 +190,9 @@ class KeyBindingsParser {
       return array;
     }
 
-    private JsonElement serialize(String action, KeyBindingSpec keyBindingSpec) {
+    private JsonElement serialize(KbaBinding keyBindingSpec) {
       JsonObject jo = new JsonObject();
-      jo.addProperty(ACTION_JSON_KEY, action);
+//      jo.addProperty(ACTION_JSON_KEY, action);
       jo.addProperty(KEYS_JSON_KEY, keyBindingSpec.getKeySequence());
 
       if (keyBindingSpec.getCid() != null) {
@@ -236,42 +208,30 @@ class KeyBindingsParser {
       return jo;
     }
 
-    public Bindings deserialize(JsonElement json, Type typeOfT,
+    public KbaBindingList deserialize(JsonElement json, Type typeOfT,
         JsonDeserializationContext context) throws JsonParseException {
-      List<KeyBindingSpec> toAdd = Util.newArrayList();
-      List<KeyBindingSpec> toRemove = Util.newArrayList();
+      List<KbaBinding> bindingSpecList = Util.newArrayList();
       JsonArray ja = json.getAsJsonArray();
       for (JsonElement jsonElement : ja) {
         JsonObject jo = jsonElement.getAsJsonObject();
 
-        String keySequence = jo.get(KEYS_JSON_KEY).getAsString();
-        Action action = Action.ADD;//actionForLabel(jo.get(ACTION_JSON_KEY).getAsString());
+      String keySequence = jo.get(KEYS_JSON_KEY).getAsString();
+        String command = jo.get(COMMAND_JSON_KEY).getAsString();
 
-        switch(action) {
-          case ADD:
-          String command = jo.get(COMMAND_JSON_KEY).getAsString();
+        KbaBinding bindingSpec = new KbaBinding(
+            keySequence,
+            command);
 
-          KeyBindingSpec bindingSpec = new KeyBindingSpec(
-//              command.get(COMMAND_ID_JSON_KEY).getAsString(),
-              command,
-              keySequence);
-
-          JsonObject params = jo.getAsJsonObject(COMMAND_PARAMETERS_JSON_KEY);
-          if (params != null) {
-            for (Entry<String, JsonElement> entry : params.entrySet()) {
-              bindingSpec = bindingSpec.withParam(entry.getKey(), entry.getValue().getAsString());
-            }
+        JsonObject params = jo.getAsJsonObject(COMMAND_PARAMETERS_JSON_KEY);
+        if (params != null) {
+          for (Entry<String, JsonElement> entry : params.entrySet()) {
+            bindingSpec = bindingSpec.withParam(entry.getKey(), entry.getValue().getAsString());
           }
-          toAdd.add(bindingSpec);
-          break;
-        case REMOVE:
-          toRemove.add(new KeyBindingSpec(null, keySequence));
-          break;
-        default:
-          throw new UnsupportedOperationException();
         }
+        bindingSpecList.add(bindingSpec);
+        break;
       }
-      return new Bindings(toAdd, toRemove);
+      return new KbaBindingList(bindingSpecList);
     }
   }
 }

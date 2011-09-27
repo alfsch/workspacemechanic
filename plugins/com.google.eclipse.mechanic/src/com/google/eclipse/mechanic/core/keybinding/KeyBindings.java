@@ -9,9 +9,9 @@
 
 package com.google.eclipse.mechanic.core.keybinding;
 
-import com.google.common.base.Preconditions;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
+import com.google.eclipse.mechanic.core.keybinding.KbaChangeSet.Action;
 import com.google.eclipse.mechanic.internal.Util;
 import com.google.eclipse.mechanic.plugin.core.MechanicLog;
 
@@ -53,8 +53,8 @@ class KeyBindings {
   // TODO: probably get rid of these two by leveraging userBindingsMap and systemBindingsMap
   private final List<Binding> userBindings;
   private final List<Binding> systemBindings;
-  final Multimap<Qualifier, Binding> userBindingsMap;
-  final Multimap<Qualifier, Binding> systemBindingsMap;
+  final Multimap<KbaChangeSetQualifier, Binding> userBindingsMap;
+  final Multimap<KbaChangeSetQualifier, Binding> systemBindingsMap;
 
   /**
    * Creates a new instance from a defined set of bindings.
@@ -82,53 +82,18 @@ class KeyBindings {
     this.userBindingsMap = buildQualifierToBindingMap(userBindings);
     this.systemBindingsMap = buildQualifierToBindingMap(systemBindings);
 
-    new KeyBindingsManualFormatter(this).printBindings();
+    new KeyBindingsManualFormatter(this.log, this.userBindingsMap, this.systemBindingsMap).printBindings();
   }
 
-  /**
-   * Qualifies a binding by scheme/platform/context
-   * 
-   * <p>If platform is {@code null}, this applies to all platforms.
-   */
-  static final class Qualifier {
-    final String scheme;
-    final String platform;
-    final String context;
-
-    public Qualifier(
-        final String scheme,
-        final String platform,
-        final String context) {
-      this.scheme = Preconditions.checkNotNull(scheme);
-      this.platform = platform;
-      this.context = Preconditions.checkNotNull(context);
-    }
-    
-    @Override
-    public boolean equals(Object obj) {
-      if (!(obj instanceof Qualifier)) {
-        return false;
-      }
-      Qualifier that = (Qualifier)obj;
-      return Util.equals(this.scheme, that.scheme) 
-          && Util.equals(this.platform, that.platform)
-          && Util.equals(this.context, that.context);
-    }
-    
-    @Override
-    public int hashCode() {
-      return Util.hashCode(this.scheme, this.platform, this.context);
-    }
-  }
-  
-  private Multimap<Qualifier,Binding> buildQualifierToBindingMap(List<Binding> bindings) {
-    Multimap<Qualifier,Binding> result = ArrayListMultimap.create();
+  private Multimap<KbaChangeSetQualifier,Binding> buildQualifierToBindingMap(List<Binding> bindings) {
+    Multimap<KbaChangeSetQualifier,Binding> result = ArrayListMultimap.create();
     for (Binding binding : bindings) {
       result.put(
-          new Qualifier(
+          new KbaChangeSetQualifier(
               binding.getSchemeId(),
               binding.getPlatform(),
-              binding.getContextId()),
+              binding.getContextId(),
+              Action.ADD.toString()),
           binding);
     }
     return result;

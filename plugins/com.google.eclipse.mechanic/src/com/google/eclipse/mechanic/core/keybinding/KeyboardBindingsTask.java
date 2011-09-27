@@ -38,9 +38,9 @@ class KeyboardBindingsTask extends CompositeTask {
   private final IWorkbench workbench;
   private final ICommandService commandService;
   private final IBindingService bindingService;
-  private final KeyBindingsModel model;
+  private final KeyBindingsAudit model;
 
-  public KeyboardBindingsTask(KeyBindingsModel model) {
+  public KeyboardBindingsTask(KeyBindingsAudit model) {
     this(
         System.getProperty("KEYBOARD_MECHANIC_ENABLED", "false").equals("true"),
         MechanicLog.getDefault(),
@@ -56,7 +56,7 @@ class KeyboardBindingsTask extends CompositeTask {
       IWorkbench workbench,
       ICommandService commandService,
       IBindingService bindingService,
-      KeyBindingsModel model) {
+      KeyBindingsAudit model) {
     this.enabled = enabled;
     this.log = log;
     this.workbench = workbench;
@@ -81,7 +81,7 @@ class KeyboardBindingsTask extends CompositeTask {
     boolean dirty = false;
     // If "dirty" is set to true, it means we made some modification that
     // we still need to persist.
-    for(KeyBindingChangeSet changeSet : model.getKeyBindingsChangeSets()) {
+    for(KbaChangeSet changeSet : model.getKeyBindingsChangeSets()) {
       dirty = dirty || doEvaluate(workbench, commandService, bindingService, changeSet).isDirty;
     }
     
@@ -108,7 +108,7 @@ class KeyboardBindingsTask extends CompositeTask {
       final IWorkbench workbench, 
       final ICommandService commandService,
       final IBindingService bindingService, 
-      final KeyBindingChangeSet changeSet) {
+      final KbaChangeSet changeSet) {
 
     boolean dirty = false;
     
@@ -116,7 +116,7 @@ class KeyboardBindingsTask extends CompositeTask {
 
     final Scheme scheme = bindingService.getScheme(changeSet.getSchemeId());
 
-    for (KeyBindingSpec toAdd : changeSet.toAdd()) {
+    for (KbaBinding toAdd : changeSet.getBindingList()) {
       Command commandToAdd = commandService.getCommand(toAdd.getCid());
       if (!commandToAdd.isDefined()) {
         log.logWarning("Command '" + toAdd.getCid() + "' does not exist.");
@@ -142,16 +142,15 @@ class KeyboardBindingsTask extends CompositeTask {
       }
     }
 
-    for (KeyBindingSpec toRemove : changeSet.toRemove()) {
+    // for (KeyBindingSpec toRemove : changeSet.toRemove()) {
+    if (false) {
+      KbaBinding toRemove = null;
       // TODO(zorzella): removing command is currently totally broken. This code
       // was written with the idea that we would have a cid to work with, and
       // the JSON parsing was written with the idea that "rem"s would not take a
       // command. We should likely support both: if "rem" has a command, we'd
       // specifically look for it. If it does not, we should look for an Eclipse
       // (system) keybinding for that.
-      if (true) {
-        continue;
-      }
       Command commandToRemove;
       try {
         commandToRemove = commandService.getCommand(toRemove.getCid());
@@ -187,7 +186,7 @@ class KeyboardBindingsTask extends CompositeTask {
       return;
     }
     
-    for(KeyBindingChangeSet changeSet : model.getKeyBindingsChangeSets()) {
+    for(KbaChangeSet changeSet : model.getKeyBindingsChangeSets()) {
       final EvaluationResult result = doEvaluate(workbench, commandService, bindingService, changeSet);
       // If there was any modification, persist it
       if (result.isDirty) {
