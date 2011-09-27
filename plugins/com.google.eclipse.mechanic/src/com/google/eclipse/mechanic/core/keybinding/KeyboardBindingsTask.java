@@ -33,8 +33,6 @@ import java.io.IOException;
  */
 class KeyboardBindingsTask extends CompositeTask {
 
-  // TODO: temporarily disabled -- this is still under dev
-  private final boolean enabled;
   private final MechanicLog log;
   private final IWorkbench workbench;
   private final ICommandService commandService;
@@ -43,7 +41,6 @@ class KeyboardBindingsTask extends CompositeTask {
 
   public KeyboardBindingsTask(KeyBindingsAudit audit) {
     this(
-        System.getProperty("KEYBOARD_MECHANIC_ENABLED", "false").equals("true"),
         MechanicLog.getDefault(),
         PlatformUI.getWorkbench(),
         (ICommandService) PlatformUI.getWorkbench().getService(ICommandService.class),
@@ -52,13 +49,11 @@ class KeyboardBindingsTask extends CompositeTask {
   }
   
   KeyboardBindingsTask(
-      boolean enabled,
       MechanicLog log,
       IWorkbench workbench,
       ICommandService commandService,
       IBindingService bindingService,
       KeyBindingsAudit audit) {
-    this.enabled = enabled;
     this.log = log;
     this.workbench = workbench;
     this.commandService = commandService;
@@ -75,10 +70,6 @@ class KeyboardBindingsTask extends CompositeTask {
   }
 
   public boolean evaluate() {
-    if (!enabled) {
-      return true;
-    }
-
     boolean dirty = false;
     // If "dirty" is set to true, it means we made some modification that
     // we still need to persist.
@@ -180,10 +171,6 @@ class KeyboardBindingsTask extends CompositeTask {
   }
 
   public void run() {
-    if (!enabled) {
-      return;
-    }
-    
     for(KbaChangeSet changeSet : audit.getKeyBindingsChangeSets()) {
       final EvaluationResult result = doEvaluate(changeSet);
       // If there was any modification, persist it
