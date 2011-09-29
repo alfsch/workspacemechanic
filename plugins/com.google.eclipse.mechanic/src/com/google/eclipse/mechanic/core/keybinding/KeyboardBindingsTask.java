@@ -87,7 +87,7 @@ class KeyboardBindingsTask extends CompositeTask {
           Iterables.transform(doEvaluate(changeSet).keyBindings.addedBindings, function)));
     }
     
-    return "Adding these bindings:\n" +
+    return "Add these bindings:\n" +
     		"\n" +
         Joiner.on("\n").join(addedBindings);
   }

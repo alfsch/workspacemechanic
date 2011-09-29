@@ -203,9 +203,14 @@ class KeyBindingsParser {
       List<KbaBinding> bindingSpecList = Util.newArrayList();
       JsonArray ja = json.getAsJsonArray();
       for (JsonElement jsonElement : ja) {
+        if (jsonElement.isJsonNull()) {
+          // This is being suppressed to support trailing commas in the list of
+          // bindings
+          continue;
+        }
         JsonObject jo = jsonElement.getAsJsonObject();
 
-      String keySequence = jo.get(KEYS_JSON_KEY).getAsString();
+        String keySequence = jo.get(KEYS_JSON_KEY).getAsString();
         String command = jo.get(COMMAND_JSON_KEY).getAsString();
 
         KbaBinding bindingSpec = new KbaBinding(
@@ -219,7 +224,6 @@ class KeyBindingsParser {
           }
         }
         bindingSpecList.add(bindingSpec);
-        break;
       }
       return new KbaBindingList(bindingSpecList);
     }

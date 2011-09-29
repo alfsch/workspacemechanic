@@ -52,7 +52,7 @@ public class KeyBindingsParserTest extends TestCase {
     "      'context' : 'org.eclipse.ui.contexts.window',\n" +
     "      'action' : 'add',\n" +
     "      'bindings' : [\n" +
-    "        {'keys' : 'Shift+Alt+Q T', 'cmd' : 'a.b.c.d.e'}\n" + // Comma: *1
+    "        {'keys' : 'Shift+Alt+Q T', 'cmd' : 'a.b.c.d.e'},\n" +
     "      ]\n" +
     "    },\n" +
     "    {\n" +
@@ -70,7 +70,7 @@ public class KeyBindingsParserTest extends TestCase {
     "      'context' : 'org.eclipse.ui.contexts.window',\n" +
     "      'action' : 'add',\n" +
     "      'bindings' : [\n" +
-    "        {'keys' : 'Shift+Alt+Q T', 'cmd' : 'a.b.c.d.e'}\n" + // Comma: *1
+    "        {'keys' : 'Shift+Alt+Q T', 'cmd' : 'a.b.c.d.e'},\n" +
     "      ]\n" +
     "    },\n" + // Comma *1
     "  ]\n" +
@@ -110,7 +110,8 @@ public class KeyBindingsParserTest extends TestCase {
     "      'context' : 'org.eclipse.ui.contexts.window',\n" +
     "      'action' : 'add',\n" +
     "      'bindings' : [\n" +
-    "        {'keys' : 'Shift+Alt+Q T', 'cmd' : 'a.b.c.d.e', 'params' : { 'a' : '1', 'b' : '2' }}\n" +
+    "        {'keys' : 'Shift+Alt+Q T', 'cmd' : 'a.b.c.d.e', 'params' : { 'a' : '1', 'b' : '2' }},\n" +
+    "        {'keys' : 'Shift+Alt+Q 8', 'cmd' : 'a.b.c.d.e', 'params' : { 'a' : '1', 'b' : '2' }},\n" +
     "      ]\n" +
     "    }\n" + // Comma *1
     "  ]\n" +
@@ -129,7 +130,7 @@ public class KeyBindingsParserTest extends TestCase {
       "      'context' : 'org.eclipse.ui.contexts.window',\n" +
       "      'action' : 'add',\n" +
       "      'bindings' : [\n" +
-      "        {'keys' : 'Shift+Alt+Q T', 'cmd' : 'a.b.c.d.e', 'params' : { 'a' : '1', 'b' : '2' }}\n" +
+      "        {'keys' : 'Shift+Alt+Q T', 'cmd' : 'a.b.c.d.e', 'params' : { 'a' : '1', 'b' : '2' }},\n" +
       "      ]\n" +
       "    }\n" + // Comma *1
       "  ]\n" +
@@ -152,7 +153,7 @@ public class KeyBindingsParserTest extends TestCase {
 
   public void testFull() {
     KeyBindingsAudit actual = KeyBindingsParser.deSerialize(new StringReader(TEST_FULL));
-    KeyBindingsAudit expected = buildExpected(true, true);
+    KeyBindingsAudit expected = buildExpected2();
 
     assertEquals(expected, actual);
   }
@@ -194,6 +195,18 @@ public class KeyBindingsParserTest extends TestCase {
     return result;
   }
 
+  private KeyBindingsAudit buildExpected2() {
+    KbaMetaData metadata = new KbaMetaData(
+        "Zorzella's bindings in the real world",
+        TaskType.LASTMOD
+        );
+    List<KbaChangeSet> changeSets = new ArrayList<KbaChangeSet>();
+    changeSets.add(buildExpectedChangeSetZero());
+    changeSets.add(buildExpectedChangeSetTwo(true));
+    KeyBindingsAudit result = new KeyBindingsAudit(changeSets, metadata);
+    return result;
+  }
+
   private KbaChangeSet buildExpectedChangeSetZero() {
     Collection<KbaBinding> toAdd = new ArrayList<KbaBinding>();
     KbaBinding spec = new KbaBinding("Shift+Alt+Q T", "a.b.c.d.e");
@@ -215,6 +228,25 @@ public class KeyBindingsParserTest extends TestCase {
       spec = spec.withParam("a", "1").withParam("b", "2");
     }
     toAdd.add(spec);
+
+    return new KbaChangeSet(
+        "org.eclipse.ui.defaultAcceleratorConfiguration",
+        "Windows",
+        "org.eclipse.ui.contexts.window",
+        "add",
+        toAdd);
+  }
+
+  private KbaChangeSet buildExpectedChangeSetTwo(boolean hasParams) {
+    Collection<KbaBinding> toAdd = new ArrayList<KbaBinding>();
+    KbaBinding spec = new KbaBinding("Shift+Alt+Q T", "a.b.c.d.e");
+    KbaBinding spec2 = new KbaBinding("Shift+Alt+Q 8", "a.b.c.d.e");
+    if (hasParams) {
+      spec = spec.withParam("a", "1").withParam("b", "2");
+      spec2 = spec2.withParam("a", "1").withParam("b", "2");
+    }
+    toAdd.add(spec);
+    toAdd.add(spec2);
 
     return new KbaChangeSet(
         "org.eclipse.ui.defaultAcceleratorConfiguration",
