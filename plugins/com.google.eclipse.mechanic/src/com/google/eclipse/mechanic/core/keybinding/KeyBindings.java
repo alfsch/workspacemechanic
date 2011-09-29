@@ -10,6 +10,7 @@
 package com.google.eclipse.mechanic.core.keybinding;
 
 import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
 import com.google.eclipse.mechanic.core.keybinding.KbaChangeSet.Action;
 import com.google.eclipse.mechanic.internal.Util;
@@ -56,6 +57,9 @@ class KeyBindings {
   // the lists are modified
   final Multimap<KbaChangeSetQualifier, Binding> userBindingsMap;
   final Multimap<KbaChangeSetQualifier, Binding> systemBindingsMap;
+  
+  final List<Binding> addedBindings = Lists.newArrayList();
+  final List<Binding> removedBindings = Lists.newArrayList();
 
   /**
    * Creates a new instance from a defined set of bindings.
@@ -98,23 +102,27 @@ class KeyBindings {
     return result;
   }
 
+  public boolean isDirty() {
+    return addedBindings.size() > 0 || removedBindings.size() > 0;
+  }
+  
   /**
-   * Bind a scheme / trigger sequence to a command.
-   *
-   * @return {@code true} if the model has changed.
+   * Bind a scheme / platform / context / trigger sequence to a command.
    */
-  public boolean addIfNotPresent(
+  public void addIfNotPresent(
       Scheme scheme,
       String platform,
       String contextId,
       KeySequence triggerSequence,
-      Command command,
-      Map<String, String> params) {
+      ParameterizedCommand command) {
+    Map<String,String> params = commandParamMap(command);
     Binding binding = find(scheme, platform, triggerSequence, command.getId(), params);
     // If no binding exists, create the user binding, add it and return true.
     if (binding == null) {
-      addUserBinding(createBinding(scheme, platform, contextId, triggerSequence, command, params));
-      return true;
+      Binding bindingToAdd = createBinding(scheme, platform, contextId, triggerSequence, command);
+      addUserBinding(bindingToAdd);
+      addedBindings.add(bindingToAdd);
+      return;
     }
 
     /*
@@ -127,18 +135,24 @@ class KeyBindings {
       Binding userBinding = find(scheme, platform, triggerSequence, null, params, userBindings);
       if (userBinding != null) {
         userBindings.remove(userBinding);
-        return true;
+        return;
       }
     }
-    return false;
+    return;
+  }
+
+  private static final Map<String, String> EMPTY_MAP = Collections.<String,String>emptyMap();
+
+  private static Map<String,String> commandParamMap(ParameterizedCommand command) {
+    @SuppressWarnings("unchecked")
+    Map<String,String> result = command.getParameterMap();
+    return result == null ? EMPTY_MAP : result;
   }
 
   /**
    * Remove a binding.
-   *
-   * @return {@code true} if the model has changed.
    */
-  public boolean removeBindingIfPresent(
+  public void removeBindingIfPresent(
       Scheme scheme,
       String platform,
       String contextId,
@@ -150,17 +164,20 @@ class KeyBindings {
 
     if (binding != null) {
       userBindings.remove(binding);
-      return true;
+      return;
     }
 
     binding = find(scheme, platform, triggerSequence, command.getId(), params, systemBindings);
     if (binding != null) {
       if (find(scheme, platform, triggerSequence, null, params, userBindings) == null) {
-        addUserBinding(createBinding(scheme, platform, contextId, triggerSequence, null, params));
-        return true;
+        Binding bindingToRemoveWithNullCommand = createBinding(scheme, platform, contextId, triggerSequence, null);
+        // Removing a system binding means creating a weird system binding with
+        // a null command
+        addUserBinding(bindingToRemoveWithNullCommand);
+        return;
       }
     }
-    return false;
+    return;
   }
 
   private void addUserBinding(Binding binding) {
@@ -188,7 +205,7 @@ class KeyBindings {
    * {@code triggerSequence}, {@code scheme} and {@code cid}. If not found,
    * return {@code null}.
    */
-  private Binding find(
+  private static Binding find(
       Scheme scheme,
       String platform,
       KeySequence triggerSequence,
@@ -211,9 +228,7 @@ class KeyBindings {
             return command == null ? binding : null;
           }
           if (cid.equals(command.getId())) {
-
-            @SuppressWarnings("unchecked") // Eclipse doesn't support generics.
-            Map<String,String> temp = param.getParameterMap();
+            Map<String,String> temp = commandParamMap(param);
             if (equalMaps(temp, params)) {
               return binding;
             }
@@ -226,7 +241,7 @@ class KeyBindings {
   /**
    * compares first to second, where an empty map substitues for null.
    */
-  private boolean equalMaps(
+  private static boolean equalMaps(
       Map<String,String> first,
       Map<String,String> second) {
     if (first == null) {
@@ -243,14 +258,7 @@ class KeyBindings {
       String platform,
       String contextId,
       KeySequence triggerSequence,
-      Command command,
-      Map<String,String> params) {
-    ParameterizedCommand parameterizedCommand;
-    if (command == null) {
-      parameterizedCommand = null;
-    } else {
-      parameterizedCommand = ParameterizedCommand.generateCommand(command, params);
-    }
+      ParameterizedCommand parameterizedCommand) {
 
     Binding newBinding =
         new KeyBinding(triggerSequence, parameterizedCommand, scheme.getId(),

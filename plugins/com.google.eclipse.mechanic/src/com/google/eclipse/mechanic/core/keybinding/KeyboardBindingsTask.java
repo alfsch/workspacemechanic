@@ -9,12 +9,20 @@
 
 package com.google.eclipse.mechanic.core.keybinding;
 
+import com.google.common.base.Function;
+import com.google.common.base.Joiner;
 import com.google.common.base.Objects;
+import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 import com.google.eclipse.mechanic.CompositeTask;
 import com.google.eclipse.mechanic.internal.Util;
 import com.google.eclipse.mechanic.plugin.core.MechanicLog;
 
 import org.eclipse.core.commands.Command;
+import org.eclipse.core.commands.ParameterizedCommand;
+import org.eclipse.core.commands.common.NotDefinedException;
+import org.eclipse.jface.bindings.Binding;
 import org.eclipse.jface.bindings.Scheme;
 import org.eclipse.jface.bindings.keys.KeySequence;
 import org.eclipse.jface.bindings.keys.ParseException;
@@ -24,6 +32,7 @@ import org.eclipse.ui.commands.ICommandService;
 import org.eclipse.ui.keys.IBindingService;
 
 import java.io.IOException;
+import java.util.Set;
 
 /**
  * Configures keyboard preferences for an audit.
@@ -62,11 +71,29 @@ class KeyboardBindingsTask extends CompositeTask {
   }
 
   public String getDescription() {
-    return this.audit.getMetadata().description;
+    Set<String> addedBindings = Sets.newHashSet();
+    for(KbaChangeSet changeSet : audit.getKeyBindingsChangeSets()) {
+      Function<Binding, String> function = new Function<Binding, String>() {
+        
+        public String apply(Binding b) {
+          try {
+            return b.getTriggerSequence().format() + " : " + b.getParameterizedCommand().getName();
+          } catch (NotDefinedException e) {
+            throw new RuntimeException(e);
+          }
+        }
+      };
+      addedBindings.addAll(Lists.newArrayList(
+          Iterables.transform(doEvaluate(changeSet).keyBindings.addedBindings, function)));
+    }
+    
+    return "Adding these bindings:\n" +
+    		"\n" +
+        Joiner.on("\n").join(addedBindings);
   }
 
   public String getTitle() {
-    return "Keyboard binding fixes: " + this.audit.getMetadata().shortDescription;
+    return "Keyboard binding fixes: " + this.audit.getMetadata().description;
   }
 
   public boolean evaluate() {
@@ -74,7 +101,7 @@ class KeyboardBindingsTask extends CompositeTask {
     // If "dirty" is set to true, it means we made some modification that
     // we still need to persist.
     for(KbaChangeSet changeSet : audit.getKeyBindingsChangeSets()) {
-      dirty = dirty || doEvaluate(changeSet).isDirty;
+      dirty = dirty || doEvaluate(changeSet).keyBindings.isDirty();
     }
     
     return !dirty;
@@ -82,15 +109,13 @@ class KeyboardBindingsTask extends CompositeTask {
 
   private static final class EvaluationResult {
 
-    private final boolean isDirty;
     private final Scheme scheme;
     private final KeyBindings keyBindings;
+    
 
     public EvaluationResult(
-        final boolean isDirty,
         final Scheme scheme,
         final KeyBindings keyBindings) {
-      this.isDirty = isDirty;
       this.scheme = scheme;
       this.keyBindings = keyBindings;
     }
@@ -99,8 +124,6 @@ class KeyboardBindingsTask extends CompositeTask {
   private EvaluationResult doEvaluate(
       final KbaChangeSet changeSet) {
 
-    boolean dirty = false;
-    
     final KeyBindings bindings = new KeyBindings(bindingService.getBindings());
 
     final Scheme scheme = bindingService.getScheme(changeSet.getSchemeId());
@@ -108,9 +131,12 @@ class KeyboardBindingsTask extends CompositeTask {
     for (KbaBinding toAdd : changeSet.getBindingList()) {
       Command commandToAdd = commandService.getCommand(toAdd.getCid());
       if (!commandToAdd.isDefined()) {
-        log.logWarning("Command '" + toAdd.getCid() + "' does not exist.");
+        log.logWarning("Command '" + toAdd.getCid() + "' does not exist. Skipping.");
         continue;
       }
+      ParameterizedCommand parameterizedCommandToAdd =
+          ParameterizedCommand.generateCommand(commandToAdd, toAdd.getParameters());
+
       KeySequence triggerSequence;
       try {
         triggerSequence = KeySequence.getInstance(toAdd.getKeySequence());
@@ -120,15 +146,12 @@ class KeyboardBindingsTask extends CompositeTask {
         throw new RuntimeException(e);
       }
 
-      if (bindings.addIfNotPresent(
+      bindings.addIfNotPresent(
           scheme, 
           changeSet.getPlatform(), 
           changeSet.getContextId(), 
-          triggerSequence, 
-          commandToAdd, 
-          toAdd.getParameters())) {
-        dirty = true;
-      }
+          triggerSequence,
+          parameterizedCommandToAdd);
     }
 
     // for (KeyBindingSpec toRemove : changeSet.toRemove()) {
@@ -156,25 +179,23 @@ class KeyboardBindingsTask extends CompositeTask {
         //invalid key sequence?
         throw new RuntimeException(e);
       }
-      if (bindings.removeBindingIfPresent(
+      bindings.removeBindingIfPresent(
           scheme, 
           changeSet.getPlatform(), 
           changeSet.getContextId(), 
           triggerSequence, 
           commandToRemove, 
-          toRemove.getParameters())) {
-        dirty = true;
-      }
+          toRemove.getParameters());
     }
 
-    return new EvaluationResult(dirty, scheme, bindings);
+    return new EvaluationResult(scheme, bindings);
   }
 
   public void run() {
     for(KbaChangeSet changeSet : audit.getKeyBindingsChangeSets()) {
       final EvaluationResult result = doEvaluate(changeSet);
       // If there was any modification, persist it
-      if (result.isDirty) {
+      if (result.keyBindings.isDirty()) {
         workbench.getDisplay().syncExec(new Runnable() {
           public void run() {
             try {

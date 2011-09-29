@@ -42,7 +42,6 @@ import com.google.gson.reflect.TypeToken;
 
 {
   "metadata" : {
-    "shortDescription" : "",
     "description" : "",
     "type" : "LASTMOD"
   },
@@ -88,7 +87,6 @@ class KeyBindingsParser {
   static final String SCHEME_JSON_KEY = "scheme";
   static final String TYPE_JSON_KEY = "type";
   static final String DESCRIPTION_JSON_KEY = "description";
-  static final String SHORT_DESCRIPTION_JSON_KEY = "shortDescription";
   static final String CHANGE_SETS_JSON_KEY = "changeSets";
   static final String ACTION_JSON_KEY = "action";
   static final String COMMAND_JSON_KEY = "cmd";
@@ -128,7 +126,6 @@ class KeyBindingsParser {
       JsonObject jo = json.getAsJsonObject();
 
       return new KbaMetaData(
-          (String) context.deserialize(jo.get(SHORT_DESCRIPTION_JSON_KEY), TypeTokens.STRING_TYPE_TOKEN),
           (String) context.deserialize(jo.get(DESCRIPTION_JSON_KEY), TypeTokens.STRING_TYPE_TOKEN),
           (TaskType) context.deserialize(jo.get(TYPE_JSON_KEY), TypeTokens.TASK_TYPE_TYPE_TOKEN));
     }

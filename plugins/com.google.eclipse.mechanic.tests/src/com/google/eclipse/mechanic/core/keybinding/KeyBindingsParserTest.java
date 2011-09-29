@@ -30,7 +30,6 @@ public class KeyBindingsParserTest extends TestCase {
   private static final String TEST_NO_CHANGESETS =
     "{\n" +
     "  'metadata' : {\n" +
-    "    'shortDescription' : 'Zorzella\\'s bindings',\n" +
     "    'description' : 'Zorzella\\'s bindings in the real world',\n" +
     "    'type' : 'LASTMOD'\n" + // Comma: *1
     "  }, \n" +
@@ -43,7 +42,6 @@ public class KeyBindingsParserTest extends TestCase {
   private static final String TEST_JSON =
     "{\n" +
     "  'metadata' : {\n" +
-    "    'shortDescription' : 'Zorzella\\'s bindings',\n" +
     "    'description' : 'Zorzella\\'s bindings in the real world',\n" +
     "    'type' : 'LASTMOD'\n" + // Comma: *1
     "  }, \n" +
@@ -57,15 +55,15 @@ public class KeyBindingsParserTest extends TestCase {
     "        {'keys' : 'Shift+Alt+Q T', 'cmd' : 'a.b.c.d.e'}\n" + // Comma: *1
     "      ]\n" +
     "    },\n" +
-//    "    {\n" +
-//    "      'scheme' : 'org.eclipse.ui.emacsAcceleratorConfiguration',\n" +
-//    "      'platform' : 'Windows',\n" +
-//    "      'context' : 'org.eclipse.ui.contexts.window',\n" +
-//    "      'action' : 'remove',\n" +
-//    "      'bindings' : [\n" +
-//    "        {'keys' : 'Shift+Alt+Q X'}\n" + // Comma: *1
-//    "      ]\n" +
-//    "    },\n" +
+    "    {\n" +
+    "      'scheme' : 'org.eclipse.ui.emacsAcceleratorConfiguration',\n" +
+    "      'platform' : 'Windows',\n" +
+    "      'context' : 'org.eclipse.ui.contexts.window',\n" +
+    "      'action' : 'remove',\n" +
+    "      'bindings' : [\n" +
+    "        {'keys' : 'Shift+Alt+Q X', 'cmd' : 'a.b.c.d.e', 'params' : { }},\n" +
+    "      ]\n" +
+    "    },\n" +
     "    {\n" +
     "      'scheme' : 'org.eclipse.ui.defaultAcceleratorConfiguration',\n" +
     "      'platform' : 'Windows',\n" +
@@ -84,7 +82,6 @@ public class KeyBindingsParserTest extends TestCase {
   private static final String TEST_FULL =
     "{\n" +
     "  'metadata' : {\n" +
-    "    'shortDescription' : 'Zorzella\\'s bindings',\n" +
     "    'description' : 'Zorzella\\'s bindings in the real world',\n" +
     "    'type' : 'LASTMOD'\n" +
     "  }, \n" +
@@ -95,18 +92,18 @@ public class KeyBindingsParserTest extends TestCase {
     "      'context' : 'org.eclipse.ui.contexts.window',\n" +
     "      'action' : 'add',\n" +
     "      'bindings' : [\n" +
-    "        {'keys' : 'Shift+Alt+Q T', 'cmd' : 'a.b.c.d.e', 'params' : { }}\n" +
+    "        {'keys' : 'Shift+Alt+Q T', 'cmd' : 'a.b.c.d.e', 'params' : { }},\n" +
     "      ]\n" +
     "    },\n" +
-//    "    {\n" +
-//    "      'scheme' : 'org.eclipse.ui.emacsAcceleratorConfiguration',\n" +
-//    "      'platform' : 'Windows',\n" +
-//    "      'context' : 'org.eclipse.ui.contexts.window',\n" +
-//    "      'action' : 'remove',\n" +
-//    "      'bindings' : [\n" +
-//    "        {'keys' : 'Shift+Alt+Q X'}\n" + // Comma *1
-//    "      ]\n" +
-//    "    },\n" +
+    "    {\n" +
+    "      'scheme' : 'org.eclipse.ui.emacsAcceleratorConfiguration',\n" +
+    "      'platform' : 'Windows',\n" +
+    "      'context' : 'org.eclipse.ui.contexts.window',\n" +
+    "      'action' : 'remove',\n" +
+    "      'bindings' : [\n" +
+    "        {'keys' : 'Shift+Alt+Q X', 'cmd' : 'a.b.c.d.e', 'params' : { }},\n" +
+    "      ]\n" +
+    "    },\n" +
     "    {\n" +
     "      'scheme' : 'org.eclipse.ui.defaultAcceleratorConfiguration',\n" +
     "      'platform' : 'Windows',\n" +
@@ -122,7 +119,6 @@ public class KeyBindingsParserTest extends TestCase {
   private static final String TEST_NO_PLATFORM =
       "{\n" +
       "  'metadata' : {\n" +
-      "    'shortDescription' : 'Zorzella\\'s bindings',\n" +
       "    'description' : 'Zorzella\\'s bindings in the real world',\n" +
       "    'type' : 'LASTMOD'\n" +
       "  }, \n" +
@@ -186,7 +182,6 @@ public class KeyBindingsParserTest extends TestCase {
 
   private KeyBindingsAudit buildExpected(boolean hasChangeSets, boolean hasParams) {
     KbaMetaData metadata = new KbaMetaData(
-        "Zorzella's bindings",
         "Zorzella's bindings in the real world",
         TaskType.LASTMOD
         );

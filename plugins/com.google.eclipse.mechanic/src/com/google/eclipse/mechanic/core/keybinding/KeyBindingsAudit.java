@@ -11,7 +11,11 @@ package com.google.eclipse.mechanic.core.keybinding;
 
 import java.util.List;
 
+import com.google.common.base.Objects;
+import com.google.common.base.Predicate;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Iterables;
+import com.google.eclipse.mechanic.core.keybinding.KbaChangeSet.Action;
 import com.google.eclipse.mechanic.internal.TaskType;
 import com.google.eclipse.mechanic.internal.Util;
 import com.google.gson.annotations.SerializedName;
@@ -33,9 +37,20 @@ class KeyBindingsAudit {
   @SerializedName(KeyBindingsParser.CHANGE_SETS_JSON_KEY)
   private final ImmutableList<KbaChangeSet> kbaChangeSetList;
 
-  public KeyBindingsAudit(List<KbaChangeSet> changeSets, KbaMetaData metadata) {
-    this.kbaChangeSetList = ImmutableList.copyOf(changeSets);
+  public KeyBindingsAudit(List<KbaChangeSet> changeSetList, KbaMetaData metadata) {
+    this.kbaChangeSetList = filteredChangeSetList(changeSetList);
     this.kbaMetadata = metadata;
+  }
+
+  private static ImmutableList<KbaChangeSet> filteredChangeSetList(
+      List<KbaChangeSet> changeSetList) {
+    Predicate<KbaChangeSet> filterOutRemoveActions = new Predicate<KbaChangeSet>() {
+      public boolean apply(KbaChangeSet source) {
+        // TODO: support remove
+        return source.getAction() == Action.ADD;
+      }
+    };
+    return ImmutableList.copyOf(Iterables.filter(changeSetList, filterOutRemoveActions));
   }
 
   public List<KbaChangeSet> getKeyBindingsChangeSets() {
@@ -72,20 +87,18 @@ class KeyBindingsAudit {
 
   public static final class KbaMetaData {
 
-    final String shortDescription;
     final String description;
     // TODO(zorzella): should this always be reconcile?
     private final TaskType type;
 
-    public KbaMetaData(String shortDescription, String description, TaskType type) {
-      this.shortDescription = Util.checkNotNull(shortDescription);
+    public KbaMetaData(String description, TaskType type) {
       this.description = Util.checkNotNull(description);
       this.type = Util.checkNotNull(type);
     }
 
     @Override
     public int hashCode() {
-      return Util.hashCode(shortDescription, description, type);
+      return Util.hashCode(description, type);
     }
 
     @Override
@@ -95,8 +108,6 @@ class KeyBindingsAudit {
       }
       KbaMetaData that = (KbaMetaData)obj;
       return
-        this.shortDescription.equals(that.shortDescription)
-          &&
         this.description.equals(that.description)
           &&
         this.type == that.type;
@@ -105,8 +116,8 @@ class KeyBindingsAudit {
     @Override
     public String toString() {
       return String.format(
-          "shortDescription: %s, description: %s, type: %s",
-          this.shortDescription, this.description, this.type);
+          "description: %s, type: %s",
+          this.description, this.type);
     }
   }
 }

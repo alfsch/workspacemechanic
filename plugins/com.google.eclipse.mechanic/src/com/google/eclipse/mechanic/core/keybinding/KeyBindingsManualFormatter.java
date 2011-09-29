@@ -163,7 +163,6 @@ class KeyBindingsManualFormatter {
     StringBuilder output = new StringBuilder()
         .append("{\n")
         .append(i(1)).append(quote(KeyBindingsParser.METADATA_JSON_KEY)).append(" : {\n")
-        .append(i(2)).append(kvcn(KeyBindingsParser.SHORT_DESCRIPTION_JSON_KEY, "Put a short description here"))
         .append(i(2)).append(kvcn(KeyBindingsParser.DESCRIPTION_JSON_KEY, "Put a long description here"))
         .append(i(2)).append(kvn(KeyBindingsParser.TYPE_JSON_KEY, "LASTMOD"))
         .append(i(1)).append("},\n")

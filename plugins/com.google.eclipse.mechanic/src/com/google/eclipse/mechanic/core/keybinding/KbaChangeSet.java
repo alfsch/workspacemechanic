@@ -13,7 +13,6 @@ import java.util.Arrays;
 import java.util.Collection;
 
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Iterables;
 import com.google.eclipse.mechanic.internal.Util;
 import com.google.gson.annotations.SerializedName;
 
