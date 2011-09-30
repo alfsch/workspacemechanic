@@ -12,12 +12,8 @@ package com.google.eclipse.mechanic.core.keybinding;
 import com.google.common.base.Function;
 import com.google.common.base.Joiner;
 import com.google.common.collect.Iterables;
-import com.google.common.collect.Maps;
-import com.google.common.collect.Multimap;
-import com.google.eclipse.mechanic.core.keybinding.KbaChangeSet.KbaBindingList;
 import com.google.eclipse.mechanic.plugin.core.MechanicLog;
 
-import org.eclipse.core.commands.ParameterizedCommand;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.jface.bindings.Binding;
 
@@ -26,8 +22,6 @@ import java.io.FileOutputStream;
 import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.Map;
 
 /**
@@ -52,18 +46,15 @@ class KeyBindingsManualFormatter {
   private final Map<KbaChangeSetQualifier, KbaChangeSet> userBindingsMap;
   private final Map<KbaChangeSetQualifier, KbaChangeSet> systemBindingsMap;
 
-  /**
-   * Creates a new instance from a defined set of bindings.
-   */
   public KeyBindingsManualFormatter(
       final MechanicLog log,
-      final Multimap<KbaChangeSetQualifier, Binding> userBindingsMap,
-      final Multimap<KbaChangeSetQualifier, Binding> systemBindingsMap) {
+      final Map<KbaChangeSetQualifier, KbaChangeSet> userBindingsMap,
+      final Map<KbaChangeSetQualifier, KbaChangeSet> systemBindingsMap) {
     this(System.getProperty("KEYBOARD_MECHANIC_DEBUG_DUMP_SYSTEM_BINDINGS", "false").equals("true"),
         log,
         tempDir(),
-        transform(userBindingsMap),
-        transform(systemBindingsMap));
+        userBindingsMap,
+        systemBindingsMap);
   }
 
   private static File tempDir() {
@@ -87,55 +78,25 @@ class KeyBindingsManualFormatter {
     this.systemBindingsMap = systemBindingsMap;
   }
 
-  private static Map<KbaChangeSetQualifier, KbaChangeSet> transform(Multimap<KbaChangeSetQualifier, Binding> orig) {
-    Map<KbaChangeSetQualifier, KbaChangeSet> result = Maps.newHashMap();
-    for (KbaChangeSetQualifier q : orig.keySet()) {
-      Collection<Binding> bindings = orig.get(q);
-      Function<Binding, KbaBinding> function = new Function<Binding, KbaBinding>() {
-        public KbaBinding apply(Binding binding) {
-          ParameterizedCommand cmd = binding.getParameterizedCommand();
-          if (cmd == null) {
-            // TODO a null command means a remove. Implement removes. For now,
-            // we expect these to have been not sent.
-            throw new UnsupportedOperationException();
-          }
-          Map<String,String> parameterMap = paramMap(cmd);
-          return new KbaBinding(
-              binding.getTriggerSequence().format(),
-              cmd.getId(),
-              parameterMap);
-        }
-
-        @SuppressWarnings({ "unchecked", "cast" })
-        private Map<String,String> paramMap(ParameterizedCommand cmd) {
-          if (cmd == null) {
-            return Collections.emptyMap();
-          }
-          @SuppressWarnings("rawtypes")
-          Map tmp = cmd.getParameterMap();
-          if (tmp == null) {
-            return Collections.emptyMap();
-          }
-          return (Map<String,String>)tmp;
-        }
-      };
-      Iterable<KbaBinding> transformed = Iterables.transform(bindings, function);
-      KbaBindingList bindingSpecList = new KbaBindingList(transformed);
-      KbaChangeSet changeSet = new KbaChangeSet(
-          q.scheme,
-          q.platform,
-          q.context,
-          KbaChangeSet.Action.ADD.toString(),
-          bindingSpecList);
-      result.put(q, changeSet);
-    }
-    return result;
-  }
-
   enum BindingType {
     USER,
     SYSTEM,
     ;
+    
+    static BindingType from(Binding binding) {
+      return from(binding.getType());
+    }
+    
+    static BindingType from(int eclipseBindingType) {
+      if (eclipseBindingType == Binding.SYSTEM) {
+        return SYSTEM;
+      } else if (eclipseBindingType == Binding.USER) {
+        return USER;
+      } else {
+        throw new UnsupportedOperationException("Binding type: " + eclipseBindingType);
+      }
+    }
+    
   }
 
   void dumpBindingsToFile() {
@@ -178,7 +139,7 @@ class KeyBindingsManualFormatter {
       }
       output
           .append(i(2)).append(kvcn(KeyBindingsParser.CONTEXT_JSON_KEY, q.context))
-          .append(i(2)).append(kvcn(KeyBindingsParser.ACTION_JSON_KEY, KeyBindingsParser.ADD_JSON_KEY))
+          .append(i(2)).append(kvcn(KeyBindingsParser.ACTION_JSON_KEY, q.action))
           .append(i(2)).append(quote(KeyBindingsParser.BINDINGS_JSON_KEY)).append(" : [\n");
       for (KbaBinding b : bindings.get(q).getBindingList()) {
         output.append(formatKbaBinding(b));

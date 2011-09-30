@@ -10,6 +10,7 @@
 package com.google.eclipse.mechanic.core.keybinding;
 
 import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
 import com.google.eclipse.mechanic.core.keybinding.KbaChangeSet.Action;
@@ -92,14 +93,18 @@ class KeyBindings {
     Multimap<KbaChangeSetQualifier,Binding> result = ArrayListMultimap.create();
     for (Binding binding : bindings) {
       result.put(
-          new KbaChangeSetQualifier(
-              binding.getSchemeId(),
-              binding.getPlatform(),
-              binding.getContextId(),
-              Action.ADD.toString()),
+          qualifierForBinding(binding, Action.ADD),
           binding);
     }
     return result;
+  }
+
+  static KbaChangeSetQualifier qualifierForBinding(Binding binding, Action action) {
+    return new KbaChangeSetQualifier(
+        binding.getSchemeId(),
+        binding.getPlatform(),
+        binding.getContextId(),
+        action.toString());
   }
 
   public boolean isDirty() {
@@ -143,9 +148,12 @@ class KeyBindings {
 
   private static final Map<String, String> EMPTY_MAP = Collections.<String,String>emptyMap();
 
-  private static Map<String,String> commandParamMap(ParameterizedCommand command) {
+  static Map<String,String> commandParamMap(ParameterizedCommand command) {
+    if (command == null) {
+      return EMPTY_MAP;
+    }
     @SuppressWarnings("unchecked")
-    Map<String,String> result = command.getParameterMap();
+    Map<String,String> result = ImmutableMap.copyOf(command.getParameterMap());
     return result == null ? EMPTY_MAP : result;
   }
 

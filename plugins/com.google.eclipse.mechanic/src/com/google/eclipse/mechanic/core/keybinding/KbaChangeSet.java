@@ -10,7 +10,6 @@
 package com.google.eclipse.mechanic.core.keybinding;
 
 import java.util.Arrays;
-import java.util.Collection;
 
 import com.google.common.collect.ImmutableList;
 import com.google.eclipse.mechanic.internal.Util;
@@ -52,12 +51,18 @@ final class KbaChangeSet {
   }
 
   KbaChangeSet(
+      KbaChangeSetQualifier qualifier,
+      Iterable<KbaBinding> bindingList) {
+    this(qualifier.scheme, qualifier.platform, qualifier.context, qualifier.action, bindingList);
+  }
+  
+  KbaChangeSet(
       String schemeId,
       String platform,
       String contextId,
       String action,
-      Collection<KbaBinding> bindingSpecList) {
-    this(schemeId, platform, contextId, action, new KbaBindingList(bindingSpecList));
+      Iterable<KbaBinding> bindingList) {
+    this(schemeId, platform, contextId, action, new KbaBindingList(bindingList));
   }
 
   public String getSchemeId() {
@@ -71,12 +76,16 @@ final class KbaChangeSet {
   public String getContextId() {
     return contextId;
   }
+
+  public String getActionLabel() {
+    return actionLabel;
+  }
   
   public Action getAction() {
     return Action.fromLabel(actionLabel);
   }
 
-  public Collection<KbaBinding> getBindingList() {
+  public ImmutableList<KbaBinding> getBindingList() {
     return bindingList.getList();
   }
 
@@ -101,15 +110,18 @@ final class KbaChangeSet {
   @Override
   public String toString() {
     return String.format(
-        "schemeId: %s\nplatform: %s\ncontextId: %s\naction: %s\nbindings: %s",
+        "***\nschemeId: %s\nplatform: %s\ncontextId: %s\naction: %s\nbindings: %s\n****\n",
         this.schemeId, this.platform, this.contextId, this.actionLabel, this.bindingList);
   }
   
   enum Action {
-    ADD(KeyBindingsParser.ADD_JSON_KEY),
-    REMOVE(KeyBindingsParser.REM_JSON_KEY),
+    ADD("add"),
+    REMOVE("remove"),
     ;
 
+    /**
+     * Label as it appears in the .kbd JSON file
+     */
     private final String label;
 
     Action(String label) {
@@ -143,7 +155,7 @@ final class KbaChangeSet {
 
  // TODO: this class seems to add no value.
   static final class KbaBindingList {
-    private final Collection<KbaBinding> list;
+    private final ImmutableList<KbaBinding> list;
 
     public KbaBindingList(KbaBinding... list) {
       this(Arrays.asList(list));
@@ -172,7 +184,7 @@ final class KbaChangeSet {
       return this.list.toString();
     }
 
-    public Collection<KbaBinding> getList() {
+    public ImmutableList<KbaBinding> getList() {
       return list;
     }
   }

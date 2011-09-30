@@ -42,6 +42,12 @@ import java.util.Set;
  */
 class KeyboardBindingsTask extends CompositeTask {
 
+  public static final String KBA_ENABLE_EXPERIMENTAL_REMOVE_PROP_NAME = "KBA_ENABLE_EXPERIMENTAL_REMOVE";
+
+  static final boolean ENABLE_EXP_REM() {
+    return System.getProperty(KBA_ENABLE_EXPERIMENTAL_REMOVE_PROP_NAME, "false").equals("true");
+  }
+  
   private final MechanicLog log;
   private final IWorkbench workbench;
   private final ICommandService commandService;

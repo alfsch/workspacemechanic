@@ -44,7 +44,7 @@ public class KeyboardBindingsScanner extends DirectoryIteratingTaskScanner {
       if (taskRef.asFile().length() == 0) {
         // Having an empty .kbd file is how a user triggers a dump of his current
         // keybindings to bootstrap things up. See TODO
-        collector.add(new KbaBoostrapper(taskRef.asFile()));
+        collector.add(new KbaBootstrapper(taskRef.asFile()));
         continue;
       }
       // will throw a RuntimeException in the event of a problem reading

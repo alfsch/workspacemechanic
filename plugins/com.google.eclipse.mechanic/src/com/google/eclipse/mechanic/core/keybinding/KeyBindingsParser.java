@@ -79,8 +79,6 @@ import com.google.gson.reflect.TypeToken;
 class KeyBindingsParser {
 
   static final String METADATA_JSON_KEY = "metadata";
-  static final String ADD_JSON_KEY = "add";
-  static final String REM_JSON_KEY = "remove";
   static final String BINDINGS_JSON_KEY = "bindings";
   static final String CONTEXT_JSON_KEY = "context";
   static final String PLATFORM_JSON_KEY = "platform";
