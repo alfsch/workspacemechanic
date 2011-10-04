@@ -41,16 +41,6 @@ public class KbaBootstrapperTest {
   private static final KbaChangeSetQualifier REM_Q_NULL_PLATFORM =
       new KbaChangeSetQualifier(SCHEME, NULL_PLATFORM, CONTEXT, Action.REMOVE);
   
-  @Before
-  public void enableRm() {
-    System.setProperty(KeyboardBindingsTask.KBA_ENABLE_EXPERIMENTAL_REMOVE_PROP_NAME, "true");
-  }
-
-  @After
-  public void disableRm() {
-    System.clearProperty(KeyboardBindingsTask.KBA_ENABLE_EXPERIMENTAL_REMOVE_PROP_NAME);
-  }
-  
   @Test
   public void testCombo() {
     

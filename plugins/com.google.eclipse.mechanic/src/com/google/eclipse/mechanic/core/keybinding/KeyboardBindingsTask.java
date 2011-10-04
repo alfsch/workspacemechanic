@@ -16,6 +16,7 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.google.eclipse.mechanic.CompositeTask;
+import com.google.eclipse.mechanic.core.keybinding.KbaChangeSet.Action;
 import com.google.eclipse.mechanic.internal.Util;
 import com.google.eclipse.mechanic.plugin.core.MechanicLog;
 
@@ -26,6 +27,7 @@ import org.eclipse.jface.bindings.Binding;
 import org.eclipse.jface.bindings.Scheme;
 import org.eclipse.jface.bindings.keys.KeySequence;
 import org.eclipse.jface.bindings.keys.ParseException;
+import org.eclipse.swt.SWT;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.commands.ICommandService;
@@ -42,12 +44,12 @@ import java.util.Set;
  */
 class KeyboardBindingsTask extends CompositeTask {
 
-  public static final String KBA_ENABLE_EXPERIMENTAL_REMOVE_PROP_NAME = "KBA_ENABLE_EXPERIMENTAL_REMOVE";
+  public static final String KBA_ENABLE_REMOVE_PROP_NAME = "KBA_ENABLE_REMOVE";
 
   static final boolean ENABLE_EXP_REM() {
-    return System.getProperty(KBA_ENABLE_EXPERIMENTAL_REMOVE_PROP_NAME, "false").equals("true");
+    return System.getProperty(KBA_ENABLE_REMOVE_PROP_NAME, "true").equals("true");
   }
-  
+
   private final MechanicLog log;
   private final IWorkbench workbench;
   private final ICommandService commandService;
@@ -77,25 +79,52 @@ class KeyboardBindingsTask extends CompositeTask {
   }
 
   public String getDescription() {
-    Set<String> addedBindings = Sets.newHashSet();
-    for(KbaChangeSet changeSet : audit.getKeyBindingsChangeSets()) {
-      Function<Binding, String> function = new Function<Binding, String>() {
-        
-        public String apply(Binding b) {
-          try {
-            return b.getTriggerSequence().format() + " : " + b.getParameterizedCommand().getName();
-          } catch (NotDefinedException e) {
-            throw new RuntimeException(e);
-          }
-        }
-      };
-      addedBindings.addAll(Lists.newArrayList(
-          Iterables.transform(doEvaluate(changeSet).keyBindings.addedBindings, function)));
+    Set<String> addedBindings = calculateReadableAddedBindings(Action.ADD);
+    Set<String> removedBindings = calculateReadableAddedBindings(Action.REMOVE);
+    
+    StringBuilder result = new StringBuilder();
+    
+    if (addedBindings.size() > 0) {
+      result.append("Add these bindings:\n" +
+    		"\n" +
+        Joiner.on("\n").join(addedBindings));
     }
     
-    return "Add these bindings:\n" +
-    		"\n" +
-        Joiner.on("\n").join(addedBindings);
+    if (removedBindings.size() > 0) {
+      result.append("Remove these bindings:\n" +
+          "\n" +
+          Joiner.on("\n").join(removedBindings));
+    }
+
+    // TODO assert added or removed > 0?
+
+    return result.toString();
+  }
+
+  private final Function<Binding, String> bindingToReadableStringTransformFunction = new Function<Binding, String>() {
+    
+    public String apply(Binding b) {
+      try {
+        return b.getTriggerSequence().format() + " : " + b.getParameterizedCommand().getName();
+      } catch (NotDefinedException e) {
+        log.logError(e);
+        throw new RuntimeException(e);
+      } catch (RuntimeException e) {
+        log.logError(e);
+        throw e;
+      }
+    }
+  };
+  
+  private Set<String> calculateReadableAddedBindings(Action action) {
+    Set<String> result = Sets.newHashSet();
+    for(KbaChangeSet changeSet : audit.getKeyBindingsChangeSetsWith(action)) {
+      result.addAll(Lists.newArrayList(
+          Iterables.transform(doEvaluate(changeSet).keyBindings.addedBindings, bindingToReadableStringTransformFunction)));
+      result.addAll(Lists.newArrayList(
+          Iterables.transform(doEvaluate(changeSet).keyBindings.removedBindings, bindingToReadableStringTransformFunction)));
+    }
+    return result;
   }
 
   public String getTitle() {
@@ -134,6 +163,66 @@ class KeyboardBindingsTask extends CompositeTask {
 
     final Scheme scheme = bindingService.getScheme(changeSet.getSchemeId());
 
+    switch (changeSet.getAction()) {
+    case ADD:
+      modifyBindingsForAddChangeSet(changeSet, bindings, scheme);
+      break;
+    case REMOVE:
+      modifyBindingsForRemoveChangeSet(changeSet, bindings, scheme);
+      break;
+    default:
+      throw new UnsupportedOperationException();  
+    }
+
+    return new EvaluationResult(scheme, bindings);
+  }
+
+  private void modifyBindingsForRemoveChangeSet(final KbaChangeSet changeSet,
+      final KeyBindings bindings, final Scheme scheme) {
+    if (!ENABLE_EXP_REM()) {
+      return;
+    }
+    for (KbaBinding toRemove : changeSet.getBindingList()) {
+      Command commandToRemove;
+      try {
+        commandToRemove = commandService.getCommand(toRemove.getCid());
+      } catch (RuntimeException e) {
+        log.logError(e);
+        throw e;
+      }
+      KeySequence triggerSequence;
+      try {
+        triggerSequence = KeySequence.getInstance(toRemove.getKeySequence());
+      } catch (ParseException e) {
+        log.logError(e, "Invalid key sequence: %s", toRemove.getKeySequence());
+        throw new RuntimeException(e);
+      }
+      // Removing a system binding means one of:
+      // 1. if it's a user binding, remove it
+      // 2. if it's a system binding, create a null-command user binding doppleganger
+      bindings.removeBindingIfPresent(
+          scheme, 
+          changeSet.getPlatform(), 
+          changeSet.getContextId(), 
+          triggerSequence, 
+          commandToRemove, 
+          toRemove.getParameters());
+      // If our remove binding is against the "null" platform, it should apply
+      // to all platforms. The only one that matters is the current platform
+      if (changeSet.getPlatform() == null) {
+        bindings.removeBindingIfPresent(
+            scheme, 
+            SWT.getPlatform(), 
+            changeSet.getContextId(), 
+            triggerSequence, 
+            commandToRemove, 
+            toRemove.getParameters());
+      }
+    }
+  }
+
+  private void modifyBindingsForAddChangeSet(final KbaChangeSet changeSet,
+      final KeyBindings bindings, final Scheme scheme) {
     for (KbaBinding toAdd : changeSet.getBindingList()) {
       Command commandToAdd = commandService.getCommand(toAdd.getCid());
       if (!commandToAdd.isDefined()) {
@@ -147,8 +236,7 @@ class KeyboardBindingsTask extends CompositeTask {
       try {
         triggerSequence = KeySequence.getInstance(toAdd.getKeySequence());
       } catch (ParseException e) {
-        //TODO(zorzella): how to issue an error to the user that there was an
-        //invalid key sequence?
+        log.logError(e, "Invalid key sequence: %s", toAdd.getKeySequence());
         throw new RuntimeException(e);
       }
 
@@ -159,42 +247,6 @@ class KeyboardBindingsTask extends CompositeTask {
           triggerSequence,
           parameterizedCommandToAdd);
     }
-
-    // for (KeyBindingSpec toRemove : changeSet.toRemove()) {
-    if (false) {
-      KbaBinding toRemove = null;
-      // TODO(zorzella): removing command is currently totally broken. This code
-      // was written with the idea that we would have a cid to work with, and
-      // the JSON parsing was written with the idea that "rem"s would not take a
-      // command. We should likely support both: if "rem" has a command, we'd
-      // specifically look for it. If it does not, we should look for an Eclipse
-      // (system) keybinding for that.
-      Command commandToRemove;
-      try {
-        commandToRemove = commandService.getCommand(toRemove.getCid());
-      } catch (RuntimeException e) {
-        //TODO(zorzella): how to issue an error to the user that there was an
-        //invalid commmand?
-        throw e;
-      }
-      KeySequence triggerSequence;
-      try {
-        triggerSequence = KeySequence.getInstance(toRemove.getKeySequence());
-      } catch (ParseException e) {
-        //TODO(zorzella): how to issue an error to the user that there was an
-        //invalid key sequence?
-        throw new RuntimeException(e);
-      }
-      bindings.removeBindingIfPresent(
-          scheme, 
-          changeSet.getPlatform(), 
-          changeSet.getContextId(), 
-          triggerSequence, 
-          commandToRemove, 
-          toRemove.getParameters());
-    }
-
-    return new EvaluationResult(scheme, bindings);
   }
 
   public void run() {
@@ -227,5 +279,10 @@ class KeyboardBindingsTask extends CompositeTask {
   @Override
   public int hashCode() {
     return Objects.hashCode(this.audit);
+  }
+
+  @Override
+  public String toString() {
+    return audit.toString();
   }
 }

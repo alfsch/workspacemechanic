@@ -56,15 +56,6 @@ public class KeyBindingsParserTest extends TestCase {
     "      ]\n" +
     "    },\n" +
     "    {\n" +
-    "      'scheme' : 'org.eclipse.ui.emacsAcceleratorConfiguration',\n" +
-    "      'platform' : 'Windows',\n" +
-    "      'context' : 'org.eclipse.ui.contexts.window',\n" +
-    "      'action' : 'remove',\n" +
-    "      'bindings' : [\n" +
-    "        {'keys' : 'Shift+Alt+Q X', 'cmd' : 'a.b.c.d.e', 'params' : { }},\n" +
-    "      ]\n" +
-    "    },\n" +
-    "    {\n" +
     "      'scheme' : 'org.eclipse.ui.defaultAcceleratorConfiguration',\n" +
     "      'platform' : 'Windows',\n" +
     "      'context' : 'org.eclipse.ui.contexts.window',\n" +
@@ -93,15 +84,6 @@ public class KeyBindingsParserTest extends TestCase {
     "      'action' : 'add',\n" +
     "      'bindings' : [\n" +
     "        {'keys' : 'Shift+Alt+Q T', 'cmd' : 'a.b.c.d.e', 'params' : { }},\n" +
-    "      ]\n" +
-    "    },\n" +
-    "    {\n" +
-    "      'scheme' : 'org.eclipse.ui.emacsAcceleratorConfiguration',\n" +
-    "      'platform' : 'Windows',\n" +
-    "      'context' : 'org.eclipse.ui.contexts.window',\n" +
-    "      'action' : 'remove',\n" +
-    "      'bindings' : [\n" +
-    "        {'keys' : 'Shift+Alt+Q X', 'cmd' : 'a.b.c.d.e', 'params' : { }},\n" +
     "      ]\n" +
     "    },\n" +
     "    {\n" +

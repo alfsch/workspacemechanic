@@ -59,7 +59,15 @@ class KeyBindings {
   final Multimap<KbaChangeSetQualifier, Binding> userBindingsMap;
   final Multimap<KbaChangeSetQualifier, Binding> systemBindingsMap;
   
+  /**
+   * Bindings to be added.
+   */
   final List<Binding> addedBindings = Lists.newArrayList();
+
+  /**
+   * Bindings to be removed. These are the full bindings (i.e. not with the
+   * nulled command).
+   */
   final List<Binding> removedBindings = Lists.newArrayList();
 
   /**
@@ -172,6 +180,7 @@ class KeyBindings {
 
     if (binding != null) {
       userBindings.remove(binding);
+      removedBindings.add(binding);
       return;
     }
 
@@ -182,6 +191,7 @@ class KeyBindings {
         // Removing a system binding means creating a weird system binding with
         // a null command
         addUserBinding(bindingToRemoveWithNullCommand);
+        removedBindings.add(binding);
         return;
       }
     }

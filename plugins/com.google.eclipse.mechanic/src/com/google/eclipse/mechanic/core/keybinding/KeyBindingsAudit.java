@@ -11,7 +11,6 @@ package com.google.eclipse.mechanic.core.keybinding;
 
 import java.util.List;
 
-import com.google.common.base.Objects;
 import com.google.common.base.Predicate;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
@@ -47,13 +46,28 @@ class KeyBindingsAudit {
     Predicate<KbaChangeSet> filterOutRemoveActions = new Predicate<KbaChangeSet>() {
       public boolean apply(KbaChangeSet source) {
         // TODO: support remove
+        if (KeyboardBindingsTask.ENABLE_EXP_REM()) {
+          return true;
+        }
         return source.getAction() == Action.ADD;
       }
     };
     return ImmutableList.copyOf(Iterables.filter(changeSetList, filterOutRemoveActions));
   }
 
-  public List<KbaChangeSet> getKeyBindingsChangeSets() {
+  public Iterable<KbaChangeSet> getKeyBindingsChangeSetsWith(Action action) {
+    return Iterables.filter(kbaChangeSetList, matches(action));
+  }
+  
+  private static Predicate<KbaChangeSet> matches(final Action action) {
+    return new Predicate<KbaChangeSet>() {
+      public boolean apply(KbaChangeSet toTest) {
+        return (toTest.getAction() == action);
+      }
+    };
+  }
+
+  public Iterable<KbaChangeSet> getKeyBindingsChangeSets() {
     return kbaChangeSetList;
   }
 
