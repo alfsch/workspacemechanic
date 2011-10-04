@@ -19,33 +19,28 @@ import org.eclipse.swt.SWT;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.keys.IBindingService;
 
-import java.io.File;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-final class KbaBootstrapper extends CompositeTask {
+public final class KbaBootstrapper extends CompositeTask {
 
   private final IBindingService bindingService;
   private final MechanicLog log;
-  private final File file;
   private final String currentPlatform;
 
-  KbaBootstrapper(final File file) {
+  public KbaBootstrapper() {
     this(MechanicLog.getDefault(),
         (IBindingService) PlatformUI.getWorkbench().getService(IBindingService.class),
-        file,
         SWT.getPlatform());
   }
   
   KbaBootstrapper(
       final MechanicLog log,
       final IBindingService bindingService,
-      final File file,
       final String currentPlatform) {
     this.log = log;
     this.bindingService = bindingService;
-    this.file = file;
     this.currentPlatform = currentPlatform;
   }
 
@@ -106,12 +101,6 @@ final class KbaBootstrapper extends CompositeTask {
     
     new KeyBindingsManualFormatter(log, userBindings, systemBindings).dumpBindingsToFile();
 
-    try {
-      file.delete();
-    } catch (RuntimeException e) {
-      log.logError(e);
-    }
-    
     return true;
   }
 

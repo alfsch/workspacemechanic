@@ -41,6 +41,7 @@ import com.google.eclipse.mechanic.MechanicService;
 import com.google.eclipse.mechanic.MechanicStatus;
 import com.google.eclipse.mechanic.RepairDecisionProvider;
 import com.google.eclipse.mechanic.StatusChangedEvent;
+import com.google.eclipse.mechanic.core.keybinding.KbaBootstrapper;
 import com.google.eclipse.mechanic.core.recorder.ChangeCollector;
 import com.google.eclipse.mechanic.core.recorder.IPreferenceRecordingService;
 import com.google.eclipse.mechanic.internal.Util;
@@ -74,6 +75,8 @@ public class MechanicStatusControlContribution extends WorkbenchWindowControlCon
   private IAction stopRecordingAction = new StopRecordingAction();
 
   private IAction showAllTasksAction = new ShowAllTasksAction();
+  
+  private IAction dumpKeybindingsAction = new DumpKeyBindingsAction();
 
   private final IMechanicService service = MechanicService.getInstance();
 
@@ -278,6 +281,8 @@ public class MechanicStatusControlContribution extends WorkbenchWindowControlCon
     menu.add(recordingMenu);
 
     menu.add(showAllTasksAction);
+
+    menu.add(dumpKeybindingsAction);
 
     menu.add(new Separator());
     menu.add(prefsAction);
@@ -486,5 +491,19 @@ public class MechanicStatusControlContribution extends WorkbenchWindowControlCon
       dialog.open();
     }
   }
+  
+  /**
+   * Action that displays all existing tasks.
+   */
+  private final class DumpKeyBindingsAction extends Action {
 
+    public DumpKeyBindingsAction() {
+      setText("Dump keybindings");
+    }
+
+    @Override
+    public void run() {
+      new KbaBootstrapper().evaluate();
+    }
+  }
 }
