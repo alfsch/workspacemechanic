@@ -87,13 +87,13 @@ class KeyboardBindingsTask extends CompositeTask {
     if (addedBindings.size() > 0) {
       result.append("Add these bindings:\n" +
     		"\n" +
-        Joiner.on("\n").join(addedBindings));
+        Joiner.on("\n").join(addedBindings) + "\n\n");
     }
     
     if (removedBindings.size() > 0) {
       result.append("Remove these bindings:\n" +
           "\n" +
-          Joiner.on("\n").join(removedBindings));
+          Joiner.on("\n").join(removedBindings) + "\n\n");
     }
 
     // TODO assert added or removed > 0?
