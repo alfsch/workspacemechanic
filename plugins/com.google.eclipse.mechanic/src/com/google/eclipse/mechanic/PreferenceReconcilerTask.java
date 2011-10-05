@@ -11,6 +11,8 @@ package com.google.eclipse.mechanic;
 
 import static java.lang.String.format;
 
+import com.google.common.base.Preconditions;
+import com.google.common.collect.Lists;
 import com.google.eclipse.mechanic.internal.Util;
 
 import org.eclipse.core.runtime.Platform;
@@ -54,7 +56,7 @@ import java.util.List;
 public abstract class PreferenceReconcilerTask extends CompositeTask {
 
   private final IEclipsePreferences prefsRoot;
-  private final List<Reconciler> reconcilers = Util.newArrayList();
+  private final List<Reconciler> reconcilers = Lists.newArrayList();
 
   /**
    * Constructs a new instance with the supplied instance
@@ -148,12 +150,11 @@ public abstract class PreferenceReconcilerTask extends CompositeTask {
    */
   static final Preference parsePreferenceString(String pref) {
 
-    Util.checkNotNull(pref, "'pref' cannot be null.");
-    Util.checkArgument(pref.length() > 0, "'pref' cannot be empty string.");
+    Preconditions.checkNotNull(pref, "'pref' cannot be null.");
+    Preconditions.checkArgument(pref.length() > 0, "'pref' cannot be empty string.");
 
     int eqi = pref.indexOf("=");
-    Util.checkArgument(eqi != -1,
-        format("'pref' must contain an equals sign. Bad val: '%s'", pref));
+    Preconditions.checkArgument(eqi != -1, format("'pref' must contain an equals sign. Bad val: '%s'", pref));
 
     // assumes a value
     String value = pref.length() > eqi + 1
@@ -164,14 +165,12 @@ public abstract class PreferenceReconcilerTask extends CompositeTask {
     String id = pref.substring(0, eqi);
     int sli = id.lastIndexOf("/");
 
-    Util.checkArgument(sli != -1,
-        format("'pref' must contain a slash in the identifier portion "
-            + "of the preference. Bad val: '%s'", id));
+    Preconditions.checkArgument(sli != -1, format("'pref' must contain a slash in the identifier portion "
+    + "of the preference. Bad val: '%s'", id));
     String path = id.substring(0, sli);
 
-    Util.checkArgument(id.length() > sli + 1,
-        format("'pref' must contain a name after slash in the "
-            + "identifier portion of the preference. Bad val: '%s'", id));
+    Preconditions.checkArgument(id.length() > sli + 1, format("'pref' must contain a name after slash in the "
+    + "identifier portion of the preference. Bad val: '%s'", id));
     String key = id.substring(sli + 1);
 
     return new ImmutablePreference(path, key, value);

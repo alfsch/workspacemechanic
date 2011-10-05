@@ -11,12 +11,13 @@ package com.google.eclipse.mechanic.core.keybinding;
 
 import java.util.List;
 
+import com.google.common.base.Objects;
+import com.google.common.base.Preconditions;
 import com.google.common.base.Predicate;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.eclipse.mechanic.core.keybinding.KbaChangeSet.Action;
 import com.google.eclipse.mechanic.internal.TaskType;
-import com.google.eclipse.mechanic.internal.Util;
 import com.google.gson.annotations.SerializedName;
 
 /**
@@ -77,7 +78,7 @@ class KeyBindingsAudit {
 
   @Override
   public int hashCode() {
-    return Util.hashCode(this.kbaChangeSetList, this.kbaMetadata);
+    return Objects.hashCode(this.kbaChangeSetList, this.kbaMetadata);
   }
 
   @Override
@@ -106,13 +107,13 @@ class KeyBindingsAudit {
     private final TaskType type;
 
     public KbaMetaData(String description, TaskType type) {
-      this.description = Util.checkNotNull(description);
-      this.type = Util.checkNotNull(type);
+      this.description = Preconditions.checkNotNull(description);
+      this.type = Preconditions.checkNotNull(type);
     }
 
     @Override
     public int hashCode() {
-      return Util.hashCode(description, type);
+      return Objects.hashCode(description, type);
     }
 
     @Override

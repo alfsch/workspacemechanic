@@ -25,6 +25,9 @@ import org.eclipse.core.runtime.Preferences.IPropertyChangeListener;
 import org.eclipse.core.variables.IStringVariableManager;
 import org.eclipse.core.variables.VariablesPlugin;
 
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 import com.google.eclipse.mechanic.Task;
 import com.google.eclipse.mechanic.internal.BlockedTaskIdsParser;
 import com.google.eclipse.mechanic.internal.FileTaskProvider;
@@ -118,7 +121,7 @@ public class MechanicPreferences {
   }
 
   // CHM used for thread-safe map.
-  private static final ConcurrentMap<String, String> sourcesFailingInitialization = Util.newConcurrentHashMap();
+  private static final ConcurrentMap<String, String> sourcesFailingInitialization = Maps.newConcurrentMap();
 
   /**
    * Return a list of task sources where tasks may be found.
@@ -129,7 +132,7 @@ public class MechanicPreferences {
     String paths = getString(DIRS_PREF);
 
     ResourceTaskProviderParser parser = new ResourceTaskProviderParser();
-    List<ResourceTaskProvider> providers = Util.newArrayList();
+    List<ResourceTaskProvider> providers = Lists.newArrayList();
     for (String source : parser.parse(paths)) {
       ResourceTaskProvider provider = toProvider(source);
       if (provider != null) {
@@ -187,7 +190,7 @@ public class MechanicPreferences {
     BlockedTaskIdsParser parser = new BlockedTaskIdsParser();
 
     String val = getString(BLOCKED_PREF);
-    Set<String> set = Util.newHashSet();
+    Set<String> set = Sets.newHashSet();
     Collections.addAll(set, parser.parse(val));
     return set;
   }

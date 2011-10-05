@@ -12,6 +12,7 @@ package com.google.eclipse.mechanic.core.keybinding;
 import com.google.common.base.Function;
 import com.google.common.base.Joiner;
 import com.google.common.base.Objects;
+import com.google.common.base.Preconditions;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
@@ -75,7 +76,7 @@ class KeyboardBindingsTask extends CompositeTask {
     this.workbench = workbench;
     this.commandService = commandService;
     this.bindingService = bindingService;
-    this.audit = Util.checkNotNull(audit);
+    this.audit = Preconditions.checkNotNull(audit);
   }
 
   public String getDescription() {

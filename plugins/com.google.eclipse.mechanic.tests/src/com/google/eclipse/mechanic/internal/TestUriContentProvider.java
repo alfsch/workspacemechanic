@@ -13,6 +13,8 @@ import java.io.InputStream;
 import java.net.URI;
 import java.util.Map;
 
+import com.google.common.collect.Maps;
+
 /**
  * Contains some canned entries that prevent actually fetching content from the web.
  */
@@ -20,8 +22,8 @@ public final class TestUriContentProvider implements IUriContentProvider {
   public static final URI WWW_GOOGLE_COM = URI.create("http://www.google.com");
   public static final URI WWW_IMDB_COM = URI.create("http://www.imdb.com");
 
-  private final Map<String, String> map = Util.newHashMap();
-  private final Map<String, Long> lastmod = Util.newHashMap();
+  private final Map<String, String> map = Maps.newHashMap();
+  private final Map<String, Long> lastmod = Maps.newHashMap();
 
   private int fetches;
   private int clears;

@@ -13,6 +13,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.google.common.base.Preconditions;
+
 /**
  * A model of an EPF file.
  * 
@@ -35,9 +37,9 @@ public class EpfFileModel {
       String title, 
       String description, 
       TaskType taskType) {
-    this.title = Util.checkNotNull(title);
-    this.description = Util.checkNotNull(description);
-    this.taskType = Util.checkNotNull(taskType);
+    this.title = Preconditions.checkNotNull(title);
+    this.description = Preconditions.checkNotNull(description);
+    this.taskType = Preconditions.checkNotNull(taskType);
   }
   
   /**

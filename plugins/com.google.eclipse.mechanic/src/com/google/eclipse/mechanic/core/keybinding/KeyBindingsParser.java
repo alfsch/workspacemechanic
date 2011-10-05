@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import com.google.common.collect.Lists;
 import com.google.eclipse.mechanic.core.keybinding.KbaChangeSet.KbaBindingList;
 import com.google.eclipse.mechanic.core.keybinding.KeyBindingsAudit.KbaMetaData;
 import com.google.eclipse.mechanic.internal.TaskType;
@@ -198,7 +199,7 @@ class KeyBindingsParser {
 
     public KbaBindingList deserialize(JsonElement json, Type typeOfT,
         JsonDeserializationContext context) throws JsonParseException {
-      List<KbaBinding> bindingSpecList = Util.newArrayList();
+      List<KbaBinding> bindingSpecList = Lists.newArrayList();
       JsonArray ja = json.getAsJsonArray();
       for (JsonElement jsonElement : ja) {
         if (jsonElement.isJsonNull()) {

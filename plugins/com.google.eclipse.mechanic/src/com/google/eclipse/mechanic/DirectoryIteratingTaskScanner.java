@@ -11,6 +11,7 @@ package com.google.eclipse.mechanic;
 
 import java.util.List;
 
+import com.google.common.base.Preconditions;
 import com.google.eclipse.mechanic.internal.RegisteredTaskProvidersSupplier;
 import com.google.eclipse.mechanic.internal.Supplier;
 import com.google.eclipse.mechanic.internal.Util;
@@ -26,7 +27,7 @@ public abstract class DirectoryIteratingTaskScanner implements TaskScanner {
   private final Supplier<List<IResourceTaskProvider>> supplier = RegisteredTaskProvidersSupplier.getInstance();
 
   public void scan(TaskCollector collector) {
-    Util.checkNotNull(collector, "'collector' cannot be null.");
+    Preconditions.checkNotNull(collector, "'collector' cannot be null.");
 
     for (IResourceTaskProvider source : supplier.get()) {
       scan(source, collector);

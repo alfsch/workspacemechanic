@@ -9,6 +9,7 @@
 
 package com.google.eclipse.mechanic.internal;
 
+import com.google.common.base.Preconditions;
 import com.google.eclipse.mechanic.TaskCollector;
 import com.google.eclipse.mechanic.CompositeTaskInterface;
 import com.google.eclipse.mechanic.plugin.core.MechanicPlugin;
@@ -145,8 +146,8 @@ public class TasksExtensionPoint {
      * @throws NullPointerException if {@code element} or {@code clazz} are {@code null} 
      */
     private TaskProxy(IConfigurationElement element, String clazz, boolean forcePluginActivation) {
-      this.element = Util.checkNotNull(element, "'element' should not be null");
-      this.clazz = Util.checkNotNull(clazz, "'clazz' should not be null");
+      this.element = Preconditions.checkNotNull(element, "'element' should not be null");
+      this.clazz = Preconditions.checkNotNull(clazz, "'clazz' should not be null");
       this.forcePluginActivation = forcePluginActivation;
     }
 

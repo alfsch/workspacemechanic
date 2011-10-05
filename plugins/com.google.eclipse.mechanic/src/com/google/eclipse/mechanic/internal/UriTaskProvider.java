@@ -17,6 +17,8 @@ import java.util.List;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 
+import com.google.common.base.Preconditions;
+import com.google.common.collect.Lists;
 import com.google.eclipse.mechanic.IResourceTaskReference;
 import com.google.eclipse.mechanic.plugin.core.MechanicPlugin;
 import com.google.eclipse.mechanic.plugin.core.ResourceTaskProvider;
@@ -84,9 +86,9 @@ public final class UriTaskProvider extends ResourceTaskProvider {
    */
   public UriTaskProvider(URI uri, IUriContentProvider stateSensitiveCache,
       IUriContentProvider longTermCache) {
-    this.uri = Util.checkNotNull(uri);
-    this.stateSensitiveCache = Util.checkNotNull(stateSensitiveCache);
-    this.longTermCache = Util.checkNotNull(longTermCache);
+    this.uri = Preconditions.checkNotNull(uri);
+    this.stateSensitiveCache = Preconditions.checkNotNull(stateSensitiveCache);
+    this.longTermCache = Preconditions.checkNotNull(longTermCache);
   }
 
   public IStatus initialize() {
@@ -124,7 +126,7 @@ public final class UriTaskProvider extends ResourceTaskProvider {
   }
 
   public List<IResourceTaskReference> getTaskReferences(String filterText) {
-    List<IResourceTaskReference> refs = Util.newArrayList();
+    List<IResourceTaskReference> refs = Lists.newArrayList();
     for (URI uri : model.getTasks()) {
       if (uri.getPath().endsWith(filterText)) {
         if (!uri.isAbsolute()) {

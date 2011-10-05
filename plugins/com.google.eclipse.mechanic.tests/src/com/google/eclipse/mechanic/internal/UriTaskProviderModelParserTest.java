@@ -15,6 +15,7 @@ import java.util.List;
 
 import junit.framework.TestCase;
 
+import com.google.common.collect.Lists;
 import com.google.eclipse.mechanic.tests.internal.RunAsJUnitTest;
 
 /**
@@ -158,7 +159,7 @@ public class UriTaskProviderModelParserTest extends TestCase {
   }
 
   private static List<URI> toList(String... raw) {
-    ArrayList<URI> list = Util.newArrayList();
+    ArrayList<URI> list = Lists.newArrayList();
     for (String string : raw) {
       list.add(URI.create(string));
     }

@@ -20,6 +20,14 @@ import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
+
+import com.google.common.base.Joiner;
+import com.google.common.base.Objects;
+import com.google.common.base.Preconditions;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 
 /**
  * Misc util methods as previously provided by collections and base.
@@ -37,141 +45,6 @@ public final class Util {
   // no instantiation
   private Util() {}
 
-  /**
-   * Splits a string defined by a delimiter. If source is empty or if no instances of delimiter
-   * are found, the original string is returned.
-   *
-   * This implementation is preferred in place of String.split because of some of String.split's
-   * strange behavior. See http://konigsberg.blogspot.com/2009/11/java-puzzler-splitting-hairs.html.
-   */
-  public static String[] split(String source, String delimiter) {
-    List<String> list = newArrayList();
-    int fromIndex = 0;
-    while (fromIndex < source.length()) {
-      int index = source.indexOf(delimiter, fromIndex);
-      if (index == -1) {
-        index = source.length();
-      }
-      // Creating a new String because the substring method retains a reference to the
-      // original string, making it hard to dispose.
-      String substring = new String(source.substring(fromIndex, index));
-      list.add(substring);
-      fromIndex = index + delimiter.length();
-    }
-
-    return list.toArray(new String[0]);
-  }
-
-  public static String join(String sep, Object[] elems) {
-    StringBuilder b = new StringBuilder();
-    for (Object elem : elems) {
-      if (b.length() > 0) {
-        b.append(sep);
-      }
-      b.append(elem);
-    }
-    return b.toString();
-  }
-
-  /**
-   * Ensures that {@code expression} is not {@code null}.
-   *
-   * @param expression any expression involving an argument to the current
-   *     method.
-   * @param message a message object which will be converted using
-   *     {@link Object#toString} and included in the exception message if the
-   *     check fails
-   * @returns {@code expression}, unmodified, unless it is null.
-   * @throws NullPointerException if {@code expression} is {@code null}
-   */
-  public static <T> T checkNotNull(T expression, String message) {
-    if (expression == null) {
-      throw new NullPointerException(message);
-    }
-    return expression;
-  }
-
-  /**
-   * Ensures that {@code expression} is not {@code null}.
-   *
-   * @param expression any expression involving an argument to the current
-   *     method.
-   * @returns {@code expression}, unmodified, unless it is null.
-   * @throws NullPointerException if {@code expression} is {@code null}
-   */
-  public static <T> T checkNotNull(T expression) {
-    if (expression == null) {
-      throw new NullPointerException();
-    }
-    return expression;
-  }
-  
-  /**
-   * Ensures that {@code expression} is {@code true}.
-   *
-   * @param expression any boolean expression involving an argument to the
-   *     current method
-   * @param message a message object which will be converted using
-   *     {@link Object#toString} and included in the exception message if the
-   *     check fails
-   * @throws IllegalArgumentException if {@code expression} is {@code false}
-   */
-  public static void checkArgument(boolean expression, String message) {
-    if (!expression) {
-      throw new IllegalArgumentException(message);
-    }
-  }
-
-  /**
-   * Ensures that {@code expression} is {@code true}.
-   *
-   * @param expression any boolean expression involving a state
-   * @param message a message object which will be converted using
-   *     {@link Object#toString} and included in the exception message if the
-   *     check fails
-   * @throws IllegalStateException if {@code expression} is {@code false}
-   */
-  public static void checkState(boolean expression, String message) {
-    if (!expression) {
-      throw new IllegalStateException(message);
-    }
-  }
-
-  /**
-   * Creates an empty {@code ArrayList} instance.
-   */
-  public static <E> ArrayList<E> newArrayList() {
-    return new ArrayList<E>();
-  }
-
-  /**
-   * Creates a {@code HashMap} instance.
-   */
-  public static <K, V> HashMap<K, V> newHashMap() {
-    return new HashMap<K, V>();
-  }
-
-  /**
-   * Creates a {@code ConcurrentHashMap} instance.
-   */
-  public static <K, V> ConcurrentHashMap<K, V> newConcurrentHashMap() {
-    return new ConcurrentHashMap<K, V>();
-  }
-
-  /**
-   * Creates an empty HashSet instance.
-   */
-  public static <E> HashSet<E> newHashSet() {
-    return new HashSet<E>();
-  }
-
-
-  /**
-   * Creates an empty LinkedHashSet instance.
-   */
-  public static <E> LinkedHashSet<E> newLinkedHashSet() {
-    return new LinkedHashSet<E>();
-  }
   /**
    * Reads everything from an InputStream into a byte array.
    * Does not close the input stream.
@@ -219,25 +92,13 @@ public final class Util {
    */
   public static String unquote(String value) {
 
-    checkNotNull(value, "'value' cannot be null.");
+    Preconditions.checkNotNull(value, "'value' cannot be null.");
     if (value.length() > 0 && value.charAt(0) == '"') {
-      checkState(value.charAt(value.length() - 1) == '"',
-          "Pref value with beginning quote but no end quote");
+      Preconditions.checkState(value.charAt(value.length() - 1) == '"', "Pref value with beginning quote but no end quote");
       value = value.substring(1, value.length() - 1);
       value = value.replace("\\\"", "\"");
     }
     return value;
-  }
-
-  public static int hashCode(Object... objects) {
-    return Arrays.hashCode(objects);
-  }
-
-  /**
-   * Null-sensitive version of equals.
-   */
-  public static boolean equals(Object one, Object two) {
-    return ((one == null && two == null)) || (one != null && one.equals(two));
   }
 
   /**

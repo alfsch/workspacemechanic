@@ -12,6 +12,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
 
+import com.google.common.base.Preconditions;
+
 public final class ProxyUriContentProvider implements IUriContentProvider {
 
   private volatile IUriContentProvider delegate;
@@ -21,7 +23,7 @@ public final class ProxyUriContentProvider implements IUriContentProvider {
   }
 
   public void set(IUriContentProvider delegate) {
-    this.delegate = Util.checkNotNull(delegate);
+    this.delegate = Preconditions.checkNotNull(delegate);
   }
 
   public InputStream get(URI uri) throws IOException {

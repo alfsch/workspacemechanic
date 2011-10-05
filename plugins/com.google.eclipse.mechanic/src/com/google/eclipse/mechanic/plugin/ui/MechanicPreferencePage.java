@@ -22,6 +22,7 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 import org.eclipse.ui.PlatformUI;
 
+import com.google.common.collect.Lists;
 import com.google.eclipse.mechanic.MechanicService;
 import com.google.eclipse.mechanic.Task;
 import com.google.eclipse.mechanic.internal.Util;
@@ -64,7 +65,7 @@ public class MechanicPreferencePage extends FieldEditorPreferencePage
     shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
     setPreferenceStore(MechanicPlugin.getDefault().getPreferenceStore());
 
-    unblockedTasks = Util.newArrayList();
+    unblockedTasks = Lists.newArrayList();
     unblockedTasks.addAll(MechanicService.getInstance().getAllKnownTasks());
 
     // remove tasks that are already blocked

@@ -26,6 +26,9 @@ import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.core.runtime.jobs.JobChangeAdapter;
 import org.eclipse.swt.widgets.Display;
 
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 import com.google.eclipse.mechanic.internal.RootTaskScanner;
 import com.google.eclipse.mechanic.internal.Util;
 import com.google.eclipse.mechanic.plugin.core.MechanicLog;
@@ -77,12 +80,12 @@ public final class MechanicService implements IMechanicService {
   private final MechanicLog log = MechanicLog.getDefault();
 
   private final RootTaskScanner scanner = RootTaskScanner.getInstance();
-  private final Map<Task, TaskStatus> taskStatus = Util.newHashMap();
+  private final Map<Task, TaskStatus> taskStatus = Maps.newHashMap();
   private final Collector collector = new Collector();
 
   // those registered to receive events we generate
   // TODO(konigsberg): Change to CopyOnWriteArrayList
-  private final Set<IStatusChangeListener> statusChangeListeners = Util.newHashSet();
+  private final Set<IStatusChangeListener> statusChangeListeners = Sets.newHashSet();
 
   // the job we use to run us periodically. We provide our own faux
   // job control as part of our interface.
@@ -245,7 +248,7 @@ public final class MechanicService implements IMechanicService {
    * {@inheritDoc}
    */
   public Set<Task> getAllKnownTasks() {
-    Set<Task> set = Util.newLinkedHashSet();
+    Set<Task> set = Sets.newLinkedHashSet();
     set.addAll(collector.getTasks());
     return set;
   }
@@ -343,7 +346,7 @@ public final class MechanicService implements IMechanicService {
    */
   private List<Task> getFailingItems() {
 
-    List<Task> failing = Util.newArrayList();
+    List<Task> failing = Lists.newArrayList();
     for (Task item : collector.getTasks()) {
       TaskStatus status = taskStatus.get(item);
       if (TaskStatus.FAILED == status) {

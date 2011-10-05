@@ -9,6 +9,8 @@
 
 package com.google.eclipse.mechanic.internal;
 
+import com.google.common.base.Preconditions;
+import com.google.common.collect.Lists;
 import com.google.eclipse.mechanic.TaskScanner;
 import com.google.eclipse.mechanic.CompositeTaskInterface;
 import com.google.eclipse.mechanic.plugin.core.MechanicPlugin;
@@ -83,7 +85,7 @@ public class ScannersExtensionPoint implements ScannersExtensionPointInterface {
   }
 
   private static List<ScannerProxy> init() {
-    List<ScannerProxy> list = Util.newArrayList();
+    List<ScannerProxy> list = Lists.newArrayList();
 
     // Load the reference to the extension.
     IExtensionPoint point = Platform.getExtensionRegistry().getExtensionPoint(
@@ -137,8 +139,8 @@ public class ScannersExtensionPoint implements ScannersExtensionPointInterface {
      * @throws NullPointerException if {@code element} or {@code clazz} are {@code null} 
      */
     private ScannerProxy(IConfigurationElement element, String clazz) {
-      this.element = Util.checkNotNull(element, "'element' should not be null");
-      this.clazz = Util.checkNotNull(clazz, "'clazz' should not be null");
+      this.element = Preconditions.checkNotNull(element, "'element' should not be null");
+      this.clazz = Preconditions.checkNotNull(clazz, "'clazz' should not be null");
     }
 
     /**

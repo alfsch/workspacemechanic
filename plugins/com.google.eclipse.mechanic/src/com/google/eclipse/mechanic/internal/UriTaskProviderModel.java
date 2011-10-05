@@ -11,6 +11,9 @@ package com.google.eclipse.mechanic.internal;
 import java.net.URI;
 import java.util.List;
 
+import com.google.common.base.Objects;
+import com.google.common.base.Preconditions;
+
 /**
  * Model for URI-based task provider.
  */
@@ -21,7 +24,7 @@ public class UriTaskProviderModel {
     private final String description;
     private final String contact;
     public Metadata(String name, String description, String contact) {
-      this.description = Util.checkNotNull(description, "description is missing");
+      this.description = Preconditions.checkNotNull(description, "description is missing");
       this.name = name;
       this.contact = contact;
     }
@@ -44,7 +47,7 @@ public class UriTaskProviderModel {
 
     @Override
     public int hashCode() {
-      return Util.hashCode(name, contact, description);
+      return Objects.hashCode(name, contact, description);
     }
 
     @Override
@@ -56,9 +59,9 @@ public class UriTaskProviderModel {
         return false;
       }
       Metadata that = (Metadata) obj;
-      return Util.equals(this.name, that.name) &&
-          Util.equals(this.description, that.description) &&
-          Util.equals(this.contact, that.contact);
+      return Objects.equal(this.name,  that.name) &&
+          Objects.equal(this.description,  that.description) &&
+          Objects.equal(this.contact,  that.contact);
     }
   }
 

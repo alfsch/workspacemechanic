@@ -9,6 +9,9 @@
 
 package com.google.eclipse.mechanic.core.recorder;
 
+import com.google.common.base.Preconditions;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 import com.google.eclipse.mechanic.internal.Util;
 import com.google.eclipse.mechanic.plugin.core.MechanicPlugin;
 
@@ -123,8 +126,8 @@ public class PreferenceRecorder {
   private final Object lock = new Object();
   private volatile State currState = State.IDLE;
   private final RecorderListener listener = new RecorderListener();
-  private Set<IEclipsePreferences> recordedNodes = Util.newHashSet();
-  private List<PreferenceChange> changeLog = Util.newArrayList();
+  private Set<IEclipsePreferences> recordedNodes = Sets.newHashSet();
+  private List<PreferenceChange> changeLog = Lists.newArrayList();
 
   /**
    * Starts the process of recording changes to the eclipse preference tree.
@@ -137,8 +140,7 @@ public class PreferenceRecorder {
    */
   public void startRecording() throws CoreException {
     synchronized (lock) {
-      Util.checkState(currState == State.IDLE,
-          "Recorder object has already recorded preference changes.");
+      Preconditions.checkState(currState == State.IDLE, "Recorder object has already recorded preference changes.");
 
       currState = State.RECORDING;
 
@@ -170,7 +172,7 @@ public class PreferenceRecorder {
    */
   public void endRecording() {
     synchronized (lock) {
-      Util.checkState(currState == State.RECORDING, "Recorder object is not currently recording");
+      Preconditions.checkState(currState == State.RECORDING, "Recorder object is not currently recording");
 
       currState = State.COMPLETE;
 
@@ -204,8 +206,7 @@ public class PreferenceRecorder {
    */
   public void visitChanges(IPreferenceRecordingService.ChangeVisitor visitor) {
     synchronized (lock) {
-      Util.checkState(currState == State.COMPLETE, 
-          "Recorder object has not yet finished recording");
+      Preconditions.checkState(currState == State.COMPLETE, "Recorder object has not yet finished recording");
 
       for (PreferenceChange change : changeLog) {
         change.visit(visitor);

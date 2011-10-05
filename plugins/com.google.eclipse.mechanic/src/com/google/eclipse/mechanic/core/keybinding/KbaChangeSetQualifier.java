@@ -2,9 +2,9 @@
 
 package com.google.eclipse.mechanic.core.keybinding;
 
+import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 import com.google.eclipse.mechanic.core.keybinding.KbaChangeSet.Action;
-import com.google.eclipse.mechanic.internal.Util;
 
 /**
  * Qualifies a binding by scheme/platform/context/action
@@ -57,14 +57,14 @@ final class KbaChangeSetQualifier {
       return false;
     }
     KbaChangeSetQualifier that = (KbaChangeSetQualifier)obj;
-    return Util.equals(this.scheme, that.scheme) 
-        && Util.equals(this.platform, that.platform)
-        && Util.equals(this.context, that.context)
-        && Util.equals(this.action, that.action);
+    return Objects.equal(this.scheme,  that.scheme) 
+        && Objects.equal(this.platform,  that.platform)
+        && Objects.equal(this.context,  that.context)
+        && Objects.equal(this.action,  that.action);
   }
   
   @Override
   public int hashCode() {
-    return Util.hashCode(this.scheme, this.platform, this.context, this.action);
+    return Objects.hashCode(this.scheme, this.platform, this.context, this.action );
   }
 }

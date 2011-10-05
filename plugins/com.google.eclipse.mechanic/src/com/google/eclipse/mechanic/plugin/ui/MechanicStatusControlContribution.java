@@ -35,6 +35,7 @@ import org.eclipse.ui.IWorkbenchActionConstants;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.menus.WorkbenchWindowControlContribution;
 
+import com.google.common.collect.Maps;
 import com.google.eclipse.mechanic.IMechanicService;
 import com.google.eclipse.mechanic.IStatusChangeListener;
 import com.google.eclipse.mechanic.MechanicService;
@@ -142,7 +143,7 @@ public class MechanicStatusControlContribution extends WorkbenchWindowControlCon
    * Initializes the image cache.
    */
   private void initImageCache() {
-    images = Util.newHashMap();
+    images = Maps.newHashMap();
 
     for (DisplayStatus ds : DisplayStatus.values()) {
       String path = String.format("icons/%s.png", ds.name().toLowerCase());

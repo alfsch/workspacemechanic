@@ -18,6 +18,9 @@ import java.util.List;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 
+import com.google.common.base.Joiner;
+import com.google.common.base.Preconditions;
+import com.google.common.collect.Lists;
 import com.google.eclipse.mechanic.IResourceTaskReference;
 import com.google.eclipse.mechanic.SuffixFileFilter;
 import com.google.eclipse.mechanic.plugin.core.MechanicPlugin;
@@ -69,7 +72,7 @@ public final class FileTaskProvider extends ResourceTaskProvider {
   private static final String SEPARATOR = System.getProperty("file.separator");
 
   public FileTaskProvider(File dir) {
-    dir = Util.checkNotNull(dir);
+    dir = Preconditions.checkNotNull(dir);
     String path = dir.getPath();
     if (path.startsWith("~" + SEPARATOR)) {
       dir = new File(System.getProperty("user.home"), path.substring(1));
@@ -110,7 +113,7 @@ public final class FileTaskProvider extends ResourceTaskProvider {
    * Returns all elements joined by the local OS's path segment separator.
    */
   private static String createPath(String... elems) {
-    return Util.join(File.separator, elems);
+    return Joiner.on(File.separator).join(elems);
   }
 
   public List<IResourceTaskReference> getTaskReferences(String filterText) {
@@ -120,7 +123,7 @@ public final class FileTaskProvider extends ResourceTaskProvider {
     if (filesInDir == null) {
       return Collections.emptyList();
     }
-    List<IResourceTaskReference> refs = Util.newArrayList();
+    List<IResourceTaskReference> refs = Lists.newArrayList();
     for (File file : filesInDir) {
       refs.add(new TaskReference(file));
     }

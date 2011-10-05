@@ -26,6 +26,7 @@ import org.eclipse.core.runtime.preferences.IPreferenceFilter;
 import org.eclipse.core.runtime.preferences.IPreferencesService;
 import org.eclipse.core.runtime.preferences.InstanceScope;
 
+import com.google.common.base.Preconditions;
 import com.google.eclipse.mechanic.internal.Util;
 import com.google.eclipse.mechanic.plugin.core.MechanicLog;
 import com.google.eclipse.mechanic.plugin.core.MechanicPreferences;
@@ -48,7 +49,7 @@ public abstract class LastModifiedPreferencesFileTask extends CompositeTask {
   public LastModifiedPreferencesFileTask(IResourceTaskReference taskRef) {
     this.taskRef = taskRef;
     this.file = taskRef.asFile();
-    Util.checkArgument(file == null || file.canRead(), file + " must be readable");
+    Preconditions.checkArgument(file == null || file.canRead(), file + " must be readable");
     this.id = String.format("%s@%s", getClass().getName(), taskRef.getPath());
     this.key = String.format("%s_lastmod", id);
   }

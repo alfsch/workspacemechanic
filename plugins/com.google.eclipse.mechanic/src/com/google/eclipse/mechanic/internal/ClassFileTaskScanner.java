@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.google.common.collect.Lists;
 import com.google.eclipse.mechanic.DirectoryIteratingTaskScanner;
 import com.google.eclipse.mechanic.IResourceTaskProvider;
 import com.google.eclipse.mechanic.IResourceTaskReference;
@@ -62,7 +63,7 @@ public final class ClassFileTaskScanner extends DirectoryIteratingTaskScanner {
      * resolved, we'll create new instances of these classes and add
      * them to the supplied list of Tasks.
      */
-    List<Class<?>> taskClasses = Util.newArrayList();
+    List<Class<?>> taskClasses = Lists.newArrayList();
 
     // HACK: This isn't really where this logic belongs, but it's a start.
     if (!(taskSource instanceof FileTaskProvider)) {

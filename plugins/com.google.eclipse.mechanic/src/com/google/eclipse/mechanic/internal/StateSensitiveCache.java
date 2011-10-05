@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
 
+import com.google.common.base.Preconditions;
 import com.google.eclipse.mechanic.IMechanicService;
 import com.google.eclipse.mechanic.IStatusChangeListener;
 import com.google.eclipse.mechanic.MechanicStatus;
@@ -27,8 +28,8 @@ public final class StateSensitiveCache implements IUriContentProvider {
   private final IUriContentProvider delegate;
 
   public StateSensitiveCache(IMechanicService service, IUriContentProvider delegate) {
-    this.service = Util.checkNotNull(service);
-    this.delegate = Util.checkNotNull(delegate);
+    this.service = Preconditions.checkNotNull(service);
+    this.delegate = Preconditions.checkNotNull(delegate);
     this.statusChangeListener = new IStatusChangeListener() {
       public void statusChanged(StatusChangedEvent event) {
         if (event.getStatus() == MechanicStatus.UPDATING) {

@@ -12,6 +12,7 @@ package com.google.eclipse.mechanic;
 import java.util.List;
 import java.util.Map;
 
+import com.google.common.base.Preconditions;
 import com.google.eclipse.mechanic.RepairDecisionProvider.Decision;
 import com.google.eclipse.mechanic.RepairDecisionProvider.ResponseStatus;
 import com.google.eclipse.mechanic.internal.Util;
@@ -40,10 +41,10 @@ public class RepairManager implements Runnable {
   public RepairManager(IMechanicService service, List<Task> failing,
       RepairDecisionProvider choiceProvider) {
 
-    Util.checkArgument(!failing.isEmpty(), "'failing' cannot be empty");
-    this.service = Util.checkNotNull(service);
-    this.failing = Util.checkNotNull(failing);
-    this.choiceProvider = Util.checkNotNull(choiceProvider);
+    Preconditions.checkArgument(!failing.isEmpty(), "'failing' cannot be empty");
+    this.service = Preconditions.checkNotNull(service);
+    this.failing = Preconditions.checkNotNull(failing);
+    this.choiceProvider = Preconditions.checkNotNull(choiceProvider);
   }
 
   /**

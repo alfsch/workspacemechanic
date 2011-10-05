@@ -19,6 +19,8 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.FutureTask;
 import java.util.concurrent.TimeUnit;
 
+import com.google.common.base.Preconditions;
+
 /**
  * Stores content from URIs to prevent re-scanning for the same content.
  */
@@ -38,7 +40,7 @@ public final class ThreadsafeUriContentCache implements IUriContentProvider {
     contentCache = TimedEvictionCache.create(duration, unit);
     lastModCache = TimedEvictionCache.create(duration, unit);
 
-    this.delegate = Util.checkNotNull(delegate);
+    this.delegate = Preconditions.checkNotNull(delegate);
   }
 
   public InputStream get(final URI uri) throws IOException {

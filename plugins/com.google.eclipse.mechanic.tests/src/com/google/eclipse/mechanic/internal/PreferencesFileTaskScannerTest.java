@@ -19,6 +19,7 @@ import java.io.InputStream;
 
 import junit.framework.TestCase;
 
+import com.google.common.base.Joiner;
 import com.google.eclipse.mechanic.IResourceTaskReference;
 import com.google.eclipse.mechanic.internal.PreferenceFileTaskScanner.EpfTaskHeaderParser;
 import com.google.eclipse.mechanic.internal.PreferenceFileTaskScanner.Header;
@@ -76,7 +77,7 @@ public class PreferencesFileTaskScannerTest extends TestCase {
       "/instance/org.eclipse.ui/DOCK_PERSPECTIVE_BAR=left");
 
   private static String join(String... lines) {
-    return Util.join("\n", lines);
+    return Joiner.on("\n").join(lines);
   }
 
   private InputStream getInputStream(String text) {

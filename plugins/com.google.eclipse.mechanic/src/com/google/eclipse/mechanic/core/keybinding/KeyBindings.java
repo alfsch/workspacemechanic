@@ -9,6 +9,7 @@
 
 package com.google.eclipse.mechanic.core.keybinding;
 
+import com.google.common.base.Objects;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
@@ -233,7 +234,7 @@ class KeyBindings {
     for (Binding binding : list) {
       if (binding.getSchemeId().equals(scheme.getId())
         && (binding.getTriggerSequence().equals(triggerSequence))
-        && Util.equals(binding.getPlatform(), platform)) {
+        && Objects.equal(binding.getPlatform(),  platform)) {
           ParameterizedCommand param = binding.getParameterizedCommand();
           if (param == null) {
             if (cid == null) {

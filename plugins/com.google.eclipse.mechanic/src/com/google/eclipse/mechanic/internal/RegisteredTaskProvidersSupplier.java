@@ -13,6 +13,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
+import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 import com.google.eclipse.mechanic.IResourceTaskProvider;
 import com.google.eclipse.mechanic.plugin.core.MechanicPreferences;
 import com.google.eclipse.mechanic.plugin.core.ResourceTaskProvider;
@@ -35,13 +37,13 @@ public class RegisteredTaskProvidersSupplier implements
 
   public List<IResourceTaskProvider> get() {
    // This removes duplicates, but ensures insertion order.
-    Set<ResourceTaskProvider> providers = Util.newLinkedHashSet();
+    Set<ResourceTaskProvider> providers = Sets.newLinkedHashSet();
     for (ResourceTaskProvider provider : MechanicPreferences.getTaskProviders()) {
       providers.add(provider);
     }
 
     // To ensure clients don't mutate the list.
-    List<IResourceTaskProvider> list = Util.newArrayList();
+    List<IResourceTaskProvider> list = Lists.newArrayList();
     list.addAll(providers);
     return Collections.unmodifiableList(list);
   }

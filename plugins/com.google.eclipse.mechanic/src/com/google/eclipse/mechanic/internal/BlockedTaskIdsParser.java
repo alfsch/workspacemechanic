@@ -12,6 +12,7 @@ import java.io.File;
 import java.util.List;
 import java.util.StringTokenizer;
 
+import com.google.common.collect.Lists;
 import com.google.gson.Gson;
 
 /**
@@ -30,7 +31,7 @@ public class BlockedTaskIdsParser {
     if (!text.startsWith("[")) {
       // I would use Splitter, but I won't use split.
       StringTokenizer st = new StringTokenizer(text, File.pathSeparator);
-      List<String> list = Util.newArrayList();
+      List<String> list = Lists.newArrayList();
       while (st.hasMoreElements()) {
         list.add((String) st.nextElement());
       }

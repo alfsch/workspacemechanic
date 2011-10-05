@@ -11,6 +11,9 @@ package com.google.eclipse.mechanic.internal;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
+import com.google.common.base.Preconditions;
+import com.google.common.collect.Maps;
+
 /**
  * A thread-safe map of objects that can optionally be evicted after a certain time
  * after its creation.
@@ -40,7 +43,7 @@ public class TimedEvictionCache<K, V> {
     }
   }
 
-  private final Map<K, Value<V>> cache = Util.newHashMap();
+  private final Map<K, Value<V>> cache = Maps.newHashMap();
 
   /**
    * Create a new instance.
@@ -70,8 +73,8 @@ public class TimedEvictionCache<K, V> {
    * or the prior value was evicted, this method returns null.
    */
   public V putIfAbsent(K key, V value) {
-    Util.checkNotNull(key, "key is null");
-    Util.checkNotNull(value, "values is null");
+    Preconditions.checkNotNull(key, "key is null");
+    Preconditions.checkNotNull(value, "values is null");
 
     synchronized(lock) {
       requests++;

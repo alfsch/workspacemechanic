@@ -9,10 +9,12 @@
 
 package com.google.eclipse.mechanic.core.keybinding;
 
-import com.google.eclipse.mechanic.internal.Util;
-
 import java.util.Collections;
 import java.util.Map;
+
+import com.google.common.base.Objects;
+import com.google.common.base.Preconditions;
+import com.google.common.collect.Maps;
 
 /**
  * Abstracts a keybinding data to either add or remove.
@@ -35,7 +37,7 @@ public final class KbaBinding {
   public KbaBinding(
       String keySequence,
       String cid) {
-    this(keySequence, cid, Util.<String, String>newHashMap());
+    this(keySequence, cid, Maps.<String, String>newHashMap());
   }
 
   public KbaBinding(
@@ -43,8 +45,8 @@ public final class KbaBinding {
       String cid,
       Map<String,String> parameters) {
     this.cid = cid;
-    this.keySequence = Util.checkNotNull(keySequence);
-    Map<String, String> temp = Util.newHashMap();
+    this.keySequence = Preconditions.checkNotNull(keySequence);
+    Map<String, String> temp = Maps.newHashMap();
     temp.putAll(parameters);
     this.parameters = Collections.unmodifiableMap(temp);
   }
@@ -68,7 +70,7 @@ public final class KbaBinding {
    * without requiring a map builder or mutable map.
    */
   public KbaBinding withParam(String id, String value) {
-    Map<String, String> temp = Util.newHashMap();
+    Map<String, String> temp = Maps.newHashMap();
     temp.putAll(parameters);
     temp.put(id, value);
     return new KbaBinding(this.keySequence, this.cid, temp);
@@ -76,7 +78,7 @@ public final class KbaBinding {
 
   @Override
   public int hashCode() {
-    return Util.hashCode(cid, keySequence, parameters);
+    return Objects.hashCode(cid, keySequence, parameters);
   }
 
   @Override

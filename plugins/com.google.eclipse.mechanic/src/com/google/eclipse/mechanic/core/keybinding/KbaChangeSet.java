@@ -11,8 +11,9 @@ package com.google.eclipse.mechanic.core.keybinding;
 
 import java.util.Arrays;
 
+import com.google.common.base.Objects;
+import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
-import com.google.eclipse.mechanic.internal.Util;
 import com.google.gson.annotations.SerializedName;
 
 /**
@@ -41,13 +42,13 @@ final class KbaChangeSet {
       String contextId,
       String action,
       KbaBindingList bindings) {
-    this.schemeId = Util.checkNotNull(schemeId);
+    this.schemeId = Preconditions.checkNotNull(schemeId);
     this.platform = platform;
-    this.contextId = Util.checkNotNull(contextId);
+    this.contextId = Preconditions.checkNotNull(contextId);
     // Use this just to assert that action is a good string
     Action.fromLabel(action);
     this.actionLabel = action;
-    this.bindingList = Util.checkNotNull(bindings);
+    this.bindingList = Preconditions.checkNotNull(bindings);
   }
 
   KbaChangeSet(
@@ -91,7 +92,7 @@ final class KbaChangeSet {
 
   @Override
   public int hashCode() {
-    return Util.hashCode(schemeId, platform, contextId, bindingList);
+    return Objects.hashCode(schemeId, platform, contextId, bindingList);
   }
 
   @Override
@@ -167,7 +168,7 @@ final class KbaChangeSet {
 
     @Override
     public int hashCode() {
-      return Util.hashCode(list);
+      return Objects.hashCode(list);
     }
 
     @Override
