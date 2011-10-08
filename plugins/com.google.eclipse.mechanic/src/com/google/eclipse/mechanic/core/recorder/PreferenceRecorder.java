@@ -12,7 +12,6 @@ package com.google.eclipse.mechanic.core.recorder;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
-import com.google.eclipse.mechanic.internal.Util;
 import com.google.eclipse.mechanic.plugin.core.MechanicPlugin;
 
 import org.eclipse.core.runtime.CoreException;

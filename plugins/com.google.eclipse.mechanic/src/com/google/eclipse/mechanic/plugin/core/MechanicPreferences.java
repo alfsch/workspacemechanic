@@ -34,7 +34,6 @@ import com.google.eclipse.mechanic.internal.FileTaskProvider;
 import com.google.eclipse.mechanic.internal.ResourceTaskProviderParser;
 import com.google.eclipse.mechanic.internal.UriCaches;
 import com.google.eclipse.mechanic.internal.UriTaskProvider;
-import com.google.eclipse.mechanic.internal.Util;
 
 /**
  * Class used to initialize and access various plugin related preference values.

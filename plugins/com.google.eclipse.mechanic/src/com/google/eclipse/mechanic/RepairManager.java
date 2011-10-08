@@ -15,7 +15,6 @@ import java.util.Map;
 import com.google.common.base.Preconditions;
 import com.google.eclipse.mechanic.RepairDecisionProvider.Decision;
 import com.google.eclipse.mechanic.RepairDecisionProvider.ResponseStatus;
-import com.google.eclipse.mechanic.internal.Util;
 import com.google.eclipse.mechanic.plugin.core.MechanicLog;
 import com.google.eclipse.mechanic.plugin.core.MechanicPreferences;
 

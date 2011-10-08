@@ -25,7 +25,6 @@ import org.eclipse.ui.PlatformUI;
 import com.google.common.collect.Lists;
 import com.google.eclipse.mechanic.MechanicService;
 import com.google.eclipse.mechanic.Task;
-import com.google.eclipse.mechanic.internal.Util;
 import com.google.eclipse.mechanic.plugin.core.MechanicPlugin;
 import com.google.eclipse.mechanic.plugin.core.MechanicPreferences;
 
