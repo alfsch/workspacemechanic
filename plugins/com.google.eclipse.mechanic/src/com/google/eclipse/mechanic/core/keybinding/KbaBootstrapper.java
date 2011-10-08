@@ -2,10 +2,13 @@
 
 package com.google.eclipse.mechanic.core.keybinding;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.swt.SWT;
 import org.eclipse.ui.PlatformUI;
@@ -76,11 +79,12 @@ public final class KbaBootstrapper {
     }
   };
 
-  public boolean evaluate() {
-    return doEvaluate(EclBinding.from(Arrays.asList(bindingService.getBindings())));
+  public void evaluate(IPath outputLocation) throws FileNotFoundException, IOException {
+    doEvaluate(EclBinding.from(Arrays.asList(bindingService.getBindings())), outputLocation);
   }
   
-  public boolean doEvaluate(final Iterable<EclBinding> allBindings) {
+  public void doEvaluate(final Iterable<EclBinding> allBindings, IPath outputLocation)
+      throws FileNotFoundException, IOException {
     // Because of the weird way Eclipse stores removed system bindings, we
     // first need to build the entire system bindings map, before we build the
     // user bindings map -- to build the user bindings map, we need an instance
@@ -93,9 +97,7 @@ public final class KbaBootstrapper {
             Iterables.filter(allBindings, ACCEPT_USER_BINDINGS_FILTER),
             log);
     
-    new KeyBindingsManualFormatter(log, userBindings, systemBindings).dumpBindingsToFile();
-
-    return true;
+    new KeyBindingsManualFormatter(userBindings, systemBindings).dumpBindingsToFile(outputLocation);
   }
 
   private static KbaBinding bindingToRemoveKbaBinding(

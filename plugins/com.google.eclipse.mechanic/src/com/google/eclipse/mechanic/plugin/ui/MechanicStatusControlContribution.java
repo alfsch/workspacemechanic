@@ -42,7 +42,6 @@ import com.google.eclipse.mechanic.MechanicService;
 import com.google.eclipse.mechanic.MechanicStatus;
 import com.google.eclipse.mechanic.RepairDecisionProvider;
 import com.google.eclipse.mechanic.StatusChangedEvent;
-import com.google.eclipse.mechanic.core.keybinding.KbaBootstrapper;
 import com.google.eclipse.mechanic.core.recorder.ChangeCollector;
 import com.google.eclipse.mechanic.core.recorder.IPreferenceRecordingService;
 import com.google.eclipse.mechanic.plugin.core.MechanicLog;
@@ -498,7 +497,7 @@ public class MechanicStatusControlContribution extends WorkbenchWindowControlCon
   private final class DumpKeyBindingsAction extends Action {
 
     public DumpKeyBindingsAction() {
-      super("Dump keybindings ...");
+      super("Dump keybindings...");
     }
 
     @Override
@@ -506,7 +505,6 @@ public class MechanicStatusControlContribution extends WorkbenchWindowControlCon
       // Display dialog to get obtain properties of the saved task file
       Shell parentShell = Display.getCurrent().getActiveShell();
       new KeybindingsOutputDialog(parentShell).open();
-      new KbaBootstrapper().evaluate();
     }
   }
 }

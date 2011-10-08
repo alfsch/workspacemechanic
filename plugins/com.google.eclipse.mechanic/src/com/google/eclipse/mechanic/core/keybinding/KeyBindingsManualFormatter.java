@@ -9,20 +9,21 @@
 
 package com.google.eclipse.mechanic.core.keybinding;
 
-import com.google.common.base.Function;
-import com.google.common.base.Joiner;
-import com.google.common.collect.Iterables;
-import com.google.eclipse.mechanic.plugin.core.MechanicLog;
-
-import org.eclipse.core.runtime.IStatus;
-import org.eclipse.jface.bindings.Binding;
-
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.Map;
+
+import org.eclipse.core.runtime.IPath;
+import org.eclipse.jface.bindings.Binding;
+
+import com.google.common.base.Function;
+import com.google.common.base.Joiner;
+import com.google.common.collect.Iterables;
 
 /**
  * Class that formats the keybindings by sweat and tears.
@@ -41,39 +42,22 @@ import java.util.Map;
 class KeyBindingsManualFormatter {
 
   private final boolean debugDumpSystemBindings;
-  private final MechanicLog log;
-  private final File tempDir;
   private final Map<KbaChangeSetQualifier, KbaChangeSet> userBindingsMap;
   private final Map<KbaChangeSetQualifier, KbaChangeSet> systemBindingsMap;
 
   public KeyBindingsManualFormatter(
-      final MechanicLog log,
       final Map<KbaChangeSetQualifier, KbaChangeSet> userBindingsMap,
       final Map<KbaChangeSetQualifier, KbaChangeSet> systemBindingsMap) {
     this(System.getProperty("KEYBOARD_MECHANIC_DEBUG_DUMP_SYSTEM_BINDINGS", "false").equals("true"),
-        log,
-        tempDir(),
         userBindingsMap,
         systemBindingsMap);
-  }
-
-  private static File tempDir() {
-    String dirName = System.getProperty("java.io.tmpdir");
-    File file = new File(dirName, "workspace-mechanic-kbd");
-    file.mkdir();
-    file.deleteOnExit();
-    return file;
   }
   
   public KeyBindingsManualFormatter(
       final boolean debugDumpSystemBindings,
-      final MechanicLog log,
-      final File tempDir,
       final Map<KbaChangeSetQualifier, KbaChangeSet> userBindingsMap,
       final Map<KbaChangeSetQualifier, KbaChangeSet> systemBindingsMap) {
     this.debugDumpSystemBindings = debugDumpSystemBindings;
-    this.log = log;
-    this.tempDir = tempDir;
     this.userBindingsMap = userBindingsMap;
     this.systemBindingsMap = systemBindingsMap;
   }
@@ -99,25 +83,20 @@ class KeyBindingsManualFormatter {
     
   }
 
-  void dumpBindingsToFile() {
+  void dumpBindingsToFile(IPath outputLocation) throws FileNotFoundException, IOException {
     if (debugDumpSystemBindings) {
-      dumpBindingsToFile(BindingType.SYSTEM, systemBindingsMap);
+      dumpBindingsToFile(BindingType.SYSTEM, systemBindingsMap, outputLocation);
     }
-    dumpBindingsToFile(BindingType.USER, userBindingsMap);
+    dumpBindingsToFile(BindingType.USER, userBindingsMap, outputLocation);
   }
 
   
-  private void dumpBindingsToFile(BindingType bindingType, Map<KbaChangeSetQualifier, KbaChangeSet> kbaChangeSet) {
+  private void dumpBindingsToFile(BindingType bindingType, Map<KbaChangeSetQualifier, KbaChangeSet> kbaChangeSet,
+      IPath outputLocation) throws FileNotFoundException, IOException {
     String output = getBindingsPrintout(bindingType, kbaChangeSet);
-    try {
-      File tempFile = new File(tempDir, "CURRENT-" + bindingType + ".kbd");
-      tempFile.deleteOnExit();
-      PrintStream stream = new PrintStream(new FileOutputStream(tempFile));
-      stream.print(output);
-      log.log(IStatus.OK, "Successfully wrote '%s'", tempFile.getAbsolutePath());
-    } catch (Exception e) {
-      log.logError(e);
-    }
+    File file = outputLocation.toFile();
+    PrintStream stream = new PrintStream(new FileOutputStream(file));
+    stream.print(output);
   }
   
   static String getBindingsPrintout(BindingType bindingType, Map<KbaChangeSetQualifier,KbaChangeSet> bindings) {
@@ -156,6 +135,7 @@ class KeyBindingsManualFormatter {
   }
 
   private static CharSequence formatKbaBinding(KbaBinding b) {
+      @SuppressWarnings("unused") // Remove needs to be worked on.
       boolean remove = false;
       StringBuilder toPrint = new StringBuilder()
           .append(i(3))

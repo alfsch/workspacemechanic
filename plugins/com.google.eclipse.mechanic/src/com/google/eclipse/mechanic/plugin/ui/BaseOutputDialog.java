@@ -10,6 +10,9 @@
 package com.google.eclipse.mechanic.plugin.ui;
 
 import java.io.File;
+import java.util.Arrays;
+import java.util.EnumSet;
+import java.util.Set;
 
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
@@ -41,22 +44,38 @@ import com.google.eclipse.mechanic.internal.TaskType;
  */
 public abstract class BaseOutputDialog extends Dialog {
 
+  enum Component {
+    TITLE,
+    DESCRIPTION,
+    TASK_TYPE
+  }
+
   private final String extension;
   private String title = "";
   private String description = "";
-  private String savedFileLocation = "";
   private int taskType;
+  private String savedFileLocation = "";
   private boolean willVerifyOverwrite = true;
+  private Set<Component> components;
 
   /**
    * Create an output dialog for the given shell.
    * 
    * @param parentShell the shell to create this dialog in.
    * @param extension the file type extension.
+   * @param components the set of task parameter components to show.
+   * If empty, show all components.
    */
-  public BaseOutputDialog(Shell parentShell, String extension) {
+  public BaseOutputDialog(Shell parentShell, String extension,
+      Component... components) {
     super(parentShell);
     this.extension = extension;
+    if (components.length == 0) {
+      this.components = EnumSet.allOf(Component.class);
+    } else {
+      this.components = EnumSet.noneOf(Component.class);
+      this.components.addAll(Arrays.asList(components));
+    }
   }
 
   @Override
@@ -91,42 +110,48 @@ public abstract class BaseOutputDialog extends Dialog {
     container.setLayout(layout);
 
     // Add title field
-    Label titleLabel = new Label(container, SWT.BEGINNING);
-    titleLabel.setText("Title:");
-    final Text titleText = new Text(container, SWT.SINGLE | SWT.BORDER);
-    titleText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1));
-    titleText.addModifyListener(new ModifyListener() {
-      public void modifyText(ModifyEvent e) {
-        title = titleText.getText();
-        validate();
-      }
-    });
+    if (components.contains(Component.TITLE)) {
+      Label titleLabel = new Label(container, SWT.BEGINNING);
+      titleLabel.setText("Title:");
+      final Text titleText = new Text(container, SWT.SINGLE | SWT.BORDER);
+      titleText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1));
+      titleText.addModifyListener(new ModifyListener() {
+        public void modifyText(ModifyEvent e) {
+          title = titleText.getText();
+          validate();
+        }
+      });
+    }
 
     // Add description field
-    Label descriptionLabel = new Label(container, SWT.BEGINNING);
-    descriptionLabel.setText("Description:");
-    final Text descriptionText = new Text(container, SWT.SINGLE | SWT.BORDER);
-    descriptionText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1));
-    descriptionText.addModifyListener(new ModifyListener() {
-      public void modifyText(ModifyEvent e) {
-        description = descriptionText.getText();
-        validate();
-      }
-    });
+    if (components.contains(Component.DESCRIPTION)) {
+      Label descriptionLabel = new Label(container, SWT.BEGINNING);
+      descriptionLabel.setText("Description:");
+      final Text descriptionText = new Text(container, SWT.SINGLE | SWT.BORDER);
+      descriptionText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1));
+      descriptionText.addModifyListener(new ModifyListener() {
+        public void modifyText(ModifyEvent e) {
+          description = descriptionText.getText();
+          validate();
+        }
+      });
+    }
 
     // Add task type field
-    Label taskTypeLabel = new Label(container, SWT.BEGINNING);
-    taskTypeLabel.setText("Task Type:");
-    final Combo taskTypeCombo = new Combo(container, SWT.DROP_DOWN | SWT.READ_ONLY);
-    taskTypeCombo.setItems(new String[] {"Last Mod", "Reconcile"});
-    taskTypeCombo.select(0);
-    taskTypeCombo.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, true, false, 2, 1));
-    taskTypeCombo.addModifyListener(new ModifyListener() {
-      public void modifyText(ModifyEvent e) {
-        taskType = taskTypeCombo.getSelectionIndex();
-        validate();
-      }
-    });
+    if (components.contains(Component.TASK_TYPE)) {
+      Label taskTypeLabel = new Label(container, SWT.BEGINNING);
+      taskTypeLabel.setText("Task Type:");
+      final Combo taskTypeCombo = new Combo(container, SWT.DROP_DOWN | SWT.READ_ONLY);
+      taskTypeCombo.setItems(new String[] {"Last Mod", "Reconcile"});
+      taskTypeCombo.select(0);
+      taskTypeCombo.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, true, false, 2, 1));
+      taskTypeCombo.addModifyListener(new ModifyListener() {
+        public void modifyText(ModifyEvent e) {
+          taskType = taskTypeCombo.getSelectionIndex();
+          validate();
+        }
+      });
+    }
 
     // Add saved file location
     Label savedLocationLabel = new Label(container, SWT.BEGINNING);
@@ -177,19 +202,18 @@ public abstract class BaseOutputDialog extends Dialog {
   }
 
   protected void validate() {
-    this.getButton(IDialogConstants.OK_ID).setEnabled(isReady());
+    this.getButton(IDialogConstants.OK_ID).setEnabled(isValid());
   }
 
   /**
    * Return true if the dialog is valid.
-   * TODO rename to isValid.
    */
-  protected boolean isReady() {
-    if (title.isEmpty()) {
+  protected boolean isValid() {
+    if (components.contains(Component.TITLE) && title.isEmpty()) {
       return false;
     }
     
-    if (description.isEmpty()) {
+    if (components.contains(Component.DESCRIPTION) && description.isEmpty()) {
       return false;
     }
     

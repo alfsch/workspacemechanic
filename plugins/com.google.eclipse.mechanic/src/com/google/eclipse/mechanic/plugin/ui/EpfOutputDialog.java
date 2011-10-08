@@ -17,6 +17,7 @@ import java.util.Set;
 
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.jface.dialogs.IDialogConstants;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.layout.TableColumnLayout;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.CheckStateChangedEvent;
@@ -36,6 +37,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 
+import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Sets;
 import com.google.eclipse.mechanic.internal.EpfFileModel;
@@ -188,20 +190,14 @@ public class EpfOutputDialog extends BaseOutputDialog {
   }
 
   @Override
-  protected boolean isReady() {
-    return super.isReady() && !selectedKeys.isEmpty();
+  protected boolean isValid() {
+    return super.isValid() && !selectedKeys.isEmpty();
   }
   
   @Override
   protected void okPressed() {
-    if (!isReady()) {
-      return; // Should never happen, since we disable OK when not ready
-    }
+    Preconditions.checkState(isValid());
 
-    writeEpfFile();
-  }
-
-  private void writeEpfFile() {
     IPath location = getValidOutputLocation();
     if (location == null) {
       return;
@@ -221,6 +217,8 @@ public class EpfOutputDialog extends BaseOutputDialog {
       super.okPressed(); // Closes the dialog and returns an OK result
     } catch (IOException e) {
       MechanicLog.getDefault().logError(e, "Error while writing %s", location);
+      MessageDialog.openError(super.getParentShell(), "Unable to write Preferences file.",
+          e.getMessage());
     }
   }
 
