@@ -45,7 +45,6 @@ import com.google.eclipse.mechanic.StatusChangedEvent;
 import com.google.eclipse.mechanic.core.keybinding.KbaBootstrapper;
 import com.google.eclipse.mechanic.core.recorder.ChangeCollector;
 import com.google.eclipse.mechanic.core.recorder.IPreferenceRecordingService;
-import com.google.eclipse.mechanic.internal.Util;
 import com.google.eclipse.mechanic.plugin.core.MechanicLog;
 import com.google.eclipse.mechanic.plugin.core.MechanicPlugin;
 import com.google.eclipse.mechanic.plugin.core.MechanicPreferences;
@@ -499,7 +498,7 @@ public class MechanicStatusControlContribution extends WorkbenchWindowControlCon
   private final class DumpKeyBindingsAction extends Action {
 
     public DumpKeyBindingsAction() {
-      super("Dump keybindings");
+      super("Dump keybindings ...");
     }
 
     @Override
