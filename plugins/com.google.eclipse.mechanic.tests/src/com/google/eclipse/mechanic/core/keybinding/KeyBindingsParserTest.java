@@ -18,9 +18,9 @@ import junit.framework.TestCase;
 
 import com.google.eclipse.mechanic.core.keybinding.KbaChangeSet;
 import com.google.eclipse.mechanic.core.keybinding.KbaBinding;
-import com.google.eclipse.mechanic.core.keybinding.KeyBindingsAudit;
+import com.google.eclipse.mechanic.core.keybinding.KeyBindingsTask;
 import com.google.eclipse.mechanic.core.keybinding.KeyBindingsParser;
-import com.google.eclipse.mechanic.core.keybinding.KeyBindingsAudit.KbaMetaData;
+import com.google.eclipse.mechanic.core.keybinding.KeyBindingsTask.KbaMetaData;
 import com.google.eclipse.mechanic.internal.TaskType;
 import com.google.eclipse.mechanic.tests.internal.RunAsJUnitTest;
 
@@ -120,28 +120,28 @@ public class KeyBindingsParserTest extends TestCase {
 
   
   public void testNoChangesets() {
-    KeyBindingsAudit actual = KeyBindingsParser.deSerialize(new StringReader(TEST_NO_CHANGESETS));
-    KeyBindingsAudit expected = buildExpected(false, false);
+    KeyBindingsTask actual = KeyBindingsParser.deSerialize(new StringReader(TEST_NO_CHANGESETS));
+    KeyBindingsTask expected = buildExpected(false, false);
 
     assertEquals(expected, actual);
   }
 
   public void testDefault() {
-    KeyBindingsAudit actual = KeyBindingsParser.deSerialize(new StringReader(TEST_JSON));
-    KeyBindingsAudit expected = buildExpected(true, false);
+    KeyBindingsTask actual = KeyBindingsParser.deSerialize(new StringReader(TEST_JSON));
+    KeyBindingsTask expected = buildExpected(true, false);
 
     assertEquals(expected, actual);
   }
 
   public void testFull() {
-    KeyBindingsAudit actual = KeyBindingsParser.deSerialize(new StringReader(TEST_FULL));
-    KeyBindingsAudit expected = buildExpected2();
+    KeyBindingsTask actual = KeyBindingsParser.deSerialize(new StringReader(TEST_FULL));
+    KeyBindingsTask expected = buildExpected2();
 
     assertEquals(expected, actual);
   }
 
   public void testNoPlatform() {
-    KeyBindingsAudit actual = KeyBindingsParser.deSerialize(new StringReader(TEST_NO_PLATFORM));
+    KeyBindingsTask actual = KeyBindingsParser.deSerialize(new StringReader(TEST_NO_PLATFORM));
     // Just want to know this did not throw
   }
 
@@ -157,13 +157,13 @@ public class KeyBindingsParserTest extends TestCase {
     doTestRoundTrip_entry(buildExpected(false, true));
   }
 
-  private void doTestRoundTrip_entry(KeyBindingsAudit task) {
+  private void doTestRoundTrip_entry(KeyBindingsTask task) {
     String json = KeyBindingsParser.serialize(task);
-    KeyBindingsAudit reconstituted = KeyBindingsParser.deSerialize(new StringReader(json));
+    KeyBindingsTask reconstituted = KeyBindingsParser.deSerialize(new StringReader(json));
     assertEquals(task, reconstituted);
   }
 
-  private KeyBindingsAudit buildExpected(boolean hasChangeSets, boolean hasParams) {
+  private KeyBindingsTask buildExpected(boolean hasChangeSets, boolean hasParams) {
     KbaMetaData metadata = new KbaMetaData(
         "Zorzella's bindings in the real world",
         TaskType.LASTMOD
@@ -173,11 +173,11 @@ public class KeyBindingsParserTest extends TestCase {
       changeSets.add(buildExpectedChangeSetZero());
       changeSets.add(buildExpectedChangeSetOne(hasParams));
     }
-    KeyBindingsAudit result = new KeyBindingsAudit(changeSets, metadata);
+    KeyBindingsTask result = new KeyBindingsTask(changeSets, metadata);
     return result;
   }
 
-  private KeyBindingsAudit buildExpected2() {
+  private KeyBindingsTask buildExpected2() {
     KbaMetaData metadata = new KbaMetaData(
         "Zorzella's bindings in the real world",
         TaskType.LASTMOD
@@ -185,7 +185,7 @@ public class KeyBindingsParserTest extends TestCase {
     List<KbaChangeSet> changeSets = new ArrayList<KbaChangeSet>();
     changeSets.add(buildExpectedChangeSetZero());
     changeSets.add(buildExpectedChangeSetTwo(true));
-    KeyBindingsAudit result = new KeyBindingsAudit(changeSets, metadata);
+    KeyBindingsTask result = new KeyBindingsTask(changeSets, metadata);
     return result;
   }
 

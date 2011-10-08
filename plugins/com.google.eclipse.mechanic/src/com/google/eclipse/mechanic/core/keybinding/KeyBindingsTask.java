@@ -21,7 +21,7 @@ import com.google.eclipse.mechanic.internal.TaskType;
 import com.google.gson.annotations.SerializedName;
 
 /**
- * A java representation of a .kbd audit, abbreviated as KBA.
+ * A java representation of a .kbd task, abbreviated as KBA.
  *
  * <p>This, in disk, is represented as a JSON string.
  * 
@@ -30,14 +30,14 @@ import com.google.gson.annotations.SerializedName;
  *
  * @author zorzella@google.com
  */
-class KeyBindingsAudit {
+class KeyBindingsTask {
 
   @SerializedName(KeyBindingsParser.METADATA_JSON_KEY)
   private final KbaMetaData kbaMetadata;
   @SerializedName(KeyBindingsParser.CHANGE_SETS_JSON_KEY)
   private final ImmutableList<KbaChangeSet> kbaChangeSetList;
 
-  public KeyBindingsAudit(List<KbaChangeSet> changeSetList, KbaMetaData metadata) {
+  public KeyBindingsTask(List<KbaChangeSet> changeSetList, KbaMetaData metadata) {
     this.kbaChangeSetList = filteredChangeSetList(changeSetList);
     this.kbaMetadata = metadata;
   }
@@ -83,10 +83,10 @@ class KeyBindingsAudit {
 
   @Override
   public boolean equals(Object obj) {
-    if (!(obj instanceof KeyBindingsAudit)) {
+    if (!(obj instanceof KeyBindingsTask)) {
       return false;
     }
-    KeyBindingsAudit that = (KeyBindingsAudit)obj;
+    KeyBindingsTask that = (KeyBindingsTask)obj;
     return
       this.kbaChangeSetList.equals(that.kbaChangeSetList)
         &&

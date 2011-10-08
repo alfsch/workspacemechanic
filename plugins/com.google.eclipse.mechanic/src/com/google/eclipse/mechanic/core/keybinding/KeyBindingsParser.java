@@ -17,7 +17,7 @@ import java.util.Map.Entry;
 
 import com.google.common.collect.Lists;
 import com.google.eclipse.mechanic.core.keybinding.KbaChangeSet.KbaBindingList;
-import com.google.eclipse.mechanic.core.keybinding.KeyBindingsAudit.KbaMetaData;
+import com.google.eclipse.mechanic.core.keybinding.KeyBindingsTask.KbaMetaData;
 import com.google.eclipse.mechanic.internal.TaskType;
 import com.google.eclipse.mechanic.internal.Util;
 import com.google.gson.Gson;
@@ -95,17 +95,17 @@ class KeyBindingsParser {
   private static final Gson GSON = new GsonBuilder()
       .setPrettyPrinting()
       .registerTypeAdapter(KbaMetaData.class, new KbaMetaDataAdapter())
-      .registerTypeAdapter(KeyBindingsAudit.class, new KeyBindingsAuditAdapter())
+      .registerTypeAdapter(KeyBindingsTask.class, new KeyBindingsAuditAdapter())
       .registerTypeAdapter(KbaChangeSet.class, new KbaChangeSetAdapter())
       .registerTypeAdapter(KbaChangeSet.KbaBindingList.class, new KbaBindingListAdapter())
       .create();
 
-  public static String serialize(KeyBindingsAudit model) {
+  public static String serialize(KeyBindingsTask model) {
     return GSON.toJson(model);
   }
 
-  public static KeyBindingsAudit deSerialize(Reader reader) {
-    return GSON.fromJson(reader, KeyBindingsAudit.class);
+  public static KeyBindingsTask deSerialize(Reader reader) {
+    return GSON.fromJson(reader, KeyBindingsTask.class);
   }
 
   private static final class TypeTokens {
@@ -131,9 +131,9 @@ class KeyBindingsParser {
   }
 
   private static class KeyBindingsAuditAdapter
-      implements JsonDeserializer<KeyBindingsAudit> {
+      implements JsonDeserializer<KeyBindingsTask> {
 
-    public KeyBindingsAudit deserialize(JsonElement json, Type typeOfT,
+    public KeyBindingsTask deserialize(JsonElement json, Type typeOfT,
         JsonDeserializationContext context) throws JsonParseException {
       JsonObject jo = json.getAsJsonObject();
 
@@ -144,7 +144,7 @@ class KeyBindingsParser {
       // This allows for a trailing comma in the changeSet
       changeSets.remove(null);
       
-      return new KeyBindingsAudit(
+      return new KeyBindingsTask(
           changeSets,
           (KbaMetaData) context.deserialize(jo.get(METADATA_JSON_KEY), TypeTokens.KBA_META_DATA_TYPE_TOKEN));
     }
