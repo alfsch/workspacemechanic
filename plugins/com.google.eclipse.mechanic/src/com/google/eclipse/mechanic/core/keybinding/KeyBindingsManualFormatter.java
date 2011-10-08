@@ -34,10 +34,10 @@ import com.google.eclipse.mechanic.internal.TaskType;
  * meant to be read by a person, is carefully tinkered with to be readable.
  *
  * <p>The usage for this class is the following: 1. user creates a few
- * keybindings through the regular Eclipse UI; 2. user wants to create an audit
+ * keybindings through the regular Eclipse UI; 2. user wants to create a task
  * based on these bindings; 3. user triggers this code (still TODO) which spits
  * out a file for him/her to bootstrap. This will be the canonical, documented
- * and simplest way to create a .kbd audit file.
+ * and simplest way to create a .kbd task file.
  *
  * @author zorzella@google.com
  */

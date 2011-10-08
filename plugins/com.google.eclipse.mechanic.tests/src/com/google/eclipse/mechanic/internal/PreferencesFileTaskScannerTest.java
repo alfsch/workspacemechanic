@@ -36,7 +36,7 @@ public class PreferencesFileTaskScannerTest extends TestCase {
   private static final String LASTMOD_EPF = join(
       "# @title Import stuff.",
       "# @description I'm a lastmod import.",
-      "# @audit_type LASTMOD",
+      "# @task_type LASTMOD",
       "file_export_version=3.0",
       "# misc ui settings",
       "/instance/org.eclipse.ui/SHOW_TEXT_ON_PERSPECTIVE_BAR=false",
@@ -45,7 +45,7 @@ public class PreferencesFileTaskScannerTest extends TestCase {
   private static final String RECONCILER_EPF = join(
       "# @title I'm a reconciler task.",
       "# @description Reconciles some stuff...",
-      "# @audit_type RECONCILE",
+      "# @audit_type RECONCILE", // Leaving audit_type for historical purposes.
       "file_export_version=3.0",
       "# misc ui settings",
       "/instance/org.eclipse.ui/SHOW_TEXT_ON_PERSPECTIVE_BAR=false",
@@ -111,7 +111,7 @@ public class PreferencesFileTaskScannerTest extends TestCase {
   /*
   # @title Import stuff.
   # @description I'm a lastmod import.
-  # @audit_type LASTMOD
+  # @task_type LASTMOD
   */
   public void testHeaderParsing_lastmod() throws Exception {
     in = getInputStream(LASTMOD_EPF);
@@ -125,7 +125,7 @@ public class PreferencesFileTaskScannerTest extends TestCase {
   /*
   # @title I'm a reconciler task.
   # @description Reconciles some stuff...
-  # @audit_type RECONCILE
+  # @task_type RECONCILE
   */
   public void testHeaderParsing_reconciler() throws Exception {
     in = getInputStream(RECONCILER_EPF);

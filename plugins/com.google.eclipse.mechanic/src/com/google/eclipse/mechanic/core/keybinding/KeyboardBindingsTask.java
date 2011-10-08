@@ -9,17 +9,8 @@
 
 package com.google.eclipse.mechanic.core.keybinding;
 
-import com.google.common.base.Function;
-import com.google.common.base.Joiner;
-import com.google.common.base.Objects;
-import com.google.common.base.Preconditions;
-import com.google.common.collect.Iterables;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
-import com.google.eclipse.mechanic.CompositeTask;
-import com.google.eclipse.mechanic.core.keybinding.KbaChangeSet.Action;
-import com.google.eclipse.mechanic.internal.Util;
-import com.google.eclipse.mechanic.plugin.core.MechanicLog;
+import java.io.IOException;
+import java.util.Set;
 
 import org.eclipse.core.commands.Command;
 import org.eclipse.core.commands.ParameterizedCommand;
@@ -34,11 +25,19 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.commands.ICommandService;
 import org.eclipse.ui.keys.IBindingService;
 
-import java.io.IOException;
-import java.util.Set;
+import com.google.common.base.Function;
+import com.google.common.base.Joiner;
+import com.google.common.base.Objects;
+import com.google.common.base.Preconditions;
+import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
+import com.google.eclipse.mechanic.CompositeTask;
+import com.google.eclipse.mechanic.core.keybinding.KbaChangeSet.Action;
+import com.google.eclipse.mechanic.plugin.core.MechanicLog;
 
 /**
- * Configures keyboard preferences for an audit.
+ * Configures keyboard preferences for a task.
  *
  * @author zorzella@google.com
  * @author konigsberg@google.com
@@ -55,15 +54,15 @@ class KeyboardBindingsTask extends CompositeTask {
   private final IWorkbench workbench;
   private final ICommandService commandService;
   private final IBindingService bindingService;
-  private final KeyBindingsTask audit;
+  private final KeyBindingsTask task;
 
-  public KeyboardBindingsTask(KeyBindingsTask audit) {
+  public KeyboardBindingsTask(KeyBindingsTask task) {
     this(
         MechanicLog.getDefault(),
         PlatformUI.getWorkbench(),
         (ICommandService) PlatformUI.getWorkbench().getService(ICommandService.class),
         (IBindingService) PlatformUI.getWorkbench().getService(IBindingService.class),
-        audit);
+        task);
   }
   
   KeyboardBindingsTask(
@@ -71,12 +70,12 @@ class KeyboardBindingsTask extends CompositeTask {
       IWorkbench workbench,
       ICommandService commandService,
       IBindingService bindingService,
-      KeyBindingsTask audit) {
+      KeyBindingsTask task) {
     this.log = log;
     this.workbench = workbench;
     this.commandService = commandService;
     this.bindingService = bindingService;
-    this.audit = Preconditions.checkNotNull(audit);
+    this.task = Preconditions.checkNotNull(task);
   }
 
   public String getDescription() {
@@ -119,7 +118,7 @@ class KeyboardBindingsTask extends CompositeTask {
   
   private Set<String> calculateReadableAddedBindings(Action action) {
     Set<String> result = Sets.newHashSet();
-    for(KbaChangeSet changeSet : audit.getKeyBindingsChangeSetsWith(action)) {
+    for(KbaChangeSet changeSet : task.getKeyBindingsChangeSetsWith(action)) {
       result.addAll(Lists.newArrayList(
           Iterables.transform(doEvaluate(changeSet).keyBindings.addedBindings, bindingToReadableStringTransformFunction)));
       result.addAll(Lists.newArrayList(
@@ -129,14 +128,14 @@ class KeyboardBindingsTask extends CompositeTask {
   }
 
   public String getTitle() {
-    return "Keyboard binding fixes: " + this.audit.getMetadata().description;
+    return "Keyboard binding fixes: " + this.task.getMetadata().description;
   }
 
   public boolean evaluate() {
     boolean dirty = false;
     // If "dirty" is set to true, it means we made some modification that
     // we still need to persist.
-    for(KbaChangeSet changeSet : audit.getKeyBindingsChangeSets()) {
+    for(KbaChangeSet changeSet : task.getKeyBindingsChangeSets()) {
       dirty = dirty || doEvaluate(changeSet).keyBindings.isDirty();
     }
     
@@ -251,7 +250,7 @@ class KeyboardBindingsTask extends CompositeTask {
   }
 
   public void run() {
-    for(KbaChangeSet changeSet : audit.getKeyBindingsChangeSets()) {
+    for(KbaChangeSet changeSet : task.getKeyBindingsChangeSets()) {
       final EvaluationResult result = doEvaluate(changeSet);
       // If there was any modification, persist it
       if (result.keyBindings.isDirty()) {
@@ -274,16 +273,16 @@ class KeyboardBindingsTask extends CompositeTask {
       return false;
     }
     KeyboardBindingsTask that = (KeyboardBindingsTask)obj;
-    return Objects.equal(this.audit, that.audit);
+    return Objects.equal(this.task, that.task);
   }
   
   @Override
   public int hashCode() {
-    return Objects.hashCode(this.audit);
+    return Objects.hashCode(this.task);
   }
 
   @Override
   public String toString() {
-    return audit.toString();
+    return task.toString();
   }
 }

@@ -68,7 +68,7 @@ public class EpfFileModelWriterTest extends TestCase {
   private void assertBasics(String actual) {
     assertLine("# @title TiTlE", actual);
     assertLine("# @description DeScRiPtIoN", actual);
-    assertLine("# @audit_type RECONCILE", actual);
+    assertLine("# @task_type RECONCILE", actual);
     assertLine("# Created by the Workspace Mechanic Preference Recorder", actual);
     assertLine("file_export_version=3.0", actual);
   }
