@@ -54,15 +54,15 @@ class KeyboardBindingsTask extends CompositeTask {
   private final IWorkbench workbench;
   private final ICommandService commandService;
   private final IBindingService bindingService;
-  private final KeyBindingsModel task;
+  private final KeyBindingsModel model;
 
-  public KeyboardBindingsTask(KeyBindingsModel task) {
+  public KeyboardBindingsTask(KeyBindingsModel model) {
     this(
         MechanicLog.getDefault(),
         PlatformUI.getWorkbench(),
         (ICommandService) PlatformUI.getWorkbench().getService(ICommandService.class),
         (IBindingService) PlatformUI.getWorkbench().getService(IBindingService.class),
-        task);
+        model);
   }
   
   KeyboardBindingsTask(
@@ -70,12 +70,12 @@ class KeyboardBindingsTask extends CompositeTask {
       IWorkbench workbench,
       ICommandService commandService,
       IBindingService bindingService,
-      KeyBindingsModel task) {
+      KeyBindingsModel model) {
     this.log = log;
     this.workbench = workbench;
     this.commandService = commandService;
     this.bindingService = bindingService;
-    this.task = Preconditions.checkNotNull(task);
+    this.model = Preconditions.checkNotNull(model);
   }
 
   public String getDescription() {
@@ -118,7 +118,7 @@ class KeyboardBindingsTask extends CompositeTask {
   
   private Set<String> calculateReadableAddedBindings(Action action) {
     Set<String> result = Sets.newHashSet();
-    for(KbaChangeSet changeSet : task.getKeyBindingsChangeSetsWith(action)) {
+    for(KbaChangeSet changeSet : model.getKeyBindingsChangeSetsWith(action)) {
       result.addAll(Lists.newArrayList(
           Iterables.transform(doEvaluate(changeSet).keyBindings.addedBindings, bindingToReadableStringTransformFunction)));
       result.addAll(Lists.newArrayList(
@@ -128,14 +128,14 @@ class KeyboardBindingsTask extends CompositeTask {
   }
 
   public String getTitle() {
-    return "Keyboard binding fixes: " + this.task.getMetadata().description;
+    return "Keyboard binding fixes: " + this.model.getMetadata().description;
   }
 
   public boolean evaluate() {
     boolean dirty = false;
     // If "dirty" is set to true, it means we made some modification that
     // we still need to persist.
-    for(KbaChangeSet changeSet : task.getKeyBindingsChangeSets()) {
+    for(KbaChangeSet changeSet : model.getKeyBindingsChangeSets()) {
       dirty = dirty || doEvaluate(changeSet).keyBindings.isDirty();
     }
     
@@ -250,7 +250,7 @@ class KeyboardBindingsTask extends CompositeTask {
   }
 
   public void run() {
-    for(KbaChangeSet changeSet : task.getKeyBindingsChangeSets()) {
+    for(KbaChangeSet changeSet : model.getKeyBindingsChangeSets()) {
       final EvaluationResult result = doEvaluate(changeSet);
       // If there was any modification, persist it
       if (result.keyBindings.isDirty()) {
@@ -273,16 +273,16 @@ class KeyboardBindingsTask extends CompositeTask {
       return false;
     }
     KeyboardBindingsTask that = (KeyboardBindingsTask)obj;
-    return Objects.equal(this.task, that.task);
+    return Objects.equal(this.model, that.model);
   }
   
   @Override
   public int hashCode() {
-    return Objects.hashCode(this.task);
+    return Objects.hashCode(this.model);
   }
 
   @Override
   public String toString() {
-    return task.toString();
+    return model.toString();
   }
 }
