@@ -35,11 +35,5 @@ public class KeybindingsOutputDialog extends BaseOutputDialog {
     if (!isReady()) {
       return; // Should never happen, since we disable OK when not ready
     }
-
-    writeEpfFile();
-  }
-
-  private void writeEpfFile() {
-    
   }
 }
