@@ -29,7 +29,7 @@ public class KeybindingsOutputDialog extends BaseOutputDialog {
    * @param parentShell the shell to create this dialog in.
    */
   public KeybindingsOutputDialog(Shell parentShell) {
-    super(parentShell, "kbd");
+    super(parentShell, "kbd", Component.DESCRIPTION, Component.TASK_TYPE);
   }
 
   @Override
@@ -48,7 +48,7 @@ public class KeybindingsOutputDialog extends BaseOutputDialog {
     }
 
     try {
-      new KbaBootstrapper().evaluate(location);
+      new KbaBootstrapper().evaluate(location, getDescription(), getTaskType());
       super.okPressed(); // Closes the dialog and returns an OK result
     } catch (IOException e) {
       MechanicLog.getDefault().logError(e, "Error while writing %s", location);

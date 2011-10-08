@@ -23,7 +23,9 @@ import org.eclipse.jface.bindings.Binding;
 
 import com.google.common.base.Function;
 import com.google.common.base.Joiner;
+import com.google.common.base.Preconditions;
 import com.google.common.collect.Iterables;
+import com.google.eclipse.mechanic.internal.TaskType;
 
 /**
  * Class that formats the keybindings by sweat and tears.
@@ -83,28 +85,39 @@ class KeyBindingsManualFormatter {
     
   }
 
-  void dumpBindingsToFile(IPath outputLocation) throws FileNotFoundException, IOException {
+  void dumpBindingsToFile(IPath outputLocation, String description, TaskType taskType)
+      throws FileNotFoundException, IOException {
     if (debugDumpSystemBindings) {
-      dumpBindingsToFile(BindingType.SYSTEM, systemBindingsMap, outputLocation);
+      dumpBindingsToFile(BindingType.SYSTEM, systemBindingsMap, outputLocation,
+          description, taskType);
     }
-    dumpBindingsToFile(BindingType.USER, userBindingsMap, outputLocation);
+    dumpBindingsToFile(BindingType.USER, userBindingsMap, outputLocation,
+        description, taskType);
   }
 
   
-  private void dumpBindingsToFile(BindingType bindingType, Map<KbaChangeSetQualifier, KbaChangeSet> kbaChangeSet,
-      IPath outputLocation) throws FileNotFoundException, IOException {
-    String output = getBindingsPrintout(bindingType, kbaChangeSet);
+  private void dumpBindingsToFile(
+      BindingType bindingType,
+      Map<KbaChangeSetQualifier,
+      KbaChangeSet> kbaChangeSet,
+      IPath outputLocation,
+      String description,
+      TaskType taskType) throws FileNotFoundException, IOException {
+    String output = getBindingsPrintout(bindingType, kbaChangeSet, description, taskType);
     File file = outputLocation.toFile();
     PrintStream stream = new PrintStream(new FileOutputStream(file));
     stream.print(output);
   }
   
-  static String getBindingsPrintout(BindingType bindingType, Map<KbaChangeSetQualifier,KbaChangeSet> bindings) {
+  static String getBindingsPrintout(BindingType bindingType, Map<KbaChangeSetQualifier,KbaChangeSet> bindings,
+      String description, TaskType taskType) {
+    Preconditions.checkNotNull(description);
+    Preconditions.checkNotNull(taskType);
     StringBuilder output = new StringBuilder()
         .append("{\n")
         .append(i(1)).append(quote(KeyBindingsParser.METADATA_JSON_KEY)).append(" : {\n")
-        .append(i(2)).append(kvcn(KeyBindingsParser.DESCRIPTION_JSON_KEY, "Put a description here"))
-        .append(i(2)).append(kvn(KeyBindingsParser.TYPE_JSON_KEY, "LASTMOD"))
+        .append(i(2)).append(kvcn(KeyBindingsParser.DESCRIPTION_JSON_KEY, description))
+        .append(i(2)).append(kvn(KeyBindingsParser.TYPE_JSON_KEY, taskType.toString()))
         .append(i(1)).append("},\n")
         .append(i(1)).append(quote(KeyBindingsParser.CHANGE_SETS_JSON_KEY)).append(" : [\n");
     for (KbaChangeSetQualifier q : bindings.keySet()) {
