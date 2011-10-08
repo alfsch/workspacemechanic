@@ -13,6 +13,8 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Plugin;
 import org.eclipse.core.runtime.Status;
 
+import com.google.common.base.Preconditions;
+
 /**
  * Abstraction on top of {@link ILog}.
  */
@@ -36,7 +38,7 @@ public class MechanicLog {
   }
 
   public MechanicLog(ILog log) {
-    this.log = log;
+    this.log = Preconditions.checkNotNull(log);
   }
 
   /**
