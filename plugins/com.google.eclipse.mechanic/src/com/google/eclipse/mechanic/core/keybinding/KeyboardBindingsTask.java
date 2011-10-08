@@ -128,7 +128,7 @@ class KeyboardBindingsTask extends CompositeTask {
   }
 
   public String getTitle() {
-    return "Keyboard binding fixes: " + this.model.getMetadata().description;
+    return "Keyboard binding fixes: " + this.model.getMetadata().getDescription();
   }
 
   public boolean evaluate() {

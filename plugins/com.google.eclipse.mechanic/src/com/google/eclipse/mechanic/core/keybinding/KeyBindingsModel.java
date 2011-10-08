@@ -102,8 +102,9 @@ class KeyBindingsModel {
 
   public static final class KbaMetaData {
 
-    final String description;
+    private final String description;
     // TODO(zorzella): should this always be reconcile?
+    // NOTE(konigsberg): This was LASTMOD in KeyBindingsManualFormatter. So, that's something.
     private final TaskType type;
 
     public KbaMetaData(String description, TaskType type) {
@@ -133,6 +134,14 @@ class KeyBindingsModel {
       return String.format(
           "description: %s, type: %s",
           this.description, this.type);
+    }
+
+    public String getDescription() {
+      return description;
+    }
+
+    public TaskType getType() {
+      return type;
     }
   }
 }
