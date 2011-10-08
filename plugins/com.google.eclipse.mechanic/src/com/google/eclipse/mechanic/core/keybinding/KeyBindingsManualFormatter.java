@@ -25,6 +25,7 @@ import com.google.common.base.Function;
 import com.google.common.base.Joiner;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Iterables;
+import com.google.common.io.Closeables;
 import com.google.eclipse.mechanic.internal.TaskType;
 
 /**
@@ -105,8 +106,13 @@ class KeyBindingsManualFormatter {
       TaskType taskType) throws FileNotFoundException, IOException {
     String output = getBindingsPrintout(bindingType, kbaChangeSet, description, taskType);
     File file = outputLocation.toFile();
-    PrintStream stream = new PrintStream(new FileOutputStream(file));
-    stream.print(output);
+    PrintStream stream = null;
+    try {
+      stream = new PrintStream(new FileOutputStream(file));
+      stream.print(output);
+    } finally {
+      Closeables.closeQuietly(stream);
+    }
   }
   
   static String getBindingsPrintout(BindingType bindingType, Map<KbaChangeSetQualifier,KbaChangeSet> bindings,

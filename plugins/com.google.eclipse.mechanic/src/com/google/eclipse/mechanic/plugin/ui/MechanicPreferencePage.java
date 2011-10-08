@@ -216,7 +216,7 @@ public class MechanicPreferencePage extends FieldEditorPreferencePage
   /**
    * Exposes the checkbox.
    */
-  class BooleanEditor extends BooleanFieldEditor {
+  static class BooleanEditor extends BooleanFieldEditor {
 
     private final Composite parent;
 

@@ -23,8 +23,6 @@ import com.google.eclipse.mechanic.plugin.ui.PopupNotifier;
 /**
  * Controls the plug-in life cycle, and provides access to convenient stuff
  * like a logger and plugin preferences.
- *
- * @author smckay@google.com (Steve McKay)
  */
 public class MechanicPlugin extends AbstractUIPlugin {
 

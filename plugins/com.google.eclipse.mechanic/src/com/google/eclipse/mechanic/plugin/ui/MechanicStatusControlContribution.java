@@ -473,7 +473,7 @@ public class MechanicStatusControlContribution extends WorkbenchWindowControlCon
   /**
    * Action that displays all existing tasks.
    */
-  private final class ShowAllTasksAction extends Action {
+  private static final class ShowAllTasksAction extends Action {
 
     public ShowAllTasksAction() {
       setText("Show all tasks");
@@ -494,7 +494,7 @@ public class MechanicStatusControlContribution extends WorkbenchWindowControlCon
   /**
    * Action that dumps the existing keybindings to an export file.
    */
-  private final class DumpKeyBindingsAction extends Action {
+  private static final class DumpKeyBindingsAction extends Action {
 
     public DumpKeyBindingsAction() {
       super("Dump keybindings...");

@@ -30,7 +30,6 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.eclipse.mechanic.internal.RootTaskScanner;
-import com.google.eclipse.mechanic.internal.Util;
 import com.google.eclipse.mechanic.plugin.core.MechanicLog;
 import com.google.eclipse.mechanic.plugin.core.MechanicPreferences;
 
@@ -360,7 +359,7 @@ public final class MechanicService implements IMechanicService {
    * Job instance providing periodic execution of our service and other
    * job control gizmos.
    */
-  private class ServiceJob extends Job {
+  private static class ServiceJob extends Job {
 
     public ServiceJob() {
       super("Workspace Mechanic");
@@ -410,8 +409,8 @@ public final class MechanicService implements IMechanicService {
   /**
    * Wakes up the service when a preferences change is received.
    */
-  @SuppressWarnings("deprecation")
-  private class PreferenceChangeListener implements IPropertyChangeListener {
+  @SuppressWarnings("deprecation") // for IPropertyChangeListener and PropertyChangeEvent
+  private static class PreferenceChangeListener implements IPropertyChangeListener {
     public void propertyChange(PropertyChangeEvent event) {
       // if the service is stopped, we don't do anything.
       if (!MechanicService.getInstance().isStopped()) {
