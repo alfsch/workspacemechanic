@@ -21,7 +21,7 @@ import com.google.eclipse.mechanic.plugin.core.MechanicLog;
 import com.google.eclipse.mechanic.testing.EmptyLog;
 
 /**
- * @author zorzella
+ * Tests for {@link RootTaskScanner}
  */
 public class RootTaskScannerTest {
 
