@@ -9,7 +9,6 @@
 
 package com.google.eclipse.mechanic.internal;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -31,27 +30,6 @@ public final class Util {
 
   // no instantiation
   private Util() {}
-
-  /**
-   * Reads everything from an InputStream into a byte array.
-   * Does not close the input stream.
-   *
-   * @param in The input stream to consume. Must not be null.
-   * @return A new byte array containing all the bytes from the stream.
-   */
-  public static byte[] readAll(InputStream in) throws IOException {
-    return readToEOF(in);
-  }
-
-  /**
-   * Reads everything from src and returns it as an array of bytes.
-   * @return all of the data read from 'src'. Will not be null.
-   */
-  public static byte[] readToEOF(InputStream src) throws IOException {
-    ByteArrayOutputStream content = new ByteArrayOutputStream(BUF_SIZE);
-    copyStream(src, content);
-    return content.toByteArray();
-  }
 
   /**
    * Reads everything from src and writes it all to dest.
@@ -86,19 +64,5 @@ public final class Util {
       value = value.replace("\\\"", "\"");
     }
     return value;
-  }
-
-  /**
-   * Given an InputStream, return its contents as a byte array.
-   */
-  public static byte[] getBytes(InputStream is) throws IOException {
-    ByteArrayOutputStream os = new ByteArrayOutputStream();
-    int count;
-    byte[] data = new byte[8192];
-    while ((count = is.read(data, 0, data.length)) != -1) {
-      os.write(data, 0, count);
-    }
-    os.flush();
-    return os.toByteArray();
   }
 }

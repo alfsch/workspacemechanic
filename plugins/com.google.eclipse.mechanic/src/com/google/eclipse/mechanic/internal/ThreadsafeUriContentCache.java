@@ -20,6 +20,7 @@ import java.util.concurrent.FutureTask;
 import java.util.concurrent.TimeUnit;
 
 import com.google.common.base.Preconditions;
+import com.google.common.io.ByteStreams;
 
 /**
  * Stores content from URIs to prevent re-scanning for the same content.
@@ -50,7 +51,7 @@ public final class ThreadsafeUriContentCache implements IUriContentProvider {
     }
     FutureTask<byte[]> future = new FutureTask<byte[]>(new Callable<byte[]>() {
       public byte[] call() throws IOException {
-        return Util.getBytes(delegate.get(uri));
+        return ByteStreams.toByteArray(delegate.get(uri));
       }
     });
 

@@ -16,6 +16,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.google.common.collect.Lists;
+import com.google.common.io.ByteStreams;
 import com.google.eclipse.mechanic.DirectoryIteratingTaskScanner;
 import com.google.eclipse.mechanic.IResourceTaskProvider;
 import com.google.eclipse.mechanic.IResourceTaskReference;
@@ -175,7 +176,7 @@ public final class ClassFileTaskScanner extends DirectoryIteratingTaskScanner {
 
         // slurp up the bytes of the class file
         InputStream in = taskRef.newInputStream();
-        byte[] bytes = Util.readAll(in);
+        byte[] bytes = ByteStreams.toByteArray(in);
 
         // define the new class using ClassLoaders support methods
         Class<?> clazz = defineClass(name, bytes, 0, bytes.length);
