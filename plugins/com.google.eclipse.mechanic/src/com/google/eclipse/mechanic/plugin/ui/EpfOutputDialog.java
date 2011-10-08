@@ -9,19 +9,14 @@
 
 package com.google.eclipse.mechanic.plugin.ui;
 
-import java.io.File;
 import java.io.IOException;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.core.runtime.IPath;
-import org.eclipse.core.runtime.Path;
-import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
-import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.layout.TableColumnLayout;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.CheckStateChangedEvent;
@@ -32,37 +27,25 @@ import org.eclipse.jface.viewers.ITableColorProvider;
 import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.ModifyEvent;
-import org.eclipse.swt.events.ModifyListener;
-import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
-import org.eclipse.swt.widgets.Text;
 
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Sets;
 import com.google.eclipse.mechanic.internal.EpfFileModel;
 import com.google.eclipse.mechanic.internal.EpfFileModelWriter;
-import com.google.eclipse.mechanic.internal.TaskType;
 import com.google.eclipse.mechanic.plugin.core.MechanicLog;
 
 /**
  * The dialog to obtain properties for outputting an EPF file.
- * 
- * @author brianchin@google.com (Brian Chin)
  */
-public class EpfOutputDialog extends Dialog {
+public class EpfOutputDialog extends BaseOutputDialog {
 
   /**
    * Provides labels and colors for cells to the saved preferences table. Handles
@@ -105,15 +88,9 @@ public class EpfOutputDialog extends Dialog {
     }
   }
 
-  // TODO(konigsberg): Make ImmutableList
-  private final Map<String, String> preferences;
-  private String title = "";
-  private String description = "";
-  private String savedFileLocation = "";
-  private int taskType;
+  private final ImmutableMap<String, String> preferences;
   private ITableLabelProvider labelProvider = new EPFOutputLabelProvider();
   private Set<String> selectedKeys;
-  private boolean willVerifyOverwrite = true;
   private CheckboxTableViewer acceptedPreferences;
 
   /**
@@ -125,32 +102,17 @@ public class EpfOutputDialog extends Dialog {
    *        export.
    */
   public EpfOutputDialog(Shell parentShell, Map<String, String> preferences) {
-    super(parentShell);
-    this.preferences = Collections.unmodifiableMap(preferences);
-    this.selectedKeys = new HashSet<String>(preferences.keySet());
+    super(parentShell, "epf");
+    this.preferences = ImmutableMap.copyOf(preferences);
+    this.selectedKeys = Sets.newHashSet(preferences.keySet());
   }
 
-  @Override
-  protected boolean isResizable() {
-    return true;
-  }
-  
-  @Override
-  protected Point getInitialSize() {
-    Point p =  super.getInitialSize();
-    return new Point(p.x, p.y * 3 / 2);
-  }
-  
   @Override
   protected void createButtonsForButtonBar(Composite parent) {
     createButton(parent, IDialogConstants.SELECT_ALL_ID, "Select All", false);
     createButton(parent, IDialogConstants.DESELECT_ALL_ID, "Deselect All", false);
 
     super.createButtonsForButtonBar(parent);
-
-    // Initial values for the dialog aren't valid, so set the button to 
-    // be disabled initially
-    getButton(IDialogConstants.OK_ID).setEnabled(false); 
   }
 
   
@@ -177,95 +139,13 @@ public class EpfOutputDialog extends Dialog {
   }
 
   @Override
-  protected Control createDialogArea(Composite parent) {
-    final Composite container = (Composite) super.createDialogArea(parent);
-    GridLayout layout = new GridLayout(3, false);
-    container.setLayout(layout);
-
-    // Add title field
-    Label titleLabel = new Label(container, SWT.BEGINNING);
-    titleLabel.setText("Title:");
-    final Text titleText = new Text(container, SWT.SINGLE | SWT.BORDER);
-    titleText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1));
-    titleText.addModifyListener(new ModifyListener() {
-      public void modifyText(ModifyEvent e) {
-        title = titleText.getText();
-        validate();
-      }
-    });
-
-    // Add description field
-    Label descriptionLabel = new Label(container, SWT.BEGINNING);
-    descriptionLabel.setText("Description:");
-    final Text descriptionText = new Text(container, SWT.SINGLE | SWT.BORDER);
-    descriptionText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1));
-    descriptionText.addModifyListener(new ModifyListener() {
-      public void modifyText(ModifyEvent e) {
-        description = descriptionText.getText();
-        validate();
-      }
-    });
-
-    // Add task type field
-    Label taskTypeLabel = new Label(container, SWT.BEGINNING);
-    taskTypeLabel.setText("Task Type:");
-    final Combo taskTypeCombo = new Combo(container, SWT.DROP_DOWN | SWT.READ_ONLY);
-    taskTypeCombo.setItems(new String[] {"Last Mod", "Reconcile"});
-    taskTypeCombo.select(0);
-    taskTypeCombo.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, true, false, 2, 1));
-    taskTypeCombo.addModifyListener(new ModifyListener() {
-      public void modifyText(ModifyEvent e) {
-        taskType = taskTypeCombo.getSelectionIndex();
-        validate();
-      }
-    });
-
-    // Add saved file location
-    Label savedLocationLabel = new Label(container, SWT.BEGINNING);
-    savedLocationLabel.setText("Saved File Location:");
-    final Text savedLocationText = new Text(container, SWT.SINGLE | SWT.BORDER);
-    savedLocationText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
-    savedLocationText.addModifyListener(new ModifyListener() {
-      public void modifyText(ModifyEvent e) {
-        savedFileLocation = savedLocationText.getText();
-        validate();
-        willVerifyOverwrite = true;
-      }
-    });
-    Button browseButton = new Button(container, SWT.PUSH);
-    browseButton.setText("Browse...");
-    browseButton.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false));
-    browseButton.addSelectionListener(new SelectionListener() {
-      public void widgetSelected(SelectionEvent e) {
-        doFileDialog();
-        validate();
-      }
-
-      public void widgetDefaultSelected(SelectionEvent e) {
-        doFileDialog();
-        validate();
-      }
-
-      private void doFileDialog() {
-        FileDialog fd = new FileDialog(container.getShell(), SWT.SAVE);
-        // TODO: initialize dialog with filename. It's not as simple as
-        // setFilename() unfortunately.
-        fd.setOverwrite(true);
-        fd.setFilterExtensions(new String[] { "*.epf" });
-        String file = fd.open();
-        if (file != null) {
-          savedLocationText.setText(file);
-        }
-        willVerifyOverwrite = false; // Should override the listener on the text box
-      }
-    });
-
+  protected void addChildConfiguration(Composite parent) {
     // Add preferences table
-    Label savedPreferencesLabel = new Label(container, SWT.BEGINNING);
+    Label savedPreferencesLabel = new Label(parent, SWT.BEGINNING);
     savedPreferencesLabel.setLayoutData(new GridData(SWT.BEGINNING, SWT.LEFT, true, false, 3, 1));
     savedPreferencesLabel.setText("Saved Preferences:");
 
-    Composite tableContainer = new Composite(container, SWT.NONE);
+    Composite tableContainer = new Composite(parent, SWT.NONE);
     GridData tableLayoutData = new GridData(SWT.FILL, SWT.FILL, true, true, 3, 1);
     tableContainer.setLayoutData(tableLayoutData);
 
@@ -305,58 +185,11 @@ public class EpfOutputDialog extends Dialog {
     });
 
     tableContainer.layout();
-
-    return container;
   }
 
-  private void validate() {
-    this.getButton(IDialogConstants.OK_ID).setEnabled(isReady());
-  }
-  
-  private boolean isReady() {
-    if (title.length() == 0) {
-      return false;
-    }
-    
-    if (description.length() == 0) {
-      return false;
-    }
-    
-    if (savedFileLocation.length() == 0) {
-      return false;
-    }
-    
-    if (selectedKeys.size() == 0) {
-      return false;
-    }
-
-    File destFile = new File(savedFileLocation);
-
-    if (destFile.exists()) {
-      if (!destFile.isFile()) {
-        return false;
-      }
-      
-      if (!destFile.canWrite()) {
-        return false;
-      }
-    }
-
-    File parentDir = destFile.getParentFile();
-
-    if (parentDir == null) {
-      return false;
-    }
-
-    if (!parentDir.exists()) {
-      return false;
-    }
-    
-    if (!parentDir.isDirectory()) {
-      return false;
-    }
-    
-    return parentDir.canWrite(); // Can we create a file in this directory?
+  @Override
+  protected boolean isReady() {
+    return super.isReady() && !selectedKeys.isEmpty();
   }
   
   @Override
@@ -369,33 +202,13 @@ public class EpfOutputDialog extends Dialog {
   }
 
   private void writeEpfFile() {
-    IPath destinationPath = new Path(savedFileLocation);
-
-    String fileExtension = destinationPath.getFileExtension();
-    if (!"epf".equals(fileExtension)) {
-      String message = String.format("The file \"%s\" does not have an .epf extension. Add it?", destinationPath);
-      if (MessageDialog.openQuestion(this.getShell(), "Add .epf to filename?", message)) {
-        destinationPath = destinationPath.addFileExtension("epf");
-        willVerifyOverwrite = true;
-      }
-    }
-    // If the user picked a file via the dialog and that file exists, then they've already been 
-    // asked if the file should be overwritten, and we shouldn't ask again. If not, then we need 
-    // to check if the file exists and, if so, ask them now.
-    if (willVerifyOverwrite) {
-      if (destinationPath.toFile().exists()) {
-        String message = String.format("The file \"%s\" will be overwritten. Is this OK?", destinationPath);
-        if (!MessageDialog.openQuestion(this.getShell(), "Overwrite?", message)) {
-          return;
-        }
-      }
+    IPath location = getValidOutputLocation();
+    if (location == null) {
+      return;
     }
     
     // Save the preferences into an EPF file
-    EpfFileModel epfFile = new EpfFileModel(
-        title, 
-        description, 
-        getTaskType());
+    EpfFileModel epfFile = new EpfFileModel(getTitle(), getDescription(), getTaskType());
     
     Map<String, String> savedPreferences = getSavedPreferences();
     
@@ -404,27 +217,10 @@ public class EpfOutputDialog extends Dialog {
     }
 
     try {
-      EpfFileModelWriter.write(epfFile, destinationPath);
+      EpfFileModelWriter.write(epfFile, location);
       super.okPressed(); // Closes the dialog and returns an OK result
     } catch (IOException e) {
-      MechanicLog.getDefault().logError(e, "Error while writing %s", destinationPath);
-    }
-  }
-
-  /**
-   * Get task type provided by the user. Only valid after the dialog has been
-   * run.
-   */
-  private TaskType getTaskType() {
-    switch (taskType) {
-      case 0:
-        return TaskType.LASTMOD;
-
-      case 1:
-        return TaskType.RECONCILE;
-
-      default:
-        return null;
+      MechanicLog.getDefault().logError(e, "Error while writing %s", location);
     }
   }
 

@@ -494,16 +494,19 @@ public class MechanicStatusControlContribution extends WorkbenchWindowControlCon
   }
   
   /**
-   * Action that displays all existing tasks.
+   * Action that dumps the existing keybindings to an export file.
    */
   private final class DumpKeyBindingsAction extends Action {
 
     public DumpKeyBindingsAction() {
-      setText("Dump keybindings");
+      super("Dump keybindings");
     }
 
     @Override
     public void run() {
+      // Display dialog to get obtain properties of the saved task file
+      Shell parentShell = Display.getCurrent().getActiveShell();
+      new KeybindingsOutputDialog(parentShell).open();
       new KbaBootstrapper().evaluate();
     }
   }

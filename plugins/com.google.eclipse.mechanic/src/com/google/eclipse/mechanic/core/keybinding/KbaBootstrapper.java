@@ -2,6 +2,15 @@
 
 package com.google.eclipse.mechanic.core.keybinding;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.swt.SWT;
+import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.keys.IBindingService;
+
 import com.google.common.base.Predicate;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
@@ -9,21 +18,15 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
-import com.google.eclipse.mechanic.CompositeTask;
 import com.google.eclipse.mechanic.core.keybinding.KbaChangeSet.Action;
 import com.google.eclipse.mechanic.core.keybinding.KbaChangeSet.KbaBindingList;
 import com.google.eclipse.mechanic.core.keybinding.KeyBindingsManualFormatter.BindingType;
 import com.google.eclipse.mechanic.plugin.core.MechanicLog;
 
-import org.eclipse.swt.SWT;
-import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.keys.IBindingService;
-
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-
-public final class KbaBootstrapper extends CompositeTask {
+/**
+ * Dumps existing keyboard bindings to a bootstrap file.
+ */
+public final class KbaBootstrapper {
 
   private final IBindingService bindingService;
   private final MechanicLog log;
@@ -42,16 +45,6 @@ public final class KbaBootstrapper extends CompositeTask {
     this.log = log;
     this.bindingService = bindingService;
     this.currentPlatform = currentPlatform;
-  }
-
-
-  public String getTitle() {
-    return "Keyboard auditor bootstrap task";
-  }
-
-  public String getDescription() {
-    return
-        "This task will never trigger a 'fix' -- it just assists in bootstrapping the Keyboard Bindings Audit task. See TODO";
   }
 
   private static final Predicate<EclBinding> ACCEPT_SYSTEM_BINDINGS_FILTER = new Predicate<EclBinding>() {
@@ -97,19 +90,19 @@ public final class KbaBootstrapper extends CompositeTask {
     
     Map<KbaChangeSetQualifier, KbaChangeSet> userBindings =
         buildUserBindingsMap(currentPlatform, systemBindings,
-            Iterables.filter(allBindings, ACCEPT_USER_BINDINGS_FILTER));
+            Iterables.filter(allBindings, ACCEPT_USER_BINDINGS_FILTER),
+            log);
     
     new KeyBindingsManualFormatter(log, userBindings, systemBindings).dumpBindingsToFile();
 
     return true;
   }
 
-  public void run() {}
-  
   private static KbaBinding bindingToRemoveKbaBinding(
       final String currentPlatform,
       final Map<KbaChangeSetQualifier, KbaChangeSet> systemBindingsMap,
-      final EclBinding binding) {
+      final EclBinding binding,
+      final MechanicLog log) {
     if (binding.hasCommand()) {
       throw new IllegalStateException();
     }
@@ -125,8 +118,7 @@ public final class KbaBootstrapper extends CompositeTask {
         doppleGanger = findDoppleganger(currentPlatform, systemBindingsMap, q, binding);
       }
       if (doppleGanger == null) {
-        // TODO LOG!
-        System.out.println("foo");
+        log.log(IStatus.ERROR, "doppleganger is null");
       }
     }
     
@@ -165,7 +157,8 @@ public final class KbaBootstrapper extends CompositeTask {
   static Map<KbaChangeSetQualifier, KbaChangeSet> buildUserBindingsMap(
       final String currentPlatform,
       final Map<KbaChangeSetQualifier, KbaChangeSet> systemBindingsMap,
-      Iterable<EclBinding> bindingList) {
+      Iterable<EclBinding> bindingList,
+      MechanicLog log) {
     
     // Naughty eclipse's bindings are not uniquefied
     bindingList = Sets.newHashSet(bindingList);
@@ -178,7 +171,7 @@ public final class KbaBootstrapper extends CompositeTask {
           continue;
         }
         
-        KbaBinding kbaBinding = bindingToRemoveKbaBinding(currentPlatform, systemBindingsMap, b);
+        KbaBinding kbaBinding = bindingToRemoveKbaBinding(currentPlatform, systemBindingsMap, b, log);
         if (kbaBinding == null) {
           // It seems the user has configured a certain (system) binding to be
           // removed, but no such system binding exists at the moment. I guess

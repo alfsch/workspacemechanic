@@ -9,17 +9,19 @@
 
 package com.google.eclipse.mechanic.core.keybinding;
 
-import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
-import com.google.eclipse.mechanic.core.keybinding.KbaChangeSet.Action;
-import com.google.eclipse.mechanic.core.keybinding.KeyBindingsManualFormatter.BindingType;
+import java.util.Collections;
+import java.util.Map;
+import java.util.Set;
 
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.util.Collections;
-import java.util.Map;
-import java.util.Set;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
+import com.google.eclipse.mechanic.core.keybinding.KbaChangeSet.Action;
+import com.google.eclipse.mechanic.core.keybinding.KeyBindingsManualFormatter.BindingType;
+import com.google.eclipse.mechanic.plugin.core.MechanicLog;
+import com.google.eclipse.mechanic.testing.EmptyLog;
 
 /**
  * @author zorzella
@@ -38,7 +40,7 @@ public class KbaBootstrapperTest {
       new KbaChangeSetQualifier(SCHEME, CURRENT_PLATFORM, CONTEXT, Action.ADD);
   private static final KbaChangeSetQualifier REM_Q_NULL_PLATFORM =
       new KbaChangeSetQualifier(SCHEME, NULL_PLATFORM, CONTEXT, Action.REMOVE);
-  
+
   @Test
   public void testCombo() {
     
@@ -58,10 +60,10 @@ public class KbaBootstrapperTest {
     
     Map<KbaChangeSetQualifier, KbaChangeSet> systemBindings =
         KbaBootstrapper.buildSystemBindingsMap(sysBs);
-    
+
     Map<KbaChangeSetQualifier, KbaChangeSet> userBindings =
         KbaBootstrapper.buildUserBindingsMap(CURRENT_PLATFORM, systemBindings,
-            userBs);
+            userBs, new MechanicLog(new EmptyLog()));
 
     KbaChangeSet actualSysBindings = systemBindings.get(ADD_Q_NULL_PLATFORM);
     Assert.assertEquals(3, actualSysBindings.getBindingList().size());
