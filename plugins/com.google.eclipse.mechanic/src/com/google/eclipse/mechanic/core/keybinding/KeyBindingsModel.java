@@ -30,14 +30,14 @@ import com.google.gson.annotations.SerializedName;
  *
  * @author zorzella@google.com
  */
-class KeyBindingsTask {
+class KeyBindingsModel {
 
   @SerializedName(KeyBindingsParser.METADATA_JSON_KEY)
   private final KbaMetaData kbaMetadata;
   @SerializedName(KeyBindingsParser.CHANGE_SETS_JSON_KEY)
   private final ImmutableList<KbaChangeSet> kbaChangeSetList;
 
-  public KeyBindingsTask(List<KbaChangeSet> changeSetList, KbaMetaData metadata) {
+  public KeyBindingsModel(List<KbaChangeSet> changeSetList, KbaMetaData metadata) {
     this.kbaChangeSetList = filteredChangeSetList(changeSetList);
     this.kbaMetadata = metadata;
   }
@@ -83,10 +83,10 @@ class KeyBindingsTask {
 
   @Override
   public boolean equals(Object obj) {
-    if (!(obj instanceof KeyBindingsTask)) {
+    if (!(obj instanceof KeyBindingsModel)) {
       return false;
     }
-    KeyBindingsTask that = (KeyBindingsTask)obj;
+    KeyBindingsModel that = (KeyBindingsModel)obj;
     return
       this.kbaChangeSetList.equals(that.kbaChangeSetList)
         &&

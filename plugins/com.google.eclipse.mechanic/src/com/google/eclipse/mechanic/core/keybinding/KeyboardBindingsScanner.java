@@ -49,7 +49,7 @@ public class KeyboardBindingsScanner extends DirectoryIteratingTaskScanner {
       } catch (IOException e) {
         throw new RuntimeException(e);
       }
-      KeyBindingsTask taskData = KeyBindingsParser.deSerialize(reader);
+      KeyBindingsModel taskData = KeyBindingsParser.deSerialize(reader);
       collector.add(new KeyboardBindingsTask(taskData));
     }
   }

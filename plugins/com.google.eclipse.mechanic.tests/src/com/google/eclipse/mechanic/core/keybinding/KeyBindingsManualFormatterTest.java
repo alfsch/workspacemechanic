@@ -38,7 +38,7 @@ public class KeyBindingsManualFormatterTest {
         kbaBindingCommandWithParams()));
     
     String json = KeyBindingsManualFormatter.getBindingsPrintout(BindingType.USER, map, "", TaskType.LASTMOD);
-    KeyBindingsTask kbaFromJson = KeyBindingsParser.deSerialize(new StringReader(json));
+    KeyBindingsModel kbaFromJson = KeyBindingsParser.deSerialize(new StringReader(json));
   }
 
   @Test
@@ -48,7 +48,7 @@ public class KeyBindingsManualFormatterTest {
         kbaBindingCommandWithNoParams()));
     
     String json = KeyBindingsManualFormatter.getBindingsPrintout(BindingType.USER, map, "", TaskType.LASTMOD);
-    KeyBindingsTask kbaFromJson = KeyBindingsParser.deSerialize(new StringReader(json));
+    KeyBindingsModel kbaFromJson = KeyBindingsParser.deSerialize(new StringReader(json));
   }
   
   private static ImmutableMap<KbaChangeSetQualifier, KbaChangeSet> kbaMap(

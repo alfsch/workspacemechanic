@@ -54,9 +54,9 @@ class KeyboardBindingsTask extends CompositeTask {
   private final IWorkbench workbench;
   private final ICommandService commandService;
   private final IBindingService bindingService;
-  private final KeyBindingsTask task;
+  private final KeyBindingsModel task;
 
-  public KeyboardBindingsTask(KeyBindingsTask task) {
+  public KeyboardBindingsTask(KeyBindingsModel task) {
     this(
         MechanicLog.getDefault(),
         PlatformUI.getWorkbench(),
@@ -70,7 +70,7 @@ class KeyboardBindingsTask extends CompositeTask {
       IWorkbench workbench,
       ICommandService commandService,
       IBindingService bindingService,
-      KeyBindingsTask task) {
+      KeyBindingsModel task) {
     this.log = log;
     this.workbench = workbench;
     this.commandService = commandService;
