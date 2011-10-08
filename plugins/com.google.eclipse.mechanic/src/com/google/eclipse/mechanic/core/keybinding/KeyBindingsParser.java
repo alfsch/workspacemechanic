@@ -19,7 +19,6 @@ import com.google.common.collect.Lists;
 import com.google.eclipse.mechanic.core.keybinding.KbaChangeSet.KbaBindingList;
 import com.google.eclipse.mechanic.core.keybinding.KeyBindingsTask.KbaMetaData;
 import com.google.eclipse.mechanic.internal.TaskType;
-import com.google.eclipse.mechanic.internal.Util;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
@@ -95,7 +94,7 @@ class KeyBindingsParser {
   private static final Gson GSON = new GsonBuilder()
       .setPrettyPrinting()
       .registerTypeAdapter(KbaMetaData.class, new KbaMetaDataAdapter())
-      .registerTypeAdapter(KeyBindingsTask.class, new KeyBindingsAuditAdapter())
+      .registerTypeAdapter(KeyBindingsTask.class, new KeyBindingsTaskAdapter())
       .registerTypeAdapter(KbaChangeSet.class, new KbaChangeSetAdapter())
       .registerTypeAdapter(KbaChangeSet.KbaBindingList.class, new KbaBindingListAdapter())
       .create();
@@ -130,7 +129,7 @@ class KeyBindingsParser {
     }
   }
 
-  private static class KeyBindingsAuditAdapter
+  private static class KeyBindingsTaskAdapter
       implements JsonDeserializer<KeyBindingsTask> {
 
     public KeyBindingsTask deserialize(JsonElement json, Type typeOfT,
