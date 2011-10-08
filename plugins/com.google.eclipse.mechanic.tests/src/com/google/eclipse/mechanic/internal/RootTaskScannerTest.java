@@ -9,19 +9,16 @@
 
 package com.google.eclipse.mechanic.internal;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.junit.Test;
+
 import com.google.eclipse.mechanic.Task;
 import com.google.eclipse.mechanic.TaskCollector;
 import com.google.eclipse.mechanic.TaskScanner;
 import com.google.eclipse.mechanic.plugin.core.MechanicLog;
-
-import org.eclipse.core.runtime.ILog;
-import org.eclipse.core.runtime.ILogListener;
-import org.eclipse.core.runtime.IStatus;
-import org.junit.Test;
-import org.osgi.framework.Bundle;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.google.eclipse.mechanic.testing.EmptyLog;
 
 /**
  * @author zorzella
@@ -43,15 +40,7 @@ public class RootTaskScannerTest {
         return result;
       }
     };
-    ILog ilog = new ILog() {
-      public void removeLogListener(ILogListener listener) {}
-      public void log(IStatus status) {}
-      public Bundle getBundle() {
-        return null;
-      }
-      public void addLogListener(ILogListener listener) {}
-    };
-    MechanicLog log = new MechanicLog(ilog);
+    MechanicLog log = new MechanicLog(new EmptyLog());
     RootTaskScanner scanner = new RootTaskScanner(log, scannerPoint);
     TaskCollector collector = new TaskCollector() {
       public void add(Task task) {}
