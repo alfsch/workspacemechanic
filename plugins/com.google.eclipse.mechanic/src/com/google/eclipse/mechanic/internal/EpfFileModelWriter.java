@@ -35,7 +35,7 @@ public class EpfFileModelWriter {
     PrintWriter commentPrintWriter = new PrintWriter(outputStream);
     commentPrintWriter.format("# @title %s\n", model.getTitle());
     commentPrintWriter.format("# @description %s\n", model.getDescription());
-    commentPrintWriter.format("# @audit_type %s\n#\n", model.getTaskType().toString());
+    commentPrintWriter.format("# @task_type %s\n#\n", model.getTaskType().toString());
     commentPrintWriter.println(
         "# Created by the Workspace Mechanic Preference Recorder");
     commentPrintWriter.flush();
