@@ -16,10 +16,6 @@ import java.util.Arrays;
 
 import junit.framework.TestCase;
 
-import com.google.common.base.Objects;
-import com.google.common.base.Preconditions;
-import com.google.common.base.Splitter;
-import com.google.common.collect.Lists;
 import com.google.eclipse.mechanic.tests.internal.RunAsJUnitTest;
 
 /**
