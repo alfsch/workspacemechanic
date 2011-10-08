@@ -40,7 +40,6 @@ import com.google.eclipse.mechanic.plugin.core.MechanicLog;
  * Configures keyboard preferences for a task.
  *
  * @author zorzella@google.com
- * @author konigsberg@google.com
  */
 class KeyboardBindingsTask extends CompositeTask {
 

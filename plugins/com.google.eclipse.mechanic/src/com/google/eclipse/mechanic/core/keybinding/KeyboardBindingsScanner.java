@@ -26,7 +26,6 @@ import com.google.eclipse.mechanic.TaskCollector;
  * Scanner for keyboard bindings.
  *
  * @author zorzella@google.com (Luiz-Otavio Zorzella)
- * @author konigsberg@google.com (Robert Konigsberg)
  */
 public class KeyboardBindingsScanner extends DirectoryIteratingTaskScanner {
 

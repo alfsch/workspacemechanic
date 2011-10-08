@@ -34,7 +34,6 @@ import java.util.Map;
  * Model for keyboard binding configuration.
  *
  * @author zorzella@google.com
- * @author konigsberg@google.com
  */
 class KeyBindings {
 
