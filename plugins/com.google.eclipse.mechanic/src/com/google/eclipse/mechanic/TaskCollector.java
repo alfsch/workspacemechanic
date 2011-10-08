@@ -15,8 +15,6 @@ package com.google.eclipse.mechanic;
  *
  * <p>This is the main communications channel between the {@link MechanicService} and the
  * {@link TaskScanner}s.
- *
- * @author konigsberg@google.com (Robert Konigsberg)
  */
 public interface TaskCollector {
   /**

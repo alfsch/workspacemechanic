@@ -11,8 +11,6 @@ package com.google.eclipse.mechanic;
 
 /**
  * Abstract a composite task as an interface.
- *
- * @author konigsberg@google.com (Robert Konigsberg)
  */
 public interface CompositeTaskInterface extends Task, Evaluator, RepairAction {
 }

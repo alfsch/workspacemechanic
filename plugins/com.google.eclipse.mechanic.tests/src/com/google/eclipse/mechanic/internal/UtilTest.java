@@ -15,8 +15,6 @@ import com.google.eclipse.mechanic.tests.internal.RunAsJUnitTest;
 
 /**
  * Tests for Util.
- * 
- * @author smckay@google.com (Steve McKay)
  */
 @RunAsJUnitTest
 public class UtilTest extends TestCase {

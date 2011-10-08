@@ -14,8 +14,6 @@ import com.google.eclipse.mechanic.TaskScanner;
 
 /**
  * Provides support for loading tasks defined in extension points.
- *
- * @author konigsberg@google.com (Robert Konigsberg)
  */
 public class ExtensionPointScanner implements TaskScanner {
   public void scan(TaskCollector collector) {

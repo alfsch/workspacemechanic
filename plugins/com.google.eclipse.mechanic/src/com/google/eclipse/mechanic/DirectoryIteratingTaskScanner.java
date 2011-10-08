@@ -14,13 +14,10 @@ import java.util.List;
 import com.google.common.base.Preconditions;
 import com.google.eclipse.mechanic.internal.RegisteredTaskProvidersSupplier;
 import com.google.eclipse.mechanic.internal.Supplier;
-import com.google.eclipse.mechanic.internal.Util;
 import com.google.eclipse.mechanic.plugin.core.ResourceTaskProvider;
 
 /**
  * Scanner that looks in the registered directories for tasks.
- *
- * @author konigsberg@google.com (Robert Konigsberg)
  */
 public abstract class DirectoryIteratingTaskScanner implements TaskScanner {
 

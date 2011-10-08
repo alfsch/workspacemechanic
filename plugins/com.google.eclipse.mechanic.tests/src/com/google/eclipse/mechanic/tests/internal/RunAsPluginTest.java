@@ -14,8 +14,6 @@ import java.lang.annotation.RetentionPolicy;
 
 /**
  * Annotate a test as one that must be run in a plug-in test.
- * 
- * @author konigsberg@google.com (Robert Konigsberg)
  */
 @Retention(RetentionPolicy.RUNTIME)
 public @interface RunAsPluginTest {

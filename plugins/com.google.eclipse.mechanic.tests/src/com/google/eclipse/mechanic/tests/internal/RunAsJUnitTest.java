@@ -15,8 +15,6 @@ import java.lang.annotation.RetentionPolicy;
 /**
  * Annotate a test as one that can be run as a JUnit Test, without plug-in test
  * infrastructure.
- * 
- * @author konigsberg@google.com (Robert Konigsberg)
  */
 @Retention(RetentionPolicy.RUNTIME)
 public @interface RunAsJUnitTest {

@@ -54,8 +54,6 @@ import org.osgi.service.prefs.BackingStoreException;
  * <p>Case 3a: (Specialization) Bug in a repair results in perpetual failure:
  * Even though the user tries to fix failed tasks, if one of them, no matter
  * what, continues to fail, the popup will not appear.
- *
- * @author konigsberg@google.com (Robert Konigsberg)
  */
 public class PopupNotifier {
 

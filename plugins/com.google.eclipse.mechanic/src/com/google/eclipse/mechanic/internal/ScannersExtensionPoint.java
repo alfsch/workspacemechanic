@@ -33,8 +33,6 @@ import java.util.logging.Logger;
  * <p>This class interfaces with the {@link Platform}, reading all extensions of the
  * {@code scanners} extension point, providing a mechanism for translating their
  * implementations to instances of {@link TaskScanner}.
- *
- * @author konigsberg@google.com (Robert Konigsberg)
  */
 public class ScannersExtensionPoint implements ScannersExtensionPointInterface {
   private static final String EXTENSION_POINT_NAME = "scanners";
