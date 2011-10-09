@@ -18,6 +18,7 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
+import org.eclipse.jface.dialogs.IDialogSettings;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
@@ -36,8 +37,10 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
+import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 import com.google.eclipse.mechanic.internal.TaskType;
+import com.google.eclipse.mechanic.plugin.core.MechanicPlugin;
 
 /**
  * The dialog to obtain properties for outputting a task file.
@@ -51,12 +54,13 @@ public abstract class BaseOutputDialog extends Dialog {
   }
 
   private final String extension;
-  private String title = "";
-  private String description = "";
-  private int taskType;
-  private String savedFileLocation = "";
   private boolean willVerifyOverwrite = true;
   private Set<Component> components;
+
+  private Text titleText;
+  private Text descriptionText;
+  private Combo taskTypeCombo;
+  private Text savedLocationText;
 
   /**
    * Create an output dialog for the given shell.
@@ -82,13 +86,31 @@ public abstract class BaseOutputDialog extends Dialog {
   protected boolean isResizable() {
     return true;
   }
-  
+
   @Override
   protected Point getInitialSize() {
     Point p =  super.getInitialSize();
     return new Point(p.x, p.y * 3 / 2);
   }
-  
+
+  protected IDialogSettings getDialogBoundsSettings() {
+    String dialogSettingsSection = getDialogSettingsSection();
+    if (dialogSettingsSection == null) {
+      return null;
+    }
+    IDialogSettings settings = MechanicPlugin.getDefault().getDialogSettings();
+    IDialogSettings section = settings.getSection(dialogSettingsSection);
+    if (section == null) section = settings.addNewSection(dialogSettingsSection);
+    return section;
+  }
+
+  /**
+   * Override to describe the dialog settings section.
+   */
+  protected String getDialogSettingsSection() {
+    return null;
+  }
+
   @Override
   protected void createButtonsForButtonBar(Composite parent) {
     super.createButtonsForButtonBar(parent);
@@ -103,68 +125,64 @@ public abstract class BaseOutputDialog extends Dialog {
     super.configureShell(shell);
   }
 
+  protected void createLabel(Composite parent, String text) {
+    Label titleLabel = new Label(parent, SWT.BEGINNING);
+    titleLabel.setText(text);
+  }
+
+
+  private final ModifyListener validateOnChange = new ModifyListener() {
+    public void modifyText(ModifyEvent e) {
+      validate();
+    }
+  };
+
+  protected Text createTextBox(Composite parent) {
+    Text text = new Text(parent, SWT.SINGLE | SWT.BORDER);
+    text.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1));
+    text.addModifyListener(validateOnChange);
+    return text;
+  }
+
   @Override
-  protected final Control createDialogArea(Composite parent) {
+  protected Control createDialogArea(Composite parent) {
     final Composite container = (Composite) super.createDialogArea(parent);
     GridLayout layout = new GridLayout(3, false);
     container.setLayout(layout);
 
-    // Add title field
     if (components.contains(Component.TITLE)) {
-      Label titleLabel = new Label(container, SWT.BEGINNING);
-      titleLabel.setText("Title:");
-      final Text titleText = new Text(container, SWT.SINGLE | SWT.BORDER);
-      titleText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1));
-      titleText.addModifyListener(new ModifyListener() {
-        public void modifyText(ModifyEvent e) {
-          title = titleText.getText();
-          validate();
-        }
-      });
+      createLabel(container, "Title:");
+      titleText = createTextBox(container);
+      titleText.setEnabled(components.contains(Component.TITLE));
     }
 
-    // Add description field
     if (components.contains(Component.DESCRIPTION)) {
-      Label descriptionLabel = new Label(container, SWT.BEGINNING);
-      descriptionLabel.setText("Description:");
-      final Text descriptionText = new Text(container, SWT.SINGLE | SWT.BORDER);
-      descriptionText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1));
-      descriptionText.addModifyListener(new ModifyListener() {
-        public void modifyText(ModifyEvent e) {
-          description = descriptionText.getText();
-          validate();
-        }
-      });
+      createLabel(container, "Description:");
+      descriptionText = createTextBox(container);
+      descriptionText.setEnabled(components.contains(Component.DESCRIPTION));
     }
 
-    // Add task type field
     if (components.contains(Component.TASK_TYPE)) {
-      Label taskTypeLabel = new Label(container, SWT.BEGINNING);
-      taskTypeLabel.setText("Task Type:");
-      final Combo taskTypeCombo = new Combo(container, SWT.DROP_DOWN | SWT.READ_ONLY);
+      createLabel(container, "Task Type:");
+      taskTypeCombo = new Combo(container, SWT.DROP_DOWN | SWT.READ_ONLY);
+      // Ensuring the order hasn't changed, as we rely on that.
+      Preconditions.checkState(TaskType.values()[0] == TaskType.LASTMOD);
       taskTypeCombo.setItems(new String[] {"Last Mod", "Reconcile"});
       taskTypeCombo.select(0);
       taskTypeCombo.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, true, false, 2, 1));
-      taskTypeCombo.addModifyListener(new ModifyListener() {
-        public void modifyText(ModifyEvent e) {
-          taskType = taskTypeCombo.getSelectionIndex();
-          validate();
-        }
-      });
+      taskTypeCombo.addModifyListener(validateOnChange);
+      taskTypeCombo.setEnabled(components.contains(Component.TASK_TYPE));
     }
 
     // Add saved file location
-    Label savedLocationLabel = new Label(container, SWT.BEGINNING);
-    savedLocationLabel.setText("Saved File Location:");
-    final Text savedLocationText = new Text(container, SWT.SINGLE | SWT.BORDER);
-    savedLocationText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+    createLabel(container, "Saved File Location:");
+    savedLocationText = createTextBox(container);
     savedLocationText.addModifyListener(new ModifyListener() {
       public void modifyText(ModifyEvent e) {
-        savedFileLocation = savedLocationText.getText();
-        validate();
         willVerifyOverwrite = true;
       }
     });
+
     Button browseButton = new Button(container, SWT.PUSH);
     browseButton.setText("Browse...");
     browseButton.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false));
@@ -184,7 +202,7 @@ public abstract class BaseOutputDialog extends Dialog {
         // TODO: initialize dialog with filename. It's not as simple as
         // setFilename() unfortunately.
         fd.setOverwrite(true);
-        fd.setFilterExtensions(new String[] { "*.epf" });
+        fd.setFilterExtensions(new String[] { "*." + extension });
         String file = fd.open();
         if (file != null) {
           savedLocationText.setText(file);
@@ -202,26 +220,32 @@ public abstract class BaseOutputDialog extends Dialog {
   }
 
   protected void validate() {
-    this.getButton(IDialogConstants.OK_ID).setEnabled(isValid());
+    Button b = this.getButton(IDialogConstants.OK_ID);
+    // Can be null when called from createDailogArea. Honestly if someone refactors this,
+    // remove this mistake.
+    if (b != null) {
+      boolean valid = isValid();
+      b.setEnabled(valid);
+    }
   }
 
   /**
    * Return true if the dialog is valid.
    */
   protected boolean isValid() {
-    if (components.contains(Component.TITLE) && title.isEmpty()) {
+    if (components.contains(Component.TITLE) && getTitle().isEmpty()) {
       return false;
     }
     
-    if (components.contains(Component.DESCRIPTION) && description.isEmpty()) {
+    if (components.contains(Component.DESCRIPTION) && getDescription().isEmpty()) {
       return false;
     }
     
-    if (savedFileLocation.isEmpty()) {
+    if (getLocation().isEmpty()) {
       return false;
     }
 
-    File destFile = new File(savedFileLocation);
+    File destFile = new File(getLocation());
 
     if (destFile.exists()) {
       if (!destFile.isFile()) {
@@ -251,7 +275,7 @@ public abstract class BaseOutputDialog extends Dialog {
   }
 
   protected IPath getValidOutputLocation() {
-    IPath destinationLocation = new Path(savedFileLocation);
+    IPath destinationLocation = new Path(getLocation());
 
     if (!Strings.isNullOrEmpty(extension)) {
       
@@ -278,27 +302,39 @@ public abstract class BaseOutputDialog extends Dialog {
     return destinationLocation;
   }
 
-  protected String getTitle() {
-    return title;
+  public String getTitle() {
+    return titleText.getText();
   }
 
-  protected String getDescription() {
-    return description;
+  public void setTitle(String text) {
+    titleText.setText(text);
   }
+
+  public String getDescription() {
+    return descriptionText.getText();
+  }
+
+  public void setDescription(String text) {
+    descriptionText.setText(text);
+  }
+
   /**
    * Get task type provided by the user. Only valid after the dialog has been
-   * run.
+   * created.
    */
-  protected TaskType getTaskType() {
-    switch (taskType) {
-      case 0:
-        return TaskType.LASTMOD;
+  public TaskType getTaskType() {
+    return TaskType.values()[taskTypeCombo.getSelectionIndex()];
+  }
 
-      case 1:
-        return TaskType.RECONCILE;
+  public void setTaskType(TaskType taskType) {
+    taskTypeCombo.select(Arrays.asList(TaskType.values()).indexOf(taskType));
+  }
 
-      default:
-        return null;
-    }
+  public String getLocation() {
+    return savedLocationText.getText();
+  }
+
+  public void setLocation(String text) {
+    savedLocationText.setText(text);
   }
 }

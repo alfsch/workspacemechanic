@@ -13,6 +13,8 @@ import java.io.IOException;
 
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
 
 import com.google.common.base.Preconditions;
@@ -40,6 +42,13 @@ public class KeybindingsOutputDialog extends BaseOutputDialog {
   }
 
   @Override
+  protected Control createDialogArea(Composite parent) {
+    Control area = super.createDialogArea(parent);
+    setDescription("Keyboard bindings for " + System.getProperty("user.name"));
+    return area;
+  }
+
+  @Override
   protected void okPressed() {
     Preconditions.checkState(isValid());
 
@@ -50,12 +59,20 @@ public class KeybindingsOutputDialog extends BaseOutputDialog {
 
     try {
       // TODO(konigsberg): Hard-coding task type to lastmod for now.
-      new KbaBootstrapper().evaluate(location, getDescription(), TaskType.LASTMOD);
+      new KbaBootstrapper().evaluate(
+          location,
+          getDescription(),
+          TaskType.LASTMOD);
       super.okPressed(); // Closes the dialog and returns an OK result
     } catch (IOException e) {
       MechanicLog.getDefault().logError(e, "Error while writing %s", location);
       MessageDialog.openError(super.getParentShell(), "Unable to write Keyboard bindings file.",
           e.getMessage());
     }
+  }
+
+  @Override
+  protected String getDialogSettingsSection() {
+    return "KeyboardBindingsOuptutSetting";
   }
 }

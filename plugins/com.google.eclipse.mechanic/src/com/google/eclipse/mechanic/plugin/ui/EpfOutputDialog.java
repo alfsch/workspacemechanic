@@ -10,6 +10,7 @@
 package com.google.eclipse.mechanic.plugin.ui;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -38,7 +39,7 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 
 import com.google.common.base.Preconditions;
-import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.eclipse.mechanic.internal.EpfFileModel;
 import com.google.eclipse.mechanic.internal.EpfFileModelWriter;
@@ -90,7 +91,7 @@ public class EpfOutputDialog extends BaseOutputDialog {
     }
   }
 
-  private final ImmutableMap<String, String> preferences;
+  private final Map<String, String> preferences;
   private ITableLabelProvider labelProvider = new EPFOutputLabelProvider();
   private Set<String> selectedKeys;
   private CheckboxTableViewer acceptedPreferences;
@@ -105,7 +106,8 @@ public class EpfOutputDialog extends BaseOutputDialog {
    */
   public EpfOutputDialog(Shell parentShell, Map<String, String> preferences) {
     super(parentShell, "epf");
-    this.preferences = ImmutableMap.copyOf(preferences);
+    // Can't use ImmutableMap since preferences contains null values.
+    this.preferences = Collections.unmodifiableMap(Maps.newHashMap(preferences));
     this.selectedKeys = Sets.newHashSet(preferences.keySet());
   }
 
@@ -187,6 +189,11 @@ public class EpfOutputDialog extends BaseOutputDialog {
     });
 
     tableContainer.layout();
+  }
+
+  @Override
+  protected String getDialogSettingsSection() {
+    return "EpfOuptutSetting";
   }
 
   @Override
