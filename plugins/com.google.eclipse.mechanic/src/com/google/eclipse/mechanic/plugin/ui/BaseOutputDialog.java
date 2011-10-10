@@ -93,6 +93,7 @@ public abstract class BaseOutputDialog extends Dialog {
     return new Point(p.x, p.y * 3 / 2);
   }
 
+  @Override
   protected IDialogSettings getDialogBoundsSettings() {
     String dialogSettingsSection = getDialogSettingsSection();
     if (dialogSettingsSection == null) {
@@ -233,15 +234,15 @@ public abstract class BaseOutputDialog extends Dialog {
    * Return true if the dialog is valid.
    */
   protected boolean isValid() {
-    if (components.contains(Component.TITLE) && getTitle().isEmpty()) {
+    if (components.contains(Component.TITLE) && getTitle().length() == 0) {
       return false;
     }
     
-    if (components.contains(Component.DESCRIPTION) && getDescription().isEmpty()) {
+    if (components.contains(Component.DESCRIPTION) && getDescription().length() == 0) {
       return false;
     }
     
-    if (getLocation().isEmpty()) {
+    if (getLocation().length() == 0) {
       return false;
     }
 
