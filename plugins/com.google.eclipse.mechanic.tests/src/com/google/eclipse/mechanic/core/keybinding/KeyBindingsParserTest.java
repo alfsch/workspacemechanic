@@ -21,7 +21,6 @@ import com.google.eclipse.mechanic.core.keybinding.KbaBinding;
 import com.google.eclipse.mechanic.core.keybinding.KeyBindingsModel;
 import com.google.eclipse.mechanic.core.keybinding.KeyBindingsParser;
 import com.google.eclipse.mechanic.core.keybinding.KeyBindingsModel.KbaMetaData;
-import com.google.eclipse.mechanic.internal.TaskType;
 import com.google.eclipse.mechanic.tests.internal.RunAsJUnitTest;
 
 @RunAsJUnitTest
@@ -165,9 +164,7 @@ public class KeyBindingsParserTest extends TestCase {
 
   private KeyBindingsModel buildExpected(boolean hasChangeSets, boolean hasParams) {
     KbaMetaData metadata = new KbaMetaData(
-        "Zorzella's bindings in the real world",
-        TaskType.LASTMOD
-        );
+        "Zorzella's bindings in the real world");
     List<KbaChangeSet> changeSets = new ArrayList<KbaChangeSet>();
     if (hasChangeSets) {
       changeSets.add(buildExpectedChangeSetZero());
@@ -179,9 +176,7 @@ public class KeyBindingsParserTest extends TestCase {
 
   private KeyBindingsModel buildExpected2() {
     KbaMetaData metadata = new KbaMetaData(
-        "Zorzella's bindings in the real world",
-        TaskType.LASTMOD
-        );
+        "Zorzella's bindings in the real world");
     List<KbaChangeSet> changeSets = new ArrayList<KbaChangeSet>();
     changeSets.add(buildExpectedChangeSetZero());
     changeSets.add(buildExpectedChangeSetTwo(true));

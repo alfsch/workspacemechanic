@@ -17,7 +17,6 @@ import com.google.common.base.Predicate;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.eclipse.mechanic.core.keybinding.KbaChangeSet.Action;
-import com.google.eclipse.mechanic.internal.TaskType;
 import com.google.gson.annotations.SerializedName;
 
 /**
@@ -103,18 +102,14 @@ class KeyBindingsModel {
   public static final class KbaMetaData {
 
     private final String description;
-    // TODO(zorzella): should this always be reconcile?
-    // NOTE(konigsberg): This was LASTMOD in KeyBindingsManualFormatter. So, that's something.
-    private final TaskType type;
 
-    public KbaMetaData(String description, TaskType type) {
+    public KbaMetaData(String description) {
       this.description = Preconditions.checkNotNull(description);
-      this.type = Preconditions.checkNotNull(type);
     }
 
     @Override
     public int hashCode() {
-      return Objects.hashCode(description, type);
+      return Objects.hashCode(description);
     }
 
     @Override
@@ -124,24 +119,18 @@ class KeyBindingsModel {
       }
       KbaMetaData that = (KbaMetaData)obj;
       return
-        this.description.equals(that.description)
-          &&
-        this.type == that.type;
+        this.description.equals(that.description);
     }
 
     @Override
     public String toString() {
       return String.format(
-          "description: %s, type: %s",
-          this.description, this.type);
+          "description: %s,
+          this.description);
     }
 
     public String getDescription() {
       return description;
-    }
-
-    public TaskType getType() {
-      return type;
     }
   }
 }

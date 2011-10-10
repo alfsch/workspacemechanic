@@ -26,7 +26,6 @@ import com.google.common.base.Joiner;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Iterables;
 import com.google.common.io.Closeables;
-import com.google.eclipse.mechanic.internal.TaskType;
 
 /**
  * Class that formats the keybindings by sweat and tears.
@@ -86,14 +85,14 @@ class KeyBindingsManualFormatter {
     
   }
 
-  void dumpBindingsToFile(IPath outputLocation, String description, TaskType taskType)
+  void dumpBindingsToFile(IPath outputLocation, String description)
       throws FileNotFoundException, IOException {
     if (debugDumpSystemBindings) {
       dumpBindingsToFile(BindingType.SYSTEM, systemBindingsMap, outputLocation,
-          description, taskType);
+          description);
     }
     dumpBindingsToFile(BindingType.USER, userBindingsMap, outputLocation,
-        description, taskType);
+        description);
   }
 
   
@@ -102,9 +101,8 @@ class KeyBindingsManualFormatter {
       Map<KbaChangeSetQualifier,
       KbaChangeSet> kbaChangeSet,
       IPath outputLocation,
-      String description,
-      TaskType taskType) throws FileNotFoundException, IOException {
-    String output = getBindingsPrintout(bindingType, kbaChangeSet, description, taskType);
+      String description) throws FileNotFoundException, IOException {
+    String output = getBindingsPrintout(bindingType, kbaChangeSet, description);
     File file = outputLocation.toFile();
     PrintStream stream = null;
     try {
@@ -116,14 +114,12 @@ class KeyBindingsManualFormatter {
   }
   
   static String getBindingsPrintout(BindingType bindingType, Map<KbaChangeSetQualifier,KbaChangeSet> bindings,
-      String description, TaskType taskType) {
+      String description) {
     Preconditions.checkNotNull(description);
-    Preconditions.checkNotNull(taskType);
     StringBuilder output = new StringBuilder()
         .append("{\n")
         .append(i(1)).append(quote(KeyBindingsParser.METADATA_JSON_KEY)).append(" : {\n")
-        .append(i(2)).append(kvcn(KeyBindingsParser.DESCRIPTION_JSON_KEY, description))
-        .append(i(2)).append(kvn(KeyBindingsParser.TYPE_JSON_KEY, taskType.toString()))
+        .append(i(2)).append(kvn(KeyBindingsParser.DESCRIPTION_JSON_KEY, description))
         .append(i(1)).append("},\n")
         .append(i(1)).append(quote(KeyBindingsParser.CHANGE_SETS_JSON_KEY)).append(" : [\n");
     for (KbaChangeSetQualifier q : bindings.keySet()) {

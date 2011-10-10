@@ -19,7 +19,6 @@ import org.eclipse.swt.widgets.Shell;
 
 import com.google.common.base.Preconditions;
 import com.google.eclipse.mechanic.core.keybinding.KbaBootstrapper;
-import com.google.eclipse.mechanic.internal.TaskType;
 import com.google.eclipse.mechanic.plugin.core.MechanicLog;
 
 /**
@@ -58,11 +57,9 @@ public class KeybindingsOutputDialog extends BaseOutputDialog {
     }
 
     try {
-      // TODO(konigsberg): Hard-coding task type to lastmod for now.
       new KbaBootstrapper().evaluate(
           location,
-          getDescription(),
-          TaskType.LASTMOD);
+          getDescription());
       super.okPressed(); // Closes the dialog and returns an OK result
     } catch (IOException e) {
       MechanicLog.getDefault().logError(e, "Error while writing %s", location);
