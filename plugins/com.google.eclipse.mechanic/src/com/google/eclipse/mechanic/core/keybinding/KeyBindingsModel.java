@@ -125,7 +125,7 @@ class KeyBindingsModel {
     @Override
     public String toString() {
       return String.format(
-          "description: %s,
+          "description: %s",
           this.description);
     }
 
