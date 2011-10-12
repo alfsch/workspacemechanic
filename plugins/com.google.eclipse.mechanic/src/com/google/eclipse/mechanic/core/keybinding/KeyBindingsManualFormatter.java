@@ -88,7 +88,8 @@ class KeyBindingsManualFormatter {
   void dumpBindingsToFile(IPath outputLocation, String description)
       throws FileNotFoundException, IOException {
     if (debugDumpSystemBindings) {
-      dumpBindingsToFile(BindingType.SYSTEM, systemBindingsMap, outputLocation,
+      dumpBindingsToFile(BindingType.SYSTEM, systemBindingsMap,
+          outputLocation.removeFileExtension().addFileExtension("sys"),
           description);
     }
     dumpBindingsToFile(BindingType.USER, userBindingsMap, outputLocation,

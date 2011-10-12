@@ -9,6 +9,7 @@
 
 package com.google.eclipse.mechanic.plugin.ui;
 
+import java.io.File;
 import java.io.IOException;
 
 import org.eclipse.core.runtime.IPath;
@@ -44,7 +45,14 @@ public class KeybindingsOutputDialog extends BaseOutputDialog {
   protected Control createDialogArea(Composite parent) {
     Control area = super.createDialogArea(parent);
     setDescription("Keyboard bindings for " + System.getProperty("user.name"));
+    setSavedLocation(tempDir().getAbsolutePath());
     return area;
+  }
+
+  private static File tempDir() {
+    String dirName = System.getProperty("java.io.tmpdir");
+    File file = new File(dirName, "workspace-mechanic-bindings.kbd");
+    return file;
   }
 
   @Override
