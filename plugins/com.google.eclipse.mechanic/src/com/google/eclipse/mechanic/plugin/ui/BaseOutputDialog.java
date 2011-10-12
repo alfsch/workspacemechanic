@@ -195,6 +195,7 @@ public abstract class BaseOutputDialog extends Dialog {
     savedLocationText.addModifyListener(new ModifyListener() {
       public void modifyText(ModifyEvent e) {
         willVerifyOverwrite = true;
+        validate();
       }});
 
     // TODO: this button belongs in the same line as the textBox above
@@ -246,6 +247,17 @@ public abstract class BaseOutputDialog extends Dialog {
     }
   }
 
+  @Override
+  protected Control createContents(Composite parent) {
+    Control result = super.createContents(parent);
+    // TODO: there's probably a better way of doing this.
+    // Validate upon constructing the dialog, so as to enable to "Ok" button
+    // if appropriate. This can't be done in the createDailogArea because the
+    // OK button is created in super after that method returns.
+    validate();
+    return result;
+  }
+  
   /**
    * Return true if the dialog is valid.
    */
@@ -333,10 +345,7 @@ public abstract class BaseOutputDialog extends Dialog {
 
   public void setDescription(String text) {
     descriptionText.setText(text);
-  }
-
-  void setSavedLocation(String path) {
-    savedLocationText.setText(path);
+    validate();
   }
 
   /**
@@ -357,5 +366,6 @@ public abstract class BaseOutputDialog extends Dialog {
 
   public void setLocation(String text) {
     savedLocationText.setText(text);
+    validate();
   }
 }

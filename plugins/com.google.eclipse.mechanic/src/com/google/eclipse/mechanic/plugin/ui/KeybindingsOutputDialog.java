@@ -45,7 +45,7 @@ public class KeybindingsOutputDialog extends BaseOutputDialog {
   protected Control createDialogArea(Composite parent) {
     Control area = super.createDialogArea(parent);
     setDescription("Keyboard bindings for " + System.getProperty("user.name"));
-    setSavedLocation(tempDir().getAbsolutePath());
+    setLocation(tempDir().getAbsolutePath());
     return area;
   }
 
