@@ -172,7 +172,7 @@ public abstract class BaseOutputDialog extends Dialog {
     }
 
     if (components.contains(Component.DESCRIPTION)) {
-      createLabel(container, getDescriptionFieldLabel());
+      createLabel(container, "Description:");
       descriptionText = createTextBox(container);
       descriptionText.setEnabled(components.contains(Component.DESCRIPTION));
     }
@@ -232,10 +232,6 @@ public abstract class BaseOutputDialog extends Dialog {
     addChildConfiguration(container);
 
     return container;
-  }
-
-  protected String getDescriptionFieldLabel() {
-    return "Description:";
   }
 
   protected void addChildConfiguration(Composite parent) {

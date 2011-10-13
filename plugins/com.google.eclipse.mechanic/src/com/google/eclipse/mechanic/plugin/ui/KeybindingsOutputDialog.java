@@ -48,23 +48,7 @@ public class KeybindingsOutputDialog extends BaseOutputDialog {
     setLocation(tempDir().getAbsolutePath());
     return area;
   }
-  
-  @Override
-  protected String getDescriptionFieldLabel() {
-    return "Description (no quotes or backslashes):";
-  }
 
-  @Override
-  protected boolean isValid() {
-    if (!super.isValid()) {
-      return false;
-    }
-    if (getDescription().contains("'") || getDescription().contains("\\")) {
-      return false;
-    }
-    return true;
-  }
-  
   private static File tempDir() {
     String dirName = System.getProperty("java.io.tmpdir");
     File file = new File(dirName, "workspace-mechanic-bindings.kbd");
