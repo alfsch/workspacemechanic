@@ -9,6 +9,7 @@
 
 package com.google.eclipse.mechanic.plugin.ui;
 
+import java.io.File;
 import java.io.IOException;
 
 import org.eclipse.core.runtime.IPath;
@@ -19,7 +20,6 @@ import org.eclipse.swt.widgets.Shell;
 
 import com.google.common.base.Preconditions;
 import com.google.eclipse.mechanic.core.keybinding.KbaBootstrapper;
-import com.google.eclipse.mechanic.internal.TaskType;
 import com.google.eclipse.mechanic.plugin.core.MechanicLog;
 
 /**
@@ -45,7 +45,14 @@ public class KeybindingsOutputDialog extends BaseOutputDialog {
   protected Control createDialogArea(Composite parent) {
     Control area = super.createDialogArea(parent);
     setDescription("Keyboard bindings for " + System.getProperty("user.name"));
+    setLocation(tempDir().getAbsolutePath());
     return area;
+  }
+
+  private static File tempDir() {
+    String dirName = System.getProperty("java.io.tmpdir");
+    File file = new File(dirName, "workspace-mechanic-bindings.kbd");
+    return file;
   }
 
   @Override
@@ -58,11 +65,9 @@ public class KeybindingsOutputDialog extends BaseOutputDialog {
     }
 
     try {
-      // TODO(konigsberg): Hard-coding task type to lastmod for now.
       new KbaBootstrapper().evaluate(
           location,
-          getDescription(),
-          TaskType.LASTMOD);
+          getDescription());
       super.okPressed(); // Closes the dialog and returns an OK result
     } catch (IOException e) {
       MechanicLog.getDefault().logError(e, "Error while writing %s", location);

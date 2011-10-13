@@ -24,7 +24,6 @@ import com.google.common.collect.Sets;
 import com.google.eclipse.mechanic.core.keybinding.KbaChangeSet.Action;
 import com.google.eclipse.mechanic.core.keybinding.KbaChangeSet.KbaBindingList;
 import com.google.eclipse.mechanic.core.keybinding.KeyBindingsManualFormatter.BindingType;
-import com.google.eclipse.mechanic.internal.TaskType;
 import com.google.eclipse.mechanic.plugin.core.MechanicLog;
 
 /**
@@ -81,8 +80,7 @@ public final class KbaBootstrapper {
   };
 
   public void evaluate(IPath outputLocation,
-      String description,
-      TaskType taskType) throws FileNotFoundException, IOException {
+      String description) throws FileNotFoundException, IOException {
     Iterable<EclBinding> allBindings = EclBinding.from(Arrays.asList(bindingService.getBindings()));
 
     // Because of the weird way Eclipse stores removed system bindings, we
@@ -98,7 +96,7 @@ public final class KbaBootstrapper {
             log);
     
     new KeyBindingsManualFormatter(userBindings, systemBindings)
-        .dumpBindingsToFile(outputLocation, description, taskType);
+        .dumpBindingsToFile(outputLocation, description);
   }
 
   private static KbaBinding bindingToRemoveKbaBinding(

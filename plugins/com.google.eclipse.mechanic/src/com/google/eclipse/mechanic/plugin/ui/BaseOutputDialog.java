@@ -87,12 +87,27 @@ public abstract class BaseOutputDialog extends Dialog {
     return true;
   }
 
+  // TODO: zorzella says: I don't think this overload is doing anything at all.
+  // I refactored it to stop growing upon every invocation, but the whole bit
+  // about "new Point(p.x, p.y * 3 / 2);" which, on face value, seems like an
+  // attempt to make the dialog taller than its otherwise default, seems to
+  // simply be having no effect.
   @Override
   protected Point getInitialSize() {
-    Point p =  super.getInitialSize();
-    return new Point(p.x, p.y * 3 / 2);
+    // We check if the dialog has been resized by the user...
+    if (getDialogBoundsSettings() == null) {
+      // ... if not, we create a dialog twice the default size
+      Point p =  super.getInitialSize();
+      return new Point(p.x, p.y * 3 / 2);
+    } else {
+      // ... if it has been resized, we use that size, otherwise
+      // every time we open the dialog it grows...
+      return super.getInitialSize();
+    }
+    // ... there probably is a much better way of doing this, btw.
   }
 
+  @Override
   protected IDialogSettings getDialogBoundsSettings() {
     String dialogSettingsSection = getDialogSettingsSection();
     if (dialogSettingsSection == null) {
@@ -180,9 +195,10 @@ public abstract class BaseOutputDialog extends Dialog {
     savedLocationText.addModifyListener(new ModifyListener() {
       public void modifyText(ModifyEvent e) {
         willVerifyOverwrite = true;
-      }
-    });
+        validate();
+      }});
 
+    // TODO: this button belongs in the same line as the textBox above
     Button browseButton = new Button(container, SWT.PUSH);
     browseButton.setText("Browse...");
     browseButton.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false));
@@ -199,8 +215,10 @@ public abstract class BaseOutputDialog extends Dialog {
 
       private void doFileDialog() {
         FileDialog fd = new FileDialog(container.getShell(), SWT.SAVE);
-        // TODO: initialize dialog with filename. It's not as simple as
-        // setFilename() unfortunately.
+        String location = getLocation();
+        if (location != null && location.trim().length() > 0) {
+          fd.setFileName(location);
+        }
         fd.setOverwrite(true);
         fd.setFilterExtensions(new String[] { "*." + extension });
         String file = fd.open();
@@ -229,19 +247,30 @@ public abstract class BaseOutputDialog extends Dialog {
     }
   }
 
+  @Override
+  protected Control createContents(Composite parent) {
+    Control result = super.createContents(parent);
+    // TODO: there's probably a better way of doing this.
+    // Validate upon constructing the dialog, so as to enable to "Ok" button
+    // if appropriate. This can't be done in the createDailogArea because the
+    // OK button is created in super after that method returns.
+    validate();
+    return result;
+  }
+  
   /**
    * Return true if the dialog is valid.
    */
   protected boolean isValid() {
-    if (components.contains(Component.TITLE) && getTitle().isEmpty()) {
+    if (components.contains(Component.TITLE) && getTitle().length() == 0) {
       return false;
     }
     
-    if (components.contains(Component.DESCRIPTION) && getDescription().isEmpty()) {
+    if (components.contains(Component.DESCRIPTION) && getDescription().length() == 0) {
       return false;
     }
     
-    if (getLocation().isEmpty()) {
+    if (getLocation().length() == 0) {
       return false;
     }
 
@@ -316,6 +345,7 @@ public abstract class BaseOutputDialog extends Dialog {
 
   public void setDescription(String text) {
     descriptionText.setText(text);
+    validate();
   }
 
   /**
@@ -336,5 +366,6 @@ public abstract class BaseOutputDialog extends Dialog {
 
   public void setLocation(String text) {
     savedLocationText.setText(text);
+    validate();
   }
 }

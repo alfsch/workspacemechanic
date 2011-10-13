@@ -13,7 +13,6 @@ import com.google.common.collect.ImmutableMap;
 import com.google.eclipse.mechanic.core.keybinding.KbaChangeSet.Action;
 import com.google.eclipse.mechanic.core.keybinding.KbaChangeSet.KbaBindingList;
 import com.google.eclipse.mechanic.core.keybinding.KeyBindingsManualFormatter.BindingType;
-import com.google.eclipse.mechanic.internal.TaskType;
 
 import org.junit.Test;
 
@@ -39,7 +38,7 @@ public class KeyBindingsManualFormatterTest {
     Map<KbaChangeSetQualifier, KbaChangeSet> map = kbaMap(new KbaBindingList(
         kbaBindingCommandWithParams()));
     
-    String json = KeyBindingsManualFormatter.getBindingsPrintout(BindingType.USER, map, "", TaskType.LASTMOD);
+    String json = KeyBindingsManualFormatter.getBindingsPrintout(BindingType.USER, map, "");
     KeyBindingsModel kbaFromJson = KeyBindingsParser.deSerialize(new StringReader(json));
   }
 
@@ -49,12 +48,7 @@ public class KeyBindingsManualFormatterTest {
     Map<KbaChangeSetQualifier, KbaChangeSet> map = kbaMap(new KbaBindingList(
         kbaBindingCommandWithNoParams()));
     
-    String json = KeyBindingsManualFormatter.getBindingsPrintout(
-        BindingType.USER,
-        map,
-        "",
-        TaskType.LASTMOD);
-
+    String json = KeyBindingsManualFormatter.getBindingsPrintout(BindingType.USER, map, "");
     KeyBindingsModel kbaFromJson = KeyBindingsParser.deSerialize(new StringReader(json));
   }
 
@@ -71,8 +65,7 @@ public class KeyBindingsManualFormatterTest {
       String json = KeyBindingsManualFormatter.getBindingsPrintout(
           BindingType.USER,
           ImmutableMap.<KbaChangeSetQualifier, KbaChangeSet>of(),
-          description,
-          TaskType.LASTMOD);
+          description);
   
       KeyBindingsModel kbaFromJson = KeyBindingsParser.deSerialize(new StringReader(json));
       Assert.assertEquals(description, kbaFromJson.getMetadata().getDescription());

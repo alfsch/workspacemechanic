@@ -18,7 +18,6 @@ import java.util.Map.Entry;
 import com.google.common.collect.Lists;
 import com.google.eclipse.mechanic.core.keybinding.KbaChangeSet.KbaBindingList;
 import com.google.eclipse.mechanic.core.keybinding.KeyBindingsModel.KbaMetaData;
-import com.google.eclipse.mechanic.internal.TaskType;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
@@ -43,7 +42,6 @@ import com.google.gson.reflect.TypeToken;
 {
   "metadata" : {
     "description" : "",
-    "type" : "LASTMOD"
   },
   "changeSets" : [
     {
@@ -83,7 +81,6 @@ class KeyBindingsParser {
   static final String CONTEXT_JSON_KEY = "context";
   static final String PLATFORM_JSON_KEY = "platform";
   static final String SCHEME_JSON_KEY = "scheme";
-  static final String TYPE_JSON_KEY = "type";
   static final String DESCRIPTION_JSON_KEY = "description";
   static final String CHANGE_SETS_JSON_KEY = "changeSets";
   static final String ACTION_JSON_KEY = "action";
@@ -113,7 +110,6 @@ class KeyBindingsParser {
     private static final Type KBA_META_DATA_TYPE_TOKEN = new TypeToken<KbaMetaData>(){}.getType();
     private static final Type STRING_TYPE_TOKEN = new TypeToken<String>(){}.getType();
     private static final Type KBA_BINDING_LIST_TYPE_TOKEN = new TypeToken<KbaBindingList>(){}.getType();
-    private static final Type TASK_TYPE_TYPE_TOKEN = new TypeToken<TaskType>(){}.getType();
   }
 
   private static class KbaMetaDataAdapter
@@ -124,8 +120,7 @@ class KeyBindingsParser {
       JsonObject jo = json.getAsJsonObject();
 
       return new KbaMetaData(
-          (String) context.deserialize(jo.get(DESCRIPTION_JSON_KEY), TypeTokens.STRING_TYPE_TOKEN),
-          (TaskType) context.deserialize(jo.get(TYPE_JSON_KEY), TypeTokens.TASK_TYPE_TYPE_TOKEN));
+          (String) context.deserialize(jo.get(DESCRIPTION_JSON_KEY), TypeTokens.STRING_TYPE_TOKEN));
     }
   }
 
