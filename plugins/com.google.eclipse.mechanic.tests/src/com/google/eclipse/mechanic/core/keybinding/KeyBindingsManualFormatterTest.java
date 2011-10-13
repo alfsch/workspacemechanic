@@ -52,20 +52,33 @@ public class KeyBindingsManualFormatterTest {
     String json = KeyBindingsManualFormatter.getBindingsPrintout(
         BindingType.USER,
         map,
-        "Joe's Apartment",
+        "",
         TaskType.LASTMOD);
 
-    Assert.assertTrue(json, json.contains("\'description\' : \'Joe''s Apartment\',"));
+    KeyBindingsModel kbaFromJson = KeyBindingsParser.deSerialize(new StringReader(json));
   }
 
   @Test
   public void testEscapingDescription() {
-    
-    Map<KbaChangeSetQualifier, KbaChangeSet> map = kbaMap(new KbaBindingList(
-        kbaBindingCommandWithParams()));
-    
-    String json = KeyBindingsManualFormatter.getBindingsPrintout(BindingType.USER, map, "", TaskType.LASTMOD);
-    KeyBindingsModel kbaFromJson = KeyBindingsParser.deSerialize(new StringReader(json));
+    testEscapingDescription("x");
+    testEscapingDescription("Joe's Apartment");
+    testEscapingDescription("Thank you, \"The Management\"");
+    testEscapingDescription("Found on my c:\\ drive");
+  }
+
+  private void testEscapingDescription(String description) {
+    try {
+      String json = KeyBindingsManualFormatter.getBindingsPrintout(
+          BindingType.USER,
+          ImmutableMap.<KbaChangeSetQualifier, KbaChangeSet>of(),
+          description,
+          TaskType.LASTMOD);
+  
+      KeyBindingsModel kbaFromJson = KeyBindingsParser.deSerialize(new StringReader(json));
+      Assert.assertEquals(description, kbaFromJson.getMetadata().getDescription());
+    } catch(RuntimeException e) {
+      throw new RuntimeException("For description: " + description, e);
+    }
   }
 
   private static ImmutableMap<KbaChangeSetQualifier, KbaChangeSet> kbaMap(
