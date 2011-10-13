@@ -19,8 +19,10 @@ import org.junit.Test;
 import java.io.StringReader;
 import java.util.Map;
 
+import junit.framework.Assert;
+
 /**
- * @author zorzella
+ * Tests for {@link KeyBindingsManualFormatter}
  */
 public class KeyBindingsManualFormatterTest {
 
@@ -49,7 +51,29 @@ public class KeyBindingsManualFormatterTest {
     String json = KeyBindingsManualFormatter.getBindingsPrintout(BindingType.USER, map, "");
     KeyBindingsModel kbaFromJson = KeyBindingsParser.deSerialize(new StringReader(json));
   }
+
+  @Test
+  public void testEscapingDescription() {
+    testEscapingDescription("x");
+    testEscapingDescription("Joe's Apartment");
+    testEscapingDescription("Thank you, \"The Management\"");
+    testEscapingDescription("Found on my c:\\ drive");
+  }
+
+  private void testEscapingDescription(String description) {
+    try {
+      String json = KeyBindingsManualFormatter.getBindingsPrintout(
+          BindingType.USER,
+          ImmutableMap.<KbaChangeSetQualifier, KbaChangeSet>of(),
+          description);
   
+      KeyBindingsModel kbaFromJson = KeyBindingsParser.deSerialize(new StringReader(json));
+      Assert.assertEquals(description, kbaFromJson.getMetadata().getDescription());
+    } catch(RuntimeException e) {
+      throw new RuntimeException("For description: " + description, e);
+    }
+  }
+
   private static ImmutableMap<KbaChangeSetQualifier, KbaChangeSet> kbaMap(
       KbaBindingList kbaBindingList) {
     return ImmutableMap.<KbaChangeSetQualifier, KbaChangeSet>builder()

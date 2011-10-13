@@ -229,6 +229,14 @@ class KeyBindingsManualFormatter {
   }
 
   private static String quote(String string) {
-    return "'" + string + "'";
+    StringBuilder sb = new StringBuilder("\"");
+    for (char c: string.toCharArray()) {
+      if (c == '\"' || c == '\\') {
+        sb.append('\\');
+      }
+      sb.append(c);
+    }
+    sb.append("\"");
+    return sb.toString();
   }
 }
