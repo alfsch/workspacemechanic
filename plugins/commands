@@ -1,0 +1,8 @@
+# Generates initial poms
+mvn org.sonatype.tycho:maven-tycho-plugin:generate-poms   -DgroupId=com.google.eclipse.mechanic   -Dtycho.targetPlatform=/Users/konigsberg/Downloads/eclipse/3.7
+
+# Builds, but fails to test.
+mvn clean install -Dtycho.targetPlatform=/Users/konigsberg/Downloads/eclipse/3.7
+
+# Builds, but fails to test, and also doesn't yet seem to pick up the runtime args.
+mvn clean install -Pmacosx -Dtycho.targetPlatform=/Users/konigsberg/Downloads/eclipse/3.7
