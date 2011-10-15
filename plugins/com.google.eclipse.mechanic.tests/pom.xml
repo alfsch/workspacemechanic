@@ -2,6 +2,20 @@
 <project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <modelVersion>4.0.0</modelVersion>
+  <profiles>
+    <profile>
+      <id>macosx</id>
+        <activation>
+          <os>
+            <name>mac os x</name>
+            <family>mac</family>
+          </os>
+        </activation>
+      <properties>
+      <ui.test.vmargs>-Xmx512m -XX:MaxPermSize=256m -XstartOnFirstThread</ui.test.vmargs>
+      </properties>
+    </profile>
+  </profiles>
   <parent>
     <artifactId>plugins</artifactId>
     <groupId>com.google.eclipse.mechanic</groupId>
