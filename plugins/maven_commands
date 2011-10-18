@@ -6,3 +6,7 @@ mvn clean install -Dtycho.targetPlatform=/Users/konigsberg/Downloads/eclipse/3.7
 
 # Builds, but fails to test, and also doesn't yet seem to pick up the runtime args.
 mvn clean install -Pmacosx -Dtycho.targetPlatform=/Users/konigsberg/Downloads/eclipse/3.7
+
+# Note that you can specify tycho.targetPlatfrom from the environment variable ECLIPSE_HOME instead
+export ECLIPSE_HOME=/Users/konigsberg/Downloads/eclipse/3.7
+mvn clean install
