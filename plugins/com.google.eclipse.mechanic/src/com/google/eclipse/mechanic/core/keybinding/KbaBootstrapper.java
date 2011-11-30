@@ -4,6 +4,7 @@ package com.google.eclipse.mechanic.core.keybinding;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -196,7 +197,78 @@ public final class KbaBootstrapper {
         insertIntoMapAnAddBinding(result, b);
       }
     }
+    result = purgeCycles(result);
     return ImmutableMap.copyOf(result);
+  }
+
+  /**
+   * Take a deep breath: let's say the user removes a system binding; then the
+   * user creates the exact same binding again (instead of choosing to "restore"
+   * the system binding). What Eclipse does behind the scenes (yuck!) is to
+   * create this aforementioned user binding as well as a user binding to remove
+   * the system binding.
+   * 
+   * <p>Spouting those two to the kbd file would cause a cycle -- the mechanic
+   * will prompt the user to apply one and the other in alternate passes (if
+   * the user chooses to keep applying the fix).
+   * 
+   * <p>Note that this is <em>not</em> the only way to achieve a cycle, but it
+   * is the only way we'll generate a single .kbd with a cycle in it. A cycle
+   * can also happen with, say, two .kbd files. But this is the most likely way
+   * for the user to make this sort of mistake.
+   * 
+   * <p>What this method does is to return a modified version of the given
+   * {@code source} -- it finds these cycles (where a removed system binding is
+   * also present as a user binding) and removes them from the returned result.
+   */
+  static Map<KbaChangeSetQualifier, KbaChangeSet> purgeCycles(
+      final Map<KbaChangeSetQualifier, KbaChangeSet> source) {
+    
+    final Map<KbaChangeSetQualifier, KbaChangeSet> result = Maps.newHashMap();
+    
+    for (final KbaChangeSetQualifier q : source.keySet()) {
+      final KbaChangeSet sourceKbaChangeSet = source.get(q);
+      // For each REMOVE sections...
+      if (q.getAction() == Action.REMOVE) {
+        final KbaChangeSetQualifier doppleganger =
+            new KbaChangeSetQualifier(q.scheme, q.platform, q.context, Action.ADD);
+        // ... that have a corresponding ADD section (i.e. same scheme/platform/context),
+        // referred to here as doppleganger, ...
+        if (source.containsKey(doppleganger)) {
+          final List<KbaBinding> toPurge = Lists.newArrayList();
+          // ... we iterate over the rem bindings ...
+          for (final KbaBinding remBinding: sourceKbaChangeSet.getBindingList()) {
+            // ... and try to find an exact match in the doppleganger ...
+            if (source.get(doppleganger).getBindingList().contains(remBinding)) {
+              // ... if we find one, we mark the original rem binding as a binding
+              // to be removed.
+              toPurge.add(remBinding);
+            }
+          }
+          // ... finally, after iterating over all the rem bindings, if the
+          // list of bindings to purge is not empty ...
+          if (!toPurge.isEmpty()) {
+            final List<KbaBinding> temp = Lists.newArrayList();
+            temp.addAll(sourceKbaChangeSet.getBindingList());
+            temp.removeAll(toPurge);
+            // ... we create a new KbaChangeSet that is equal to the original one,
+            // except with the "toPurge" bindinging removed ...
+            KbaChangeSet replacementChangeSet = new KbaChangeSet(q, temp);
+            result.put(q, replacementChangeSet);
+            // ... and we restart the master loop ...
+            continue;
+          }
+        }
+      }
+      
+      // ... under *all* other circumstances (if q is not a REM, if no doppleganger
+      // found, or if no matching add/rem bindings exist), we add the original
+      // KbaChangeSet to the result. If no cycles exist (which should be most
+      // of the time, this statement will be reached for every iteration in the
+      // loop.
+      result.put(q, sourceKbaChangeSet);
+    }
+    return result;
   }
 
   static Map<KbaChangeSetQualifier, KbaChangeSet> buildSystemBindingsMap(

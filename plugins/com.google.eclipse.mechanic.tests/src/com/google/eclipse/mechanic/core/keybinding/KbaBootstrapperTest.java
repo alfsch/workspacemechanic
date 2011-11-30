@@ -17,6 +17,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.eclipse.mechanic.core.keybinding.KbaChangeSet.Action;
 import com.google.eclipse.mechanic.core.keybinding.KeyBindingsManualFormatter.BindingType;
@@ -40,6 +41,8 @@ public class KbaBootstrapperTest {
       new KbaChangeSetQualifier(SCHEME, CURRENT_PLATFORM, CONTEXT, Action.ADD);
   private static final KbaChangeSetQualifier REM_Q_NULL_PLATFORM =
       new KbaChangeSetQualifier(SCHEME, NULL_PLATFORM, CONTEXT, Action.REMOVE);
+  private static final KbaChangeSetQualifier REM_Q_CURRENT_PLATFORM =
+      new KbaChangeSetQualifier(SCHEME, CURRENT_PLATFORM, CONTEXT, Action.REMOVE);
 
   @Test
   public void testCombo() {
@@ -84,10 +87,37 @@ public class KbaBootstrapperTest {
     Assert.assertEquals(expectedRemoved, actualRemoved);
     
     Assert.assertEquals(Action.REMOVE, actualUserRemBindings.getAction());
-    
-    
   }
 
+  @Test
+  public void testPurgeCycles() throws Exception {
+    Map<KbaChangeSetQualifier, KbaChangeSet> map = Maps.newHashMap();
+    KbaChangeSetQualifier addKey = ADD_Q_CURRENT_PLATFORM;
+    KbaChangeSetQualifier remKey = REM_Q_CURRENT_PLATFORM;
+    KbaBinding fooCommand = new KbaBinding("Ctrl+Alt+F", "com.google.FooCommand");
+    KbaBinding barCommand = new KbaBinding("Ctrl+Alt+G", "com.google.BarCommand");
+    Iterable<KbaBinding> bindingListToAdd = Lists.newArrayList(
+        fooCommand,
+        barCommand
+        );
+    Iterable<KbaBinding> bindingListToRem = Lists.newArrayList(
+        fooCommand
+        );
+    KbaChangeSet changeSetToAdd = new KbaChangeSet(addKey, bindingListToAdd);
+    KbaChangeSet changeSetToRem = new KbaChangeSet(remKey, bindingListToRem);
+    
+    map.put(addKey, changeSetToAdd);
+    map.put(remKey, changeSetToRem);
+    
+    Assert.assertTrue(map.get(addKey).getBindingList().contains(fooCommand));
+    Assert.assertTrue(map.get(addKey).getBindingList().contains(barCommand));
+    Assert.assertTrue(map.get(remKey).getBindingList().contains(fooCommand));
+    Map<KbaChangeSetQualifier, KbaChangeSet> result = KbaBootstrapper.purgeCycles(map);
+    Assert.assertTrue(result.get(addKey).getBindingList().contains(fooCommand));
+    Assert.assertTrue(result.get(addKey).getBindingList().contains(barCommand));
+    Assert.assertFalse(result.get(remKey).getBindingList().contains(fooCommand));
+  }
+  
   private EclBinding remBinding(String key) {
     return new EclBinding(null, EMPTY, SCHEME, NULL_PLATFORM, CONTEXT, key, BindingType.USER);
   }
