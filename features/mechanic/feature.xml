@@ -2,7 +2,7 @@
 <feature
       id="com.google.eclipse.mechanic"
       label="Workspace Mechanic"
-      version="0.1.2"
+      version="0.1.3"
       provider-name="Google, Inc.">
 
    <description url="http://code.google.com/a/eclipselabs.org/p/workspacemechanic">
@@ -40,7 +40,7 @@ You may obtain a copy of the License at
          id="com.google.eclipse.mechanic"
          download-size="0"
          install-size="0"
-         version="0.1.2"
+         version="0.0.0"
          unpack="false"/>
 
 </feature>
