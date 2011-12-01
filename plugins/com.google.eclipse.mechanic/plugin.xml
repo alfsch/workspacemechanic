@@ -47,5 +47,11 @@
             name="user_homedir"
             readOnly="true">
       </variable>
+      <variable
+            description="The configuration directory for the Workspace Mechanic. Used as the parent directory for a task source."
+            initializerClass="com.google.eclipse.mechanic.internal.MechanicConfigurationVariableInitializer"
+            name="mechanic_configuration_path"
+            readOnly="true">
+      </variable>
    </extension>
 </plugin>

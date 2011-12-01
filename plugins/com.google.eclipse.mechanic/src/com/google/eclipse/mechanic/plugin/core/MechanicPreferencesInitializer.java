@@ -14,15 +14,13 @@ import org.eclipse.jface.preference.IPreferenceStore;
 
 /**
  * Preference initializer.
- *
- * @author smckay@google.com (Steve McKay)
  */
 public class MechanicPreferencesInitializer extends AbstractPreferenceInitializer {
 
   // Sleep for one hour by default between tasks.
   private static final int DEFAULT_SLEEP_SECONDS = 3600;
 
-  private static final String DEFAULT_DIRS = "${user_homedir}/.eclipse/mechanic";
+  private static final String DEFAULT_DIRS = computeDefaultDirectories();
 
   @Override
   public void initializeDefaultPreferences() {
@@ -35,5 +33,16 @@ public class MechanicPreferencesInitializer extends AbstractPreferenceInitialize
     store.setDefault(MechanicPreferences.SHOW_POPUP_PREF, true);
 //    store.setDefault(MechanicPreferences.CACHE_URI_CONTENT_PREF, false);
 //    store.setDefault(MechanicPreferences.CACHE_URI_AGE_HOURS_PREF, 12);
+  }
+
+  private static String computeDefaultDirectories() {
+    String fileSeparator = System.getProperty("file.separator");
+    String pathSeparator = System.getProperty("path.separator");
+
+    String mechanicDir = fileSeparator + "mechanic";
+    String userHome = "${user_homedir}" + fileSeparator + ".eclipse" + mechanicDir;
+    String mechanicConfigurationDir = "${mechanic_configuration_path}" + mechanicDir;
+    String defaultDirectories = userHome + pathSeparator + mechanicConfigurationDir;
+    return defaultDirectories;
   }
 }

@@ -21,6 +21,7 @@ import com.google.eclipse.mechanic.RepairAction;
 import com.google.eclipse.mechanic.Task;
 import com.google.eclipse.mechanic.tests.internal.RunAsPluginTest;
 import static com.google.eclipse.mechanic.plugin.core.MechanicPreferences.*;
+
 /**
  * Tests for {@link MechanicPreferences}
  */
@@ -106,7 +107,12 @@ public class MechanicPreferencesTest extends TestCase {
     setLong(pref, Long.MAX_VALUE);
     assertEquals(Long.MAX_VALUE, getLong(pref));
   }
-  //public static List<ResourceTaskProvider> getTaskProviders() {
+
+  public void testGetTaskDirectories() {
+    String taskDirs = MechanicPreferences.getString(MechanicPreferences.DIRS_PREF);
+    assertEquals("${user_homedir}/.eclipse/mechanic:${mechanic_configuration_path}/mechanic", taskDirs);
+  }
+
   //public static int getThreadSleepSeconds() {
   //public static String doVariableSubstitution(String input) {
   //public static IStatus validatePreferencesFile(IPath path) {
@@ -135,7 +141,6 @@ public class MechanicPreferencesTest extends TestCase {
       public RepairAction getRepairAction() {
         throw new AssertionError();
       }
-      
     };
   }
 
@@ -145,5 +150,4 @@ public class MechanicPreferencesTest extends TestCase {
       assertTrue(String.valueOf(object), stuff.contains(object));
     }
   }
-
 }
