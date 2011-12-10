@@ -9,6 +9,7 @@
 
 package com.google.eclipse.mechanic.plugin.ui;
 
+import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.jface.preference.BooleanFieldEditor;
@@ -26,6 +27,7 @@ import com.google.common.collect.Lists;
 import com.google.eclipse.mechanic.MechanicService;
 import com.google.eclipse.mechanic.Task;
 import com.google.eclipse.mechanic.internal.BlockedTaskIdsParser;
+import com.google.eclipse.mechanic.internal.TaskByTitleComparator;
 import com.google.eclipse.mechanic.plugin.core.MechanicPlugin;
 import com.google.eclipse.mechanic.plugin.core.MechanicPreferences;
 
@@ -58,8 +60,6 @@ public class MechanicPreferencePage extends FieldEditorPreferencePage
    * set of already blocked tasks. As new tasks are added to the set of
    * blocked tasks they are removed from this list.
    */
-  private final List<Task> unblockedTasks;
-
   private TaskIdsListEditor blockedEditor;
 
   public MechanicPreferencePage() {
@@ -67,13 +67,7 @@ public class MechanicPreferencePage extends FieldEditorPreferencePage
     shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
     setPreferenceStore(MechanicPlugin.getDefault().getPreferenceStore());
 
-    unblockedTasks = Lists.newArrayList();
-    unblockedTasks.addAll(MechanicService.getInstance().getAllKnownTasks());
-
-    // remove tasks that are already blocked
-    for (String id : MechanicPreferences.getBlockedTaskIds()) {
-      removeKnownTaskById(id);
-    }
+    
   }
 
   /**
@@ -161,10 +155,13 @@ public class MechanicPreferencePage extends FieldEditorPreferencePage
 
   public void init(IWorkbench workbench) {}
 
+  /**
+   * Inner class of the list editor displaying blocked tasks and giving user the ability 
+   * to add unblocked tasks to the list or remove a previously blocked task, making it 
+   * available to workspace mechanic
+   */
   private class TaskIdsListEditor extends ListEditor {
 
-    
-    
     /**
      * @param name the name of the preference this field editor works on
      * @param labelText the label text of the field editor
@@ -181,7 +178,7 @@ public class MechanicPreferencePage extends FieldEditorPreferencePage
     protected String getNewInputObject() {
 
       TaskSelectionDialog dlg = new TaskSelectionDialog(
-          shell, "Select a Task to block", unblockedTasks);
+          shell, "Select a Task to block", makeUnblockedTaskList());
 
       // blocks until the user click OK or CANCEL
       dlg.open();
@@ -189,12 +186,23 @@ public class MechanicPreferencePage extends FieldEditorPreferencePage
       if (dlg.getReturnCode() == TaskSelectionDialog.OK) {
         Object[] result = dlg.getResult();
         if (result.length > 0) {
-          String id = ((Task) result[0]).getId();
-          removeKnownTaskById(id);
-          return id;
+          String taskId = ((Task) result[0]).getId();
+          return taskId;
         }
       }
       return null;
+    }
+    
+    private List<Task> makeUnblockedTaskList() {
+      List<Task> unblockedTasks = Lists.newArrayList();
+      unblockedTasks.addAll(MechanicService.getInstance().getAllKnownTasks());
+
+      // remove tasks that are already blocked
+      for (String id : MechanicPreferences.getBlockedTaskIds()) {
+        removeTaskById(unblockedTasks, id);
+      }
+      Collections.sort(unblockedTasks, TaskByTitleComparator.getInstance());
+      return unblockedTasks;
     }
     
     @Override
@@ -209,16 +217,15 @@ public class MechanicPreferencePage extends FieldEditorPreferencePage
   }
 
   /**
-   * Removes the task with the corresponding id from the list of known
+   * Removes the task with the corresponding id from the given list of
    * tasks, if it exists in the set, else does nothing. If the list
    * contains multiple instances of an Task with the same id, then
    * only the first task is removed.
    */
-  private void removeKnownTaskById(String id) {
-
-    for (int i = 0; i < unblockedTasks.size(); i++) {
-      if (unblockedTasks.get(i).getId().equals(id)) {
-        unblockedTasks.remove(i);
+  private void removeTaskById(List<Task> tasks, String id) {
+    for (int i = 0; i < tasks.size(); i++) {
+      if (tasks.get(i).getId().equals(id)) {
+        tasks.remove(i);
         return;
       }
     }
