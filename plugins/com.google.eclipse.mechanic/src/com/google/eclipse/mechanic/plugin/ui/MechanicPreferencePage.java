@@ -14,7 +14,7 @@ import java.util.List;
 import org.eclipse.jface.preference.BooleanFieldEditor;
 import org.eclipse.jface.preference.FieldEditorPreferencePage;
 import org.eclipse.jface.preference.IntegerFieldEditor;
-import org.eclipse.jface.preference.PathEditor;
+import org.eclipse.jface.preference.ListEditor;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Shell;
@@ -25,6 +25,7 @@ import org.eclipse.ui.PlatformUI;
 import com.google.common.collect.Lists;
 import com.google.eclipse.mechanic.MechanicService;
 import com.google.eclipse.mechanic.Task;
+import com.google.eclipse.mechanic.internal.BlockedTaskIdsParser;
 import com.google.eclipse.mechanic.plugin.core.MechanicPlugin;
 import com.google.eclipse.mechanic.plugin.core.MechanicPreferences;
 
@@ -48,6 +49,8 @@ import com.google.eclipse.mechanic.plugin.core.MechanicPreferences;
 public class MechanicPreferencePage extends FieldEditorPreferencePage
     implements IWorkbenchPreferencePage {
 
+  private static final BlockedTaskIdsParser blockedTaskParser = new BlockedTaskIdsParser();
+  
   private final Shell shell;
 
   /*
@@ -89,8 +92,7 @@ public class MechanicPreferencePage extends FieldEditorPreferencePage
         "Task sources:", getFieldEditorParent()));
 
     blockedEditor = new TaskIdsListEditor(MechanicPreferences.BLOCKED_PREF,
-        "Blocked tasks:", "Blocked tasks",
-        getFieldEditorParent());
+        "Blocked tasks:", getFieldEditorParent());
 
     addField(blockedEditor);
 
@@ -159,20 +161,20 @@ public class MechanicPreferencePage extends FieldEditorPreferencePage
 
   public void init(IWorkbench workbench) {}
 
-  private class TaskIdsListEditor extends PathEditor {
+  private class TaskIdsListEditor extends ListEditor {
 
+    
+    
     /**
-     * Creates a path field editor.
-     *
      * @param name the name of the preference this field editor works on
      * @param labelText the label text of the field editor
-     * @param dirChooserLabelText the label text displayed for the
-     *     directory chooser
      * @param parent the parent of the field editor's control
      */
-    public TaskIdsListEditor(String name, String labelText,
-        String dirChooserLabelText, Composite parent) {
-      super(name, labelText, dirChooserLabelText, parent);
+    public TaskIdsListEditor(String name, String labelText, Composite parent) {
+      init(name, labelText);
+      if (parent != null) {
+        createControl(parent);
+      }
     }
 
     @Override
@@ -193,6 +195,16 @@ public class MechanicPreferencePage extends FieldEditorPreferencePage
         }
       }
       return null;
+    }
+    
+    @Override
+    protected String[] parseString(String stringList) {
+      return blockedTaskParser.parse(stringList);
+    }
+
+    @Override
+    protected String createList(String[] items) {
+      return blockedTaskParser.unparse(items);
     }
   }
 
