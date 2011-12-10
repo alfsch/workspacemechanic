@@ -39,11 +39,6 @@ import com.google.eclipse.mechanic.plugin.core.MechanicPreferences;
  * blocking. Notably, tasks are blocked by id, and when presenting a list
  * of blocked tasks to a user, an instance of the block Task may not
  * be available to provide a human readable description of the Task.</li>
- *
- * <li>There seems to be no easy way to hook into the standard editor to add
- * a listener for when something is removed from list. This means that tasks
- * once removed from the list of blocked tasks, will not appear in the list
- * of available tasks.</li>
  * </ul>
  *
  * @author smckay@google.com (Steve McKay)
@@ -54,20 +49,13 @@ public class MechanicPreferencePage extends FieldEditorPreferencePage
   private static final BlockedTaskIdsParser blockedTaskParser = new BlockedTaskIdsParser();
   
   private final Shell shell;
-
-  /*
-   * Tasks that are known to the TaskService and have are not not in the
-   * set of already blocked tasks. As new tasks are added to the set of
-   * blocked tasks they are removed from this list.
-   */
+  
   private TaskIdsListEditor blockedEditor;
 
   public MechanicPreferencePage() {
     super(GRID);
     shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
     setPreferenceStore(MechanicPlugin.getDefault().getPreferenceStore());
-
-    
   }
 
   /**
