@@ -182,16 +182,13 @@ public class MechanicPreferencePage extends FieldEditorPreferencePage
      * Returns the "set" difference between all known tasks and the _current_ list of 
      * blocked task ids from the list editor, which may or may not be equal to the 
      * list of blocked task ids that are currently saved in preferences
-     * @return
      */
     private List<Task> makeUnblockedTaskList() {
       List<Task> unblockedTasks = Lists.newArrayList();
       unblockedTasks.addAll(MechanicService.getInstance().getAllKnownTasks());
 
-      String[] currentBlockedTaskIds = getList().getItems();
-      
       // remove tasks that are already blocked
-      for (String id : currentBlockedTaskIds) {
+      for (String id : getList().getItems()) {
         removeTaskById(unblockedTasks, id);
       }
       
