@@ -46,11 +46,9 @@ import com.google.eclipse.mechanic.plugin.core.MechanicPreferences;
 public class MechanicPreferencePage extends FieldEditorPreferencePage
     implements IWorkbenchPreferencePage {
 
-  private static final BlockedTaskIdsParser blockedTaskParser = new BlockedTaskIdsParser();
-  
   private final Shell shell;
   
-  private TaskIdsListEditor blockedEditor;
+  private BlockedTaskEditor blockedEditor;
 
   public MechanicPreferencePage() {
     super(GRID);
@@ -73,7 +71,7 @@ public class MechanicPreferencePage extends FieldEditorPreferencePage
     addField(new DirectoryOrUrlEditor(MechanicPreferences.DIRS_PREF,
         "Task sources:", getFieldEditorParent()));
 
-    blockedEditor = new TaskIdsListEditor(MechanicPreferences.BLOCKED_PREF,
+    blockedEditor = new BlockedTaskEditor(MechanicPreferences.BLOCKED_PREF,
         "Blocked tasks:", getFieldEditorParent());
 
     addField(blockedEditor);
@@ -148,18 +146,17 @@ public class MechanicPreferencePage extends FieldEditorPreferencePage
    * to add unblocked tasks to the list or remove a previously blocked task, making it 
    * available to workspace mechanic
    */
-  private class TaskIdsListEditor extends ListEditor {
+  private class BlockedTaskEditor extends ListEditor {
 
+    private final BlockedTaskIdsParser blockedTaskParser = new BlockedTaskIdsParser();
+    
     /**
      * @param name the name of the preference this field editor works on
      * @param labelText the label text of the field editor
      * @param parent the parent of the field editor's control
      */
-    public TaskIdsListEditor(String name, String labelText, Composite parent) {
-      init(name, labelText);
-      if (parent != null) {
-        createControl(parent);
-      }
+    public BlockedTaskEditor(String name, String labelText, Composite parent) {
+      super(name, labelText, parent);
     }
 
     @Override
