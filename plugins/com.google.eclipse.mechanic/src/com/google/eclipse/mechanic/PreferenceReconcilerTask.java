@@ -116,6 +116,29 @@ public abstract class PreferenceReconcilerTask extends CompositeTask {
     return createReconciler(parsePreferenceString(pref));
   }
 
+  public Reconciler createReconciler(String key, String value) {
+    return createReconciler(parsePreference(key, value));
+  }
+
+  private Preference parsePreference(String id, String value) {
+    Preconditions.checkNotNull(id, "'id' cannot be null.");
+    Preconditions.checkArgument(id.length() > 0, "'id' cannot be empty string.");
+    Preconditions.checkNotNull(value, "'value' cannot be null.");
+    Preconditions.checkArgument(value.length() > 0, "'value' cannot be empty string.");
+
+    int sli = id.lastIndexOf("/");
+
+    Preconditions.checkArgument(sli != -1, format("'pref' must contain a slash in the identifier portion "
+    + "of the preference. Bad val: '%s'", id));
+    String path = id.substring(0, sli);
+
+    Preconditions.checkArgument(id.length() > sli + 1, format("'pref' must contain a name after slash in the "
+    + "identifier portion of the preference. Bad val: '%s'", id));
+    String key = id.substring(sli + 1);
+
+    return new ImmutablePreference(path, key, value);
+  }
+
   /**
    * Returns a new Reconciler instance that will reconcile prefs that do
    * not match the value exactly.

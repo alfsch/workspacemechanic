@@ -1,0 +1,8 @@
+# @title Detail formatter : Exception
+# @description detail formatter
+# @task_type RECONCILE
+#
+# Created by the Workspace Mechanic Preference Recorder
+#Tue Apr 03 14:03:00 CEST 2012
+file_export_version=3.0
+/instance/org.eclipse.jdt.debug.ui/org.eclipse.jdt.debug.ui.detail_formatters=java.lang.Exception,String.format("Exception \: %s"\u002cthis),1
