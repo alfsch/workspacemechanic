@@ -133,7 +133,7 @@ class EclBinding {
     if (!hasCommand()) {
       throw new IllegalStateException("Undefined for remove bindings.");
     }
-    return new KbaBinding(keySequence, cid);
+    return new KbaBinding(keySequence, cid, paramMap);
   }
   
   public static Iterable<EclBinding> from(Iterable<Binding> bindingList) {

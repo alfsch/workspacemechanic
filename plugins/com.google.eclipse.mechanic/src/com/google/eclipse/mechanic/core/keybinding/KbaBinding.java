@@ -36,12 +36,6 @@ public final class KbaBinding {
 
   public KbaBinding(
       String keySequence,
-      String cid) {
-    this(keySequence, cid, Maps.<String, String>newHashMap());
-  }
-
-  public KbaBinding(
-      String keySequence,
       String cid,
       Map<String,String> parameters) {
     this.cid = cid;

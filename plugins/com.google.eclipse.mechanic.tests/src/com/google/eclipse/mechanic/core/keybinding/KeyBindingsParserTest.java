@@ -16,6 +16,7 @@ import java.util.List;
 
 import junit.framework.TestCase;
 
+import com.google.common.collect.Maps;
 import com.google.eclipse.mechanic.core.keybinding.KbaChangeSet;
 import com.google.eclipse.mechanic.core.keybinding.KbaBinding;
 import com.google.eclipse.mechanic.core.keybinding.KeyBindingsModel;
@@ -186,7 +187,8 @@ public class KeyBindingsParserTest extends TestCase {
 
   private KbaChangeSet buildExpectedChangeSetZero() {
     Collection<KbaBinding> toAdd = new ArrayList<KbaBinding>();
-    KbaBinding spec = new KbaBinding("Shift+Alt+Q T", "a.b.c.d.e");
+    KbaBinding spec = new KbaBinding(
+        "Shift+Alt+Q T", "a.b.c.d.e", Maps.<String, String>newHashMap());
     toAdd.add(spec);
 
     return new KbaChangeSet(
@@ -200,7 +202,8 @@ public class KeyBindingsParserTest extends TestCase {
 
   private KbaChangeSet buildExpectedChangeSetOne(boolean hasParams) {
     Collection<KbaBinding> toAdd = new ArrayList<KbaBinding>();
-    KbaBinding spec = new KbaBinding("Shift+Alt+Q T", "a.b.c.d.e");
+    KbaBinding spec = new KbaBinding(
+        "Shift+Alt+Q T", "a.b.c.d.e", Maps.<String, String>newHashMap());
     if (hasParams) {
       spec = spec.withParam("a", "1").withParam("b", "2");
     }
@@ -216,8 +219,10 @@ public class KeyBindingsParserTest extends TestCase {
 
   private KbaChangeSet buildExpectedChangeSetTwo(boolean hasParams) {
     Collection<KbaBinding> toAdd = new ArrayList<KbaBinding>();
-    KbaBinding spec = new KbaBinding("Shift+Alt+Q T", "a.b.c.d.e");
-    KbaBinding spec2 = new KbaBinding("Shift+Alt+Q 8", "a.b.c.d.e");
+    KbaBinding spec = new KbaBinding(
+        "Shift+Alt+Q T", "a.b.c.d.e", Maps.<String, String>newHashMap());
+    KbaBinding spec2 = new KbaBinding(
+        "Shift+Alt+Q 8", "a.b.c.d.e", Maps.<String, String>newHashMap());
     if (hasParams) {
       spec = spec.withParam("a", "1").withParam("b", "2");
       spec2 = spec2.withParam("a", "1").withParam("b", "2");

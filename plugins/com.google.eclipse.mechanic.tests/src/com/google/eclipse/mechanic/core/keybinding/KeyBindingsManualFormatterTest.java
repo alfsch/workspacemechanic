@@ -10,6 +10,8 @@
 package com.google.eclipse.mechanic.core.keybinding;
 
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.google.eclipse.mechanic.core.keybinding.KbaChangeSet.Action;
 import com.google.eclipse.mechanic.core.keybinding.KbaChangeSet.KbaBindingList;
 import com.google.eclipse.mechanic.core.keybinding.KeyBindingsManualFormatter.BindingType;
@@ -17,6 +19,7 @@ import com.google.eclipse.mechanic.core.keybinding.KeyBindingsManualFormatter.Bi
 import org.junit.Test;
 
 import java.io.StringReader;
+import java.util.List;
 import java.util.Map;
 
 import junit.framework.Assert;
@@ -35,21 +38,40 @@ public class KeyBindingsManualFormatterTest {
   @Test
   public void testARoundTripCommandWithParams() {
     
+    KbaBinding expectedKbaBinding = kbaBindingCommandWithParams();
     Map<KbaChangeSetQualifier, KbaChangeSet> map = kbaMap(new KbaBindingList(
-        kbaBindingCommandWithParams()));
+        expectedKbaBinding));
     
     String json = KeyBindingsManualFormatter.getBindingsPrintout(BindingType.USER, map, "");
     KeyBindingsModel kbaFromJson = KeyBindingsParser.deSerialize(new StringReader(json));
+    List<KbaChangeSet> keyBindingsChangeSetsToAdd = Lists.newArrayList(
+        kbaFromJson.getKeyBindingsChangeSetsWith(Action.ADD));
+    Assert.assertEquals(1, keyBindingsChangeSetsToAdd.size());
+    Assert.assertEquals(1, keyBindingsChangeSetsToAdd.get(0).getBindingList().size());
+    
+    KbaBinding actualKbaBinding = keyBindingsChangeSetsToAdd.get(0).getBindingList().get(0);
+    
+    Assert.assertEquals(expectedKbaBinding, actualKbaBinding);
   }
 
   @Test
   public void testARoundTripCommandWithNoParams() {
     
+    KbaBinding expectedKbaBinding = kbaBindingCommandWithNoParams();
     Map<KbaChangeSetQualifier, KbaChangeSet> map = kbaMap(new KbaBindingList(
-        kbaBindingCommandWithNoParams()));
+        expectedKbaBinding));
     
     String json = KeyBindingsManualFormatter.getBindingsPrintout(BindingType.USER, map, "");
     KeyBindingsModel kbaFromJson = KeyBindingsParser.deSerialize(new StringReader(json));
+
+    List<KbaChangeSet> keyBindingsChangeSetsToAdd = Lists.newArrayList(
+        kbaFromJson.getKeyBindingsChangeSetsWith(Action.ADD));
+    Assert.assertEquals(1, keyBindingsChangeSetsToAdd.size());
+    Assert.assertEquals(1, keyBindingsChangeSetsToAdd.get(0).getBindingList().size());
+    
+    KbaBinding actualKbaBinding = keyBindingsChangeSetsToAdd.get(0).getBindingList().get(0);
+    
+    Assert.assertEquals(expectedKbaBinding, actualKbaBinding);
   }
 
   @Test
@@ -88,7 +110,8 @@ public class KeyBindingsManualFormatterTest {
   private static KbaBinding kbaBindingCommandWithNoParams() {
     KbaBinding kbaBinding = new KbaBinding(
       "Ctrl+/",
-      "org.eclipse.jdt.ui.edit.text.java.toggle.comment");
+      "org.eclipse.jdt.ui.edit.text.java.toggle.comment",
+      Maps.<String, String>newHashMap());
     return kbaBinding;
   }
 
