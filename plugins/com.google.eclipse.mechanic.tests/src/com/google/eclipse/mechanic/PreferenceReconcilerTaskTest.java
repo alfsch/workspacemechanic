@@ -9,12 +9,15 @@
 
 package com.google.eclipse.mechanic;
 
-import static org.easymock.EasyMock.createMock;
-import static org.easymock.EasyMock.expect;
-import static org.easymock.EasyMock.expectLastCall;
-import static org.easymock.EasyMock.replay;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import java.io.File;
+
+import junit.framework.TestCase;
+
+import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 
 import com.google.eclipse.mechanic.PreferenceReconcilerTask.CompositeReconciler;
 import com.google.eclipse.mechanic.PreferenceReconcilerTask.ContainsMatcher;
@@ -29,10 +32,6 @@ import com.google.eclipse.mechanic.PreferenceReconcilerTask.Resolver;
 import com.google.eclipse.mechanic.PreferenceReconcilerTask.SimpleResolver;
 import com.google.eclipse.mechanic.PreferenceReconcilerTask.StringReplaceResolver;
 import com.google.eclipse.mechanic.tests.internal.RunAsJUnitTest;
-
-import junit.framework.TestCase;
-
-import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 
 /**
  * Tests for PreferenceReconcilerTask.
@@ -95,17 +94,13 @@ public class PreferenceReconcilerTaskTest extends TestCase {
 
   public void testCompositeReconcilerDoesNothing() {
 
-    IEclipsePreferences root = createMock(IEclipsePreferences.class);
-    IEclipsePreferences wee = createMock(IEclipsePreferences.class);
+    IEclipsePreferences root = mock(IEclipsePreferences.class);
+    IEclipsePreferences wee = mock(IEclipsePreferences.class);
 
-    expect(root.node(WEE.getPath())).andReturn(wee);
-
-    replay(root);
+    when(root.node(WEE.getPath())).thenReturn(wee);
 
     // should return the correct value
-    expect(wee.get(WEE.getKey(), null)).andReturn(WEE.getValue());
-
-    replay(wee);
+    when(wee.get(WEE.getKey(), null)).thenReturn(WEE.getValue());
 
     // doesn't need reconciliation
     Reconciler reconciler = new CompositeReconciler(root, WEE,
@@ -116,29 +111,20 @@ public class PreferenceReconcilerTaskTest extends TestCase {
 
   public void testCompositeReconcilerReconciles() throws Exception {
 
-    IEclipsePreferences root = createMock(IEclipsePreferences.class);
-    IEclipsePreferences wee = createMock(IEclipsePreferences.class);
+    IEclipsePreferences root = mock(IEclipsePreferences.class);
+    IEclipsePreferences wee = mock(IEclipsePreferences.class);
 
-    expect(root.node(WEE.getPath()))
-        .andReturn(wee)
-        .times(1); // should be called once
-
-    replay(root);
+    when(root.node(WEE.getPath()))
+        .thenReturn(wee);
 
     // should return an incorrect value
-    expect(wee.get(WEE.getKey(), null))
-        .andReturn(HAA.getValue())
-        .anyTimes(); // can be called as many times as we want
-
-    wee.flush();
-    expectLastCall().anyTimes();
+    when(wee.get(WEE.getKey(), null))
+        .thenReturn(HAA.getValue());
 
     // It's a weird idiom, but we have to call this method before the
     // replay so that easy-mock will be aware of the fact that we will
     // be calling it after the replay. Else we get an exception.
     wee.put(WEE.getKey(), WEE.getValue());
-
-    replay(wee);
 
     // needs reconciliation
     Reconciler reconciler = new CompositeReconciler(root, HAA,
@@ -146,5 +132,7 @@ public class PreferenceReconcilerTaskTest extends TestCase {
 
     assertFalse(reconciler.isReconciled());
     reconciler.reconcile(); // causes wee.put to be called.
+
+    verify(wee).flush();
   }
 }

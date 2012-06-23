@@ -9,10 +9,9 @@
 
 package com.google.eclipse.mechanic;
 
-import static org.easymock.EasyMock.createMock;
-import static org.easymock.EasyMock.expect;
-import static org.easymock.EasyMock.replay;
-import static org.easymock.EasyMock.verify;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -22,9 +21,12 @@ import junit.framework.TestCase;
 
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 
+import com.google.eclipse.mechanic.tests.internal.RunAsPluginTest;
+
 /**
  * Tests for {@link ReconcilingPreferencesTask}.
  */
+@RunAsPluginTest
 public class ReconcilingPreferencesTaskTest extends TestCase {
 
   /**
@@ -38,17 +40,15 @@ public class ReconcilingPreferencesTaskTest extends TestCase {
 
     assertNotNull(inputStream);
 
-    IResourceTaskReference mockReference = createMock(IResourceTaskReference.class);
-    expect(mockReference.getPath()).andReturn("/path").anyTimes();
-    expect(mockReference.newInputStream()).andReturn(inputStream);
+    IResourceTaskReference mockReference = mock(IResourceTaskReference.class);
+    when(mockReference.getPath()).thenReturn("/path");
+    when(mockReference.newInputStream()).thenReturn(inputStream);
 
-    IEclipsePreferences prefsRootMock = createMock(IEclipsePreferences.class);
-    IEclipsePreferences prefsMock = createMock(IEclipsePreferences.class);
-    expect(prefsRootMock.node("/instance/org.eclipse.jdt.debug.ui")).andReturn(prefsMock).anyTimes();
-    expect(prefsMock.get("org.eclipse.jdt.debug.ui.detail_formatters", null)).andReturn(
-        "java.lang.Exception,String.format(\"Exception : %s\",this),1").anyTimes();
-
-    replay(mockReference, prefsRootMock, prefsMock);
+    IEclipsePreferences prefsRootMock = mock(IEclipsePreferences.class);
+    IEclipsePreferences prefsMock = mock(IEclipsePreferences.class);
+    when(prefsRootMock.node("/instance/org.eclipse.jdt.debug.ui")).thenReturn(prefsMock);
+    when(prefsMock.get("org.eclipse.jdt.debug.ui.detail_formatters", null)).thenReturn(
+        "java.lang.Exception,String.format(\"Exception : %s\",this),1");
 
     ReconcilingPreferencesTask task = new ReconcilingPreferencesTask(mockReference, prefsRootMock) {
       public String getTitle() {
@@ -61,7 +61,5 @@ public class ReconcilingPreferencesTaskTest extends TestCase {
     };
 
     task.run();
-
-    verify(mockReference, prefsRootMock, prefsMock);
   }
 }
