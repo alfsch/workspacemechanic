@@ -11,6 +11,7 @@ package com.google.eclipse.mechanic.internal;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.Collections;
 import java.util.List;
@@ -21,6 +22,8 @@ import org.eclipse.core.runtime.Status;
 import com.google.common.base.Joiner;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
+import com.google.common.hash.Hashing;
+import com.google.common.io.Files;
 import com.google.eclipse.mechanic.IResourceTaskReference;
 import com.google.eclipse.mechanic.SuffixFileFilter;
 import com.google.eclipse.mechanic.plugin.core.MechanicPlugin;
@@ -66,6 +69,10 @@ public final class FileTaskProvider extends ResourceTaskProvider {
 
     public File asFile() {
       return file;
+    }
+
+    public long computeMD5() throws IOException {
+      return Files.hash(file, Hashing.md5()).asLong();
     }
   }
 
