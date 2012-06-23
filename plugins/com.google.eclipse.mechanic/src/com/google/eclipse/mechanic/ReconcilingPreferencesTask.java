@@ -9,16 +9,11 @@
 
 package com.google.eclipse.mechanic;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.Map.Entry;
 import java.util.Properties;
 
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
-
-import com.google.common.io.Closeables;
 
 /**
  * Models an Eclipse preferences export file as a series of individual
@@ -68,35 +63,6 @@ public abstract class ReconcilingPreferencesTask extends PreferenceReconcilerTas
         String value = (String) entry.getValue();
         addReconciler(createReconciler(id, value));
       }
-    }
-  }
-
-
-  /**
-   * Adds a new reconciler for each preference line found in the file
-   * @throws RuntimeException if any files are not found.
-   */
-  private void initReconcilers_oldFashioned() {
-
-    BufferedReader reader = null;
-    
-    try {
-      reader = new BufferedReader(new InputStreamReader(taskRef.newInputStream(), "ISO-8859-1"));
-      for (String line = reader.readLine(); line != null;
-          line = reader.readLine()) {
-
-        line = line.trim();
-
-        // if the line starts with a slash, we treat it as a preference
-        if (line.length() > 0 && line.charAt(0) == '/') {
-          addReconciler(createReconciler(line));
-        }
-      }
-    } catch (IOException e) {
-      throw new RuntimeException(
-          "Couldn't read " + taskRef.getPath(), e);
-    } finally {
-      Closeables.closeQuietly(reader);
     }
   }
 }
