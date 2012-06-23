@@ -141,7 +141,7 @@ public class KeyBindingsParserTest extends TestCase {
   }
 
   public void testNoPlatform() {
-    KeyBindingsModel actual = KeyBindingsParser.deSerialize(new StringReader(TEST_NO_PLATFORM));
+    KeyBindingsParser.deSerialize(new StringReader(TEST_NO_PLATFORM));
     // Just want to know this did not throw
   }
 
