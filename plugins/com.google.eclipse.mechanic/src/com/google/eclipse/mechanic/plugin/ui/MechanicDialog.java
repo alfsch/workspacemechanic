@@ -86,7 +86,7 @@ public class MechanicDialog extends TitleAreaDialog {
   public void create() {
     super.create();
     setTitle("Workspace Mechanic");
-    setMessage("Changes suggested for your Eclipse installation:");
+    setMessage("Changes suggested for your Eclipse workspace:");
   }
 
   /**
