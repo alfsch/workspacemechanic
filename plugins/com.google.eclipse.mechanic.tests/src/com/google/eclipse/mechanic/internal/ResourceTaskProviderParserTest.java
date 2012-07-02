@@ -24,7 +24,7 @@ public class ResourceTaskProviderParserTest extends TestCase {
     public String doVariableSubstitution(String val) {
       return val;
     }
-  };
+  }
   private ResourceTaskProviderParser parser = new TestParser();
 
   public void testParse() {
