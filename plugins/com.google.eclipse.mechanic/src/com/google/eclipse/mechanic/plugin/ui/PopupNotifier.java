@@ -19,7 +19,6 @@ import com.google.eclipse.mechanic.plugin.core.MechanicPreferences;
 
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.PlatformUI;
-import org.osgi.service.prefs.BackingStoreException;
 
 /**
  * A {@link IStatusChangeListener} that appears when tasks fail.
@@ -143,7 +142,7 @@ public class PopupNotifier {
       }
 
       @Override
-      public void doNotShowPopup() throws BackingStoreException {
+      public void doNotShowPopup() {
         MechanicPreferences.doNotShowPopup();
       }
     };

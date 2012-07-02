@@ -7,13 +7,12 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *******************************************************************************/package com.google.eclipse.mechanic.internal;
 
+import com.google.common.collect.Maps;
+
 import java.io.ByteArrayInputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
 import java.util.Map;
-
-import com.google.common.collect.Maps;
 
 /**
  * Contains some canned entries that prevent actually fetching content from the web.
@@ -35,7 +34,7 @@ public final class TestUriContentProvider implements IUriContentProvider {
     lastmod.put("http://www.imdb.com", 2L);
   }
 
-  public InputStream get(URI uri) throws IOException {
+  public InputStream get(URI uri) {
     fetches++;
     return new ByteArrayInputStream(map.get(uri.toASCIIString()).getBytes());
   }
@@ -52,7 +51,7 @@ public final class TestUriContentProvider implements IUriContentProvider {
     return fetches;
   }
 
-  public long lastModifiedTime(URI uri) throws IOException {
+  public long lastModifiedTime(URI uri) {
     fetches++;
     Long l = lastmod.get(uri.toASCIIString());
     return l == null ? 0 : l;
