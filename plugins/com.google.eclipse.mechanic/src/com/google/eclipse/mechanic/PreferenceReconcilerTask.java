@@ -13,7 +13,6 @@ import static java.lang.String.format;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
-import com.google.eclipse.mechanic.internal.Util;
 
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
@@ -112,8 +111,27 @@ public abstract class PreferenceReconcilerTask extends CompositeTask {
    * Creates a Reconciler given an opaque preference string as exported
    * by Eclipse in an EPF file.
    */
-  public Reconciler createReconciler(String pref) {
-    return createReconciler(parsePreferenceString(pref));
+  public Reconciler createReconciler(String key, String value) {
+    return createReconciler(parsePreference(key, value));
+  }
+
+  private Preference parsePreference(String id, String value) {
+    Preconditions.checkNotNull(id, "'id' cannot be null.");
+    Preconditions.checkArgument(id.length() > 0, "'id' cannot be empty string.");
+    Preconditions.checkNotNull(value, "'value' cannot be null.");
+    Preconditions.checkArgument(value.length() > 0, "'value' cannot be empty string.");
+
+    int sli = id.lastIndexOf("/");
+
+    Preconditions.checkArgument(sli != -1, format("'pref' must contain a slash in the identifier portion "
+    + "of the preference. Bad val: '%s'", id));
+    String path = id.substring(0, sli);
+
+    Preconditions.checkArgument(id.length() > sli + 1, format("'pref' must contain a name after slash in the "
+    + "identifier portion of the preference. Bad val: '%s'", id));
+    String key = id.substring(sli + 1);
+
+    return new ImmutablePreference(path, key, value);
   }
 
   /**
@@ -142,38 +160,6 @@ public abstract class PreferenceReconcilerTask extends CompositeTask {
   public Reconciler createReconciler(Preference pref, Matcher matcher,
       Resolver resolver) {
     return new CompositeReconciler(prefsRoot, pref, matcher, resolver);
-  }
-
-  /**
-   * Parses the supplied string preference. Throws IllegalArgumentExcepiton
-   * when and if a parse error occurs.
-   */
-  static final Preference parsePreferenceString(String pref) {
-
-    Preconditions.checkNotNull(pref, "'pref' cannot be null.");
-    Preconditions.checkArgument(pref.length() > 0, "'pref' cannot be empty string.");
-
-    int eqi = pref.indexOf("=");
-    Preconditions.checkArgument(eqi != -1, format("'pref' must contain an equals sign. Bad val: '%s'", pref));
-
-    // assumes a value
-    String value = pref.length() > eqi + 1
-        ? Util.unquote(pref.substring(eqi + 1))
-        : "";
-
-    // makes a lot of assumptions about the preference values
-    String id = pref.substring(0, eqi);
-    int sli = id.lastIndexOf("/");
-
-    Preconditions.checkArgument(sli != -1, format("'pref' must contain a slash in the identifier portion "
-    + "of the preference. Bad val: '%s'", id));
-    String path = id.substring(0, sli);
-
-    Preconditions.checkArgument(id.length() > sli + 1, format("'pref' must contain a name after slash in the "
-    + "identifier portion of the preference. Bad val: '%s'", id));
-    String key = id.substring(sli + 1);
-
-    return new ImmutablePreference(path, key, value);
   }
 
   /**

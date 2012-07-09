@@ -29,4 +29,4 @@ public class FakeValueVariable implements  IValueVariable {
   public void setValue(String value) {
     this.value = value;
   }
-};
+}

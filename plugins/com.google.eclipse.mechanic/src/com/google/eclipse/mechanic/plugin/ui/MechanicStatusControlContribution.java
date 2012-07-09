@@ -8,10 +8,22 @@
  *******************************************************************************/
 package com.google.eclipse.mechanic.plugin.ui;
 
-import java.net.MalformedURLException;
-import java.util.Map;
+import com.google.common.collect.Maps;
+import com.google.eclipse.mechanic.IMechanicService;
+import com.google.eclipse.mechanic.IStatusChangeListener;
+import com.google.eclipse.mechanic.MechanicService;
+import com.google.eclipse.mechanic.MechanicStatus;
+import com.google.eclipse.mechanic.RepairDecisionProvider;
+import com.google.eclipse.mechanic.StatusChangedEvent;
+import com.google.eclipse.mechanic.core.recorder.ChangeCollector;
+import com.google.eclipse.mechanic.core.recorder.IPreferenceRecordingService;
+import com.google.eclipse.mechanic.plugin.core.MechanicLog;
+import com.google.eclipse.mechanic.plugin.core.MechanicPlugin;
+import com.google.eclipse.mechanic.plugin.core.MechanicPreferences;
 
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IMenuListener;
@@ -35,18 +47,8 @@ import org.eclipse.ui.IWorkbenchActionConstants;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.menus.WorkbenchWindowControlContribution;
 
-import com.google.common.collect.Maps;
-import com.google.eclipse.mechanic.IMechanicService;
-import com.google.eclipse.mechanic.IStatusChangeListener;
-import com.google.eclipse.mechanic.MechanicService;
-import com.google.eclipse.mechanic.MechanicStatus;
-import com.google.eclipse.mechanic.RepairDecisionProvider;
-import com.google.eclipse.mechanic.StatusChangedEvent;
-import com.google.eclipse.mechanic.core.recorder.ChangeCollector;
-import com.google.eclipse.mechanic.core.recorder.IPreferenceRecordingService;
-import com.google.eclipse.mechanic.plugin.core.MechanicLog;
-import com.google.eclipse.mechanic.plugin.core.MechanicPlugin;
-import com.google.eclipse.mechanic.plugin.core.MechanicPreferences;
+import java.net.MalformedURLException;
+import java.util.Map;
 
 /**
  * Widget that appears in the status bar.
@@ -141,14 +143,20 @@ public class MechanicStatusControlContribution extends WorkbenchWindowControlCon
    * Initializes the image cache.
    */
   private void initImageCache() {
-    images = Maps.newHashMap();
+    Map<DisplayStatus, Image> map = Maps.newHashMap();
 
     for (DisplayStatus ds : DisplayStatus.values()) {
       String path = String.format("icons/%s.png", ds.name().toLowerCase());
       ImageDescriptor desc = MechanicPlugin.getImageDescriptor(path);
-      Image image = desc.createImage();
-      images.put(ds, image);
+      if (desc == null) {
+        MechanicLog.getDefault().log(new Status(IStatus.ERROR, MechanicPlugin.PLUGIN_ID, 
+            "Can't find image descriptor for resource " + path));
+      } else {
+        Image image = desc.createImage();
+        map.put(ds, image);
+      }
     }
+    images = map;
   }
 
   private void updateDisplay() {

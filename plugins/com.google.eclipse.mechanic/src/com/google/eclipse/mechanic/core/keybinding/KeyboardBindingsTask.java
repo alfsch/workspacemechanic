@@ -33,6 +33,7 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.google.eclipse.mechanic.CompositeTask;
+import com.google.eclipse.mechanic.IResourceTaskReference;
 import com.google.eclipse.mechanic.core.keybinding.KbaChangeSet.Action;
 import com.google.eclipse.mechanic.plugin.core.MechanicLog;
 
@@ -54,14 +55,16 @@ class KeyboardBindingsTask extends CompositeTask {
   private final ICommandService commandService;
   private final IBindingService bindingService;
   private final KeyBindingsModel model;
+  private final String id;
 
-  public KeyboardBindingsTask(KeyBindingsModel model) {
+  public KeyboardBindingsTask(KeyBindingsModel model, IResourceTaskReference taskRef) {
     this(
         MechanicLog.getDefault(),
         PlatformUI.getWorkbench(),
         (ICommandService) PlatformUI.getWorkbench().getService(ICommandService.class),
         (IBindingService) PlatformUI.getWorkbench().getService(IBindingService.class),
-        model);
+        model,
+        String.format("%s@%s", KeyboardBindingsTask.class.getName(), taskRef.getPath()));
   }
   
   KeyboardBindingsTask(
@@ -69,12 +72,14 @@ class KeyboardBindingsTask extends CompositeTask {
       IWorkbench workbench,
       ICommandService commandService,
       IBindingService bindingService,
-      KeyBindingsModel model) {
+      KeyBindingsModel model,
+      String id) {
     this.log = log;
     this.workbench = workbench;
     this.commandService = commandService;
     this.bindingService = bindingService;
     this.model = Preconditions.checkNotNull(model);
+    this.id = id;
   }
 
   public String getDescription() {
@@ -267,17 +272,22 @@ class KeyboardBindingsTask extends CompositeTask {
   }
   
   @Override
+  public String getId() {
+    return id;
+  }
+  
+  @Override
   public boolean equals(Object obj) {
     if (!(obj instanceof KeyboardBindingsTask)) {
       return false;
     }
     KeyboardBindingsTask that = (KeyboardBindingsTask)obj;
-    return Objects.equal(this.model, that.model);
+    return Objects.equal(this.id, that.id);
   }
   
   @Override
   public int hashCode() {
-    return Objects.hashCode(this.model);
+    return this.id.hashCode();
   }
 
   @Override

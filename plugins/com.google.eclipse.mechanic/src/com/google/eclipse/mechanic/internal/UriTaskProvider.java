@@ -19,6 +19,9 @@ import org.eclipse.core.runtime.Status;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
+import com.google.common.hash.Hashing;
+import com.google.common.io.ByteStreams;
+import com.google.common.io.InputSupplier;
 import com.google.eclipse.mechanic.IResourceTaskReference;
 import com.google.eclipse.mechanic.plugin.core.MechanicPlugin;
 import com.google.eclipse.mechanic.plugin.core.ResourceTaskProvider;
@@ -70,6 +73,15 @@ public final class UriTaskProvider extends ResourceTaskProvider {
 
     public long getLastModified() throws IOException {
       return longTermCache.lastModifiedTime(uri);
+    }
+
+    public long computeMD5() throws IOException {
+      InputSupplier<InputStream> supplier = new InputSupplier<InputStream>() {
+        public InputStream getInput() throws IOException {
+          return newInputStream();
+        }
+      };
+      return ByteStreams.hash(supplier, Hashing.md5()).asLong();
     }
   }
 

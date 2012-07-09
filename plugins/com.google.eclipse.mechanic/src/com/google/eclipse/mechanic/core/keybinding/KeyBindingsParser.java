@@ -16,6 +16,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.google.eclipse.mechanic.core.keybinding.KbaChangeSet.KbaBindingList;
 import com.google.eclipse.mechanic.core.keybinding.KeyBindingsModel.KbaMetaData;
 import com.google.gson.Gson;
@@ -205,16 +206,20 @@ class KeyBindingsParser {
 
         String keySequence = jo.get(KEYS_JSON_KEY).getAsString();
         String command = jo.get(COMMAND_JSON_KEY).getAsString();
-
-        KbaBinding bindingSpec = new KbaBinding(
-            keySequence,
-            command);
-
         JsonObject params = jo.getAsJsonObject(COMMAND_PARAMETERS_JSON_KEY);
-        if (params != null) {
+        KbaBinding bindingSpec;
+        
+        if (params == null) {
+        bindingSpec = new KbaBinding(
+            keySequence,
+            command,
+            Maps.<String, String>newHashMap());
+        } else {
+          Map<String,String> paramsAsMapOfStrings = Maps.newHashMap();
           for (Entry<String, JsonElement> entry : params.entrySet()) {
-            bindingSpec = bindingSpec.withParam(entry.getKey(), entry.getValue().getAsString());
+            paramsAsMapOfStrings.put(entry.getKey(), entry.getValue().getAsString());
           }
+          bindingSpec = new KbaBinding(keySequence, command, paramsAsMapOfStrings);
         }
         bindingSpecList.add(bindingSpec);
       }

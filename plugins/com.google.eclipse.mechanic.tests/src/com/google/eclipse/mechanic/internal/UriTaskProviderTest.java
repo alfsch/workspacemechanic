@@ -8,16 +8,17 @@
  *******************************************************************************/
 package com.google.eclipse.mechanic.internal;
 
-import static org.easymock.EasyMock.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.net.URI;
 import java.util.List;
 
-import org.eclipse.core.runtime.Status;
-
 import junit.framework.TestCase;
+
+import org.eclipse.core.runtime.Status;
 
 import com.google.eclipse.mechanic.IResourceTaskReference;
 import com.google.eclipse.mechanic.tests.internal.RunAsJUnitTest;
@@ -45,9 +46,8 @@ public class UriTaskProviderTest extends TestCase {
   public void testRelativize() throws Exception {
     URI uri = URI.create("http://www.testuri.com/mechanic/tasks/schema");
 
-    IUriContentProvider cache = createMock(IUriContentProvider.class);
-    expect(cache.get(uri)).andReturn(asInputStream(CONTENT));
-    replay(cache);
+    IUriContentProvider cache = mock(IUriContentProvider.class);
+    when(cache.get(uri)).thenReturn(asInputStream(CONTENT));
 
     UriTaskProvider provider = new UriTaskProvider(uri, cache, cache);
     assertEquals(Status.OK_STATUS, provider.initialize());
@@ -57,8 +57,6 @@ public class UriTaskProviderTest extends TestCase {
     assertEquals("http://www.google.com/foo/bar/baz", taskReferences.get(0).getPath());
     assertEquals("http://www.testuri.com/mechanic/tasks/path", taskReferences.get(1).getPath());
     assertEquals("http://www.testuri.com/mechanic/tasks/path2", taskReferences.get(2).getPath());
-
-    verify(cache);
   }
 
 	private InputStream asInputStream(String content) {

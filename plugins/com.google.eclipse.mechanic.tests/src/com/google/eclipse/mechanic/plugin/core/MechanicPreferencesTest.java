@@ -29,6 +29,8 @@ import static com.google.eclipse.mechanic.plugin.core.MechanicPreferences.*;
 public class MechanicPreferencesTest extends TestCase {
 
   public void testGetHelpUrl() {
+    MechanicPlugin.getDefault().getPluginPreferences()
+        .setToDefault(MechanicPreferences.HELP_URL_PREF);
     assertEquals(
         "http://code.google.com/a/eclipselabs.org/p/workspacemechanic/wiki/GettingStarted",
         MechanicPreferences.getHelpUrl());
@@ -109,6 +111,9 @@ public class MechanicPreferencesTest extends TestCase {
   }
 
   public void testGetTaskDirectories() {
+    MechanicPlugin.getDefault().getPluginPreferences()
+        .setToDefault(MechanicPreferences.DIRS_PREF);
+
     String taskDirs = MechanicPreferences.getString(MechanicPreferences.DIRS_PREF);
     assertEquals("${user_homedir}/.eclipse/mechanic:${mechanic_configuration_path}/mechanic", taskDirs);
   }

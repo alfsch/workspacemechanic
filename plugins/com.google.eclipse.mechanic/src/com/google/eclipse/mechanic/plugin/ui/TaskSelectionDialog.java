@@ -9,12 +9,16 @@
 
 package com.google.eclipse.mechanic.plugin.ui;
 
-import java.util.Collection;
+import com.google.eclipse.mechanic.Task;
 
 import org.eclipse.jface.viewers.ArrayContentProvider;
+import org.eclipse.jface.viewers.CellLabelProvider;
+import org.eclipse.jface.viewers.ColumnViewerToolTipSupport;
 import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.TableViewer;
+import org.eclipse.jface.viewers.ViewerCell;
+import org.eclipse.jface.window.ToolTip;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
@@ -24,15 +28,13 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.ui.dialogs.ListDialog;
 
-import com.google.eclipse.mechanic.Task;
+import java.util.Collection;
 
 /**
  * Allows the user to pick a single Task from a list of Tasks.
  * 
  * TODO(smckay): We should pretty this up to use a view similar to the
  * MechanicDialog.
- * 
- * @author smckay@google.com (Steve McKay)
  */
 public final class TaskSelectionDialog extends ListDialog {
 
@@ -65,12 +67,42 @@ public final class TaskSelectionDialog extends ListDialog {
     Control area = super.createDialogArea(container);
     TableViewer tableViewer = getTableViewer();
     Table table = tableViewer.getTable();
+    tableViewer.setLabelProvider(new DefaultCellLabelProvider());
+    ColumnViewerToolTipSupport.enableFor(tableViewer, ToolTip.NO_RECREATE); 
     table.setHeaderVisible(true);
     newTableColumn(table, "Description", 200);
     newTableColumn(table, "ID", 200);
     newTableColumn(table, "Name", 200);
     tableViewer.refresh();
     return area;
+  }
+
+  private static class DefaultCellLabelProvider extends CellLabelProvider {
+    @Override
+    public void update(ViewerCell cell) {
+      Object element = cell.getElement();
+      int columnIndex = cell.getColumnIndex();
+      cell.setText(getColumnText((Task) element, columnIndex));
+    }
+
+    @Override
+    public String getToolTipText(Object element) {
+      Task item = (Task) element;
+      return item.getTitle() + "\n" + item.getDescription() + "\n\nID:" + item.getId();
+    }
+
+    public String getColumnText(Task item, int columnIndex) {
+      switch(columnIndex) {
+      case 0:
+        return item.getTitle();
+      case 1:
+        return item.getId();
+      case 2:
+        return item.getDescription();
+      default:
+        return "" + columnIndex;
+      }
+    }
   }
 
   /**

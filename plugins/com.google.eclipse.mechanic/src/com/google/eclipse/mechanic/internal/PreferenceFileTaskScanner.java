@@ -89,6 +89,8 @@ public final class PreferenceFileTaskScanner extends DirectoryIteratingTaskScann
         }
       } catch(RuntimeException e) {
         log.logError(e, "Loading preferences from: %s", taskRef);
+      } catch (IOException e) {
+        log.logError(e, "Loading preferences from: %s", taskRef);
       }
     }
   }
@@ -102,7 +104,7 @@ public final class PreferenceFileTaskScanner extends DirectoryIteratingTaskScann
 
     private final Header header;
 
-    public ReconcilingEpfTask(IResourceTaskReference taskRef, Header header) {
+    public ReconcilingEpfTask(IResourceTaskReference taskRef, Header header) throws IOException {
       super(taskRef);
       this.header = header;
     }

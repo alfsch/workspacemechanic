@@ -82,8 +82,8 @@ public class KbaBootstrapperTest {
     
     Set<KbaBinding> actualRemoved = Sets.newHashSet(actualUserRemBindings.getBindingList());
     Set<KbaBinding> expectedRemoved = Sets.newHashSet(
-        new KbaBinding("key1", "cid1"),
-        new KbaBinding("key4", "cid4"));
+        new KbaBinding("key1", "cid1", Maps.<String, String>newHashMap()),
+        new KbaBinding("key4", "cid4", Maps.<String, String>newHashMap()));
     Assert.assertEquals(expectedRemoved, actualRemoved);
     
     Assert.assertEquals(Action.REMOVE, actualUserRemBindings.getAction());
@@ -94,8 +94,10 @@ public class KbaBootstrapperTest {
     Map<KbaChangeSetQualifier, KbaChangeSet> map = Maps.newHashMap();
     KbaChangeSetQualifier addKey = ADD_Q_CURRENT_PLATFORM;
     KbaChangeSetQualifier remKey = REM_Q_CURRENT_PLATFORM;
-    KbaBinding fooCommand = new KbaBinding("Ctrl+Alt+F", "com.google.FooCommand");
-    KbaBinding barCommand = new KbaBinding("Ctrl+Alt+G", "com.google.BarCommand");
+    KbaBinding fooCommand = new KbaBinding(
+        "Ctrl+Alt+F", "com.google.FooCommand", Maps.<String, String>newHashMap());
+    KbaBinding barCommand = new KbaBinding(
+        "Ctrl+Alt+G", "com.google.BarCommand", Maps.<String, String>newHashMap());
     Iterable<KbaBinding> bindingListToAdd = Lists.newArrayList(
         fooCommand,
         barCommand

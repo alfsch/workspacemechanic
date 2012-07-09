@@ -49,7 +49,7 @@ public interface IMechanicService {
    * Removes supplied listener from our set of listeners if it is contained
    * therein, else does nothing.
    *
-   * @param listener listener to receive status update notifications.
+   * @param statusChangeListener listener to receive status update notifications.
    */
   void removeTaskStatusChangeListener(IStatusChangeListener statusChangeListener);
 

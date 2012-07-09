@@ -14,7 +14,6 @@ import java.util.List;
 import com.google.common.base.Preconditions;
 import com.google.eclipse.mechanic.internal.RegisteredTaskProvidersSupplier;
 import com.google.eclipse.mechanic.internal.Supplier;
-import com.google.eclipse.mechanic.plugin.core.ResourceTaskProvider;
 
 /**
  * Scanner that looks in the registered directories for tasks.
@@ -34,8 +33,7 @@ public abstract class DirectoryIteratingTaskScanner implements TaskScanner {
   /**
    * Scan the source for tasks.
    *
-   * @param dir the source to scan. The source has already been validated via
-   *     {@link ResourceTaskProvider#validate()}.
+   * @param source the source to scan. The source should already be considered valid.
    * @param collector the collector of tasks. Guaranteed to be not null.
    */
   protected abstract void scan(IResourceTaskProvider source, TaskCollector collector);

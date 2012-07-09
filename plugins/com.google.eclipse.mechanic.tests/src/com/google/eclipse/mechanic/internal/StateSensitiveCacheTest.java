@@ -8,12 +8,7 @@
  *******************************************************************************/
 package com.google.eclipse.mechanic.internal;
 
-import static org.easymock.EasyMock.anyObject;
-import static org.easymock.EasyMock.createMock;
-import static org.easymock.EasyMock.expectLastCall;
-import static org.easymock.EasyMock.replay;
-import static org.easymock.EasyMock.verify;
-
+import static org.mockito.Mockito.mock;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -84,7 +79,7 @@ public class StateSensitiveCacheTest extends TestCase {
     } catch(NullPointerException e) {
     }
     try {
-      new StateSensitiveCache(createMock(IMechanicService.class), null);
+      new StateSensitiveCache(mock(IMechanicService.class), null);
       fail("npe expected");
     } catch(NullPointerException e) {
     }
@@ -96,28 +91,18 @@ public class StateSensitiveCacheTest extends TestCase {
   }
 
   public void testInitialize() {
-    IMechanicService service = createMock(IMechanicService.class);
-    service.addTaskStatusChangeListener((IStatusChangeListener) anyObject());
-    expectLastCall();
-    replay(service);
+    IMechanicService service = mock(IMechanicService.class);
+
     StateSensitiveCache cache = new StateSensitiveCache(service, delegate);
     cache.initialize();
-    verify(service);
   }
 
 
   public void testDispose() {
-    IMechanicService service = createMock(IMechanicService.class);
-    service.addTaskStatusChangeListener((IStatusChangeListener) anyObject());
-    expectLastCall();
-
-    service.removeTaskStatusChangeListener((IStatusChangeListener) anyObject());
-    expectLastCall();
-    replay(service);
+    IMechanicService service = mock(IMechanicService.class);
     StateSensitiveCache cache = new StateSensitiveCache(service, delegate);
     cache.initialize();
     cache.dispose();
-    verify(service);
   }
 
   public void testGet_clear() throws Exception {
