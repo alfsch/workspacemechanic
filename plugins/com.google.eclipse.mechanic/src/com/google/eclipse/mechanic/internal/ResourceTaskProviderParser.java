@@ -12,10 +12,8 @@ import java.io.File;
 import java.util.List;
 import java.util.StringTokenizer;
 
-import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.variables.IStringVariableManager;
-import org.eclipse.core.variables.VariablesPlugin;
-
+import com.google.common.base.Function;
+import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 import com.google.gson.Gson;
 
@@ -24,10 +22,20 @@ import com.google.gson.Gson;
  */
 public class ResourceTaskProviderParser {
 
-  private static final IStringVariableManager STRING_MANAGER =
-      VariablesPlugin.getDefault().getStringVariableManager();
-
   private static final Gson gson = new Gson();
+
+  private final Function<String, String> variableParser;
+
+  /**
+   * Create a new instance.
+   *
+   * @param variableParser used to perform variable substitution. One such translator is
+   * {@link VariableManagerStringParser#INSTANCE}. To get the raw values, pass
+   * {@code Functions.<String>identity()}
+   */
+  public ResourceTaskProviderParser(Function<String, String> variableParser) {
+    this.variableParser = Preconditions.checkNotNull(variableParser);
+  }
 
   public final String[] parse(String text) {
     if (!text.startsWith("[")) {
@@ -40,7 +48,7 @@ public class ResourceTaskProviderParser {
         if (elem == null) {
           continue;
         }
-        String substituted = doVariableSubstitution(elem);
+        String substituted = variableParser.apply(elem);
         list.add(substituted);
       }
       return list.toArray(new String[0]);
@@ -51,19 +59,5 @@ public class ResourceTaskProviderParser {
 
   public final String unparse(String... items) {
     return gson.toJson(items);
-  }
-
-  /**
-   * Perform variable substitution on a string. Used for translating the task directories,
-   * which can contain variables.
-   *
-   * <p>Comes from the default {@link IStringVariableManager} from the {@link VariablesPlugin}.
-   */
-  protected String doVariableSubstitution(String elem) {
-    try {
-      return STRING_MANAGER.performStringSubstitution(elem);
-    } catch (CoreException e) {
-      return "";
-    }
   }
 }

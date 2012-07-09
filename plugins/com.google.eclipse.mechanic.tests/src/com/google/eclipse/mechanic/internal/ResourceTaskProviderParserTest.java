@@ -12,6 +12,7 @@ import java.util.Arrays;
 
 import junit.framework.TestCase;
 
+import com.google.common.base.Functions;
 import com.google.eclipse.mechanic.tests.internal.RunAsJUnitTest;
 
 /**
@@ -19,13 +20,8 @@ import com.google.eclipse.mechanic.tests.internal.RunAsJUnitTest;
  */
 @RunAsJUnitTest
 public class ResourceTaskProviderParserTest extends TestCase {
-  private static class TestParser extends ResourceTaskProviderParser {
-    @Override
-    public String doVariableSubstitution(String val) {
-      return val;
-    }
-  };
-  private ResourceTaskProviderParser parser = new TestParser();
+  private ResourceTaskProviderParser parser =
+      new ResourceTaskProviderParser(Functions.<String>identity());
 
   public void testParse() {
     assertResults(parser.parse(""));

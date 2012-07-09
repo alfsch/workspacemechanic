@@ -13,6 +13,7 @@ import org.eclipse.jface.preference.ListEditor;
 import org.eclipse.swt.widgets.Composite;
 
 import com.google.eclipse.mechanic.internal.ResourceTaskProviderParser;
+import com.google.eclipse.mechanic.internal.VariableManagerStringParser;
 
 /**
  * An editor that lets the user select either a URL resource or
@@ -21,7 +22,8 @@ import com.google.eclipse.mechanic.internal.ResourceTaskProviderParser;
  */
 public class DirectoryOrUrlEditor extends ListEditor {
 
-  private static final ResourceTaskProviderParser parser = new ResourceTaskProviderParser();
+  private static final ResourceTaskProviderParser parser =
+      new ResourceTaskProviderParser(VariableManagerStringParser.INSTANCE);
 
   public DirectoryOrUrlEditor(String name, String labelText, Composite parent) {
     init(name, labelText);

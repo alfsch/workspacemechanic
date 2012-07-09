@@ -30,6 +30,7 @@ import com.google.eclipse.mechanic.internal.FileTaskProvider;
 import com.google.eclipse.mechanic.internal.ResourceTaskProviderParser;
 import com.google.eclipse.mechanic.internal.UriCaches;
 import com.google.eclipse.mechanic.internal.UriTaskProvider;
+import com.google.eclipse.mechanic.internal.VariableManagerStringParser;
 
 /**
  * Class used to initialize and access various plugin related preference values.
@@ -126,7 +127,7 @@ public class MechanicPreferences {
   public static List<ResourceTaskProvider> getTaskProviders() {
     String paths = getString(DIRS_PREF);
 
-    ResourceTaskProviderParser parser = new ResourceTaskProviderParser();
+    ResourceTaskProviderParser parser = new ResourceTaskProviderParser(VariableManagerStringParser.INSTANCE);
     List<ResourceTaskProvider> providers = Lists.newArrayList();
     for (String source : parser.parse(paths)) {
       ResourceTaskProvider provider = toProvider(source);
