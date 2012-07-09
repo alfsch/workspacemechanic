@@ -17,14 +17,10 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ConcurrentMap;
 
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Preferences;
 import org.eclipse.core.runtime.Preferences.IPropertyChangeListener;
-import org.eclipse.core.variables.IStringVariableManager;
-import org.eclipse.core.variables.VariablesPlugin;
-
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
@@ -260,22 +256,6 @@ public class MechanicPreferences {
   public static void setString(String key, String value) {
     Preferences prefs = getPreferences();
     prefs.setValue(key, value);
-  }
-
-  /**
-   * Perform variable substitution on a string. Used for translating the task directories,
-   * which can contain variables.
-   *
-   * <p>Comes from the default {@link IStringVariableManager} from the {@link VariablesPlugin}.
-   */
-  public static String doVariableSubstitution(String input) {
-    try {
-      IStringVariableManager stringManager =
-          VariablesPlugin.getDefault().getStringVariableManager();
-      return stringManager.performStringSubstitution(input);
-    } catch (CoreException e) {
-      return "";
-    }
   }
 
   /**
