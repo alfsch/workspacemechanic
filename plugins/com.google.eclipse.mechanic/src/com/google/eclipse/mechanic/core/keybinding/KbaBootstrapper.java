@@ -143,6 +143,13 @@ public final class KbaBootstrapper {
         q.scheme, platform, q.context, Action.ADD.toString());
     
     KbaChangeSet kbaChangeSet = systemBindingsMap.get(equivalentAdd);
+    if (kbaChangeSet == null) {
+      // It seems we're trying to remove a system key binding that simply does
+      // not exist. Possibly this removing was recorded against an earlier
+      // version of Eclipse (when the binding existed). In any case, just return
+      // null.
+      return null;
+    }
     for (KbaBinding binding : kbaChangeSet.getBindingList()) {
       String keySequence = rem.getKeySequence();
       if (binding.getKeySequence().equals(keySequence)) {

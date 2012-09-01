@@ -10,7 +10,6 @@
 package com.google.eclipse.mechanic.plugin.ui;
 
 import java.io.File;
-import java.io.IOException;
 
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -69,7 +68,7 @@ public class KeybindingsOutputDialog extends BaseOutputDialog {
           location,
           getDescription());
       super.okPressed(); // Closes the dialog and returns an OK result
-    } catch (IOException e) {
+    } catch (Exception e) {
       MechanicLog.getDefault().logError(e, "Error while writing %s", location);
       MessageDialog.openError(super.getParentShell(), "Unable to write Keyboard bindings file.",
           e.getMessage());
