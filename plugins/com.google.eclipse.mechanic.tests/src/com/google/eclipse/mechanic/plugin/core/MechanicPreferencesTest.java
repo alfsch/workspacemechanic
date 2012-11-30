@@ -118,6 +118,15 @@ public class MechanicPreferencesTest extends TestCase {
     assertEquals("${user_homedir}/.eclipse/mechanic:${mechanic_configuration_path}/mechanic", taskDirs);
   }
 
+  public void testContains() {
+    String pref = "XYZPDQ";
+    assertFalse(contains(pref));
+    setLong(pref, 1L);
+    assertTrue(contains(pref));
+    getPreferences().setToDefault(pref);
+    assertFalse(contains(pref));
+  }
+
   //public static int getThreadSleepSeconds() {
   //public static String doVariableSubstitution(String input) {
   //public static IStatus validatePreferencesFile(IPath path) {

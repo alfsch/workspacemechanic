@@ -21,6 +21,8 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Preferences;
 import org.eclipse.core.runtime.Preferences.IPropertyChangeListener;
+
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
@@ -45,7 +47,8 @@ public class MechanicPreferences {
   /**
    * Returns the plugin preferences. Just a convenience method.
    */
-  private static Preferences getPreferences() {
+  @VisibleForTesting
+  static Preferences getPreferences() {
     return MechanicPlugin.getDefault().getPluginPreferences();
   }
 
@@ -217,6 +220,11 @@ public class MechanicPreferences {
    */
   public static String getHelpUrl() {
     return getString(HELP_URL_PREF);
+  }
+
+  public static boolean contains(String key) {
+    Preferences prefs = getPreferences();
+    return prefs.contains(key);
   }
 
   /**
