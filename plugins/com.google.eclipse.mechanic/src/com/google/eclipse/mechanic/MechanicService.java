@@ -29,7 +29,7 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.eclipse.mechanic.internal.RootTaskScanner;
 import com.google.eclipse.mechanic.plugin.core.MechanicLog;
-import com.google.eclipse.mechanic.plugin.core.MechanicPreferences;
+import com.google.eclipse.mechanic.plugin.core.OldMechanicPreferences;
 
 /**
  * <p>The service doesn't itself expose any UI components. This should be done
@@ -103,7 +103,7 @@ public final class MechanicService implements IMechanicService {
 
     // add a property change listener to the plugin prefs so we can
     // update our running config when prefs have been changed.
-    MechanicPreferences.addListener(new PreferenceChangeListener());
+    OldMechanicPreferences.addListener(new PreferenceChangeListener());
 
     job = new ServiceJob();
   }
@@ -113,7 +113,7 @@ public final class MechanicService implements IMechanicService {
    * specified in the thread sleep seconds preference.
    */
   private void reschedule() {
-    job.schedule(MechanicPreferences.getThreadSleepSeconds() * 1000);
+    job.schedule(OldMechanicPreferences.getThreadSleepSeconds() * 1000);
   }
 
   /**
@@ -283,7 +283,7 @@ public final class MechanicService implements IMechanicService {
    */
   private synchronized void updateTaskStatus(IProgressMonitor monitor) {
 
-    Set<String> blocked = MechanicPreferences.getBlockedTaskIds();
+    Set<String> blocked = OldMechanicPreferences.getBlockedTaskIds();
 
     monitor.beginTask("", collector.getTasks().size());
     try {

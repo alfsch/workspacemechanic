@@ -40,9 +40,11 @@ import com.google.eclipse.mechanic.internal.VariableManagerStringParser;
  * <p> API Note: I tried using the newer API (as the Preferences API was
  * deprecated, but I had such a bizarre issue? As evidenced by the test
  * in MechanicPreferencesTest.testWithFunnyKey.
+ *
+ * @deprecated use MechanicPreferences.
  */
 @SuppressWarnings("deprecation") // Uses the old-style API.
-public class MechanicPreferences {
+public class OldMechanicPreferences {
  
   /**
    * Returns the plugin preferences. Just a convenience method.
@@ -60,54 +62,46 @@ public class MechanicPreferences {
    * Stores a list of strings separated by the platform's file separator, or as a GSON array of
    * URIs.
    */
-  public static final String DIRS_PREF = "mechanicSourceDirectories";
+  @Deprecated
+  public static final String DIRS_PREF = IMechanicPreferences.DIRS_PREF;
 
   /**
    * Preference string for blocked task ids.
    *
    * <p>Stores a list of strings separated by ???.
    */
-  public static final String BLOCKED_PREF = "blockedTaskIds";
+  @Deprecated
+  public static final String BLOCKED_PREF = IMechanicPreferences.BLOCKED_PREF;
 
   /**
    * Preference string for sleep duration between scans.
    *
    * <p>Stores an integer value.
    */
-  public static final String SLEEPAGE_PREF = "sleepSeconds";
+  @Deprecated
+  public static final String SLEEPAGE_PREF = IMechanicPreferences.SLEEPAGE_PREF;
 
   /**
    * Preference string for Help URL.
    *
    * <p>Stores a String value.
    */
-  public static final String HELP_URL_PREF = "helpUrl";
+  @Deprecated
+  public static final String HELP_URL_PREF = IMechanicPreferences.HELP_URL_PREF;
 
   /**
    * Preference string to choose when to show the popup when the mechanic status is "failed".
    *
    * <p>Stores a boolean.
    */
-  public static final String SHOW_POPUP_PREF = "showPopup";
-
-//  /**
-//   * Preference string to enable web content caching.
-//   *
-//   * <p>Stores a boolean.
-//   */
-//  public static final String CACHE_URI_CONTENT_PREF = "cacheUriContent";
-
-//  /**
-//   * Preference string that defines the maximum lifetime of web cache entries, in hours.
-//   *
-//   * <p>Stores an integer.
-//   */
-//  public static final String CACHE_URI_AGE_HOURS_PREF = "cacheUriAgeHours";
+  @Deprecated
+  public static final String SHOW_POPUP_PREF = IMechanicPreferences.SHOW_POPUP_PREF;
 
   /**
    * Minimum duration between tasks, in seconds.
    */
-  public static final int MINIMUM_SLEEP_SECONDS = 10;
+  @Deprecated
+  public static final int MINIMUM_SLEEP_SECONDS = IMechanicPreferences.MINIMUM_SLEEP_SECONDS;
 
   public static void addListener(IPropertyChangeListener listener) {
     Preferences prefs = getPreferences();

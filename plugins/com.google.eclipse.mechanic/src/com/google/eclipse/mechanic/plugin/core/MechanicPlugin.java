@@ -16,6 +16,7 @@ import org.osgi.framework.BundleContext;
 import com.google.eclipse.mechanic.MechanicService;
 import com.google.eclipse.mechanic.core.recorder.IPreferenceRecordingService;
 import com.google.eclipse.mechanic.core.recorder.PreferenceRecordingService;
+import com.google.eclipse.mechanic.internal.MechanicPreferences;
 import com.google.eclipse.mechanic.internal.TasksExtensionPoint;
 import com.google.eclipse.mechanic.internal.UriCaches;
 import com.google.eclipse.mechanic.plugin.ui.PopupNotifier;
@@ -32,6 +33,8 @@ public class MechanicPlugin extends AbstractUIPlugin {
   // The shared instance
   private static MechanicPlugin plugin;
 
+  private IMechanicPreferences mechanicPreferences;
+
   private volatile IPreferenceRecordingService preferenceRecordingService =
       new PreferenceRecordingService();
 
@@ -44,6 +47,8 @@ public class MechanicPlugin extends AbstractUIPlugin {
   @Override 
   public void start(BundleContext context) throws Exception {
     super.start(context);
+
+    mechanicPreferences = new MechanicPreferences();
 
     // popup notifier must start before the mechanic service in order to
     // catch the first statuses.
@@ -91,5 +96,9 @@ public class MechanicPlugin extends AbstractUIPlugin {
     }
 
     return preferenceRecordingService;
+  }
+
+  public IMechanicPreferences getMechanicPreferences() {
+    return mechanicPreferences;
   }
 }

@@ -26,11 +26,11 @@ public class MechanicPreferencesInitializer extends AbstractPreferenceInitialize
   public void initializeDefaultPreferences() {
     IPreferenceStore store = MechanicPlugin.getDefault().getPreferenceStore();
     // store.setDefault(STARTUP_PREF, false);
-    store.setDefault(MechanicPreferences.DIRS_PREF, DEFAULT_DIRS);
-    store.setDefault(MechanicPreferences.SLEEPAGE_PREF, DEFAULT_SLEEP_SECONDS);
-    store.setDefault(MechanicPreferences.HELP_URL_PREF,
+    store.setDefault(OldMechanicPreferences.DIRS_PREF, DEFAULT_DIRS);
+    store.setDefault(OldMechanicPreferences.SLEEPAGE_PREF, DEFAULT_SLEEP_SECONDS);
+    store.setDefault(OldMechanicPreferences.HELP_URL_PREF,
         "http://code.google.com/a/eclipselabs.org/p/workspacemechanic/wiki/GettingStarted");
-    store.setDefault(MechanicPreferences.SHOW_POPUP_PREF, true);
+    store.setDefault(OldMechanicPreferences.SHOW_POPUP_PREF, true);
 //    store.setDefault(MechanicPreferences.CACHE_URI_CONTENT_PREF, false);
 //    store.setDefault(MechanicPreferences.CACHE_URI_AGE_HOURS_PREF, 12);
   }

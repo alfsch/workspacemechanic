@@ -15,7 +15,7 @@ import com.google.eclipse.mechanic.IMechanicService;
 import com.google.eclipse.mechanic.RepairDecisionProvider;
 import com.google.eclipse.mechanic.IStatusChangeListener;
 import com.google.eclipse.mechanic.StatusChangedEvent;
-import com.google.eclipse.mechanic.plugin.core.MechanicPreferences;
+import com.google.eclipse.mechanic.plugin.core.OldMechanicPreferences;
 
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.PlatformUI;
@@ -80,7 +80,7 @@ public class PopupNotifier {
       public void statusChanged(StatusChangedEvent event) {
         switch (event.getStatus()) {
           case FAILED:
-            if (MechanicPreferences.isShowPopup()) {
+            if (OldMechanicPreferences.isShowPopup()) {
               if (showOnFailure) {
                 showPopup();
               }
@@ -143,7 +143,7 @@ public class PopupNotifier {
 
       @Override
       public void doNotShowPopup() {
-        MechanicPreferences.doNotShowPopup();
+        OldMechanicPreferences.doNotShowPopup();
       }
     };
     popup.setDisplayTimeMillis(POPUP_TIMEOUT_MILLIS);

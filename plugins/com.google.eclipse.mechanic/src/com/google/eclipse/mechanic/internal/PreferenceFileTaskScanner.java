@@ -23,6 +23,7 @@ import com.google.eclipse.mechanic.ReconcilingPreferencesTask;
 import com.google.eclipse.mechanic.Task;
 import com.google.eclipse.mechanic.TaskCollector;
 import com.google.eclipse.mechanic.plugin.core.MechanicLog;
+import com.google.eclipse.mechanic.plugin.core.MechanicPlugin;
 
 /**
  * Provides support for treating Elipse "epf" files as first class
@@ -121,13 +122,15 @@ public final class PreferenceFileTaskScanner extends DirectoryIteratingTaskScann
   /**
    * Imports preferences from supplied file based on the last modified time.
    */
+  // DO NOT RENAME THIS CLASS
   private static final class LastmodEpfTask
       extends LastModifiedPreferencesFileTask {
 
     private final Header header;
 
     public LastmodEpfTask(IResourceTaskReference taskRef, Header header) {
-      super(taskRef);
+      super(taskRef, MechanicPlugin.getDefault().getMechanicPreferences(),
+          MechanicLog.getDefault());
       this.header = header;
     }
 

@@ -19,7 +19,7 @@ import com.google.eclipse.mechanic.core.recorder.ChangeCollector;
 import com.google.eclipse.mechanic.core.recorder.IPreferenceRecordingService;
 import com.google.eclipse.mechanic.plugin.core.MechanicLog;
 import com.google.eclipse.mechanic.plugin.core.MechanicPlugin;
-import com.google.eclipse.mechanic.plugin.core.MechanicPreferences;
+import com.google.eclipse.mechanic.plugin.core.OldMechanicPreferences;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
@@ -102,7 +102,7 @@ public class MechanicStatusControlContribution extends WorkbenchWindowControlCon
   }
 
   private static Action createHelpAction() {
-    String helpUrl = MechanicPreferences.getHelpUrl();
+    String helpUrl = OldMechanicPreferences.getHelpUrl();
     try {
       return new OpenUrlAction(helpUrl, "Help...");
     } catch (MalformedURLException e) {

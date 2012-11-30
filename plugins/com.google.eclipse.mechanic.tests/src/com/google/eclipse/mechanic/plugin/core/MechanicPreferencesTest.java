@@ -20,20 +20,20 @@ import com.google.eclipse.mechanic.Evaluator;
 import com.google.eclipse.mechanic.RepairAction;
 import com.google.eclipse.mechanic.Task;
 import com.google.eclipse.mechanic.tests.internal.RunAsPluginTest;
-import static com.google.eclipse.mechanic.plugin.core.MechanicPreferences.*;
+import static com.google.eclipse.mechanic.plugin.core.OldMechanicPreferences.*;
 
 /**
- * Tests for {@link MechanicPreferences}
+ * Tests for {@link OldMechanicPreferences}
  */
 @RunAsPluginTest
 public class MechanicPreferencesTest extends TestCase {
 
   public void testGetHelpUrl() {
     MechanicPlugin.getDefault().getPluginPreferences()
-        .setToDefault(MechanicPreferences.HELP_URL_PREF);
+        .setToDefault(OldMechanicPreferences.HELP_URL_PREF);
     assertEquals(
         "http://code.google.com/a/eclipselabs.org/p/workspacemechanic/wiki/GettingStarted",
-        MechanicPreferences.getHelpUrl());
+        OldMechanicPreferences.getHelpUrl());
   }
 
   @Override
@@ -112,9 +112,9 @@ public class MechanicPreferencesTest extends TestCase {
 
   public void testGetTaskDirectories() {
     MechanicPlugin.getDefault().getPluginPreferences()
-        .setToDefault(MechanicPreferences.DIRS_PREF);
+        .setToDefault(OldMechanicPreferences.DIRS_PREF);
 
-    String taskDirs = MechanicPreferences.getString(MechanicPreferences.DIRS_PREF);
+    String taskDirs = OldMechanicPreferences.getString(OldMechanicPreferences.DIRS_PREF);
     assertEquals("${user_homedir}/.eclipse/mechanic:${mechanic_configuration_path}/mechanic", taskDirs);
   }
 

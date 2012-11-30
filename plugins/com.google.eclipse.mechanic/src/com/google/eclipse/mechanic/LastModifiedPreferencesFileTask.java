@@ -27,27 +27,33 @@ import org.eclipse.core.runtime.preferences.IPreferencesService;
 import org.eclipse.core.runtime.preferences.InstanceScope;
 
 import com.google.common.base.Preconditions;
+import com.google.eclipse.mechanic.plugin.core.IMechanicPreferences;
 import com.google.eclipse.mechanic.plugin.core.MechanicLog;
-import com.google.eclipse.mechanic.plugin.core.MechanicPreferences;
 
 /**
  * Imports Eclipse preferences from a file. Preferences are in the
  * form of an Eclipse prefs export.
- *
- * @author smckay@google.com (Steve McKay)
  */
+// DO NOT RENAME THIS CLASS. IT WILL BREAK ALL IDS.
 public abstract class LastModifiedPreferencesFileTask extends CompositeTask {
-  private final MechanicLog log = MechanicLog.getDefault();
 
   private final IResourceTaskReference taskRef;
+  private final IMechanicPreferences prefs;
+  private final MechanicLog log;
+
   private final File file;
 
   private final String id;
   private final String key;
   private final String md5Key;
 
-  public LastModifiedPreferencesFileTask(IResourceTaskReference taskRef) {
+  public LastModifiedPreferencesFileTask(
+      IResourceTaskReference taskRef,
+      IMechanicPreferences prefs,
+      MechanicLog log) {
     this.taskRef = taskRef;
+    this.prefs = prefs;
+    this.log = log;
     this.file = taskRef.asFile();
     Preconditions.checkArgument(file == null || file.canRead(), file + " must be readable");
     this.id = String.format("%s@%s", getClass().getName(), taskRef.getPath());
@@ -64,8 +70,9 @@ public abstract class LastModifiedPreferencesFileTask extends CompositeTask {
   }
 
   /**
-   * Fails if prefs have never been imported, or if they have been imported
-   * but there is a newer version of the preferences file.
+   * Returns {@code true} if the preferences file hasn't changed.
+   * Returns {@code false} if prefs have never been imported, or if they have been imported
+   * but a new version exists.
    */
   public boolean evaluate() {
     try {
@@ -74,15 +81,18 @@ public abstract class LastModifiedPreferencesFileTask extends CompositeTask {
       throw new RuntimeException(e);
     }
   }
-  
+
   private boolean evaluateByMD5() throws IOException {
-    long previous = MechanicPreferences.getLong(md5Key);
+    if (!prefs.contains(md5Key)) {
+      return false;
+    }
+    long previous = prefs.getLong(md5Key);
     long current = taskRef.computeMD5();
-    return previous != current;
+    return previous == current;
   }
 
   private boolean evaluateByModificationDate() throws IOException {
-    long previous = MechanicPreferences.getLong(key);
+    long previous = prefs.getLong(key);
     long current = taskRef.getLastModified();
     return previous > 0L && previous >= current;
   }
@@ -97,12 +107,12 @@ public abstract class LastModifiedPreferencesFileTask extends CompositeTask {
 
       // Validate preferences
       IStatus validStatus = file != null ?
-          MechanicPreferences.validatePreferencesFile(new Path(file.getPath())) :
+          prefs.validatePreferencesFile(new Path(file.getPath())) :
           Status.OK_STATUS;
       if (validStatus.isOK()) {
         transfer();
-        MechanicPreferences.setLong(key, lastmod);
-        MechanicPreferences.setLong(md5Key, lastMD5);
+        prefs.setLong(key, lastmod);
+        prefs.setLong(md5Key, lastMD5);
       } else {
         throw new CoreException(validStatus);
       }
