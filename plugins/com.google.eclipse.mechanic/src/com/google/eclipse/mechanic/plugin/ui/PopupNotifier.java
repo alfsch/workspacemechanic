@@ -15,7 +15,7 @@ import com.google.eclipse.mechanic.IMechanicService;
 import com.google.eclipse.mechanic.RepairDecisionProvider;
 import com.google.eclipse.mechanic.IStatusChangeListener;
 import com.google.eclipse.mechanic.StatusChangedEvent;
-import com.google.eclipse.mechanic.plugin.core.OldMechanicPreferences;
+import com.google.eclipse.mechanic.plugin.core.IMechanicPreferences;
 
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.PlatformUI;
@@ -62,6 +62,7 @@ public class PopupNotifier {
   private final IStatusChangeListener statusChangeListener;
 
   private final IMechanicService service;
+  private final IMechanicPreferences mechanicPreferences;
 
   /**
    * controls whether the next failure from the mechanic should result in showing the popup.
@@ -74,13 +75,16 @@ public class PopupNotifier {
    */
   private volatile boolean visible = false;
 
-  public PopupNotifier(IMechanicService mechanicService) {
+
+  public PopupNotifier(IMechanicService mechanicService,
+      final IMechanicPreferences mechanicPreferences) {
     this.service = mechanicService;
+    this.mechanicPreferences =  mechanicPreferences;
     this.statusChangeListener = new IStatusChangeListener() {
       public void statusChanged(StatusChangedEvent event) {
         switch (event.getStatus()) {
           case FAILED:
-            if (OldMechanicPreferences.isShowPopup()) {
+            if (mechanicPreferences.isShowPopup()) {
               if (showOnFailure) {
                 showPopup();
               }
@@ -143,7 +147,7 @@ public class PopupNotifier {
 
       @Override
       public void doNotShowPopup() {
-        OldMechanicPreferences.doNotShowPopup();
+        mechanicPreferences.doNotShowPopup();
       }
     };
     popup.setDisplayTimeMillis(POPUP_TIMEOUT_MILLIS);

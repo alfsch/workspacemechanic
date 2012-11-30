@@ -52,7 +52,7 @@ public class MechanicPlugin extends AbstractUIPlugin {
 
     // popup notifier must start before the mechanic service in order to
     // catch the first statuses.
-    popupNotifier = new PopupNotifier(MechanicService.getInstance());
+    popupNotifier = new PopupNotifier(MechanicService.getInstance(), getMechanicPreferences());
     popupNotifier.initialize();
 
     UriCaches.initialize();

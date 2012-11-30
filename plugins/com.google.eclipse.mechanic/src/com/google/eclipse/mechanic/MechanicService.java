@@ -28,8 +28,9 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.eclipse.mechanic.internal.RootTaskScanner;
+import com.google.eclipse.mechanic.plugin.core.IMechanicPreferences;
 import com.google.eclipse.mechanic.plugin.core.MechanicLog;
-import com.google.eclipse.mechanic.plugin.core.OldMechanicPreferences;
+import com.google.eclipse.mechanic.plugin.core.MechanicPlugin;
 
 /**
  * <p>The service doesn't itself expose any UI components. This should be done
@@ -45,6 +46,8 @@ import com.google.eclipse.mechanic.plugin.core.OldMechanicPreferences;
 public final class MechanicService implements IMechanicService {
 
   private static final MechanicService instance = new MechanicService();
+
+  private final IMechanicPreferences mechanicPreferences;
 
   /**
    * Enumeration of the various states a task can be in.
@@ -100,10 +103,11 @@ public final class MechanicService implements IMechanicService {
   }
 
   private MechanicService() {
+    mechanicPreferences = MechanicPlugin.getDefault().getMechanicPreferences();
 
     // add a property change listener to the plugin prefs so we can
     // update our running config when prefs have been changed.
-    OldMechanicPreferences.addListener(new PreferenceChangeListener());
+    mechanicPreferences.addListener(new PreferenceChangeListener());
 
     job = new ServiceJob();
   }
@@ -113,7 +117,7 @@ public final class MechanicService implements IMechanicService {
    * specified in the thread sleep seconds preference.
    */
   private void reschedule() {
-    job.schedule(OldMechanicPreferences.getThreadSleepSeconds() * 1000);
+    job.schedule(mechanicPreferences.getThreadSleepSeconds() * 1000);
   }
 
   /**
@@ -283,7 +287,7 @@ public final class MechanicService implements IMechanicService {
    */
   private synchronized void updateTaskStatus(IProgressMonitor monitor) {
 
-    Set<String> blocked = OldMechanicPreferences.getBlockedTaskIds();
+    Set<String> blocked = mechanicPreferences.getBlockedTaskIds();
 
     monitor.beginTask("", collector.getTasks().size());
     try {

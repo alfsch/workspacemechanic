@@ -28,8 +28,8 @@ import com.google.eclipse.mechanic.MechanicService;
 import com.google.eclipse.mechanic.Task;
 import com.google.eclipse.mechanic.internal.BlockedTaskIdsParser;
 import com.google.eclipse.mechanic.internal.TaskByTitleComparator;
+import com.google.eclipse.mechanic.plugin.core.IMechanicPreferences;
 import com.google.eclipse.mechanic.plugin.core.MechanicPlugin;
-import com.google.eclipse.mechanic.plugin.core.OldMechanicPreferences;
 
 /**
  * Mechanic preferences page.
@@ -62,21 +62,21 @@ public class MechanicPreferencePage extends FieldEditorPreferencePage
   @Override
   public void createFieldEditors() {
     addField(newMinimumRangeFieldEditor(
-        OldMechanicPreferences.SLEEPAGE_PREF,
+        IMechanicPreferences.SLEEPAGE_PREF,
         "Task scan frequency (seconds):",
-        OldMechanicPreferences.MINIMUM_SLEEP_SECONDS,
+        IMechanicPreferences.MINIMUM_SLEEP_SECONDS,
         "Task scan frequency",
         getFieldEditorParent()));
 
-    addField(new DirectoryOrUrlEditor(OldMechanicPreferences.DIRS_PREF,
+    addField(new DirectoryOrUrlEditor(IMechanicPreferences.DIRS_PREF,
         "Task sources:", getFieldEditorParent()));
 
-    blockedEditor = new BlockedTaskEditor(OldMechanicPreferences.BLOCKED_PREF,
+    blockedEditor = new BlockedTaskEditor(IMechanicPreferences.BLOCKED_PREF,
         "Blocked tasks:", getFieldEditorParent());
 
     addField(blockedEditor);
 
-    addField(new BooleanFieldEditor(OldMechanicPreferences.SHOW_POPUP_PREF,
+    addField(new BooleanFieldEditor(IMechanicPreferences.SHOW_POPUP_PREF,
         "Show popup when tasks fail", getFieldEditorParent()));
 
 //    addCacheFields(getFieldEditorParent());

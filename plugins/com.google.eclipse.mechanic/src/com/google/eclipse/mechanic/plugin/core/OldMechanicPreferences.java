@@ -22,7 +22,6 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Preferences;
 import org.eclipse.core.runtime.Preferences.IPropertyChangeListener;
 
-import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
@@ -49,59 +48,11 @@ public class OldMechanicPreferences {
   /**
    * Returns the plugin preferences. Just a convenience method.
    */
-  @VisibleForTesting
-  static Preferences getPreferences() {
+  private static Preferences getPreferences() {
     return MechanicPlugin.getDefault().getPluginPreferences();
   }
 
   private static final MechanicLog log = MechanicLog.getDefault();
-
-  /**
-   * Preference string for directories containing tasks.
-   *
-   * Stores a list of strings separated by the platform's file separator, or as a GSON array of
-   * URIs.
-   */
-  @Deprecated
-  public static final String DIRS_PREF = IMechanicPreferences.DIRS_PREF;
-
-  /**
-   * Preference string for blocked task ids.
-   *
-   * <p>Stores a list of strings separated by ???.
-   */
-  @Deprecated
-  public static final String BLOCKED_PREF = IMechanicPreferences.BLOCKED_PREF;
-
-  /**
-   * Preference string for sleep duration between scans.
-   *
-   * <p>Stores an integer value.
-   */
-  @Deprecated
-  public static final String SLEEPAGE_PREF = IMechanicPreferences.SLEEPAGE_PREF;
-
-  /**
-   * Preference string for Help URL.
-   *
-   * <p>Stores a String value.
-   */
-  @Deprecated
-  public static final String HELP_URL_PREF = IMechanicPreferences.HELP_URL_PREF;
-
-  /**
-   * Preference string to choose when to show the popup when the mechanic status is "failed".
-   *
-   * <p>Stores a boolean.
-   */
-  @Deprecated
-  public static final String SHOW_POPUP_PREF = IMechanicPreferences.SHOW_POPUP_PREF;
-
-  /**
-   * Minimum duration between tasks, in seconds.
-   */
-  @Deprecated
-  public static final int MINIMUM_SLEEP_SECONDS = IMechanicPreferences.MINIMUM_SLEEP_SECONDS;
 
   public static void addListener(IPropertyChangeListener listener) {
     Preferences prefs = getPreferences();
@@ -122,7 +73,7 @@ public class OldMechanicPreferences {
    * @return list of task sources where tasks may be found.
    */
   public static List<ResourceTaskProvider> getTaskProviders() {
-    String paths = getString(DIRS_PREF);
+    String paths = getString(IMechanicPreferences.DIRS_PREF);
 
     ResourceTaskProviderParser parser = new ResourceTaskProviderParser(VariableManagerStringParser.INSTANCE);
     List<ResourceTaskProvider> providers = Lists.newArrayList();
@@ -165,7 +116,7 @@ public class OldMechanicPreferences {
    * Returns the number of seconds the mechanic should sleep between passes.
    */
   public static int getThreadSleepSeconds() {
-    int seconds = getInt(SLEEPAGE_PREF);
+    int seconds = getInt(IMechanicPreferences.SLEEPAGE_PREF);
     return cleanSleepSeconds(seconds);
   }
 
@@ -173,7 +124,7 @@ public class OldMechanicPreferences {
    * Ensures the supplied sleep duration falls in an acceptable range.
    */
   public static int cleanSleepSeconds(int seconds) {
-    return Math.max(seconds, MINIMUM_SLEEP_SECONDS);
+    return Math.max(seconds, IMechanicPreferences.MINIMUM_SLEEP_SECONDS);
   }
 
   /**
@@ -182,7 +133,7 @@ public class OldMechanicPreferences {
   public static Set<String> getBlockedTaskIds() {
     BlockedTaskIdsParser parser = new BlockedTaskIdsParser();
 
-    String val = getString(BLOCKED_PREF);
+    String val = getString(IMechanicPreferences.BLOCKED_PREF);
     Set<String> set = Sets.newHashSet();
     Collections.addAll(set, parser.parse(val));
     return set;
@@ -197,7 +148,7 @@ public class OldMechanicPreferences {
     String unparse = parser.unparse(ids.toArray(new String[0]));
 
     Preferences prefs = getPreferences();
-    prefs.setValue(BLOCKED_PREF, unparse);
+    prefs.setValue(IMechanicPreferences.BLOCKED_PREF, unparse);
   }
 
   /**
@@ -213,7 +164,7 @@ public class OldMechanicPreferences {
    * Returns the mechanic help url.
    */
   public static String getHelpUrl() {
-    return getString(HELP_URL_PREF);
+    return getString(IMechanicPreferences.HELP_URL_PREF);
   }
 
   public static boolean contains(String key) {
@@ -267,7 +218,7 @@ public class OldMechanicPreferences {
    */
   public static boolean isShowPopup() {
     Preferences prefs = getPreferences();
-    return prefs.getBoolean(SHOW_POPUP_PREF);
+    return prefs.getBoolean(IMechanicPreferences.SHOW_POPUP_PREF);
   }
 
   /**
@@ -275,7 +226,7 @@ public class OldMechanicPreferences {
    */
   public static void doNotShowPopup() {
     Preferences prefs = getPreferences();
-    prefs.setValue(SHOW_POPUP_PREF, false);
+    prefs.setValue(IMechanicPreferences.SHOW_POPUP_PREF, false);
   }
 
   /**
@@ -285,7 +236,7 @@ public class OldMechanicPreferences {
    */
   public static void showPopup() {
     Preferences prefs = getPreferences();
-    prefs.setValue(SHOW_POPUP_PREF, true);
+    prefs.setValue(IMechanicPreferences.SHOW_POPUP_PREF, true);
   }
 
 //  /**

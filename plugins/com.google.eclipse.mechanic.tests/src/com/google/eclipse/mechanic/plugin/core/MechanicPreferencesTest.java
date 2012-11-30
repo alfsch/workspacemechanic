@@ -19,82 +19,83 @@ import junit.framework.TestCase;
 import com.google.eclipse.mechanic.Evaluator;
 import com.google.eclipse.mechanic.RepairAction;
 import com.google.eclipse.mechanic.Task;
+import com.google.eclipse.mechanic.internal.MechanicPreferences;
 import com.google.eclipse.mechanic.tests.internal.RunAsPluginTest;
-import static com.google.eclipse.mechanic.plugin.core.OldMechanicPreferences.*;
 
 /**
- * Tests for {@link OldMechanicPreferences}
+ * Tests for {@link MechanicPreferences}
  */
 @RunAsPluginTest
 public class MechanicPreferencesTest extends TestCase {
 
+  private final IMechanicPreferences mechanicPreferences = new MechanicPreferences();
+
   public void testGetHelpUrl() {
-    MechanicPlugin.getDefault().getPluginPreferences()
-        .setToDefault(OldMechanicPreferences.HELP_URL_PREF);
+    setToDefault(IMechanicPreferences.HELP_URL_PREF);
     assertEquals(
         "http://code.google.com/a/eclipselabs.org/p/workspacemechanic/wiki/GettingStarted",
-        OldMechanicPreferences.getHelpUrl());
+        mechanicPreferences.getHelpUrl());
   }
 
   @Override
   public void setUp() throws Exception {
     super.setUp();
-    setBlockedTaskIds(Collections.<String>emptySet());
-    assertEquals(0, getBlockedTaskIds().size());
+    mechanicPreferences.setBlockedTaskIds(Collections.<String>emptySet());
+    assertEquals(0, mechanicPreferences.getBlockedTaskIds().size());
   }
 
   public void testSetBlockedTaskIds() {
-    setBlockedTaskIds(Collections.singleton("asdf"));
-    assertContentsAnyOrder(getBlockedTaskIds(), "asdf");
+    mechanicPreferences.setBlockedTaskIds(Collections.singleton("asdf"));
+    assertContentsAnyOrder(mechanicPreferences.getBlockedTaskIds(), "asdf");
 
-    setBlockedTaskIds(Collections.<String>emptySet());
-    assertEquals(0, getBlockedTaskIds().size());
+    mechanicPreferences.setBlockedTaskIds(Collections.<String>emptySet());
+    assertEquals(0, mechanicPreferences.getBlockedTaskIds().size());
 
     Set<String> set = new HashSet<String>();
     set.add("123");
     set.add("234");
-    setBlockedTaskIds(set);
-    assertContentsAnyOrder(getBlockedTaskIds(), "123", "234");
+    mechanicPreferences.setBlockedTaskIds(set);
+    assertContentsAnyOrder(mechanicPreferences.getBlockedTaskIds(), "123", "234");
   }
 
 
   public void testBlockItem() {
-    blockItem(createTask("abcdefg"));
-    assertContentsAnyOrder(getBlockedTaskIds(), "abcdefg");
+    mechanicPreferences.blockItem(createTask("abcdefg"));
+    assertContentsAnyOrder(mechanicPreferences.getBlockedTaskIds(), "abcdefg");
 
-    blockItem(createTask("hijklmnop"));
-    assertContentsAnyOrder(getBlockedTaskIds(), "abcdefg", "hijklmnop");
+    mechanicPreferences.blockItem(createTask("hijklmnop"));
+    assertContentsAnyOrder(mechanicPreferences.getBlockedTaskIds(), "abcdefg", "hijklmnop");
 
-    blockItem(createTask("qrstuv"));
+    mechanicPreferences.blockItem(createTask("qrstuv"));
     assertContentsAnyOrder(
-        getBlockedTaskIds(), "abcdefg", "hijklmnop", "qrstuv");
+        mechanicPreferences.getBlockedTaskIds(), "abcdefg", "hijklmnop", "qrstuv");
 
-    blockItem(createTask("wxyz"));
+    mechanicPreferences.blockItem(createTask("wxyz"));
     assertContentsAnyOrder(
-        getBlockedTaskIds(), "abcdefg", "hijklmnop", "qrstuv", "wxyz");
+        mechanicPreferences.getBlockedTaskIds(), "abcdefg", "hijklmnop", "qrstuv", "wxyz");
   }
 
   public void testShowPopup() {
-    showPopup();
-    assertTrue(isShowPopup());
-    doNotShowPopup();
-    assertFalse(isShowPopup());
-    showPopup();
-    assertTrue(isShowPopup());
+    mechanicPreferences.showPopup();
+    assertTrue(mechanicPreferences.isShowPopup());
+    mechanicPreferences.doNotShowPopup();
+    assertFalse(mechanicPreferences.isShowPopup());
+    mechanicPreferences.showPopup();
+    assertTrue(mechanicPreferences.isShowPopup());
   }
 
   public void testCleanSleepSeconds() {
-    assertEquals(10, cleanSleepSeconds(8));
-    assertEquals(11, cleanSleepSeconds(11));
+    assertEquals(10, mechanicPreferences.cleanSleepSeconds(8));
+    assertEquals(11, mechanicPreferences.cleanSleepSeconds(11));
   }
 
   public void testSetLongGetLong() {
     String pref = "TEST_PREF";
-    assertEquals(0, getLong(pref));
-    setLong(pref, 1);
-    assertEquals(1, getLong(pref));
-    setLong(pref, Long.MAX_VALUE);
-    assertEquals(Long.MAX_VALUE, getLong(pref));
+    assertEquals(0, mechanicPreferences.getLong(pref));
+    mechanicPreferences.setLong(pref, 1);
+    assertEquals(1, mechanicPreferences.getLong(pref));
+    mechanicPreferences.setLong(pref, Long.MAX_VALUE);
+    assertEquals(Long.MAX_VALUE, mechanicPreferences.getLong(pref));
   }
 
   public void testWithFunnyKey() {
@@ -103,28 +104,27 @@ public class MechanicPreferencesTest extends TestCase {
         "LastmodEpfTask@" + 
         "/Users/kberg/.eclipse/mechanic/showlinenumbers.epf_lastmod";
 
-    assertEquals(0, getLong(pref));
-    setLong(pref, 1);
-    assertEquals(1, getLong(pref));
-    setLong(pref, Long.MAX_VALUE);
-    assertEquals(Long.MAX_VALUE, getLong(pref));
+    assertEquals(0, mechanicPreferences.getLong(pref));
+    mechanicPreferences.setLong(pref, 1);
+    assertEquals(1, mechanicPreferences.getLong(pref));
+    mechanicPreferences.setLong(pref, Long.MAX_VALUE);
+    assertEquals(Long.MAX_VALUE, mechanicPreferences.getLong(pref));
   }
 
   public void testGetTaskDirectories() {
-    MechanicPlugin.getDefault().getPluginPreferences()
-        .setToDefault(OldMechanicPreferences.DIRS_PREF);
+    setToDefault(IMechanicPreferences.DIRS_PREF);
 
-    String taskDirs = OldMechanicPreferences.getString(OldMechanicPreferences.DIRS_PREF);
+    String taskDirs = mechanicPreferences.getString(IMechanicPreferences.DIRS_PREF);
     assertEquals("${user_homedir}/.eclipse/mechanic:${mechanic_configuration_path}/mechanic", taskDirs);
   }
 
   public void testContains() {
     String pref = "XYZPDQ";
-    assertFalse(contains(pref));
-    setLong(pref, 1L);
-    assertTrue(contains(pref));
-    getPreferences().setToDefault(pref);
-    assertFalse(contains(pref));
+    assertFalse(mechanicPreferences.contains(pref));
+    mechanicPreferences.setLong(pref, 1L);
+    assertTrue(mechanicPreferences.contains(pref));
+    setToDefault(pref);
+    assertFalse(mechanicPreferences.contains(pref));
   }
 
   //public static int getThreadSleepSeconds() {
@@ -163,5 +163,9 @@ public class MechanicPreferencesTest extends TestCase {
     for (Object object : elements) {
       assertTrue(String.valueOf(object), stuff.contains(object));
     }
+  }
+
+  private void setToDefault(String pref) {
+    MechanicPlugin.getDefault().getPluginPreferences().setToDefault(pref);
   }
 }
