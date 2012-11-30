@@ -74,6 +74,18 @@ public abstract class LastModifiedPreferencesFileTask extends CompositeTask {
       throw new RuntimeException(e);
     }
   }
+  
+  private boolean evaluateByMD5() throws IOException {
+    long previous = MechanicPreferences.getLong(md5Key);
+    long current = taskRef.computeMD5();
+    return previous != current;
+  }
+
+  private boolean evaluateByModificationDate() throws IOException {
+    long previous = MechanicPreferences.getLong(key);
+    long current = taskRef.getLastModified();
+    return previous > 0L && previous >= current;
+  }
 
   public void run() {
     // grab the lastmod time just before we import the file
@@ -99,18 +111,6 @@ public abstract class LastModifiedPreferencesFileTask extends CompositeTask {
     } catch (IOException e) {
       throw new RuntimeException("Couldn't import preferences.", e);
     }
-  }
-  
-  private boolean evaluateByMD5() throws IOException {
-    long previous = MechanicPreferences.getLong(md5Key);
-    long current = taskRef.computeMD5();
-    return previous != current;
-  }
-
-  private boolean evaluateByModificationDate() throws IOException {
-    long previous = MechanicPreferences.getLong(key);
-    long current = taskRef.getLastModified();
-    return previous > 0L && previous >= current;
   }
 
   /**
