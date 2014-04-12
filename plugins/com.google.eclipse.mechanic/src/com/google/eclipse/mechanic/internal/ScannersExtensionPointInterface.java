@@ -9,8 +9,5 @@ import java.util.List;
 /**
  * @author zorzella
  */
-public interface ScannersExtensionPointInterface {
-
-  List<TaskScanner> getScanners();
-
+public interface ScannersExtensionPointInterface extends Supplier<List<TaskScanner> >{
 }

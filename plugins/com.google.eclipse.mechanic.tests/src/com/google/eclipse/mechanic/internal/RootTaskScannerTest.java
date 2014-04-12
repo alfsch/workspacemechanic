@@ -30,7 +30,7 @@ public class RootTaskScannerTest {
     // TODO(zorzella): where are we supposed to put test infra, like fakes
     // for ScannersExtensionPointInterface, TaskScanner and TaskCollector?
     ScannersExtensionPointInterface scannerPoint = new ScannersExtensionPointInterface() {
-      public List<TaskScanner> getScanners() {
+      public List<TaskScanner> get() {
         List<TaskScanner> result = new ArrayList<TaskScanner>();
         result.add(new TaskScanner() {
           public void scan(TaskCollector collector) {

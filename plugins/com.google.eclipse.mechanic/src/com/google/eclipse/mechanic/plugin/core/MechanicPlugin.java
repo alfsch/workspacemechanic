@@ -17,6 +17,8 @@ import com.google.eclipse.mechanic.MechanicService;
 import com.google.eclipse.mechanic.core.recorder.IPreferenceRecordingService;
 import com.google.eclipse.mechanic.core.recorder.PreferenceRecordingService;
 import com.google.eclipse.mechanic.internal.MechanicPreferences;
+import com.google.eclipse.mechanic.internal.ResourceTaskProvidersExtensionPoint;
+import com.google.eclipse.mechanic.internal.ScannersExtensionPoint;
 import com.google.eclipse.mechanic.internal.TasksExtensionPoint;
 import com.google.eclipse.mechanic.internal.UriCaches;
 import com.google.eclipse.mechanic.plugin.ui.PopupNotifier;
@@ -67,6 +69,8 @@ public class MechanicPlugin extends AbstractUIPlugin {
     UriCaches.destroy();
     popupNotifier.dispose();
     TasksExtensionPoint.dispose();
+    ScannersExtensionPoint.dispose();
+    ResourceTaskProvidersExtensionPoint.dispose();
     plugin = null;
     super.stop(context);
   }

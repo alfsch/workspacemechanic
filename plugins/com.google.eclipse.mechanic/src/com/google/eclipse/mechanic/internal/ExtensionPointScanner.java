@@ -9,6 +9,7 @@
 
 package com.google.eclipse.mechanic.internal;
 
+import com.google.eclipse.mechanic.CompositeTaskInterface;
 import com.google.eclipse.mechanic.TaskCollector;
 import com.google.eclipse.mechanic.TaskScanner;
 
@@ -17,6 +18,8 @@ import com.google.eclipse.mechanic.TaskScanner;
  */
 public class ExtensionPointScanner implements TaskScanner {
   public void scan(TaskCollector collector) {
-    new TasksExtensionPoint().getTasks(collector);
+    for (CompositeTaskInterface task : new TasksExtensionPoint().get()) {
+      collector.add(task);
+    }
   }
 }

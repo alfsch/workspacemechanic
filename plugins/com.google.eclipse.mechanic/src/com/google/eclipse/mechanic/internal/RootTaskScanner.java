@@ -15,8 +15,6 @@ import com.google.eclipse.mechanic.plugin.core.MechanicLog;
 
 /**
  * A {@link TaskScanner} that loads and runs all other {@link TaskScanner}s.
- *
- * @author smckay@google.com (Steve McKay)
  */
 public class RootTaskScanner implements TaskScanner {
 
@@ -42,7 +40,7 @@ public class RootTaskScanner implements TaskScanner {
   }
 
   public void scan(TaskCollector collector) {
-    for (TaskScanner scanner : scannersExtensionPoint.getScanners()) {
+    for (TaskScanner scanner : scannersExtensionPoint.get()) {
       try {
         scanner.scan(collector);
       } catch (RuntimeException e) {
