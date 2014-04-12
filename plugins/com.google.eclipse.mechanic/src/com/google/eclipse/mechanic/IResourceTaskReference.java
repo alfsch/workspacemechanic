@@ -12,14 +12,12 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 
-import com.google.eclipse.mechanic.plugin.core.ResourceTaskProvider;
-
 /**
  * A reference to a resource-based task.
  */
 public interface IResourceTaskReference {
   /** Return the provider that created this task reference. */
-  ResourceTaskProvider getProvider();
+  IResourceTaskProvider getProvider();
 
   /** Return the name of the task reference. This is typically a local name. */
   String getName();
