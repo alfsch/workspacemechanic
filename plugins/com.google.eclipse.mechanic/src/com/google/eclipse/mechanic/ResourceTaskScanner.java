@@ -21,7 +21,7 @@ import com.google.eclipse.mechanic.internal.Supplier;
  */
 public abstract class ResourceTaskScanner implements TaskScanner {
 
-  private final Supplier<List<IResourceTaskProvider>> supplier =RegisteredTaskProvidersSupplier.getInstance();
+  private final Supplier<List<IResourceTaskProvider>> supplier = RegisteredTaskProvidersSupplier.getInstance();
 
   public void scan(TaskCollector collector) {
     Preconditions.checkNotNull(collector, "'collector' cannot be null.");
