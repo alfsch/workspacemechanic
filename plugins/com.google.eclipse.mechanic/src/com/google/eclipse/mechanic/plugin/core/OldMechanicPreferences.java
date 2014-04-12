@@ -12,7 +12,6 @@ package com.google.eclipse.mechanic.plugin.core;
 import java.io.File;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ConcurrentMap;
@@ -42,7 +41,7 @@ import com.google.eclipse.mechanic.internal.VariableManagerStringParser;
  *
  * @deprecated use MechanicPreferences.
  */
-@SuppressWarnings("deprecation") // Uses the old-style API.
+@Deprecated
 public class OldMechanicPreferences {
  
   /**

@@ -10,6 +10,7 @@
 package com.google.eclipse.mechanic;
 
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import junit.framework.TestCase;
@@ -90,12 +91,13 @@ public class LastModifiedPreferencesFileTaskTest extends TestCase {
     String key =
         "com.google.eclipse.mechanic.LastModifiedPreferencesFileTaskTest$TestTask@/path/to_lastmd5";
 
-    // TODO: make sure this is called.
     when(prefs.contains(key)).thenReturn(false);
 
     LastModifiedPreferencesFileTask task = new TestTask(ref, prefs, log, "X", "Y");
 
     assertFalse(task.evaluate());
+
+    verify(prefs).contains(key);
   }
 
   public void testMd5_ExistsButDoesNotMatch() throws Exception {
@@ -104,7 +106,6 @@ public class LastModifiedPreferencesFileTaskTest extends TestCase {
     String key =
         "com.google.eclipse.mechanic.LastModifiedPreferencesFileTaskTest$TestTask@/path/to_lastmd5";
 
-    // TODO: make sure this is called.
     when(prefs.contains(key)).thenReturn(true);
     when(prefs.getLong(key)).thenReturn(12345L);
     when(ref.computeMD5()).thenReturn(23456L);
@@ -112,6 +113,10 @@ public class LastModifiedPreferencesFileTaskTest extends TestCase {
     LastModifiedPreferencesFileTask task = new TestTask(ref, prefs, log, "X", "Y");
 
     assertFalse(task.evaluate());
+
+    verify(prefs).contains(key);
+    verify(prefs).getLong(key);
+    verify(ref).computeMD5();
   }
 
   public void testMd5_ExistsButMatches() throws Exception {
@@ -120,7 +125,6 @@ public class LastModifiedPreferencesFileTaskTest extends TestCase {
     String key =
         "com.google.eclipse.mechanic.LastModifiedPreferencesFileTaskTest$TestTask@/path/to_lastmd5";
 
-    // TODO: make sure this is called.
     when(prefs.contains(key)).thenReturn(true);
     when(prefs.getLong(key)).thenReturn(12345L);
     when(ref.computeMD5()).thenReturn(12345L);
@@ -128,5 +132,9 @@ public class LastModifiedPreferencesFileTaskTest extends TestCase {
     LastModifiedPreferencesFileTask task = new TestTask(ref, prefs, log, "X", "Y");
 
     assertTrue(task.evaluate());
+
+    verify(prefs).contains(key);
+    verify(prefs).getLong(key);
+    verify(ref).computeMD5();
   }
 }
