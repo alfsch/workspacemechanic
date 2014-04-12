@@ -22,8 +22,6 @@ import com.google.eclipse.mechanic.plugin.core.ResourceTaskProvider;
 /**
  * Supplies a set of safe-ish directories configured in the main Mechanic
  * preferences panel.
- *
- * @author smckay@google.com (Steve McKay)
  */
 public class RegisteredTaskProvidersSupplier implements
     Supplier<List<IResourceTaskProvider>> {

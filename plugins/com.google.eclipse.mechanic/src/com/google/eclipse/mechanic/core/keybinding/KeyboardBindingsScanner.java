@@ -17,7 +17,7 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.logging.Logger;
 
-import com.google.eclipse.mechanic.DirectoryIteratingTaskScanner;
+import com.google.eclipse.mechanic.ResourceTaskScanner;
 import com.google.eclipse.mechanic.IResourceTaskProvider;
 import com.google.eclipse.mechanic.IResourceTaskReference;
 import com.google.eclipse.mechanic.TaskCollector;
@@ -27,7 +27,7 @@ import com.google.eclipse.mechanic.TaskCollector;
  *
  * @author zorzella@google.com (Luiz-Otavio Zorzella)
  */
-public class KeyboardBindingsScanner extends DirectoryIteratingTaskScanner {
+public class KeyboardBindingsScanner extends ResourceTaskScanner {
 
   private static final Logger LOG = Logger.getLogger(
       KeyboardBindingsScanner.class.getName());

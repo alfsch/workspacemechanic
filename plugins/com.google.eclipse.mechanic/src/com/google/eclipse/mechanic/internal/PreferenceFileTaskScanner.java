@@ -15,7 +15,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.logging.Logger;
 
-import com.google.eclipse.mechanic.DirectoryIteratingTaskScanner;
+import com.google.eclipse.mechanic.ResourceTaskScanner;
 import com.google.eclipse.mechanic.IResourceTaskProvider;
 import com.google.eclipse.mechanic.IResourceTaskReference;
 import com.google.eclipse.mechanic.LastModifiedPreferencesFileTask;
@@ -60,7 +60,7 @@ import com.google.eclipse.mechanic.plugin.core.MechanicPlugin;
  * 
  * @author smckay@google.com (Steve McKay)
  */
-public final class PreferenceFileTaskScanner extends DirectoryIteratingTaskScanner {
+public final class PreferenceFileTaskScanner extends ResourceTaskScanner {
   
   private static final MechanicLog log = MechanicLog.getDefault();
   private static final Logger LOG = Logger.getLogger(

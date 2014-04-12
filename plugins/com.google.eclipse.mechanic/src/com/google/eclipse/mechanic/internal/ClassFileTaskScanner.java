@@ -17,7 +17,7 @@ import java.util.logging.Logger;
 
 import com.google.common.collect.Lists;
 import com.google.common.io.ByteStreams;
-import com.google.eclipse.mechanic.DirectoryIteratingTaskScanner;
+import com.google.eclipse.mechanic.ResourceTaskScanner;
 import com.google.eclipse.mechanic.IResourceTaskProvider;
 import com.google.eclipse.mechanic.IResourceTaskReference;
 import com.google.eclipse.mechanic.Task;
@@ -34,7 +34,7 @@ import com.google.eclipse.mechanic.plugin.core.MechanicPlugin;
  *
  * @author smckay@google.com (Steve McKay)
  */
-public final class ClassFileTaskScanner extends DirectoryIteratingTaskScanner {
+public final class ClassFileTaskScanner extends ResourceTaskScanner {
 
   private static final Logger DEBUGLOG = Logger.getLogger(
       ClassFileTaskScanner.class.getName());
