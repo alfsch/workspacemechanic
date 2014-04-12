@@ -135,7 +135,7 @@ public class OldMechanicPreferences {
 
     String val = getString(IMechanicPreferences.BLOCKED_PREF);
     Set<String> set = Sets.newHashSet();
-    Collections.addAll(set, parser.parse(val));
+    set.addAll(parser.parse(val));
     return set;
   }
 
@@ -145,7 +145,7 @@ public class OldMechanicPreferences {
   public static void setBlockedTaskIds(Set<String> ids) {
     BlockedTaskIdsParser parser = new BlockedTaskIdsParser();
 
-    String unparse = parser.unparse(ids.toArray(new String[0]));
+    String unparse = parser.unparse(ids);
 
     Preferences prefs = getPreferences();
     prefs.setValue(IMechanicPreferences.BLOCKED_PREF, unparse);

@@ -9,6 +9,7 @@
 
 package com.google.eclipse.mechanic.plugin.ui;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -198,12 +199,13 @@ public class MechanicPreferencePage extends FieldEditorPreferencePage
     
     @Override
     protected String[] parseString(String stringList) {
-      return blockedTaskParser.parse(stringList);
+      List<String> parse = blockedTaskParser.parse(stringList);
+      return parse.toArray(new String[0]);
     }
 
     @Override
     protected String createList(String[] items) {
-      return blockedTaskParser.unparse(items);
+      return blockedTaskParser.unparse(Arrays.asList(items));
     }
   }
 

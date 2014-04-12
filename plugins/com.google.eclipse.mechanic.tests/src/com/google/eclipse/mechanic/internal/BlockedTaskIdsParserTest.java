@@ -9,6 +9,8 @@
 package com.google.eclipse.mechanic.internal;
 
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 import junit.framework.TestCase;
 
@@ -37,14 +39,14 @@ public class BlockedTaskIdsParserTest extends TestCase {
   }
 
   public void testUnparse() {
-    assertEquals("[]", parser.unparse());
-    assertEquals("[\"x\"]", parser.unparse("x"));
-    assertEquals("[\"x\",\"x\"]", parser.unparse("x", "x"));
+    assertEquals("[]", parser.unparse(Collections.<String>emptyList()));
+    assertEquals("[\"x\"]", parser.unparse(Arrays.asList("x")));
+    assertEquals("[\"x\",\"x\"]", parser.unparse(Arrays.asList("x", "x")));
     assertEquals(
         "[\"com.google.eclipse.path$Class@/Path/To/Thing\"," +
         "\"com.google.eclipse.path2@file://path/to/thing\"," +
         "\"com.google.eclipse.path3@http://www.google.com/path.json?term\\u0026term2\"]",
-        parser.unparse(x, y, z));
+        parser.unparse(Arrays.asList(x, y, z)));
   }
 
   public void testRoundTrip() {
@@ -55,17 +57,16 @@ public class BlockedTaskIdsParserTest extends TestCase {
   }
 
   private void testRoundTripFromList(String... items) {
-    assertTrue(Arrays.deepEquals(items, parser.parse(parser.unparse(items))));
+    List<String> list = Arrays.asList(items);
+    assertEquals(list, parser.parse(parser.unparse(list)));
   }
 
   private void testRoundTripFromJson(String string) {
     assertEquals(string, parser.unparse(parser.parse(string)));
   }
 
-  private void assertResults(String[] actual, String... expected) {
-    if (!Arrays.deepEquals(actual, expected)) {
-      fail("Expected " + Arrays.deepToString(expected) + " but got " +
-          Arrays.deepToString(actual));
-    }
+  private void assertResults(List<String> actualList, String... expected) {
+    List<String> expectedList = Arrays.asList(expected);
+    assertEquals(expectedList, actualList);
   }
 }

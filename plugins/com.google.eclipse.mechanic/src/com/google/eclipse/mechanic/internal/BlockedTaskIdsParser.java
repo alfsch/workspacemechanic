@@ -9,6 +9,8 @@
 package com.google.eclipse.mechanic.internal;
 
 import java.io.File;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.StringTokenizer;
 
@@ -19,29 +21,31 @@ import com.google.gson.Gson;
  * Parser for the list of blocked task IDs stored as preferences.
  */
 public class BlockedTaskIdsParser {
-  // TODO(konigsberg): Make |parse| and |unparse| work with Sets instead of arrays.
-
   private static final Gson gson = new Gson();
 
-  public final String[] parse(String text) {
+  public final List<String> parse(String text) {
     if (text == null) {
-      return new String[0];
+      return Collections.emptyList();
     }
 
+    List<String> list = Lists.newArrayList();
     if (!text.startsWith("[")) {
       // I would use Splitter, but I won't use split.
       StringTokenizer st = new StringTokenizer(text, File.pathSeparator);
-      List<String> list = Lists.newArrayList();
       while (st.hasMoreElements()) {
         list.add((String) st.nextElement());
       }
-      return list.toArray(new String[0]);
     } else {
-      return gson.fromJson(text, String[].class);
+      // TODO(konigsberg): There's got to be a way to get GSON to 
+      // parse the string as a list, I'm just not interested right now.
+      for (String entry : gson.fromJson(text, String[].class)) {
+        list.add(entry);
+      }
     }
+    return list;
   }
 
-  public final String unparse(String... items) {
+  public final String unparse(Collection<String> items) {
     return gson.toJson(items);
   }
 }
