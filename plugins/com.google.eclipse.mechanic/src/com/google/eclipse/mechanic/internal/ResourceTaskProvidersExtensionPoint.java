@@ -31,8 +31,8 @@ public class ResourceTaskProvidersExtensionPoint implements Supplier<List<IResou
   // Initialization On Demand Holder Idiom
   // http://crazybob.org/2007/01/lazy-loading-singletons.html
   private static class SingletonHolder {
-    static List<SimpleProxy<IResourceTaskProvider>> instance =
-        SimpleExtensionPointHelper.createProxies(
+    static SimpleExtensionPointManager<IResourceTaskProvider> instance =
+        SimpleExtensionPointManager.newInstance(
             EXTENSION_POINT_NAME,
             IResourceTaskProvider.class,
             TAG_TASK,
@@ -53,6 +53,6 @@ public class ResourceTaskProvidersExtensionPoint implements Supplier<List<IResou
    * Return as many registered extensions of {@link IResourceTaskProvider} as possible.
    */
   public List<IResourceTaskProvider> get() {
-    return SimpleExtensionPointHelper.activateProxies(SingletonHolder.instance);
+    return SingletonHolder.instance.getInstances();
   }
 }

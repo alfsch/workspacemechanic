@@ -32,8 +32,8 @@ public class TasksExtensionPoint implements Supplier<List<CompositeTaskInterface
   // Initialization On Demand Holder Idiom
   // http://crazybob.org/2007/01/lazy-loading-singletons.html
   private static class SingletonHolder {
-    static List<SimpleProxy<CompositeTaskInterface>> instance =
-        SimpleExtensionPointHelper.createProxies(
+    static SimpleExtensionPointManager<CompositeTaskInterface> instance =
+        SimpleExtensionPointManager.newInstance(
             EXTENSION_POINT_NAME,
             CompositeTaskInterface.class,
             TAG_TASK,
@@ -54,6 +54,6 @@ public class TasksExtensionPoint implements Supplier<List<CompositeTaskInterface
    * Return as many registered extensions of {@link CompositeTaskInterface} as possible.
    */
   public List<CompositeTaskInterface> get() {
-    return SimpleExtensionPointHelper.activateProxies(SingletonHolder.instance);
+    return SingletonHolder.instance.getInstances();
   }
 }

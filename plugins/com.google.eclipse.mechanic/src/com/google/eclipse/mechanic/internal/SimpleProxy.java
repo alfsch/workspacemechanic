@@ -28,7 +28,7 @@ import com.google.eclipse.mechanic.CompositeTaskInterface;
  * it prevents superfluous plug-in activation, et cetera.
  */
 final class SimpleProxy<T> {
-  private static final Logger LOG = Logger.getLogger(ScannersExtensionPoint.class.getName());
+  private static final Logger LOG = Logger.getLogger(SimpleProxy.class.getName());
 
   private final Class<T> clazz;
   private final IConfigurationElement element;
@@ -76,23 +76,18 @@ final class SimpleProxy<T> {
    *
    * @param clazz the type of object this proxy creates.
    * @param element the configuration element
-   * @param elementName the element name
    * @param classNameAttr the element attribute
    * @param forcePluginActivationAttr if not {@code null}, the attribute for
    *   forcing plugin activation.
    * @throws NullPointerException if any non-optional parameter is {@code null}
    */
   public static <T> SimpleProxy<T> create(
-      Class<T> clazz, IConfigurationElement element, String elementName, String classNameAttr,
+      Class<T> clazz, IConfigurationElement element, String classNameAttr,
       String forcePluginActivationAttr) {
     Preconditions.checkNotNull(clazz, "'clazz' should not be null");
     Preconditions.checkNotNull(element, "'element' should not be null");
-    Preconditions.checkNotNull(elementName, "'elementName' should not be null");
     Preconditions.checkNotNull(classNameAttr, "'classNameAttr' should not be null");
 
-    if (!element.getName().equals(elementName)) {
-      return null;
-    }
     String className = element.getAttribute(classNameAttr);
     if (className == null) {
       LOG.log(Level.WARNING, "Missing attribute " + classNameAttr);

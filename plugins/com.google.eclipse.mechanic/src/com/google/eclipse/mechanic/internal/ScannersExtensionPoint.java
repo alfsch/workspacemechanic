@@ -31,8 +31,8 @@ public class ScannersExtensionPoint implements ScannersExtensionPointInterface {
   // Initialization On Demand Holder Idiom
   // http://crazybob.org/2007/01/lazy-loading-singletons.html
   private static class SingletonHolder {
-    static List<SimpleProxy<TaskScanner>> instance =
-        SimpleExtensionPointHelper.createProxies(
+    static SimpleExtensionPointManager<TaskScanner> instance =
+        SimpleExtensionPointManager.newInstance(
             EXTENSION_POINT_NAME,
             TaskScanner.class,
             TAG_SCANNER,
@@ -53,6 +53,6 @@ public class ScannersExtensionPoint implements ScannersExtensionPointInterface {
    * Return as many registered extensions of {@link TaskScanner} as possible.
    */
   public List<TaskScanner> get() {
-    return SimpleExtensionPointHelper.activateProxies(SingletonHolder.instance);
+    return SingletonHolder.instance.getInstances();
   }
 }
