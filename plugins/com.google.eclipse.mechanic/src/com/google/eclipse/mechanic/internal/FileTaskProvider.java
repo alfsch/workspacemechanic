@@ -13,7 +13,11 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Preconditions;
 import com.google.common.hash.Hashing;
 import com.google.common.io.Files;
@@ -23,6 +27,8 @@ import com.google.eclipse.mechanic.SuffixFileFilter;
 import com.google.eclipse.mechanic.plugin.core.ResourceTaskProvider;
 
 public final class FileTaskProvider extends ResourceTaskProvider {
+  private static final Logger LOG = Logger.getLogger(FileTaskProvider.class.getName());
+
   private final File dir;
 
   /**
@@ -71,21 +77,27 @@ public final class FileTaskProvider extends ResourceTaskProvider {
 
   private static final String SEPARATOR = System.getProperty("file.separator");
 
-  private FileTaskProvider(File dir) {
+  private FileTaskProvider(File dir, Properties properties) {
     String path = dir.getPath();
     if (path.startsWith("~" + SEPARATOR)) {
-      dir = new File(System.getProperty("user.home"), path.substring(1));
+      dir = new File((String) properties.get("user.home"), path.substring(1));
     } else if (path.startsWith(".."  + SEPARATOR)) {
-      dir = new File(new File(System.getProperty("user.dir"), ".."), path.substring(2));
+      dir = new File(new File((String) properties.get("user.dir"), ".."), path.substring(2));
     } else if (path.startsWith("." + SEPARATOR)) {
-      dir = new File(System.getProperty("user.dir"), path.substring(1));
+      dir = new File((String) properties.get("user.dir"), path.substring(1));
     }
     this.dir = dir;
   }
 
   public static FileTaskProvider newInstance(File dir) throws IOException {
+    return newInstance(dir, System.getProperties());
+  }
+
+
+  @VisibleForTesting
+  static FileTaskProvider newInstance(File dir, Properties properties) throws IOException {
     Preconditions.checkNotNull(dir);
-    FileTaskProvider instance = new FileTaskProvider(dir);
+    FileTaskProvider instance = new FileTaskProvider(dir, properties);
     instance.validateInitialization();
     return instance;
   }
@@ -113,7 +125,12 @@ public final class FileTaskProvider extends ResourceTaskProvider {
     // dir points to the root of the task directory, we
     // add the PACKAGE PATH to point to the dir with classes.
     File localDir = new File(dir.getAbsolutePath() + File.separator + localPath);
-    new FileTaskProvider(localDir).collectTaskReferences(filter, collector);
+    try {
+      FileTaskProvider.newInstance(localDir).collectTaskReferences(filter, collector);
+    } catch (IOException e) {
+      // Ugh, another mess that class files make. :)
+      LOG.log(Level.SEVERE, "Can't collect relative files.", e);
+    }
   }
 
   public void collectTaskReferences(String filterText, ICollector<IResourceTaskReference> collector) {
