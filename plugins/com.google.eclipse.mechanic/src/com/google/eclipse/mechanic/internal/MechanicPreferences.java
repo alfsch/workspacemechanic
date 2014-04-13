@@ -9,10 +9,10 @@
 
 package com.google.eclipse.mechanic.internal;
 
+import com.google.eclipse.mechanic.IResourceTaskProvider;
 import com.google.eclipse.mechanic.Task;
 import com.google.eclipse.mechanic.plugin.core.IMechanicPreferences;
 import com.google.eclipse.mechanic.plugin.core.OldMechanicPreferences;
-import com.google.eclipse.mechanic.plugin.core.ResourceTaskProvider;
 
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IStatus;
@@ -35,7 +35,7 @@ public class MechanicPreferences implements IMechanicPreferences {
     OldMechanicPreferences.removeListener(listener);
   }
 
-  public List<ResourceTaskProvider> getTaskProviders() {
+  public List<IResourceTaskProvider> getTaskProviders() {
     return OldMechanicPreferences.getTaskProviders();
   }
 

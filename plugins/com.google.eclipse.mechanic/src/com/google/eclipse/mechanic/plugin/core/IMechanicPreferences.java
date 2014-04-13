@@ -9,6 +9,7 @@
 
 package com.google.eclipse.mechanic.plugin.core;
 
+import com.google.eclipse.mechanic.IResourceTaskProvider;
 import com.google.eclipse.mechanic.Task;
 
 import org.eclipse.core.runtime.IPath;
@@ -61,7 +62,7 @@ public interface IMechanicPreferences {
    *
    * @return list of task sources where tasks may be found.
    */
-  List<ResourceTaskProvider> getTaskProviders();
+  List<IResourceTaskProvider> getTaskProviders();
 
   /**
    * Returns the number of seconds the mechanic should sleep between passes.
