@@ -111,7 +111,7 @@ public final class FileTaskProvider extends ResourceTaskProvider {
 
   private void validateInitialization() throws IOException {
     if (!dir.exists()) {
-      throw new IOException(
+      throw new FileNotFoundException(
           String.format("Directory '%s' does not exist.", dir));
     }
     if (!dir.canRead()) {
@@ -127,7 +127,9 @@ public final class FileTaskProvider extends ResourceTaskProvider {
     File localDir = new File(dir.getAbsolutePath() + File.separator + localPath);
     try {
       FileTaskProvider.newInstance(localDir).collectTaskReferences(filter, collector);
-    } catch (IOException e) {
+    } catch(FileNotFoundException e) {
+      // Ignore, this will happen most of the time.
+    } catch(IOException e) {
       // Ugh, another mess that class files make. :)
       LOG.log(Level.SEVERE, "Can't collect relative files.", e);
     }
