@@ -15,6 +15,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.logging.Logger;
 
+import com.google.eclipse.mechanic.ListCollector;
 import com.google.eclipse.mechanic.ResourceTaskScanner;
 import com.google.eclipse.mechanic.IResourceTaskProvider;
 import com.google.eclipse.mechanic.IResourceTaskReference;
@@ -74,7 +75,9 @@ public final class PreferenceFileTaskScanner extends ResourceTaskScanner {
     /**
      * Scan our source. Add a new Task for each EPF found.
      */
-    for (IResourceTaskReference taskRef : source.getTaskReferences(".epf")) {
+    ListCollector<IResourceTaskReference> taskCollector = ListCollector.create();
+    source.collectTaskReferences(".epf", taskCollector);
+    for (IResourceTaskReference taskRef : taskCollector.get()) {
       try {
         LOG.fine(String.format("Loading preferences from: %s", taskRef));
   
@@ -82,9 +85,9 @@ public final class PreferenceFileTaskScanner extends ResourceTaskScanner {
         // the epf file
         Header header = new EpfTaskHeaderParser(taskRef).parseHeader();
         if (header.getType().equals(TaskType.LASTMOD)) {
-          collector.add(new LastmodEpfTask(taskRef, header));
+          collector.collect(new LastmodEpfTask(taskRef, header));
         } else if (header.getType().equals(TaskType.RECONCILE)) {
-          collector.add(new ReconcilingEpfTask(taskRef, header));
+          collector.collect(new ReconcilingEpfTask(taskRef, header));
         } else {
           throw new IllegalStateException("Unsupported Task Type");
         }

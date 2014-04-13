@@ -18,9 +18,8 @@ import java.util.List;
 
 import junit.framework.TestCase;
 
-import org.eclipse.core.runtime.Status;
-
 import com.google.eclipse.mechanic.IResourceTaskReference;
+import com.google.eclipse.mechanic.ListCollector;
 import com.google.eclipse.mechanic.tests.internal.RunAsJUnitTest;
 
 /**
@@ -49,10 +48,11 @@ public class UriTaskProviderTest extends TestCase {
     IUriContentProvider cache = mock(IUriContentProvider.class);
     when(cache.get(uri)).thenReturn(asInputStream(CONTENT));
 
-    UriTaskProvider provider = new UriTaskProvider(uri, cache, cache);
-    assertEquals(Status.OK_STATUS, provider.initialize());
-    List<IResourceTaskReference> taskReferences = provider.getTaskReferences("");
+    UriTaskProvider provider = UriTaskProvider.newInstance(uri, cache, cache);
+    ListCollector<IResourceTaskReference> collector = ListCollector.create();
+    provider.collectTaskReferences("", collector);
 
+    List<IResourceTaskReference> taskReferences = collector.get();
     assertEquals(3, taskReferences.size());
     assertEquals("http://www.google.com/foo/bar/baz", taskReferences.get(0).getPath());
     assertEquals("http://www.testuri.com/mechanic/tasks/path", taskReferences.get(1).getPath());

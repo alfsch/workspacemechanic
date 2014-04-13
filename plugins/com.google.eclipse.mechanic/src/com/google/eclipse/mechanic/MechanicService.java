@@ -59,7 +59,7 @@ public final class MechanicService implements IMechanicService {
   static class Collector implements TaskCollector {
     private final Set<Task> tasks = new LinkedHashSet<Task>();
 
-    public void add(Task task) {
+    public void collect(Task task) {
       tasks.add(task);
     }
 

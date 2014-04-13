@@ -19,7 +19,7 @@ import com.google.eclipse.mechanic.TaskScanner;
 public class ExtensionPointScanner implements TaskScanner {
   public void scan(TaskCollector collector) {
     for (CompositeTaskInterface task : new TasksExtensionPoint().get()) {
-      collector.add(task);
+      collector.collect(task);
     }
   }
 }

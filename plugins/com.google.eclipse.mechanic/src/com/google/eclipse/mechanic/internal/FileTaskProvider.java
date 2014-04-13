@@ -13,20 +13,13 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Collections;
-import java.util.List;
 
-import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.Status;
-
-import com.google.common.base.Joiner;
 import com.google.common.base.Preconditions;
-import com.google.common.collect.Lists;
 import com.google.common.hash.Hashing;
 import com.google.common.io.Files;
+import com.google.eclipse.mechanic.ICollector;
 import com.google.eclipse.mechanic.IResourceTaskReference;
 import com.google.eclipse.mechanic.SuffixFileFilter;
-import com.google.eclipse.mechanic.plugin.core.MechanicPlugin;
 import com.google.eclipse.mechanic.plugin.core.ResourceTaskProvider;
 
 public final class FileTaskProvider extends ResourceTaskProvider {
@@ -78,8 +71,7 @@ public final class FileTaskProvider extends ResourceTaskProvider {
 
   private static final String SEPARATOR = System.getProperty("file.separator");
 
-  public FileTaskProvider(File dir) {
-    dir = Preconditions.checkNotNull(dir);
+  private FileTaskProvider(File dir) {
     String path = dir.getPath();
     if (path.startsWith("~" + SEPARATOR)) {
       dir = new File(System.getProperty("user.home"), path.substring(1));
@@ -90,6 +82,14 @@ public final class FileTaskProvider extends ResourceTaskProvider {
     }
     this.dir = dir;
   }
+
+  public static FileTaskProvider newInstance(File dir) throws IOException {
+    Preconditions.checkNotNull(dir);
+    FileTaskProvider instance = new FileTaskProvider(dir);
+    instance.validateInitialization();
+    return instance;
+  }
+
   /**
    * REMOVE as we move things along.
    */
@@ -97,44 +97,34 @@ public final class FileTaskProvider extends ResourceTaskProvider {
     return dir;
   }
 
-  public IStatus initialize() {
+  private void validateInitialization() throws IOException {
     if (!dir.exists()) {
-      return new Status(IStatus.WARNING, MechanicPlugin.PLUGIN_ID, 
-         String.format("Directory '%s' does not exist.", dir));
+      throw new IOException(
+          String.format("Directory '%s' does not exist.", dir));
     }
     if (!dir.canRead()) {
-      return new Status(IStatus.WARNING, MechanicPlugin.PLUGIN_ID, 
+      throw new IOException(
           String.format("Directory '%s' is not readable.", dir));
     }
-    return Status.OK_STATUS;
   }
 
-  public List<IResourceTaskReference> getTaskReferences(String localPath, String filter) {
+  public void collectTaskReferences(
+      String localPath, String filter, ICollector<IResourceTaskReference> collector) {
     // dir points to the root of the task directory, we
     // add the PACKAGE PATH to point to the dir with classes.
-    File localDir = new File(createPath(dir.getAbsolutePath(), localPath));
-    return new FileTaskProvider(localDir).getTaskReferences(filter);
+    File localDir = new File(dir.getAbsolutePath() + File.separator + localPath);
+    new FileTaskProvider(localDir).collectTaskReferences(filter, collector);
   }
 
-  /**
-   * Returns all elements joined by the local OS's path segment separator.
-   */
-  private static String createPath(String... elems) {
-    return Joiner.on(File.separator).join(elems);
-  }
-
-  public List<IResourceTaskReference> getTaskReferences(String filterText) {
+  public void collectTaskReferences(String filterText, ICollector<IResourceTaskReference> collector) {
     SuffixFileFilter filter = new SuffixFileFilter(filterText);
 
     File[] filesInDir = dir.listFiles(filter);
-    if (filesInDir == null) {
-      return Collections.emptyList();
+    if (filesInDir != null) {
+      for (File file : filesInDir) {
+        collector.collect(new TaskReference(file));
+      }
     }
-    List<IResourceTaskReference> refs = Lists.newArrayList();
-    for (File file : filesInDir) {
-      refs.add(new TaskReference(file));
-    }
-    return refs;
   }
 
   @Override

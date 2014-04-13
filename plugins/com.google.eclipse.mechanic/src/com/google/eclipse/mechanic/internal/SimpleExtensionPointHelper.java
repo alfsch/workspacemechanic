@@ -61,7 +61,6 @@ public class SimpleExtensionPointHelper {
     }
 
     return Collections.unmodifiableList(proxies);
-
   }
 
   public static <T> List<T> activateProxies(Collection<SimpleProxy<T>> proxies) {

@@ -16,11 +16,5 @@ package com.google.eclipse.mechanic;
  * <p>This is the main communications channel between the {@link MechanicService} and the
  * {@link TaskScanner}s.
  */
-public interface TaskCollector {
-  /**
-   * Add a task to the collector.
-   *
-   * @param task the task to be added to the collector.
-   */
-  void add(Task task);
+public interface TaskCollector extends ICollector<Task> {
 }

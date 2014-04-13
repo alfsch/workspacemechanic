@@ -35,11 +35,6 @@ final class SimpleProxy<T> {
   private final String classAttr;
   private final boolean forcePluginActivation;
 
-  /**
-   * Creates a ScannerProxy.
-   * @param classAttr 
-   * @param forcePluginActivation 
-   */
   private SimpleProxy(
       Class<T> clazz, IConfigurationElement element, String classAttr,
       boolean forcePluginActivation) {
@@ -59,7 +54,7 @@ final class SimpleProxy<T> {
       if (forcePluginActivation || isBundleActive(bundleName)) {
         // This is instantiating the real class from the proxy.
         Object object = element.createExecutableExtension(classAttr);
-        return  clazz.cast(object);
+        return clazz.cast(object);
       }
     } catch (CoreException e) {
       LOG.log(Level.SEVERE,
@@ -74,6 +69,9 @@ final class SimpleProxy<T> {
   /**
    * Creates a proxy instance from a configuration element.
    *
+   * <p>When the element doesn't match the expected element name, this returns
+   * {@code null} and should be ignored. Same for when the className attribute
+   * is missing.
    * <p>(Configuration elements are proxies to entries in plugin.xml)
    *
    * @param clazz the type of object this proxy creates.
@@ -101,8 +99,11 @@ final class SimpleProxy<T> {
       return null;
     }
 
-    String attribute = element.getAttribute(forcePluginActivationAttr);
-    boolean forcePluginActivation = Boolean.parseBoolean(attribute);
+    boolean forcePluginActivation = true;
+    if (forcePluginActivationAttr != null) {
+      String attribute = element.getAttribute(forcePluginActivationAttr);
+      forcePluginActivation = Boolean.parseBoolean(attribute);
+    }
 
     return new SimpleProxy<T>(clazz, element, classNameAttr, forcePluginActivation);
   }

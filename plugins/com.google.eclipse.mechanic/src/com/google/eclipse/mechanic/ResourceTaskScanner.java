@@ -9,11 +9,9 @@
 
 package com.google.eclipse.mechanic;
 
-import java.util.Arrays;
 import java.util.List;
 
 import com.google.common.base.Preconditions;
-import com.google.eclipse.mechanic.internal.RegisteredTaskProvidersSupplier;
 import com.google.eclipse.mechanic.internal.ResourceTaskProvidersExtensionPoint;
 import com.google.eclipse.mechanic.internal.Supplier;
 
@@ -23,28 +21,21 @@ import com.google.eclipse.mechanic.internal.Supplier;
  */
 public abstract class ResourceTaskScanner implements TaskScanner {
 
-  private final List<Supplier<List<IResourceTaskProvider>>> suppliers;
+  private final Supplier<List<IResourceTaskProvider>> supplier;
 
   public ResourceTaskScanner() {
-    this(Arrays.<Supplier<List<IResourceTaskProvider>>>asList(
-        RegisteredTaskProvidersSupplier.getInstance(),
-        new ResourceTaskProvidersExtensionPoint()));
+    this(new ResourceTaskProvidersExtensionPoint());
   }
 
-  /**
-   * You read that interface correctly, bub.
-   */
-  public ResourceTaskScanner(List<Supplier<List<IResourceTaskProvider>>> suppliers) {
-    this.suppliers = suppliers;
+  public ResourceTaskScanner(Supplier<List<IResourceTaskProvider>> supplier) {
+    this.supplier = supplier;
   }
 
   public void scan(TaskCollector collector) {
     Preconditions.checkNotNull(collector, "'collector' cannot be null.");
 
-    for (Supplier<List<IResourceTaskProvider>> supplier : suppliers) {
-      for (IResourceTaskProvider source : supplier.get()) {
-        scan(source, collector);
-      }
+    for (IResourceTaskProvider source : supplier.get()) {
+      scan(source, collector);
     }
   }
 

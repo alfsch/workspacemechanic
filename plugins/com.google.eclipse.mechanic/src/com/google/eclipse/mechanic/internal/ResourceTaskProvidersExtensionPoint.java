@@ -27,7 +27,6 @@ public class ResourceTaskProvidersExtensionPoint implements Supplier<List<IResou
   private static final String EXTENSION_POINT_NAME = "resourcetaskproviders";
   private static final String TAG_TASK = "provider";
   private static final String ATTR_CLASS = "class";
-  private static final String ATTR_FORCE_PLUGIN_ACTIVATION = "forcePluginActivation";
 
   // Initialization On Demand Holder Idiom
   // http://crazybob.org/2007/01/lazy-loading-singletons.html
@@ -38,7 +37,7 @@ public class ResourceTaskProvidersExtensionPoint implements Supplier<List<IResou
             IResourceTaskProvider.class,
             TAG_TASK,
             ATTR_CLASS,
-            ATTR_FORCE_PLUGIN_ACTIVATION);
+            null);
   }
 
   /**

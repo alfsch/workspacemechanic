@@ -8,10 +8,6 @@
  *******************************************************************************/
 package com.google.eclipse.mechanic;
 
-import java.util.List;
-
-import org.eclipse.core.runtime.IStatus;
-
 /**
  * Provides resource-based tasks.
  *
@@ -19,20 +15,36 @@ import org.eclipse.core.runtime.IStatus;
  */
 public interface IResourceTaskProvider {
   /**
-   * Provides post-initialization validation of a provider.
+   * Collect task references provided by this provider.
    *
-   * @return status of the initialization.
-   */
-  IStatus initialize();
-
-  /**
+   * <p>In theory this is similar to calling
+   * {@code collectTaskReferences(".", extFilter, collector)}, but
+   * that's in theory only.
+   *
+   * @param extFilter the filename extension to filter.
+   * @param collector the collector to receive all task references.
+   *
    * TODO(konigsberg): Remove the filter parameter.
    */
-  List<IResourceTaskReference> getTaskReferences(String extFilter);
-
+  void collectTaskReferences(
+      String extFilter,
+      ICollector<IResourceTaskReference> collector);
 
   /**
-   * TODO(konigsberg): Remove the pathFilter
+   * Collect task references provided by this provider, relative to the
+   * provider's root.
+   *
+   * <p>This is only used for finding Class-based tasks, and is not even
+   * implemented in the UriTaskProvider.
+   *
+   * @param localPath the relative path to the resources
+   * @param extFilter the filename extension to filter.
+   * @param collector the collector to receive all task references.
+   *
+   * TODO(konigsberg): Remove the filter parameter.
    */
-  List<IResourceTaskReference> getTaskReferences(String localPath, String extFilter);
+  void collectTaskReferences(
+      String localPath,
+      String extFilter,
+      ICollector<IResourceTaskReference> collector);
 }

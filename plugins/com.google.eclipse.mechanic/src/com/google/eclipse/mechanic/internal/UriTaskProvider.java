@@ -12,20 +12,14 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
-import java.util.List;
-
-import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.Status;
 
 import com.google.common.base.Preconditions;
-import com.google.common.collect.Lists;
 import com.google.common.hash.Hashing;
 import com.google.common.io.ByteStreams;
 import com.google.common.io.InputSupplier;
+import com.google.eclipse.mechanic.ICollector;
 import com.google.eclipse.mechanic.IResourceTaskReference;
-import com.google.eclipse.mechanic.plugin.core.MechanicPlugin;
 import com.google.eclipse.mechanic.plugin.core.ResourceTaskProvider;
-import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
 
 /**
@@ -85,10 +79,17 @@ public final class UriTaskProvider extends ResourceTaskProvider {
     }
   }
 
+  private UriTaskProvider(URI uri, IUriContentProvider stateSensitiveCache,
+      IUriContentProvider longTermCache) {
+    this.uri = Preconditions.checkNotNull(uri);
+    this.stateSensitiveCache = Preconditions.checkNotNull(stateSensitiveCache);
+    this.longTermCache = Preconditions.checkNotNull(longTermCache);
+  }
+
   /**
    * Create a new instance.
    *
-   * <p>This constructor takes two caches. One has a shorter lifetime and so is more frequently
+   * <p>The constructor takes two caches. One has a shorter lifetime and so is more frequently
    * polled, to get the list of tasks to process. The other has a longer lifetime (12 hours
    * ATM) and is used to cache actual tasks (e.g. .epf files) which are much less likely to change.
    *
@@ -96,59 +97,41 @@ public final class UriTaskProvider extends ResourceTaskProvider {
    * @param stateSensitiveCache short term cache.
    * @param longTermCache long term cache.
    */
-  public UriTaskProvider(URI uri, IUriContentProvider stateSensitiveCache,
-      IUriContentProvider longTermCache) {
-    this.uri = Preconditions.checkNotNull(uri);
-    this.stateSensitiveCache = Preconditions.checkNotNull(stateSensitiveCache);
-    this.longTermCache = Preconditions.checkNotNull(longTermCache);
+  public static UriTaskProvider newInstance(
+      URI uri,
+      IUriContentProvider stateSensitiveCache,
+      IUriContentProvider longTermCache) throws IOException {
+
+    UriTaskProvider instance = new UriTaskProvider(
+        uri, stateSensitiveCache, longTermCache);
+    instance.setModel();
+    return instance;
   }
 
-  public IStatus initialize() {
-    InputStream inputStream;
-    try {
-      inputStream = stateSensitiveCache.get(uri);
-    } catch (IOException e) {
-      return newExceptionStatus(e);
-    }
+  private void setModel() throws IOException, JsonSyntaxException {
+    InputStream inputStream = stateSensitiveCache.get(uri);
     try {
       model = UriTaskProviderModelParser.read(inputStream);
-    } catch (JsonSyntaxException e) {
-      return newExceptionStatus(e);
-    } catch (JsonIOException e) {
-      return newExceptionStatus(e);
-    } catch (RuntimeException e) {
-      return newExceptionStatus(e);
-    }
-    try {
+    } finally {
       inputStream.close();
-    } catch (IOException e) {
-      return newExceptionStatus(e);
     }
-    return Status.OK_STATUS;
   }
 
-  private IStatus newExceptionStatus(Exception e) {
-    return new Status(IStatus.ERROR, MechanicPlugin.PLUGIN_ID, "Can't initialize " + this, e);
-  }
-
-  public List<IResourceTaskReference> getTaskReferences(String localPath, String filter) {
+  public void collectTaskReferences(String localPath, String filter, ICollector<IResourceTaskReference> collector) {
     // This is for class files, and we don't need to implement this. The function should be
     // removed anyway.
-    return null;
   }
 
-  public List<IResourceTaskReference> getTaskReferences(String filterText) {
-    List<IResourceTaskReference> refs = Lists.newArrayList();
+  public void collectTaskReferences(String filterText, ICollector<IResourceTaskReference> collector) {
     for (URI uri : model.getTasks()) {
       if (uri.getPath().endsWith(filterText)) {
         if (!uri.isAbsolute()) {
           // resolve 
           uri = UriTaskProvider.this.uri.resolve(uri);
         }
-        refs.add(new TaskReference(uri));
+        collector.collect(new TaskReference(uri));
       }
     }
-    return refs;
   }
 
   @Override

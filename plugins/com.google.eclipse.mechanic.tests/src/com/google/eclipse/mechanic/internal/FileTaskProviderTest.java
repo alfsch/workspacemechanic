@@ -22,31 +22,31 @@ import com.google.eclipse.mechanic.tests.internal.RunAsJUnitTest;
 @RunAsJUnitTest
 public class FileTaskProviderTest extends TestCase {
 
-  public void testDir() {
+  public void testDir() throws Exception {
     String tmp = System.getProperty("java.io.tmpdir");
     File f = new File(tmp);
-    FileTaskProvider provider = new FileTaskProvider(f);
+    FileTaskProvider provider = FileTaskProvider.newInstance(f);
     assertEquals(f,provider.getFile());
   }
 
   public void testRelative() throws IOException {
     String tmp = "./foo";
     File f = new File(System.getProperty("user.dir"), tmp);
-    FileTaskProvider provider = new FileTaskProvider(new File(tmp));
+    FileTaskProvider provider = FileTaskProvider.newInstance(new File(tmp));
     assertEquals(f.getCanonicalPath(), provider.getFile().getCanonicalPath());
   }
 
   public void testParentRelative() throws IOException {
     String tmp = "../foo";
     File f = new File(System.getProperty("user.dir"), tmp);
-    FileTaskProvider provider = new FileTaskProvider(new File(tmp));
+    FileTaskProvider provider = FileTaskProvider.newInstance(new File(tmp));
     assertEquals(f.getCanonicalPath(), provider.getFile().getCanonicalPath());
   }
 
   public void testUserHome() throws IOException {
     String tmp = "~/foo";
     File f = new File(System.getProperty("user.home"), tmp.substring(2));
-    FileTaskProvider provider = new FileTaskProvider(new File(tmp));
+    FileTaskProvider provider = FileTaskProvider.newInstance(new File(tmp));
     assertEquals(f.getCanonicalPath(), provider.getFile().getCanonicalPath());
   }
 }

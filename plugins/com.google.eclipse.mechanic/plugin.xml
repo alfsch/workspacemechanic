@@ -3,6 +3,7 @@
 <plugin>
    <extension-point id="tasks" name="Tasks" schema="schema/tasks.exsd"/>
    <extension-point id="scanners" name="Scanners" schema="schema/scanners.exsd"/>
+   <extension-point id="resourcetaskproviders" name="Preference Task Provider" schema="schema/resourcetaskproviders.exsd"/>
 
    <extension
          point="org.eclipse.ui.preferencePages">
@@ -53,5 +54,11 @@
             name="mechanic_configuration_path"
             readOnly="true">
       </variable>
+   </extension>
+   <extension
+         point="com.google.eclipse.mechanic.resourcetaskproviders">
+      <provider
+            class="com.google.eclipse.mechanic.internal.PreferenceResourceTaskProvider">
+      </provider>
    </extension>
 </plugin>

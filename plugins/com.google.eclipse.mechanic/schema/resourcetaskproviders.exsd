@@ -6,9 +6,7 @@
          <meta.schema plugin="com.google.eclipse.mechanic" id="resourcetaskproviders" name="Resource Task Providers"/>
       </appInfo>
       <documentation>
-         For registering scanners that find tasks to be run by the workspace mechanic.
-
-&lt;p&gt;Typically you can register individual tasks using the &amp;lt;task&amp;gt; extension point. Alternatively you can register a task scanner that is responsible for generating tasks en masse.
+         For registering task providers that can return tasks for any ResourceTaskScanner.
       </documentation>
    </annotation>
 
@@ -76,17 +74,13 @@
    &lt;extension
          point=&quot;com.google.eclipse.mechanic.resourcetaskproviders&quot;&gt;
       &lt;scanner
-            class=&quot;com.google.eclipse.mechanic.MyTaskProvider&quot;&gt;
+            class=&quot;com.google.eclipse.mechanic.internal.PreferenceResourceTaskProvider&quot;&gt;
       &lt;/scanner&gt;
    &lt;/extension&gt;
 &lt;/pre&gt;
 &lt;/p&gt;
       </documentation>
    </annotation>
-
-
-
-
    <annotation>
       <appInfo>
          <meta.section type="copyright"/>
@@ -95,5 +89,4 @@
          Copyright 2014 Google Inc. All Rights Reserved.
       </documentation>
    </annotation>
-
 </schema>
