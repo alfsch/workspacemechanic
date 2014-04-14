@@ -15,7 +15,12 @@ import java.io.InputStream;
 /**
  * A reference to a resource-based task.
  *
- * <p>Overriding toString
+ * <p>About {@link #getPath()}: For the file and URI-based providers, their fundamental
+ * use provides enough distinction, but custom providers should return references with
+ * information about their source. For instance, the sample
+ * {@code com.google.eclipse.mechanic.samples.InMemoryTaskProvider} puts "InMemoryTaskProvider:"
+ * in front all its resources paths.
+ *
  * <p>Since some tasks can come from disk, and it's expected that most of them will,
  * task scanners should rely on a null-test of {@link #asFile()} to see if that's the case.
  * So when identifying if a resource has changed, the caller might typically rely on
@@ -34,7 +39,10 @@ public interface IResourceTaskReference {
    */
   long getLastModified() throws IOException;
 
-  /** Return the task reference path. This is typically a full path. */
+  /** 
+   * Return the task reference path. Provide enough metadata to give it some distinction,
+   * separate from other providers.
+   */
   String getPath();
 
   /**
