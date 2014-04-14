@@ -41,10 +41,6 @@ public final class FileTaskProvider extends ResourceTaskProvider {
       this.file = file;
     }
 
-    public ResourceTaskProvider getProvider() {
-      return FileTaskProvider.this;
-    }
-
     public InputStream newInputStream() throws FileNotFoundException {
       return new FileInputStream(file);
     }

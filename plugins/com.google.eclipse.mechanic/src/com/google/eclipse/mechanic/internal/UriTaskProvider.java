@@ -40,10 +40,6 @@ public final class UriTaskProvider extends ResourceTaskProvider {
       this.uri = uri;
     }
 
-    public ResourceTaskProvider getProvider() {
-      return UriTaskProvider.this;
-    }
-
     public InputStream newInputStream() throws IOException {
       return longTermCache.get(uri);
     }

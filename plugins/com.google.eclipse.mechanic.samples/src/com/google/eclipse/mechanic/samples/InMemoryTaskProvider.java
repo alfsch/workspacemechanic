@@ -67,10 +67,6 @@ public class InMemoryTaskProvider implements IResourceTaskProvider {
       this.key = key;
     }
 
-    public IResourceTaskProvider getProvider() {
-      return InMemoryTaskProvider.this;
-    }
-
     public String getName() {
       return key;
     }

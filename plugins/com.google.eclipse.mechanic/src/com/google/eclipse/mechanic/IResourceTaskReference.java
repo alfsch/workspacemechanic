@@ -23,9 +23,6 @@ import java.io.InputStream;
  * resource. In that case, use {@link #computeMD5()}.
  */
 public interface IResourceTaskReference {
-  /** Return the provider that created this task reference. */
-  IResourceTaskProvider getProvider();
-
   /** Return the name of the task reference. This is typically a local name. */
   String getName();
 
