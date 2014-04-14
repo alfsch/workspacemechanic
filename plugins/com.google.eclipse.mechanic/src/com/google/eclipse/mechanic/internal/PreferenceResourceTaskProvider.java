@@ -16,6 +16,10 @@ import com.google.eclipse.mechanic.IResourceTaskProvider;
 import com.google.eclipse.mechanic.IResourceTaskReference;
 import com.google.eclipse.mechanic.plugin.core.OldMechanicPreferences;
 
+/**
+ * This provider is loaded by the extension mechanism only, and should not
+ * be instantiated by anything else.
+ */
 public class PreferenceResourceTaskProvider implements IResourceTaskProvider {
   // TODO(konigsberg): install a preference listener to reduce reading
   // preferences all the time.

@@ -271,7 +271,6 @@ class KeyboardBindingsTask extends CompositeTask {
     }
   }
   
-  @Override
   public String getId() {
     return id;
   }
