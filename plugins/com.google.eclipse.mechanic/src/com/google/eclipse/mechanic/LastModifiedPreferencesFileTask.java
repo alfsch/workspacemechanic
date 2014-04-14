@@ -64,7 +64,6 @@ public abstract class LastModifiedPreferencesFileTask extends CompositeTask {
   /**
    * Returns an id for the specified class and file.
    */
-  @Override
   public String getId() {
     return id;
   }

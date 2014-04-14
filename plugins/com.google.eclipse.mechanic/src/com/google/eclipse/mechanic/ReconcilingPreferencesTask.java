@@ -41,7 +41,6 @@ public abstract class ReconcilingPreferencesTask extends PreferenceReconcilerTas
   /**
    * Returns an id for the specified class and file.
    */
-  @Override
   public String getId() {
     return String.format("%s@%s", getClass().getName(), taskRef.getPath());
   }

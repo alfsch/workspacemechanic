@@ -17,10 +17,6 @@ package com.google.eclipse.mechanic;
  */
 public abstract class CompositeTask implements CompositeTaskInterface {
 
-  public String getId() {
-    return this.getClass().getName();
-  }
-
   public Evaluator getEvaluator() {
     return this;
   }
