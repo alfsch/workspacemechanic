@@ -46,7 +46,6 @@ public class InMemoryTaskProvider implements IResourceTaskProvider {
     RESOURCES.put("packageexplorer.showview", "org.eclipse.jdt.ui.PackageExplorer");
   }
 
-  @Override
   public void collectTaskReferences(String extFilter,
       ICollector<IResourceTaskReference> collector) {
     for (String key : RESOURCES.keySet()) {
@@ -56,7 +55,6 @@ public class InMemoryTaskProvider implements IResourceTaskProvider {
     }
   }
 
-  @Override
   public void collectTaskReferences(String localPath, String extFilter,
       ICollector<IResourceTaskReference> collector) {
     // Not supporting this for the example.
@@ -69,40 +67,32 @@ public class InMemoryTaskProvider implements IResourceTaskProvider {
       this.key = key;
     }
 
-    @Override
     public IResourceTaskProvider getProvider() {
       return InMemoryTaskProvider.this;
     }
 
-    @Override
     public String getName() {
       return key;
     }
 
-    @Override
     public InputStream newInputStream() throws IOException {
       return new ByteArrayInputStream(RESOURCES.get(key).getBytes());
     }
 
-    @Override
     public long getLastModified() throws IOException {
       return 0;
     }
 
-    @Override
     public String getPath() {
       return "InMemoryTaskProvider:" + key;
     }
 
-    @Override
     public File asFile() {
       return null;
     }
 
-    @Override
     public long computeMD5() throws IOException {
       InputSupplier<InputStream> supplier = new InputSupplier<InputStream>() {
-        @Override
         public InputStream getInput() throws IOException {
           return newInputStream();
         }

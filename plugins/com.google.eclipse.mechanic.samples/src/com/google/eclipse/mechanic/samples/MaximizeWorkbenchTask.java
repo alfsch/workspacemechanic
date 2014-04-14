@@ -26,17 +26,14 @@ import com.google.eclipse.mechanic.CompositeTask;
  */
 public class MaximizeWorkbenchTask extends CompositeTask {
 
-  @Override
   public String getTitle() {
     return "Workbench window is not maximized";
   }
 
-  @Override
   public String getDescription() {
     return "Fix me to maximize the workbench.";
   }
 
-  @Override
   public String getId() {
     return getClass().getName();
   }
@@ -44,7 +41,6 @@ public class MaximizeWorkbenchTask extends CompositeTask {
   /**
    * Called to evaluate whether the environment adheres to this test.
    */
-  @Override
   public boolean evaluate() {
     if (!PlatformUI.isWorkbenchRunning()) {
       return true;
@@ -57,7 +53,6 @@ public class MaximizeWorkbenchTask extends CompositeTask {
     // local array hack.
     final boolean[] result = new boolean[] { true };
     Display.getDefault().syncExec(new Runnable() {
-      @Override
       public void run() {
         IWorkbenchWindow activeWorkbenchWindow = workbench.getActiveWorkbenchWindow();
         if (activeWorkbenchWindow == null) {
@@ -76,10 +71,8 @@ public class MaximizeWorkbenchTask extends CompositeTask {
   /**
    * Called to bring the environment in compliance with this test.
    */
-  @Override
   public void run() {
     Display.getDefault().syncExec(new Runnable() {
-      @Override
       public void run() {
         PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell().setMaximized(true);
       }

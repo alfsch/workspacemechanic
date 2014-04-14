@@ -93,22 +93,18 @@ public class ShowViewScanner extends ResourceTaskScanner {
       this.list = ImmutableList.copyOf(list);
     }
 
-    @Override
     public String getId() {
       return ShowViewTask.class.getName() + ":" + name;
     }
 
-    @Override
     public String getTitle() {
       return "Show views: " + name;
     }
 
-    @Override
     public String getDescription() {
       return "Enables and disables views. More details.";
     }
 
-    @Override
     public boolean evaluate() {
       if (!PlatformUI.isWorkbenchRunning()) {
         return true;
@@ -120,7 +116,6 @@ public class ShowViewScanner extends ResourceTaskScanner {
 
       final Set<String> remaining = Sets.newHashSet(list);
       Display.getDefault().syncExec(new Runnable() {
-        @Override
         public void run() {
           for (IWorkbenchWindow workbenchWindow : workbench.getWorkbenchWindows()) {
             for (IWorkbenchPage workbenchPage : workbenchWindow.getPages()) {
@@ -134,10 +129,8 @@ public class ShowViewScanner extends ResourceTaskScanner {
       return remaining.isEmpty();
     }
 
-    @Override
     public void run() {
       Display.getDefault().syncExec(new Runnable() {
-        @Override
         public void run() {
           IWorkbench workbench = PlatformUI.getWorkbench();
           IWorkbenchWindow activeWorkbenchWindow = workbench.getActiveWorkbenchWindow();
