@@ -14,6 +14,13 @@ import java.io.InputStream;
 
 /**
  * A reference to a resource-based task.
+ *
+ * <p>Overriding toString
+ * <p>Since some tasks can come from disk, and it's expected that most of them will,
+ * task scanners should rely on a null-test of {@link #asFile()} to see if that's the case.
+ * So when identifying if a resource has changed, the caller might typically rely on
+ * {@link #getLastModified()}, which works great if it's for a file, but not for a URL-based
+ * resource. In that case, use {@link #computeMD5()}.
  */
 public interface IResourceTaskReference {
   /** Return the provider that created this task reference. */
@@ -34,7 +41,7 @@ public interface IResourceTaskReference {
   String getPath();
 
   /**
-   * Return the File representation of this resource. Is {@code null} when this file isn't on disk.
+   * Return the File representation of this resource. Is {@code null} it's not a File.
    */
   File asFile();
 

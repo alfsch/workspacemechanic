@@ -11,6 +11,11 @@ package com.google.eclipse.mechanic;
 /**
  * Provides resource-based tasks.
  *
+ * <p>When building your own implementations that are registered with plug-ins,
+ * they don't have to subclass {@link com.google.eclipse.mechanic.plugin.core.ResourceTaskProvider}
+ * but if you do, then it forces you to supply {@link #equals(Object)} and {@link #hashCode()}
+ * methods.
+ *
  * <b>Note: this API needs some rework, and is very likely to change.
  */
 public interface IResourceTaskProvider {
