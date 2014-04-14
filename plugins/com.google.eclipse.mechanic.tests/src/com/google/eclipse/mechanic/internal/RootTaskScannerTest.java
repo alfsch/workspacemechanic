@@ -14,6 +14,7 @@ import java.util.List;
 
 import org.junit.Test;
 
+import com.google.common.base.Supplier;
 import com.google.eclipse.mechanic.Task;
 import com.google.eclipse.mechanic.TaskCollector;
 import com.google.eclipse.mechanic.TaskScanner;
@@ -29,7 +30,7 @@ public class RootTaskScannerTest {
   public void testThatAThrowingTaskScannerDoesNotKillTheMechanic() {
     // TODO(zorzella): where are we supposed to put test infra, like fakes
     // for ScannersExtensionPointInterface, TaskScanner and TaskCollector?
-    ScannersExtensionPointInterface scannerPoint = new ScannersExtensionPointInterface() {
+    Supplier<List<TaskScanner> > scannerPoint = new Supplier<List<TaskScanner>>() {
       public List<TaskScanner> get() {
         List<TaskScanner> result = new ArrayList<TaskScanner>();
         result.add(new TaskScanner() {

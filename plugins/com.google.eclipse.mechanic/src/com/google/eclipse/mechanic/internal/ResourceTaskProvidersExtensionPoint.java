@@ -13,6 +13,8 @@ import java.util.List;
 
 import org.eclipse.core.runtime.Platform;
 
+import com.google.common.base.Supplier;
+import com.google.common.base.Suppliers;
 import com.google.eclipse.mechanic.IResourceTaskProvider;
 import com.google.eclipse.mechanic.plugin.core.MechanicPlugin;
 
@@ -23,7 +25,7 @@ import com.google.eclipse.mechanic.plugin.core.MechanicPlugin;
  * {@code tasks} extension point, providing a mechanism for translating their
  * implementations to instances of {@link IResourceTaskProvider}.
  */
-public class ResourceTaskProvidersExtensionPoint implements Supplier<List<IResourceTaskProvider>> {
+public class ResourceTaskProvidersExtensionPoint {
   private static final String EXTENSION_POINT_NAME = "resourcetaskproviders";
   private static final String TAG_TASK = "provider";
   private static final String ATTR_CLASS = "class";
@@ -40,6 +42,23 @@ public class ResourceTaskProvidersExtensionPoint implements Supplier<List<IResou
             null);
   }
 
+  private ResourceTaskProvidersExtensionPoint() {
+  }
+
+  /**
+   * Return the {@link IResourceTaskProvider} supplier, initializing it if required.
+   *
+   * <p>The supplier is memoized, so it will return the same instantiated
+   * objects upon repeated calls.
+   */
+  public static Supplier<List<IResourceTaskProvider>> getInstance() {
+    return Suppliers.memoize(new Supplier<List<IResourceTaskProvider>>() {
+      public List<IResourceTaskProvider> get() {
+        return SingletonHolder.instance.getInstances();
+      }
+    });
+  }
+
   /**
    * Clears the list of task providers.
    * 
@@ -47,12 +66,5 @@ public class ResourceTaskProvidersExtensionPoint implements Supplier<List<IResou
    */
   public static void dispose() {
     SingletonHolder.instance = null;
-  }
-
-  /**
-   * Return as many registered extensions of {@link IResourceTaskProvider} as possible.
-   */
-  public List<IResourceTaskProvider> get() {
-    return SingletonHolder.instance.getInstances();
   }
 }

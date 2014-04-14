@@ -11,9 +11,10 @@ package com.google.eclipse.mechanic;
 
 import java.util.List;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Preconditions;
+import com.google.common.base.Supplier;
 import com.google.eclipse.mechanic.internal.ResourceTaskProvidersExtensionPoint;
-import com.google.eclipse.mechanic.internal.Supplier;
 
 /**
  * Scanner that looks in the registered {@link IResourceTaskProvider}s
@@ -24,10 +25,11 @@ public abstract class ResourceTaskScanner implements TaskScanner {
   private final Supplier<List<IResourceTaskProvider>> supplier;
 
   public ResourceTaskScanner() {
-    this(new ResourceTaskProvidersExtensionPoint());
+    this(ResourceTaskProvidersExtensionPoint.getInstance());
   }
 
-  public ResourceTaskScanner(Supplier<List<IResourceTaskProvider>> supplier) {
+  @VisibleForTesting
+  ResourceTaskScanner(Supplier<List<IResourceTaskProvider>> supplier) {
     this.supplier = supplier;
   }
 
