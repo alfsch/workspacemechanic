@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="com.google.eclipse.mechanic.tasks">
+      <task
+            class="com.google.eclipse.mechanic.samples.MaximizeWorkbenchTask"
+            forcePluginActivation="true">
+      </task>
+   </extension>
+   <extension
+         point="com.google.eclipse.mechanic.scanners">
+      <scanner
+            class="com.google.eclipse.mechanic.samples.ShowViewScanner">
+      </scanner>
+   </extension>
+   <extension
+         point="com.google.eclipse.mechanic.resourcetaskproviders">
+      <provider
+            class="com.google.eclipse.mechanic.samples.InMemoryTaskProvider">
+      </provider>
+   </extension>
+
+</plugin>
