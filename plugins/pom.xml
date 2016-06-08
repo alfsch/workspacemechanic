@@ -1,27 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>com.google.eclipse.mechanic</groupId>
-  <artifactId>plugins</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
-  <packaging>pom</packaging>
-  <modules>
-    <module>com.google.eclipse.mechanic</module>
-    <module>com.google.eclipse.mechanic.tests</module>
-  </modules>
-  <properties>
-    <!-- Override on command line with -Dtycho.targetPlatform=/path/to/Eclipse or set ECLIPSE_HOME -->
-    <tycho.targetPlatform>${env.ECLIPSE_HOME}</tycho.targetPlatform>
-  </properties>
-  <build>
-    <plugins>
-      <plugin>
-        <groupId>org.sonatype.tycho</groupId>
-        <artifactId>tycho-maven-plugin</artifactId>
-        <version>0.11.1</version>
-        <extensions>true</extensions>
-      </plugin>
-    </plugins>
-  </build>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+    xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.google.eclipse.mechanic</groupId>
+    <artifactId>plugins</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <packaging>pom</packaging>
+    <properties>
+        <tycho-version>0.25.0</tycho-version>
+    </properties>
+    <modules>
+        <module>com.google.eclipse.mechanic</module>
+        <module>com.google.eclipse.mechanic.samples</module>
+        <module>com.google.eclipse.mechanic.tests</module>
+    </modules>
+    <repositories>
+        <repository>
+            <id>eclipse-indigo</id>
+            <url>http://download.eclipse.org/releases/indigo</url>
+            <layout>p2</layout>
+        </repository>
+    </repositories>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.eclipse.tycho</groupId>
+                <artifactId>tycho-maven-plugin</artifactId>
+                <version>${tycho-version}</version>
+                <extensions>true</extensions>
+            </plugin>
+            <plugin>
+                <groupId>org.eclipse.tycho</groupId>
+                <artifactId>maven-osgi-compiler-plugin</artifactId>
+                <version>${tycho-version}</version>
+                <configuration>
+                    <source>1.7</source>
+                    <target>1.7</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>

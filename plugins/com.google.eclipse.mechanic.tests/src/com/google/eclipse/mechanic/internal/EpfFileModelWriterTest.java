@@ -12,10 +12,10 @@ package com.google.eclipse.mechanic.internal;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
-import junit.framework.TestCase;
-
 import com.google.common.base.Splitter;
 import com.google.common.collect.Iterables;
+
+import junit.framework.TestCase;
 
 /**
  * Tests for {@link EpfFileModelWriter}.
@@ -50,7 +50,8 @@ public class EpfFileModelWriterTest extends TestCase {
     EpfFileModel model = new EpfFileModel("TiTlE", "DeScRiPtIoN", TaskType.RECONCILE);
     model.addElement("key", "longline\nnewline");
     String actual = writeToString(model);
-    fail("didn't test this one yet " + actual);
+    assertBasics(actual);
+    assertLine("key=longline\\nnewline", actual);
   }
 
   private String writeToString(EpfFileModel model) throws IOException {
