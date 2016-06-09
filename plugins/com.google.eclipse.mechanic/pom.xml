@@ -3,12 +3,12 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <artifactId>plugins</artifactId>
     <groupId>com.google.eclipse.mechanic</groupId>
+    <artifactId>plugins</artifactId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
   <groupId>com.google.eclipse.mechanic</groupId>
   <artifactId>com.google.eclipse.mechanic</artifactId>
-  <version>0.1.2</version>
+  <version>0.4.0</version>
   <packaging>eclipse-plugin</packaging>
 </project>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <feature url="features/com.google.eclipse.mechanic.feature_0.4.0.jar" id="com.google.eclipse.mechanic.feature" version="0.4.0">
+      <category name="com.google.eclipse.mechanic"/>
+   </feature>
+   <category-def name="com.google.eclipse.mechanic" label="Workspace Mechanic Feature">
+      <description>
+         Workspace Mechanic for Eclipse
+      </description>
+   </category-def>
+</site>

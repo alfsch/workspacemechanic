@@ -8,11 +8,14 @@
     <packaging>pom</packaging>
     <properties>
         <tycho-version>0.25.0</tycho-version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
     <modules>
         <module>com.google.eclipse.mechanic</module>
         <module>com.google.eclipse.mechanic.samples</module>
         <module>com.google.eclipse.mechanic.tests</module>
+        <module>features</module>
+        <module>releng</module>
     </modules>
     <repositories>
         <repository>
