@@ -7,6 +7,7 @@
     <artifactId>plugins</artifactId>
     <version>0.5.1</version>
   </parent>
-  <artifactId>com.google.eclipse.mechanic.tests</artifactId>
-  <packaging>eclipse-test-plugin</packaging>
+  <groupId>com.google.eclipse.mechanic</groupId>
+  <artifactId>com.google.eclipse.mechanic.samples</artifactId>
+  <packaging>eclipse-plugin</packaging>
 </project>

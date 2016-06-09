@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Workspace Mechanic Samples
 Bundle-SymbolicName: com.google.eclipse.mechanic.samples;singleton:=true
-Bundle-Version: 1.0.0
+Bundle-Version: 0.5.1
 Bundle-Vendor: Robert Konigsberg
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,

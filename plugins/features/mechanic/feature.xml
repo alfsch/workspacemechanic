@@ -2,11 +2,12 @@
 <feature
       id="com.google.eclipse.mechanic.feature"
       label="Workspace Mechanic"
-      version="0.4.0"
+      version="0.5.1"
       provider-name="Google, Inc.">
 
-   <description url="http://code.google.com/a/eclipselabs.org/p/workspacemechanic">
-      Workspace Mechanic provides automated configuration and monitoring of your Eclipse installation and workspaces.
+   <description url="https://github.com/alfsch/alfsch.workspacemechanic.update">
+      Workspace Mechanic provides automated configuration and monitoring
+of your Eclipse installation and workspaces.
    </description>
 
    <copyright>
@@ -28,6 +29,10 @@ You may obtain a copy of the License at
 
   http://www.apache.org/licenses/LICENSE-2.0
    </license>
+
+   <url>
+      <update label="Workspace Mechanic Updates" url="https://alfsch.github.io/eclipse-updates/workspacemechanic"/>
+   </url>
 
    <requires>
       <import plugin="org.eclipse.core.runtime" version="3.5.0" match="compatible"/>

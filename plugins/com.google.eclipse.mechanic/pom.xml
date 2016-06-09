@@ -5,10 +5,9 @@
   <parent>
     <groupId>com.google.eclipse.mechanic</groupId>
     <artifactId>plugins</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.5.1</version>
   </parent>
   <groupId>com.google.eclipse.mechanic</groupId>
   <artifactId>com.google.eclipse.mechanic</artifactId>
-  <version>0.4.0</version>
   <packaging>eclipse-plugin</packaging>
 </project>
