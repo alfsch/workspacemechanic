@@ -1,0 +1,14 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Workspace Mechanic Samples
+Bundle-SymbolicName: com.google.eclipse.mechanic.samples;singleton:=true
+Bundle-Version: 0.5.2.qualifier
+Bundle-Vendor: Robert Konigsberg
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ com.google.eclipse.mechanic,
+ com.google.eclipse.mechanic
+Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Bundle-ActivationPolicy: lazy
+Bundle-ClassPath: .,
+ lib/guava.jar

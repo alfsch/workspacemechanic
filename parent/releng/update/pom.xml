@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+    xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>update</artifactId>
+    <packaging>eclipse-repository</packaging>
+    <parent>
+        <groupId>com.google.eclipse.mechanic</groupId>
+        <artifactId>releng</artifactId>
+        <version>0.5.2-SNAPSHOT</version>
+    </parent>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.eclipse.tycho</groupId>
+                <artifactId>tycho-p2-repository-plugin</artifactId>
+                <configuration>
+                    <repositoryName>Workspace Mechanic Updates</repositoryName>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.eclipse.tycho.extras</groupId>
+                <artifactId>tycho-p2-extras-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>mirror</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <source>
+                        <!-- source repositories to mirror from -->
+                        <repository>
+                            <id>workspace-mechanic</id>
+                            <url>https://alfsch.github.io/eclipse-updates/workspacemechanic</url>
+                            <layout>p2</layout>
+                        </repository>
+                    </source>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>
