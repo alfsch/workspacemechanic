@@ -1,0 +1,8 @@
+# @title More Unit Filename Pattern
+# @description Sets more unit filename pattern to support mock test filename.
+# @task_type RECONCILE
+#
+# Created by the Workspace Mechanic Preference Recorder
+#Mon Nov 24 08:23:52 CET 2014
+file_export_version=3.0
+/instance/org.moreunit/org.moreunit.testClassNameTemplate=${srcFile}(MockTest|Test)

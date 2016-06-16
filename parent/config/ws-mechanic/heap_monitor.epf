@@ -1,0 +1,9 @@
+# @title Heap Monitor
+# @description Shows the Heap Monitor
+# @task_type RECONCILE
+#
+# Copyright 2013 Wim Jongman
+# License EPL: http://www.eclipse.org/legal/epl-v10.html
+#
+/instance/org.eclipse.ui/SHOW_MEMORY_MONITOR=true
+file_export_version=3.0

@@ -1,0 +1,10 @@
+# @title git-history
+# @description Sets git history settings for branch and tag label length
+# @task_type RECONCILE
+#
+# Created by the Workspace Mechanic Preference Recorder
+#Thu Sep 10 08:00:42 CEST 2015
+/instance/org.eclipse.egit.ui/HistoryView_MaxBranchLength=42
+file_export_version=3.0
+/instance/org.eclipse.egit.ui/HistoryView_MaxTagLength=42
+/instance/org.eclipse.egit.ui/HistoryView_CutAtStart=true

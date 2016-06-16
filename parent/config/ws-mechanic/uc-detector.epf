@@ -1,0 +1,8 @@
+# @title UC Detector
+# @description ignore javax.annotation.Generated
+# @task_type RECONCILE
+#
+# Created by the Workspace Mechanic Preference Recorder
+#Tue Nov 25 08:40:11 CET 2014
+file_export_version=3.0
+/instance/org.ucdetector/org.ucdetector.annotationsFilter=javax.annotation.Generated,javax.ejb.Local,javax.enterprise.inject.Produces

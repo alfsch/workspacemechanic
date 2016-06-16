@@ -1,0 +1,5 @@
+# @title Do not prompt on exit
+# @description Sets the pref to not raise a modal dialog on exit
+# @task_type RECONCILE
+file_export_version=3.0
+/instance/org.eclipse.ui.ide/EXIT_PROMPT_ON_CLOSE_LAST_WINDOW=false

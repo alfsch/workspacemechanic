@@ -1,0 +1,9 @@
+# @title Semicolons and Brackets at all positions
+# @description Semicolons and Brackets automatically at end
+# @task_type RECONCILE
+#
+# Created by the Workspace Mechanic Preference Recorder
+#Wed Jun 19 21:33:01 CEST 2013
+file_export_version=3.0
+/instance/org.eclipse.jdt.ui/smart_semicolon=true
+/instance/org.eclipse.jdt.ui/smart_opening_brace=true

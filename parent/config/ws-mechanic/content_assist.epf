@@ -1,0 +1,10 @@
+# @title Content Assist
+# @description Completion Overwrites. Insert Best Guessed Parameters.
+# @task_type RECONCILE
+#
+# Copyright 2013 Wim Jongman
+# License EPL: http://www.eclipse.org/legal/epl-v10.html
+#
+file_export_version=3.0
+/instance/org.eclipse.jdt.ui/content_assist_insert_completion=false
+/instance/org.eclipse.jdt.ui/content_assist_guess_method_arguments=true

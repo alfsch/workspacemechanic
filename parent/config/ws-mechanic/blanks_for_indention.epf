@@ -1,0 +1,8 @@
+# @title General Editor (Blanks)
+# @description Use Blanks for indention instead of tabs
+# @task_type RECONCILE
+#
+# Created by the Workspace Mechanic Preference Recorder
+#Fri May 27 09:03:27 CEST 2016
+/instance/org.eclipse.ui.editors/spacesForTabs=true
+file_export_version=3.0

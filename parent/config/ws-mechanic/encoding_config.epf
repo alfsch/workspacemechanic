@@ -1,0 +1,11 @@
+# @title Set file encoding
+# @description Sets the file encoding for to UTF-8.
+# @task_type RECONCILE
+file_export_version=3.0
+/instance/org.eclipse.core.resources/encoding=UTF-8
+/instance/org.eclipse.core.runtime/content-types/org.eclipse.core.runtime.text/charset=UTF-8
+/instance/org.eclipse.core.runtime/content-types/org.eclipse.jst.jsp.core.jspsource/charset=UTF-8
+/instance/org.eclipse.jst.jsp.core/outputCodeset=UTF-8
+/instance/org.eclipse.wst.css.core/outputCodeset=UTF-8
+/instance/org.eclipse.wst.html.core/outputCodeset=UTF-8
+

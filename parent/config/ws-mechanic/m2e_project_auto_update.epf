@@ -1,0 +1,8 @@
+# @title M2E
+# @description do autoupdates on project, when pom.xml changes.
+# @task_type RECONCILE
+#
+# Created by the Workspace Mechanic Preference Recorder
+#Thu Jun 16 14:39:23 CEST 2016
+file_export_version=3.0
+/instance/org.eclipse.m2e.core/eclipse.m2.autoUpdateProjects=true

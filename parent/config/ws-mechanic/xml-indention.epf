@@ -1,0 +1,12 @@
+# @title XML Indention
+# @description Configures the XML indention settings to use blanks, 120 line width, preserve CDATA, indention size 4
+# @task_type RECONCILE
+#
+# Created by the Workspace Mechanic Preference Recorder
+#Thu Oct 09 10:36:04 CEST 2014
+file_export_version=3.0
+/instance/org.eclipse.wst.xml.core/preserveCDATAContent=true
+/instance/org.eclipse.wst.xml.core/indentationSize=4
+/instance/org.eclipse.wst.xml.core/indentationChar=space
+/instance/org.eclipse.wst.xml.core/lineWidth=120
+/instance/org.eclipse.wst.xml.core/formatCommentJoinLines=false

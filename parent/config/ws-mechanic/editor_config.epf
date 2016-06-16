@@ -1,0 +1,7 @@
+# @title Set print margin
+# @description Sets the print margin to 120 characters and show line number ruler.
+# @task_type RECONCILE
+file_export_version=3.0
+/instance/org.eclipse.ui.editors/lineNumberRuler=true
+/instance/org.eclipse.ui.editors/printMarginColumn=120
+

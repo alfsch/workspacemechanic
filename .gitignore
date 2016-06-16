@@ -13,4 +13,5 @@ bin/
 lib/
 target/
 *.versionsBackup
+!.travis.yml
 !.gitignore

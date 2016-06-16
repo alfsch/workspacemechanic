@@ -1,0 +1,10 @@
+# @title CSS-Formatter
+# @description Use linewidth 120, space for indention and indention size 4
+# @task_type RECONCILE
+#
+# Created by the Workspace Mechanic Preference Recorder
+#Fri Oct 23 08:50:22 CEST 2015
+/instance/org.eclipse.wst.css.core/lineWidth=120
+file_export_version=3.0
+/instance/org.eclipse.wst.css.core/indentationChar=space
+/instance/org.eclipse.wst.css.core/indentationSize=4

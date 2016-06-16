@@ -1,12 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <modelVersion>4.0.0</modelVersion>
-  <parent>
-    <groupId>com.google.eclipse.mechanic</groupId>
-    <artifactId>tests</artifactId>
-    <version>0.5.2-SNAPSHOT</version>
-  </parent>
-  <artifactId>com.google.eclipse.mechanic.tests</artifactId>
-  <packaging>eclipse-test-plugin</packaging>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+    xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.google.eclipse.mechanic</groupId>
+        <artifactId>tests</artifactId>
+        <version>0.5.2-SNAPSHOT</version>
+    </parent>
+    <artifactId>com.google.eclipse.mechanic.tests</artifactId>
+    <packaging>eclipse-test-plugin</packaging>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <configuration>
+                    <excludeTypes>eclipse-plugin</excludeTypes>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+    <dependencies>
+        <!-- dependency is needed for jacoco coverage report -->
+        <dependency>
+            <groupId>com.google.eclipse.mechanic</groupId>
+            <artifactId>com.google.eclipse.mechanic</artifactId>
+            <version>0.5.2-SNAPSHOT</version>
+            <type>eclipse-plugin</type>
+        </dependency>
+    </dependencies>
 </project>

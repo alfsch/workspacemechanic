@@ -1,0 +1,9 @@
+# @title Console Buffer Size
+# @description Sets the default console buffer size to 800000
+# @task_type RECONCILE
+#
+# Created by the Workspace Mechanic Preference Recorder
+#Wed May 14 09:48:33 CEST 2014
+file_export_version=3.0
+/instance/org.eclipse.debug.ui/Console.lowWaterMark=800000
+/instance/org.eclipse.debug.ui/Console.highWaterMark=808000

@@ -1,0 +1,8 @@
+# @title Test Source Folder
+# @description Sets the source folder for tests to src/test/java. Needs eclipse MoreUnit Plugin
+# @task_type RECONCILE
+#
+# Created by the Workspace Mechanic Preference Recorder
+#Mon Oct 27 15:44:08 CET 2014
+/instance/org.moreunit/org.moreunit.junit_path=src/test/java
+file_export_version=3.0

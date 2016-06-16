@@ -1,0 +1,8 @@
+# @title Static Imports
+# @description Static Imports with codecompletion
+# @task_type RECONCILE
+#
+# Created by the Workspace Mechanic Preference Recorder
+#Tue Apr 26 11:03:12 CEST 2016
+file_export_version=3.0
+/instance/org.eclipse.jdt.ui/content_assist_favorite_static_members=org.hamcrest.Matchers.*;org.mockito.Mockito.*;org.junit.Assert.*;org.hamcrest.core.Is.*
