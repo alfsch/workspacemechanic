@@ -23,3 +23,6 @@ The CI build is hosted on https://travis-ci.org/alfsch/workspacemechanic
 and not to forget
 
 **Bugfixing**
+
+## Build Status
+[![Build Status](https://travis-ci.org/alfsch/workspacemechanic.svg?branch=master)](https://travis-ci.org/alfsch/workspacemechanic)
