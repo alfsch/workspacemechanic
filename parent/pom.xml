@@ -121,6 +121,11 @@
                     <artifactId>maven-checkstyle-plugin</artifactId>
                     <version>${checkstyle-plugin-version}</version>
                 </plugin>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>truezip-maven-plugin</artifactId>
+                    <version>1.2</version>
+                </plugin>
             </plugins>
         </pluginManagement>
         <plugins>

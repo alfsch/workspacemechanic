@@ -40,6 +40,69 @@
                     </source>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>truezip-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copy-out-files</id>
+                        <goals>
+                            <goal>copy</goal>
+                        </goals>
+                        <phase>pre-integration-test</phase>
+                        <configuration>
+                            <files>
+                                <file>
+                                    <source>${project.build.directory}/repository/content.jar/content.xml</source>
+                                    <outputDirectory>${project.build.directory}/copy-file</outputDirectory>
+                                </file>
+                            </files>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>xml-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copy-out-files</id>
+                        <goals>
+                            <goal>transform</goal>
+                        </goals>
+                        <phase>integration-test</phase>
+                    </execution>
+                </executions>
+                <configuration>
+                    <transformationSets>
+                        <transformationSet>
+                            <dir>${project.build.directory}/copy-file</dir>
+                            <stylesheet>src/main/xml/xsl/content2html.xsl</stylesheet>
+                            <fileMappers>
+                                <fileMapper implementation="org.codehaus.plexus.components.io.filemappers.RegExpFileMapper">
+                                    <pattern>content\.xml$</pattern>
+                                    <replacement>index.html</replacement>
+                                </fileMapper>
+                            </fileMappers>
+                            <addedToClasspath>false</addedToClasspath>
+                            <outputDir>${project.build.directory}/repository</outputDir>
+                        </transformationSet>
+                    </transformationSets>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.eclipse.tycho</groupId>
+                <artifactId>tycho-p2-repository-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>archive-repository</id>
+                        <goals>
+                            <goal>archive-repository</goal>
+                        </goals>
+                        <phase>post-integration-test</phase>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
 </project>
