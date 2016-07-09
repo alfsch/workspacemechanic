@@ -12,6 +12,11 @@
         <pmd-plugin-version>3.6</pmd-plugin-version>
         <checkstyle-plugin-version>2.17</checkstyle-plugin-version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <sonar.host.url>http://sonarqube-1.12ececdd.cont.dockerapp.io:9000</sonar.host.url>
+        <sonar.login>4bd61011f72af5e20222908eb455e43d88a8a26e</sonar.login>
+        <sonar.projectName>Eclipse Workspace-Mechanic</sonar.projectName>
+        <sonar.java.source>1.6</sonar.java.source>
+        <sonar.jacoco.itReportPath>target/site/jacoco-aggregate</sonar.jacoco.itReportPath>
     </properties>
     <modules>
         <module>bundles</module>
@@ -31,6 +36,11 @@
     <build>
         <pluginManagement>
             <plugins>
+                <plugin>
+                    <groupId>org.sonarsource.scanner.maven</groupId>
+                    <artifactId>sonar-maven-plugin</artifactId>
+                    <version>3.0.1</version>
+                </plugin>
                 <plugin>
                     <groupId>org.eclipse.tycho</groupId>
                     <artifactId>tycho-maven-plugin</artifactId>
