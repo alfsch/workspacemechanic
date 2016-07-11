@@ -16,7 +16,7 @@
         <sonar.login>4bd61011f72af5e20222908eb455e43d88a8a26e</sonar.login>
         <sonar.projectName>Eclipse Workspace-Mechanic</sonar.projectName>
         <sonar.java.source>1.6</sonar.java.source>
-        <sonar.jacoco.itReportPath>target/site/jacoco-aggregate</sonar.jacoco.itReportPath>
+        <sonar.jacoco.reportPath>${user.dir}/target/jacoco.exec</sonar.jacoco.reportPath>
     </properties>
     <modules>
         <module>bundles</module>
@@ -183,6 +183,10 @@
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
+                <configuration>
+                    <append>true</append>
+                    <destFile>${sonar.jacoco.reportPath}</destFile>
+                </configuration>
                 <executions>
                     <execution>
                         <id>default-prepare-agent</id>
