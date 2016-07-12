@@ -12,4 +12,7 @@
     <modules>
         <module>mechanic</module>
     </modules>
+    <properties>
+        <sonar.skip>true</sonar.skip>
+    </properties>
 </project>

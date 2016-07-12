@@ -17,6 +17,15 @@
                 <configuration>
                     <repositoryName>Workspace Mechanic Updates</repositoryName>
                 </configuration>
+                <executions>
+                    <execution>
+                        <id>archive-repository</id>
+                        <goals>
+                            <goal>archive-repository</goal>
+                        </goals>
+                        <phase>post-integration-test</phase>
+                    </execution>
+                </executions>
             </plugin>
             <plugin>
                 <groupId>org.eclipse.tycho.extras</groupId>
@@ -89,19 +98,6 @@
                         </transformationSet>
                     </transformationSets>
                 </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.eclipse.tycho</groupId>
-                <artifactId>tycho-p2-repository-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>archive-repository</id>
-                        <goals>
-                            <goal>archive-repository</goal>
-                        </goals>
-                        <phase>post-integration-test</phase>
-                    </execution>
-                </executions>
             </plugin>
         </plugins>
     </build>

@@ -12,4 +12,7 @@
     <modules>
         <module>update</module>
     </modules>
+    <properties>
+        <sonar.skip>true</sonar.skip>
+    </properties>
 </project>

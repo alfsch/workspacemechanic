@@ -12,6 +12,9 @@
     <modules>
         <module>com.google.eclipse.mechanic</module>
     </modules>
+    <properties>
+        <sonar.projectName>${project.artifactId}</sonar.projectName>
+    </properties>
     <build>
         <plugins>
             <plugin>
