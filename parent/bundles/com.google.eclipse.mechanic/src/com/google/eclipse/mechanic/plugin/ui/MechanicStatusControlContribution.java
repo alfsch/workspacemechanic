@@ -8,18 +8,8 @@
  *******************************************************************************/
 package com.google.eclipse.mechanic.plugin.ui;
 
-import com.google.common.collect.Maps;
-import com.google.eclipse.mechanic.IMechanicService;
-import com.google.eclipse.mechanic.IStatusChangeListener;
-import com.google.eclipse.mechanic.MechanicService;
-import com.google.eclipse.mechanic.MechanicStatus;
-import com.google.eclipse.mechanic.RepairDecisionProvider;
-import com.google.eclipse.mechanic.StatusChangedEvent;
-import com.google.eclipse.mechanic.core.recorder.ChangeCollector;
-import com.google.eclipse.mechanic.core.recorder.IPreferenceRecordingService;
-import com.google.eclipse.mechanic.plugin.core.MechanicLog;
-import com.google.eclipse.mechanic.plugin.core.MechanicPlugin;
-import com.google.eclipse.mechanic.plugin.core.OldMechanicPreferences;
+import java.net.MalformedURLException;
+import java.util.Map;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
@@ -36,7 +26,6 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
@@ -47,8 +36,18 @@ import org.eclipse.ui.IWorkbenchActionConstants;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.menus.WorkbenchWindowControlContribution;
 
-import java.net.MalformedURLException;
-import java.util.Map;
+import com.google.common.collect.Maps;
+import com.google.eclipse.mechanic.IMechanicService;
+import com.google.eclipse.mechanic.IStatusChangeListener;
+import com.google.eclipse.mechanic.MechanicService;
+import com.google.eclipse.mechanic.MechanicStatus;
+import com.google.eclipse.mechanic.RepairDecisionProvider;
+import com.google.eclipse.mechanic.StatusChangedEvent;
+import com.google.eclipse.mechanic.core.recorder.ChangeCollector;
+import com.google.eclipse.mechanic.core.recorder.IPreferenceRecordingService;
+import com.google.eclipse.mechanic.plugin.core.MechanicLog;
+import com.google.eclipse.mechanic.plugin.core.MechanicPlugin;
+import com.google.eclipse.mechanic.plugin.core.OldMechanicPreferences;
 
 /**
  * Widget that appears in the status bar.
@@ -113,15 +112,12 @@ public class MechanicStatusControlContribution extends WorkbenchWindowControlCon
 
   @Override
   protected Control createControl(Composite parent) {
+    parent.getParent().setRedraw(true);
     initImageCache();
 
     label = new Label(parent, SWT.CENTER);
     label.setSize(22, 22);
     label.setEnabled(false);
-
-    RowLayout layout = new RowLayout(SWT.HORIZONTAL | SWT.VERTICAL | SWT.BORDER);
-    layout.wrap = false;
-    parent.setLayout(layout);
 
     setMechanicStatus(MechanicStatus.STOPPED);
 
@@ -157,6 +153,12 @@ public class MechanicStatusControlContribution extends WorkbenchWindowControlCon
       }
     }
     images = map;
+  }
+  
+  @Override
+  public boolean isDynamic()
+  {
+	return true;
   }
 
   private void updateDisplay() {
