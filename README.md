@@ -1,5 +1,5 @@
 # Eclipse Workspace Mechanic
-New Repo for workspace mechanic, overtaken from google code
+New Repo for workspace mechanic, overtaken [from google code](https://code.google.com/archive/a/eclipselabs.org/p/workspacemechanic)
 
 Workspace mechanic build is full maven based. Build it with mvn clean install or the corresponding m2e command.
 
