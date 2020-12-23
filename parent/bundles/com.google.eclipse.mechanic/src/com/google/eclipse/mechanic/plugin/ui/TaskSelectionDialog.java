@@ -9,8 +9,9 @@
 
 package com.google.eclipse.mechanic.plugin.ui;
 
-import com.google.eclipse.mechanic.Task;
+import java.util.Collection;
 
+import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.CellLabelProvider;
 import org.eclipse.jface.viewers.ColumnViewerToolTipSupport;
@@ -28,7 +29,9 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.ui.dialogs.ListDialog;
 
-import java.util.Collection;
+import com.google.eclipse.mechanic.MechanicService;
+import com.google.eclipse.mechanic.Task;
+import com.google.eclipse.mechanic.plugin.core.MechanicLog;
 
 /**
  * Allows the user to pick a single Task from a list of Tasks.
@@ -105,6 +108,24 @@ public final class TaskSelectionDialog extends ListDialog {
     }
   }
 
+  @Override
+  protected void createButtonsForButtonBar(final Composite parent) {
+    createButton(parent, IDialogConstants.PROCEED_ID, "Repair all tasks", true);
+    super.createButtonsForButtonBar(parent);
+  }
+
+  @Override
+  protected void buttonPressed(final int buttonId) {
+    super.buttonPressed(buttonId);
+    if (buttonId == IDialogConstants.PROCEED_ID) {
+      MechanicLog.getDefault().logInfo("Repairing all tasks");
+      for (final Task task : MechanicService.getInstance().getAllKnownTasks()) {
+        task.getRepairAction().run();
+      }
+      okPressed();
+    }
+  }
+	
   /**
    * Serializes Tasks for use in user facing dialogs.
    */
