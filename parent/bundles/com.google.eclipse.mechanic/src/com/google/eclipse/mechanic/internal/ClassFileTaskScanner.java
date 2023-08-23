@@ -141,10 +141,8 @@ public final class ClassFileTaskScanner extends ResourceTaskScanner {
   private Task createInstance(Class<?> clazz) {
     Task task = null;
     try {
-      task = (Task) clazz.newInstance();
-    } catch (InstantiationException e) {
-      throw new RuntimeException(e);
-    } catch (IllegalAccessException e) {
+      task = (Task) clazz.getDeclaredConstructor().newInstance();
+    } catch (ReflectiveOperationException e) {
       throw new RuntimeException(e);
     } catch (LinkageError e) {
       throw new RuntimeException(e);

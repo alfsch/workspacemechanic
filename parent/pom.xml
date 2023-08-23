@@ -1,21 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
-    xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<project
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+    xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.google.eclipse.mechanic</groupId>
     <artifactId>parent</artifactId>
-    <version>0.5.2-SNAPSHOT</version>
+    <version>0.6.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <properties>
-        <tycho-version>0.25.0</tycho-version>
-        <findbugs-plugin-version>3.0.3</findbugs-plugin-version>
-        <pmd-plugin-version>3.6</pmd-plugin-version>
-        <checkstyle-plugin-version>2.17</checkstyle-plugin-version>
+        <tycho-version>3.0.5</tycho-version>
+        <tycho-extras-version>2.7.5</tycho-extras-version>
+        <findbugs-plugin-version>3.0.5</findbugs-plugin-version>
+        <pmd-plugin-version>3.21.0</pmd-plugin-version>
+        <checkstyle-plugin-version>3.3.0</checkstyle-plugin-version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <sonar.host.url>http://sonarqube-1.12ececdd.cont.dockerapp.io:9000</sonar.host.url>
         <sonar.login>4bd61011f72af5e20222908eb455e43d88a8a26e</sonar.login>
         <sonar.projectName>Eclipse Workspace-Mechanic</sonar.projectName>
-        <sonar.java.source>1.6</sonar.java.source>
+        <sonar.java.source>17</sonar.java.source>
         <sonar.jacoco.reportPath>${user.dir}/target/jacoco.exec</sonar.jacoco.reportPath>
     </properties>
     <modules>
@@ -28,19 +31,21 @@
     </modules>
     <repositories>
         <repository>
-            <id>eclipse-indigo</id>
-            <url>http://download.eclipse.org/releases/indigo</url>
+            <id>eclipse-2023-06</id>
+            <url>https://download.eclipse.org/releases/2023-06/</url>
             <layout>p2</layout>
         </repository>
     </repositories>
     <build>
         <pluginManagement>
             <plugins>
+<!--
                 <plugin>
                     <groupId>org.sonarsource.scanner.maven</groupId>
                     <artifactId>sonar-maven-plugin</artifactId>
                     <version>3.0.1</version>
                 </plugin>
+-->
                 <plugin>
                     <groupId>org.eclipse.tycho</groupId>
                     <artifactId>tycho-maven-plugin</artifactId>
@@ -54,11 +59,11 @@
                 </plugin>
                 <plugin>
                     <groupId>org.eclipse.tycho</groupId>
-                    <artifactId>maven-osgi-compiler-plugin</artifactId>
+                    <artifactId>tycho-compiler-plugin</artifactId>
                     <version>${tycho-version}</version>
                     <configuration>
-                        <source>1.7</source>
-                        <target>1.7</target>
+                        <source>17</source>
+                        <target>17</target>
                     </configuration>
                 </plugin>
                 <plugin>
@@ -75,29 +80,32 @@
                     <groupId>org.eclipse.tycho</groupId>
                     <artifactId>tycho-packaging-plugin</artifactId>
                     <version>${tycho-version}</version>
+<!--
                     <dependencies>
                         <dependency>
                             <groupId>org.eclipse.tycho.extras</groupId>
                             <artifactId>tycho-buildtimestamp-jgit</artifactId>
-                            <version>${tycho-version}</version>
+                            <version>${tycho-extras-version}</version>
                         </dependency>
                     </dependencies>
                     <configuration>
                         <timestampProvider>jgit</timestampProvider>
                         <jgit.ignore>
                             pom.xml
+                            .gitignore
                         </jgit.ignore>
                         <jgit.dirtyWorkingTree>ignore</jgit.dirtyWorkingTree>
                     </configuration>
+-->
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-dependency-plugin</artifactId>
-                    <version>2.10</version>
+                    <version>3.6.0</version>
                     <executions>
                         <execution>
                             <id>copy-dependencies</id>
-                            <phase>initialize</phase>
+                            <phase>pre-integration-test</phase>
                             <goals>
                                 <goal>copy-dependencies</goal>
                             </goals>
@@ -114,7 +122,7 @@
                 <plugin>
                     <groupId>org.jacoco</groupId>
                     <artifactId>jacoco-maven-plugin</artifactId>
-                    <version>0.7.7.201606060606</version>
+                    <version>0.8.10</version>
                 </plugin>
                 <plugin>
                     <groupId>org.codehaus.mojo</groupId>
@@ -150,7 +158,7 @@
             </plugin>
             <plugin>
                 <groupId>org.eclipse.tycho</groupId>
-                <artifactId>maven-osgi-compiler-plugin</artifactId>
+                <artifactId>tycho-compiler-plugin</artifactId>
             </plugin>
             <plugin>
                 <groupId>org.eclipse.tycho</groupId>
@@ -240,4 +248,23 @@
             </plugin>
         </plugins>
     </reporting>
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>32.1.2-jre</version>
+            </dependency>
+            <dependency>
+                <groupId>com.google.code.gson</groupId>
+                <artifactId>gson</artifactId>
+                <version>2.10.1</version>
+            </dependency>
+            <dependency>
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-core</artifactId>
+                <version>5.4.0</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 </project>

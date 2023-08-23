@@ -8,6 +8,7 @@
  *******************************************************************************/
 package com.google.eclipse.mechanic.internal;
 
+import java.io.File;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -30,7 +31,7 @@ public class BlockedTaskIdsParserTest extends TestCase {
   public void testParse() {
     assertResults(parser.parse(""));
     assertResults(parser.parse("x"), "x");
-    assertResults(parser.parse("x:y"), "x", "y");
+    assertResults(parser.parse("x" + File.pathSeparatorChar + "y"), "x", "y");
     assertResults(parser.parse(
         "['com.google.eclipse.path$Class@/Path/To/Thing', " +
             "'com.google.eclipse.path2@file://path/to/thing', " +

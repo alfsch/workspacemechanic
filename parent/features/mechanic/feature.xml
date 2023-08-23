@@ -2,7 +2,7 @@
 <feature
       id="com.google.eclipse.mechanic.feature"
       label="Workspace Mechanic"
-      version="0.5.2.qualifier"
+      version="0.6.0.qualifier"
       provider-name="Google, Inc.">
 
    <description url="https://github.com/alfsch/alfsch.workspacemechanic.update">

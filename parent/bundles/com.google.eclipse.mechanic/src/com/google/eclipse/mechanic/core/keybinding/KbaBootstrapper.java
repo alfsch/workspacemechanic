@@ -319,6 +319,7 @@ public final class KbaBootstrapper {
     return result;
   }
 
+  @SafeVarargs
   private static <T> Iterable<T> concat(ImmutableList<T> list, T... toConcat) {
     List<T> result = Lists.newArrayList(list);
     for (T t : toConcat) {

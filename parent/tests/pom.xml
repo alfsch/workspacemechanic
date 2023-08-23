@@ -7,7 +7,7 @@
     <parent>
         <groupId>com.google.eclipse.mechanic</groupId>
         <artifactId>parent</artifactId>
-        <version>0.5.2-SNAPSHOT</version>
+        <version>0.6.0-SNAPSHOT</version>
     </parent>
     <modules>
         <module>com.google.eclipse.mechanic.tests</module>
@@ -18,8 +18,7 @@
     <dependencies>
         <dependency>
             <groupId>org.mockito</groupId>
-            <artifactId>mockito-all</artifactId>
-            <version>1.10.19</version>
+            <artifactId>mockito-core</artifactId>
         </dependency>
     </dependencies>
 </project>
