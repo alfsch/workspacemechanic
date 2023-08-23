@@ -8,10 +8,12 @@
  *******************************************************************************/
 package com.google.eclipse.mechanic.internal;
 
+import java.io.File;
 import java.util.Properties;
 
 import junit.framework.TestCase;
 
+import org.eclipse.core.runtime.Path;
 import org.eclipse.core.variables.IValueVariable;
 
 import com.google.eclipse.mechanic.tests.internal.RunAsPluginTest;
@@ -33,7 +35,8 @@ public class MechanicConfigurationVariableInitializerTest extends TestCase {
         return properties;
       }
     }.initialize(variable);
-    assertEquals("/path/to/eclipse!configuration!com.google.eclipse.mechanic",
+    assertEquals( File.separatorChar + "path" + File.separatorChar + "to" + File.separatorChar
+        + "eclipse!configuration!com.google.eclipse.mechanic",
         variable.getValue());
   }
 }

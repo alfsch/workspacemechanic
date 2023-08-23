@@ -18,7 +18,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
-import org.eclipse.core.runtime.SubProgressMonitor;
+import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.core.runtime.jobs.IJobChangeEvent;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.core.runtime.jobs.JobChangeAdapter;
@@ -276,7 +276,7 @@ public final class MechanicService implements IMechanicService {
     monitor.worked(1);
 
     // test tasks and figure out which ones are blocked
-    updateTaskStatus(new SubProgressMonitor(monitor, collector.getTasks().size()));
+    updateTaskStatus(monitor);
 
     monitor.worked(1);
   }
@@ -289,12 +289,12 @@ public final class MechanicService implements IMechanicService {
 
     Set<String> blocked = mechanicPreferences.getBlockedTaskIds();
 
-    monitor.beginTask("", collector.getTasks().size());
+    SubMonitor subMonitor = SubMonitor.convert(monitor, collector.getTasks().size());
     try {
       taskStatus.clear();
 
       for (Task task : collector.getTasks()) {
-        monitor.subTask("Evaluating: " + task.getId());
+        subMonitor.subTask("Evaluating: " + task.getId());
 
         if (blocked.contains(task.getId())) {
           taskStatus.put(task, TaskStatus.BLOCKED);
@@ -306,10 +306,10 @@ public final class MechanicService implements IMechanicService {
         } catch (RuntimeException e) {
           log.logError(e, "Evaluator test failed for task %s", task);
         }
-        monitor.worked(1);
+        subMonitor.worked(1);
       }
     } finally {
-      monitor.done();
+      subMonitor.done();
     }
   }
 

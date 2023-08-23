@@ -25,7 +25,6 @@ import com.google.common.base.Function;
 import com.google.common.base.Joiner;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Iterables;
-import com.google.common.io.Closeables;
 
 /**
  * Class that formats the keybindings by sweat and tears.
@@ -105,12 +104,8 @@ class KeyBindingsManualFormatter {
       String description) throws FileNotFoundException, IOException {
     String output = getBindingsPrintout(bindingType, kbaChangeSet, description);
     File file = outputLocation.toFile();
-    PrintStream stream = null;
-    try {
-      stream = new PrintStream(new FileOutputStream(file));
+    try (PrintStream stream = new PrintStream(new FileOutputStream(file))) {
       stream.print(output);
-    } finally {
-      Closeables.closeQuietly(stream);
     }
   }
   

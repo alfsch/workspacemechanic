@@ -25,6 +25,7 @@ import org.eclipse.core.runtime.preferences.IExportedPreferences;
 import org.eclipse.core.runtime.preferences.IPreferenceFilter;
 import org.eclipse.core.runtime.preferences.IPreferencesService;
 import org.eclipse.core.runtime.preferences.InstanceScope;
+import org.eclipse.core.runtime.preferences.PreferenceFilterEntry;
 
 import com.google.common.base.Preconditions;
 import com.google.eclipse.mechanic.plugin.core.IMechanicPreferences;
@@ -144,8 +145,7 @@ public abstract class LastModifiedPreferencesFileTask extends CompositeTask {
             };
         }
 
-        @SuppressWarnings("rawtypes") // Eclipse doesn't do generics.
-        public Map getMapping(String scope) {
+        public Map<String, PreferenceFilterEntry[]> getMapping(String scope) {
             return null;
         }
     };

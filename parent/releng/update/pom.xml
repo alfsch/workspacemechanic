@@ -7,7 +7,7 @@
     <parent>
         <groupId>com.google.eclipse.mechanic</groupId>
         <artifactId>releng</artifactId>
-        <version>0.5.2-SNAPSHOT</version>
+        <version>0.6.0-SNAPSHOT</version>
     </parent>
     <build>
         <plugins>

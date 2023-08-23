@@ -16,13 +16,12 @@ import com.google.eclipse.mechanic.core.keybinding.KbaChangeSet.Action;
 import com.google.eclipse.mechanic.core.keybinding.KbaChangeSet.KbaBindingList;
 import com.google.eclipse.mechanic.core.keybinding.KeyBindingsManualFormatter.BindingType;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 import java.io.StringReader;
 import java.util.List;
 import java.util.Map;
-
-import junit.framework.Assert;
 
 /**
  * Tests for {@link KeyBindingsManualFormatter}

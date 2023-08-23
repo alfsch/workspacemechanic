@@ -9,8 +9,6 @@
 
 package com.google.eclipse.mechanic;
 
-import com.google.eclipse.mechanic.TaskCollector;
-
 /**
  * Simple interface for collecting tasks.
  *

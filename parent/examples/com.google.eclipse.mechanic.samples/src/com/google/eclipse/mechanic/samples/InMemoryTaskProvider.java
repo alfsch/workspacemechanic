@@ -18,8 +18,7 @@ import java.util.Map;
 import com.google.common.base.Joiner;
 import com.google.common.collect.Maps;
 import com.google.common.hash.Hashing;
-import com.google.common.io.ByteStreams;
-import com.google.common.io.InputSupplier;
+import com.google.common.io.ByteSource;
 import com.google.eclipse.mechanic.ICollector;
 import com.google.eclipse.mechanic.IResourceTaskProvider;
 import com.google.eclipse.mechanic.IResourceTaskReference;
@@ -88,12 +87,13 @@ public class InMemoryTaskProvider implements IResourceTaskProvider {
     }
 
     public long computeMD5() throws IOException {
-      InputSupplier<InputStream> supplier = new InputSupplier<InputStream>() {
-        public InputStream getInput() throws IOException {
+      ByteSource supplier = new ByteSource() {
+        @Override
+        public InputStream openStream() throws IOException {
           return newInputStream();
         }
       };
-      return ByteStreams.hash(supplier, Hashing.md5()).asLong();
+      return supplier.hash(Hashing.md5()).asLong();
     }
 
     @Override
