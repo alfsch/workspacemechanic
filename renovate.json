@@ -6,6 +6,12 @@
   "separateMultipleMajor": true,
   "packageRules": [
     {
+      "description": "The modules of this repository (the parent poms of the child modules) only exist here, so there is nothing to look up on Maven Central; without this rule the dashboard reports package lookup failures",
+      "matchManagers": ["maven"],
+      "matchPackageNames": ["/^com\\.google\\.eclipse\\.mechanic:/"],
+      "enabled": false
+    },
+    {
       "description": "Merge patch updates of dependencies once the required build check (which runs the tests) passes. Minor and major updates are never merged automatically: each version gets its own PR for review",
       "matchUpdateTypes": ["patch"],
       "automerge": true,
