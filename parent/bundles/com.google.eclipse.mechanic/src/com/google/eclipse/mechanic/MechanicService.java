@@ -225,6 +225,28 @@ public final class MechanicService implements IMechanicService {
   }
 
   /**
+   * {@inheritDoc}
+   */
+  public void repairAllTasks() {
+    if (repairing.getAndSet(true)) {
+      return;
+    }
+    Job repairJob =
+        new RepairAllTasksJob(getAllKnownTasks(), mechanicPreferences.getBlockedTaskIds());
+    repairJob.addJobChangeListener(new JobChangeAdapter() {
+      @Override
+      public void done(IJobChangeEvent event) {
+        repairing.set(false);
+        // re-run the mechanic to verify our work
+        if (!isStopped()) {
+          start();
+        }
+      }
+    });
+    repairJob.schedule();
+  }
+
+  /**
    * Scans for all tasks, creates instances, tests them. Sends updates
    * to listeners.
    */

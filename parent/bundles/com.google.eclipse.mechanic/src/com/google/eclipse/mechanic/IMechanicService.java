@@ -72,4 +72,15 @@ public interface IMechanicService {
    */
   int getFailingItemCount();
 
+  /**
+   * Re-applies every known task that is not blocked, including tasks that are
+   * already in sync, so settings the user changed by hand are reset to the
+   * values from the task configuration. The work is done in the background.
+   * Afterwards the tasks are checked again, unless the service is stopped.
+   *
+   * <p>If tasks are already being repaired, then no operation will be
+   * performed.
+   */
+  void repairAllTasks();
+
 }

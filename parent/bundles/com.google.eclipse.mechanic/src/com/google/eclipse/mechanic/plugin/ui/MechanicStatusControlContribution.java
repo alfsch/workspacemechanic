@@ -66,6 +66,8 @@ public class MechanicStatusControlContribution extends WorkbenchWindowControlCon
 
   private final Action repairAction = new InvokeRepairManagerAction();
 
+  private final Action repairAllAction = new RepairAllTasksAction();
+
   private final StopAction stopAction = new StopAction();
 
   private final StartAction startAction = new StartAction();
@@ -278,6 +280,7 @@ public class MechanicStatusControlContribution extends WorkbenchWindowControlCon
       if (status == MechanicStatus.FAILED) {
         menu.add(repairAction);
       }
+      menu.add(repairAllAction);
       menu.add(stopAction);
     }
 
@@ -374,6 +377,30 @@ public class MechanicStatusControlContribution extends WorkbenchWindowControlCon
           new UserChoiceDecisionProvider(PlatformUI.getWorkbench().getActiveWorkbenchWindow());
       // TODO(konigsberg): Replace with calls to runRepairManager?
       service.getRepairManager(cpro).run();
+    }
+  }
+
+  /**
+   * Action that re-applies all tasks, after asking the user for confirmation.
+   */
+  private final class RepairAllTasksAction extends Action {
+
+    public RepairAllTasksAction() {
+      setText("Re-apply All Tasks...");
+    }
+
+    @Override
+    public void run() {
+      // "Cancel" is the default button: this resets settings the user changed by hand
+      MessageDialog dialog = new MessageDialog(Display.getCurrent().getActiveShell(),
+          "Re-apply All Tasks", null,
+          "Apply all tasks again, including the ones that are already in sync?\n\n"
+              + "Settings you changed yourself are reset to the values from the task "
+              + "configuration. Blocked tasks are skipped.",
+          MessageDialog.QUESTION, new String[] {"Re-apply", "Cancel"}, 1);
+      if (dialog.open() == 0) {
+        service.repairAllTasks();
+      }
     }
   }
 
