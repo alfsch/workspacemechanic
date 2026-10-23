@@ -1,4 +1,4 @@
-# Eclipse Workspace Mechanic
+# Workspace Mechanic for Eclipse™
 
 [![Build](https://github.com/alfsch/workspacemechanic/actions/workflows/build.yaml/badge.svg)](https://github.com/alfsch/workspacemechanic/actions/workflows/build.yaml)
 [![Release](https://img.shields.io/github/v/release/alfsch/workspacemechanic)](https://github.com/alfsch/workspacemechanic/releases/latest)
@@ -40,3 +40,6 @@ and not to forget
    `mvn -f parent/pom.xml org.eclipse.tycho:tycho-versions-plugin:4.0.10:set-version -DnewVersion=0.7.0-SNAPSHOT`
 
 One-time setup: add a deploy key with write access to `alfsch/alfsch.github.io` and store its private key as the repository secret `UPDATE_SITE_DEPLOY_KEY`; optionally add required reviewers to the `update-site` environment.
+
+## Trademarks
+Eclipse™ and Eclipse IDE™ are trademarks of Eclipse Foundation AISBL. Workspace Mechanic is an independent project and is not affiliated with or endorsed by the Eclipse Foundation.
