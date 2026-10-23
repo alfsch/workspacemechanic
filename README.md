@@ -9,9 +9,6 @@ This command builds the plugins, features and the update site.
 
 https://alfsch.github.io/eclipse-updates/workspacemechanic
 
-## Travis CI Build
-The CI build is hosted on https://travis-ci.org/alfsch/workspacemechanic
-
 ## Next Steps are
 1. Fix Findbugs and used rules
 2. Fix PMD's and used rules
@@ -24,5 +21,6 @@ and not to forget
 
 **Bugfixing**
 
+
 ## Build Status
-[![Build Status](https://travis-ci.org/alfsch/workspacemechanic.svg?branch=master)](https://travis-ci.org/alfsch/workspacemechanic)
+[![Build](https://github.com/alfsch/workspacemechanic/actions/workflows/build.yaml/badge.svg)](https://github.com/alfsch/workspacemechanic/actions/workflows/build.yaml)
