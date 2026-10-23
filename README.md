@@ -3,7 +3,7 @@ New Repo for workspace mechanic, overtaken [from google code](https://code.googl
 
 Workspace mechanic build is full maven based. Build it with mvn clean install or the corresponding m2e command.
 
-This command builds the plugins, features and the update site.
+This command builds the plugins, features and the update site. It needs Java 17 and Maven 3.9 or newer.
 
 ## Update Site
 
@@ -13,9 +13,10 @@ https://alfsch.github.io/eclipse-updates/workspacemechanic
 1. Fix Findbugs and used rules
 2. Fix PMD's and used rules
 3. Fix Checkstyles and used rules
-4. Use Neon as base
-5. Migrate to Java 8
-6. Dokumentation in Wiki
+4. Dokumentation in Wiki
+5. Re-enable the SonarQube analysis (commented out in `parent/pom.xml`, the old Sonar server is gone) and find a Sonar server solution
+
+Done: the build uses Java 17, Tycho 4 and the Eclipse 2024-12 target platform.
 
 and not to forget
 

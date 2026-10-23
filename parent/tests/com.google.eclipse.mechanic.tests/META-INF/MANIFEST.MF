@@ -8,4 +8,7 @@ Require-Bundle: org.junit
 Fragment-Host: com.google.eclipse.mechanic
 Bundle-RequiredExecutionEnvironment: JavaSE-17
 Bundle-ClassPath: .,
- lib/mockito-all.jar
+ lib/mockito-core.jar,
+ lib/byte-buddy.jar,
+ lib/byte-buddy-agent.jar,
+ lib/objenesis.jar

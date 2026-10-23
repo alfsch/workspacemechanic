@@ -10,26 +10,21 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
-        with:
-          # tycho-buildtimestamp-jgit needs the full history to find the last commit per bundle
-          fetch-depth: 0
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
-          java-version: '8'
+          java-version: '17'
           cache: maven
-      - name: Set up Maven 3.6.3 (Tycho 0.25 is not compatible with newer Maven)
+      - name: Set up Maven 3.9.9 (Tycho 4 needs Maven 3.9 or newer)
         uses: stCarolas/setup-maven@v5
         with:
-          maven-version: 3.6.3
-      - name: Allow MD5-signed Eclipse 3.7 jars (rejected by current JDK 8 updates)
-        run: sed -i 's/^jdk.jar.disabledAlgorithms=MD2, MD5, /jdk.jar.disabledAlgorithms=MD2, /' "$JAVA_HOME/jre/lib/security/java.security"
-      - name: Install SWT test dependencies (Eclipse 3.7 SWT needs GTK2)
-        run: sudo apt-get update && sudo apt-get install -y xvfb libgtk2.0-0
+          maven-version: 3.9.9
+      - name: Install SWT test dependencies
+        run: sudo apt-get update && sudo apt-get install -y xvfb libgtk-3-0
       - name: Build
         env:
           DISPLAY: ':99'
         run: |
           Xvfb :99 -screen 0 1280x1024x24 -nolisten tcp &
           sleep 3
-          mvn -B -Dtycho.disableP2Mirrors=true -f parent/pom.xml clean install
+          mvn -B -f parent/pom.xml clean install
