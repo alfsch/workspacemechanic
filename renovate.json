@@ -13,7 +13,7 @@
       "automergeStrategy": "squash"
     },
     {
-      "description": "Merge all GitHub Actions updates, majors included, once the required build check passes, but not before a release is 3 days old; master only accepts squash merges",
+      "description": "Merge all GitHub Actions updates, majors included, once the required build check passes, but not before a release is 3 days old; main only accepts squash merges",
       "matchManagers": ["github-actions"],
       "minimumReleaseAge": "3 days",
       "automerge": true,
