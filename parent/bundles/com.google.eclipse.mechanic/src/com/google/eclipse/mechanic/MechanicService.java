@@ -18,7 +18,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
-import org.eclipse.core.runtime.SubProgressMonitor;
+import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.core.runtime.jobs.IJobChangeEvent;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.core.runtime.jobs.JobChangeAdapter;
@@ -167,13 +167,13 @@ public final class MechanicService implements IMechanicService {
   private IStatus run(IProgressMonitor monitor) {
 
     // TODO(smckay): use the progress monitor to report task information
-    monitor.beginTask("Updating Tasks", 3);
+    SubMonitor progress = SubMonitor.convert(monitor, "Updating Tasks", 3);
     try {
-      update(monitor);
+      update(progress);
     } finally {
       reschedule();
     }
-    monitor.worked(1);
+    progress.worked(1);
     return Status.OK_STATUS;
   }
 
@@ -228,7 +228,7 @@ public final class MechanicService implements IMechanicService {
    * Scans for all tasks, creates instances, tests them. Sends updates
    * to listeners.
    */
-  private synchronized void update(IProgressMonitor monitor) {
+  private synchronized void update(SubMonitor monitor) {
 
     // first tell everyone we're updating
     setStatus(MechanicStatus.UPDATING);
@@ -264,7 +264,7 @@ public final class MechanicService implements IMechanicService {
   /**
    * Refreshes the list of {@link Task}s.
    */
-  private void updateTasks(IProgressMonitor monitor) {
+  private void updateTasks(SubMonitor monitor) {
 
     monitor.subTask("Looking For Tasks");
 
@@ -276,9 +276,7 @@ public final class MechanicService implements IMechanicService {
     monitor.worked(1);
 
     // test tasks and figure out which ones are blocked
-    updateTaskStatus(new SubProgressMonitor(monitor, collector.getTasks().size()));
-
-    monitor.worked(1);
+    updateTaskStatus(monitor.newChild(1));
   }
 
   /**
@@ -289,27 +287,23 @@ public final class MechanicService implements IMechanicService {
 
     Set<String> blocked = mechanicPreferences.getBlockedTaskIds();
 
-    monitor.beginTask("", collector.getTasks().size());
-    try {
-      taskStatus.clear();
+    SubMonitor subMonitor = SubMonitor.convert(monitor, collector.getTasks().size());
+    taskStatus.clear();
 
-      for (Task task : collector.getTasks()) {
-        monitor.subTask("Evaluating: " + task.getId());
+    for (Task task : collector.getTasks()) {
+      subMonitor.subTask("Evaluating: " + task.getId());
 
-        if (blocked.contains(task.getId())) {
-          taskStatus.put(task, TaskStatus.BLOCKED);
-          continue;
-        }
-        try {
-          taskStatus
-              .put(task, task.getEvaluator().evaluate() ? TaskStatus.PASSED : TaskStatus.FAILED);
-        } catch (RuntimeException e) {
-          log.logError(e, "Evaluator test failed for task %s", task);
-        }
-        monitor.worked(1);
+      if (blocked.contains(task.getId())) {
+        taskStatus.put(task, TaskStatus.BLOCKED);
+        continue;
       }
-    } finally {
-      monitor.done();
+      try {
+        taskStatus
+            .put(task, task.getEvaluator().evaluate() ? TaskStatus.PASSED : TaskStatus.FAILED);
+      } catch (RuntimeException e) {
+        log.logError(e, "Evaluator test failed for task %s", task);
+      }
+      subMonitor.worked(1);
     }
   }
 

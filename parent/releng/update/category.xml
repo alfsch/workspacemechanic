@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
-   <feature url="features/com.google.eclipse.mechanic.feature_0.5.2.qualifier.jar" id="com.google.eclipse.mechanic.feature" version="0.5.2.qualifier">
+   <feature url="features/com.google.eclipse.mechanic.feature_0.6.0.qualifier.jar" id="com.google.eclipse.mechanic.feature" version="0.6.0.qualifier">
       <category name="com.google.eclipse.mechanic"/>
    </feature>
    <category-def name="com.google.eclipse.mechanic" label="Workspace Mechanic Feature">

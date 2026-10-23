@@ -11,9 +11,7 @@ package com.google.eclipse.mechanic.internal;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-
-import com.google.common.base.Splitter;
-import com.google.common.collect.Iterables;
+import java.util.Arrays;
 
 import junit.framework.TestCase;
 
@@ -62,8 +60,9 @@ public class EpfFileModelWriterTest extends TestCase {
   }
 
   private void assertLine(String substring, String string) {
+    String[] lines = string.split("\\R");
     assertTrue("Could not find line [" + substring + "] in [" + string + "]",
-        Iterables.contains(Splitter.on('\n').split(string), substring));
+        Arrays.stream(lines).anyMatch(s -> s.equals(substring)));
   }
 
   private void assertBasics(String actual) {
