@@ -10,6 +10,9 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v4
+        with:
+          # tycho-buildtimestamp-jgit needs the full history to find the last commit per bundle
+          fetch-depth: 0
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
