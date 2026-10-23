@@ -62,6 +62,15 @@ public interface IMechanicService {
   RepairManager getRepairManager(RepairDecisionProvider rdp);
 
   /**
+   * Runs the {@link RepairManager} capable of fixing broken Tasks, using the
+   * supplied {@link RepairDecisionProvider} to collect user input.
+   *
+   * <p>If a repair is already running (this one or {@link #repairAllTasks()}),
+   * then no operation will be performed.
+   */
+  void runRepairManager(RepairDecisionProvider rdp);
+
+  /**
    * Returns an immutable set of all the currently known tasks, passing or not.
    */
   Collection<Task> getAllKnownTasks();

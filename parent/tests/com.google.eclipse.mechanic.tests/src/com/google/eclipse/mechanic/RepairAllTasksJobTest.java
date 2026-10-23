@@ -15,6 +15,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
@@ -24,6 +25,7 @@ import junit.framework.TestCase;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
 
+import com.google.common.base.Suppliers;
 import com.google.common.collect.ImmutableSet;
 import com.google.eclipse.mechanic.plugin.core.MechanicLog;
 import com.google.eclipse.mechanic.testing.EmptyLog;
@@ -51,7 +53,8 @@ public class RepairAllTasksJobTest extends TestCase {
 
   private static IStatus run(
       List<Task> tasks, Set<String> blockedIds, NullProgressMonitor monitor) {
-    return new RepairAllTasksJob(new MechanicLog(new EmptyLog()), tasks, blockedIds)
+    return new RepairAllTasksJob(new MechanicLog(new EmptyLog()),
+        Suppliers.<Collection<Task>>ofInstance(tasks), Suppliers.ofInstance(blockedIds))
         .run(monitor);
   }
 

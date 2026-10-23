@@ -71,6 +71,9 @@ public class StateSensitiveCacheTest extends TestCase {
       return 0;
     }
 
+    public void runRepairManager(RepairDecisionProvider rdp) {
+    }
+
     public void repairAllTasks() {
     }
   }

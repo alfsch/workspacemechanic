@@ -9,6 +9,7 @@
 
 package com.google.eclipse.mechanic;
 
+import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
@@ -24,6 +25,7 @@ import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.core.runtime.jobs.JobChangeAdapter;
 import org.eclipse.swt.widgets.Display;
 
+import com.google.common.base.Supplier;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
@@ -231,19 +233,40 @@ public final class MechanicService implements IMechanicService {
     if (repairing.getAndSet(true)) {
       return;
     }
-    Job repairJob =
-        new RepairAllTasksJob(getAllKnownTasks(), mechanicPreferences.getBlockedTaskIds());
-    repairJob.addJobChangeListener(new JobChangeAdapter() {
-      @Override
-      public void done(IJobChangeEvent event) {
-        repairing.set(false);
-        // re-run the mechanic to verify our work
-        if (!isStopped()) {
-          start();
+    boolean scheduled = false;
+    try {
+      // The tasks are collected in the background, after a scan that is in progress has finished:
+      // the scan holds our lock while it clears and refills the collector.
+      Job repairJob = new RepairAllTasksJob(
+          new Supplier<Collection<Task>>() {
+            public Collection<Task> get() {
+              synchronized (MechanicService.this) {
+                return getAllKnownTasks();
+              }
+            }
+          },
+          new Supplier<Set<String>>() {
+            public Set<String> get() {
+              return mechanicPreferences.getBlockedTaskIds();
+            }
+          });
+      repairJob.addJobChangeListener(new JobChangeAdapter() {
+        @Override
+        public void done(IJobChangeEvent event) {
+          repairing.set(false);
+          // re-run the mechanic to verify our work
+          if (!isStopped()) {
+            start();
+          }
         }
+      });
+      repairJob.schedule();
+      scheduled = true;
+    } finally {
+      if (!scheduled) {
+        repairing.set(false);
       }
-    });
-    repairJob.schedule();
+    }
   }
 
   /**

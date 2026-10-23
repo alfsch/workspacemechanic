@@ -375,8 +375,7 @@ public class MechanicStatusControlContribution extends WorkbenchWindowControlCon
     private void invokeRepairManager() {
       RepairDecisionProvider cpro =
           new UserChoiceDecisionProvider(PlatformUI.getWorkbench().getActiveWorkbenchWindow());
-      // TODO(konigsberg): Replace with calls to runRepairManager?
-      service.getRepairManager(cpro).run();
+      service.runRepairManager(cpro);
     }
   }
 

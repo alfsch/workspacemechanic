@@ -19,6 +19,7 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.core.runtime.jobs.Job;
 
+import com.google.common.base.Supplier;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.google.eclipse.mechanic.plugin.core.MechanicLog;
@@ -33,27 +34,35 @@ import com.google.eclipse.mechanic.plugin.core.MechanicPlugin;
 public final class RepairAllTasksJob extends Job {
 
   private final MechanicLog log;
-  private final List<Task> tasks;
-  private final Set<String> blockedIds;
+  private final Supplier<Collection<Task>> taskSupplier;
+  private final Supplier<Set<String>> blockedIdSupplier;
 
   /**
-   * @param tasks the tasks to repair. The collection is copied.
-   * @param blockedIds ids of the tasks the user blocked. These are not repaired.
+   * The suppliers are asked when the job runs, in the background, so they may block while the
+   * service is busy scanning.
+   *
+   * @param taskSupplier supplies the tasks to repair. The result is copied.
+   * @param blockedIdSupplier supplies the ids of the tasks the user blocked. These are not
+   *     repaired.
    */
-  public RepairAllTasksJob(Collection<Task> tasks, Set<String> blockedIds) {
-    this(MechanicLog.getDefault(), tasks, blockedIds);
+  public RepairAllTasksJob(
+      Supplier<Collection<Task>> taskSupplier, Supplier<Set<String>> blockedIdSupplier) {
+    this(MechanicLog.getDefault(), taskSupplier, blockedIdSupplier);
   }
 
-  RepairAllTasksJob(MechanicLog log, Collection<Task> tasks, Set<String> blockedIds) {
+  RepairAllTasksJob(MechanicLog log, Supplier<Collection<Task>> taskSupplier,
+      Supplier<Set<String>> blockedIdSupplier) {
     super("Re-applying all Workspace Mechanic tasks");
     this.log = log;
-    this.tasks = Lists.newArrayList(tasks);
-    this.blockedIds = Sets.newHashSet(blockedIds);
+    this.taskSupplier = taskSupplier;
+    this.blockedIdSupplier = blockedIdSupplier;
     setUser(true);
   }
 
   @Override
   protected IStatus run(IProgressMonitor monitor) {
+    List<Task> tasks = Lists.newArrayList(taskSupplier.get());
+    Set<String> blockedIds = Sets.newHashSet(blockedIdSupplier.get());
     SubMonitor progress = SubMonitor.convert(monitor, "Re-applying tasks", tasks.size());
 
     int repaired = 0;
