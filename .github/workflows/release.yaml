@@ -2,16 +2,27 @@ name: Release
 
 # Push a tag like v0.6.0 to build the update site, create a GitHub Release with it
 # and publish it to the p2 update site (alfsch/alfsch.github.io, eclipse-updates/workspacemechanic).
+#
+# The update site is a composite repository with one folder per release, so publishing a
+# release adds a folder and never touches the older ones (see .github/scripts/update-site.py).
+# Run the workflow by hand with the tag of an existing release to publish only that release.
 
 on:
   push:
     tags: ['v*']
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Tag of an existing GitHub Release to publish to the update site, e.g. v0.6.1'
+        required: true
 
 jobs:
   build:
+    if: github.event_name == 'push'
     uses: ./.github/workflows/build.yaml
 
   release:
+    if: github.event_name == 'push'
     needs: build
     runs-on: ubuntu-24.04
     permissions:
@@ -40,45 +51,33 @@ jobs:
 
   publish:
     needs: release
+    # runs after a successful release, or on its own when started by hand (release is skipped then)
+    if: ${{ !cancelled() && (needs.release.result == 'success' || needs.release.result == 'skipped') }}
     runs-on: ubuntu-24.04
     # Add required reviewers to this environment (Settings > Environments) to approve each publish.
     environment: update-site
+    env:
+      TAG: ${{ inputs.tag || github.ref_name }}
     steps:
-      - uses: actions/download-artifact@v4
-        with:
-          name: update-site
-          path: dist
-      - name: Unpack update site
-        run: unzip -q dist/update-*.zip -d repository
+      - uses: actions/checkout@v4
+      - name: Download the update site of the release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release download "$TAG" --pattern '*.zip' --dir dist
+          unzip -q dist/*.zip -d repository
       - uses: actions/checkout@v4
         with:
           repository: alfsch/alfsch.github.io
           ssh-key: ${{ secrets.UPDATE_SITE_DEPLOY_KEY }}
           path: site
-      - name: Replace the update site
-        run: |
-          target=site/eclipse-updates/workspacemechanic
-          (cd "$target" && find features plugins -name '*.jar' | sort) > "$RUNNER_TEMP/published.txt"
-          (cd repository && find features plugins -name '*.jar' | sort) > "$RUNNER_TEMP/incoming.txt"
-          # the build mirrors the published site, so every published jar must be in the new site
-          missing=$(comm -23 "$RUNNER_TEMP/published.txt" "$RUNNER_TEMP/incoming.txt")
-          if [ -n "$missing" ]; then
-            echo "The new update site lacks jars that are already published, not publishing:" >&2
-            echo "$missing" >&2
-            exit 1
-          fi
-          rm -rf "$target"
-          mkdir -p "$target"
-          cp -r repository/. "$target"/
+      - name: Add the release to the update site
+        run: python3 .github/scripts/update-site.py add site/eclipse-updates/workspacemechanic "${TAG#v}" repository
       - name: Publish
         run: |
           cd site
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add -A eclipse-updates/workspacemechanic
-          if git diff --cached --quiet; then
-            echo "Nothing to publish"
-            exit 0
-          fi
-          git commit -m "Publish workspacemechanic $GITHUB_REF_NAME"
+          git commit -m "Publish workspacemechanic $TAG"
           git push origin HEAD
