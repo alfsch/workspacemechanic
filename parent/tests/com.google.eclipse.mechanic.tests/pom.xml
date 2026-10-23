@@ -5,7 +5,7 @@
     <parent>
         <groupId>com.google.eclipse.mechanic</groupId>
         <artifactId>tests</artifactId>
-        <version>0.5.2-SNAPSHOT</version>
+        <version>0.6.0-SNAPSHOT</version>
     </parent>
     <artifactId>com.google.eclipse.mechanic.tests</artifactId>
     <packaging>eclipse-test-plugin</packaging>
@@ -30,7 +30,7 @@
         <dependency>
             <groupId>com.google.eclipse.mechanic</groupId>
             <artifactId>com.google.eclipse.mechanic</artifactId>
-            <version>0.5.2-SNAPSHOT</version>
+            <version>0.6.0-SNAPSHOT</version>
             <type>eclipse-plugin</type>
         </dependency>
     </dependencies>

@@ -9,6 +9,7 @@
 
 package com.google.eclipse.mechanic.plugin.core;
 
+import java.io.File;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
@@ -115,7 +116,9 @@ public class MechanicPreferencesTest extends TestCase {
     setToDefault(IMechanicPreferences.DIRS_PREF);
 
     String taskDirs = mechanicPreferences.getString(IMechanicPreferences.DIRS_PREF);
-    assertEquals("${user_homedir}/.eclipse/mechanic:${mechanic_configuration_path}/mechanic", taskDirs);
+    assertEquals("${user_homedir}" + File.separatorChar + ".eclipse" + File.separatorChar + "mechanic"
+        + File.pathSeparatorChar + "${mechanic_configuration_path}" + File.separatorChar + "mechanic",
+        taskDirs);
   }
 
   public void testContains() {

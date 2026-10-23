@@ -14,15 +14,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import junit.framework.TestCase;
-
 import com.google.common.collect.Maps;
-import com.google.eclipse.mechanic.core.keybinding.KbaChangeSet;
-import com.google.eclipse.mechanic.core.keybinding.KbaBinding;
-import com.google.eclipse.mechanic.core.keybinding.KeyBindingsModel;
-import com.google.eclipse.mechanic.core.keybinding.KeyBindingsParser;
 import com.google.eclipse.mechanic.core.keybinding.KeyBindingsModel.KbaMetaData;
 import com.google.eclipse.mechanic.tests.internal.RunAsJUnitTest;
+
+import junit.framework.TestCase;
 
 @RunAsJUnitTest
 public class KeyBindingsParserTest extends TestCase {
