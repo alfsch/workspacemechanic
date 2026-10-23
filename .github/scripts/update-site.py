@@ -25,7 +25,8 @@ import xml.etree.ElementTree as ET
 NAME = "Workspace Mechanic Updates"
 LEGACY = "legacy"
 PLAIN_REPOSITORY_FILES = [
-    "artifacts.jar", "artifacts.xml.xz", "content.jar", "content.xml.xz",
+    "artifacts.jar", "artifacts.xml", "artifacts.xml.xz",
+    "content.jar", "content.xml", "content.xml.xz",
     "features", "plugins", "p2.index", "index.html",
 ]
 
@@ -166,6 +167,11 @@ def migrate(site):
     if os.path.exists(os.path.join(site, "compositeContent.xml")):
         sys.exit("%s already is a composite repository" % site)
     check_repository(site)
+    # the migration keeps the complete .jar metadata, so both files must be there before
+    # anything is moved or deleted
+    for name in ("content.jar", "artifacts.jar"):
+        if not os.path.isfile(os.path.join(site, name)):
+            sys.exit("%s has no %s, refusing to migrate" % (site, name))
     legacy = os.path.join(site, LEGACY)
     os.makedirs(legacy)
     for name in PLAIN_REPOSITORY_FILES:
