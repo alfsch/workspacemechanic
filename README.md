@@ -6,17 +6,32 @@
 [![License: EPL-1.0](https://img.shields.io/github/license/alfsch/workspacemechanic)](LICENSE)
 ![Java 17](https://img.shields.io/badge/Java-17-blue)
 
-New Repo for workspace mechanic, overtaken [from google code](https://code.google.com/archive/a/eclipselabs.org/p/workspacemechanic)
+Workspace Mechanic keeps your Eclipse settings consistent. You describe preferences and key bindings in task files, which can be checked into your team's SCM. The plug-in checks your workspace against them in the background, shows a status icon in the workbench, and applies the differences with one click.
 
-Workspace mechanic build is full maven based. Build it with mvn clean install or the corresponding m2e command.
+It is the maintained continuation of the [Google Code project](https://code.google.com/archive/a/eclipselabs.org/p/workspacemechanic).
 
-This command builds the plugins, features and the update site. It needs Java 17 and Maven 3.9 or newer.
+## Install
+Requires Java 17 (Eclipse has to run on Java 17 or newer).
 
-## Update Site
+- From the [Eclipse Marketplace](https://marketplace.eclipse.org/content/workspace-mechanic), or
+- in Eclipse with *Help > Install New Software... > Add...* and the update site `https://alfsch.github.io/eclipse-updates/workspacemechanic`, or
+- from the update site zip attached to each [release](https://github.com/alfsch/workspacemechanic/releases) (*Add... > Archive...*).
 
-https://alfsch.github.io/eclipse-updates/workspacemechanic
+## Getting started
+1. After the restart, a Workspace Mechanic icon appears in the status bar of the workbench: a green tick when your workspace matches the configuration, a warning when it differs.
+2. Put task files into a task source. There are two kinds of tasks:
+   - `.epf` files: Eclipse preference exports (*File > Export > General > Preferences*), applied as preferences.
+   - `.kbd` files: key binding changes.
+3. Tell Workspace Mechanic where the task sources are: *Preferences > Workspace Mechanic > Task sources*. A task source is a directory or a URL. By default the directory `~/.eclipse/mechanic` is used (see the field for the full default list). In the same page you can set the scan frequency (default: one hour), block single tasks and turn off the popup that appears when tasks fail.
+4. Click the status icon to apply the fixes, or use its context menu:
+   - **Check All**: scan the task sources now.
+   - **Apply Fixes...**: choose which failing tasks to apply or block.
+   - **Re-apply All Tasks...**: apply every task again, also those that are already in sync (blocked tasks are skipped).
+   - **Preference Recorder**: record the preference changes you make and save them as an `.epf` task file.
+   - **Show all tasks**, **Dump keybindings...**, **Stop Service** / **Start Service**, and a link to the preferences.
 
-The plugin is also listed on the [Eclipse Marketplace](https://marketplace.eclipse.org/content/workspace-mechanic).
+## Building
+The build is fully maven based. Build it with `mvn -f parent/pom.xml clean install` or the corresponding m2e command. This builds the plugins, features and the update site. It needs Java 17 and Maven 3.9 or newer.
 
 ## Next Steps are
 1. Fix Findbugs and used rules
