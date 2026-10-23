@@ -23,5 +23,12 @@ and not to forget
 **Bugfixing**
 
 
+## Releasing
+1. Set the project version in the poms (`0.x.y-SNAPSHOT` stays, the release version is the tag without `-SNAPSHOT`).
+2. Push a tag `v<version>`, e.g. `v0.6.0`.
+3. The `Release` workflow builds the update site, creates a GitHub Release with the update site zip and, after approval of the `update-site` environment, publishes it to the update site above.
+
+One-time setup: add a deploy key with write access to `alfsch/alfsch.github.io` and store its private key as the repository secret `UPDATE_SITE_DEPLOY_KEY`; optionally add required reviewers to the `update-site` environment.
+
 ## Build Status
 [![Build](https://github.com/alfsch/workspacemechanic/actions/workflows/build.yaml/badge.svg)](https://github.com/alfsch/workspacemechanic/actions/workflows/build.yaml)

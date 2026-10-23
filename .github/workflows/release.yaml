@@ -1,0 +1,84 @@
+name: Release
+
+# Push a tag like v0.6.0 to build the update site, create a GitHub Release with it
+# and publish it to the p2 update site (alfsch/alfsch.github.io, eclipse-updates/workspacemechanic).
+
+on:
+  push:
+    tags: ['v*']
+
+jobs:
+  build:
+    uses: ./.github/workflows/build.yaml
+
+  release:
+    needs: build
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check that the tag matches the project version
+        run: |
+          version=$(sed -n 's|^    <version>\(.*\)</version>$|\1|p' parent/pom.xml | head -n 1)
+          if [ "v${version%-SNAPSHOT}" != "$GITHUB_REF_NAME" ]; then
+            echo "Tag $GITHUB_REF_NAME does not match the project version $version" >&2
+            exit 1
+          fi
+      - uses: actions/download-artifact@v4
+        with:
+          name: update-site
+          path: dist
+      - name: Create GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          cp dist/update-*.zip "workspacemechanic-update-site-$GITHUB_REF_NAME.zip"
+          gh release create "$GITHUB_REF_NAME" "workspacemechanic-update-site-$GITHUB_REF_NAME.zip" \
+            --title "$GITHUB_REF_NAME" --generate-notes \
+            --notes "Requires Java 17. Install from https://alfsch.github.io/eclipse-updates/workspacemechanic or with the attached update site zip (Help > Install New Software > Add > Archive)."
+
+  publish:
+    needs: release
+    runs-on: ubuntu-24.04
+    # Add required reviewers to this environment (Settings > Environments) to approve each publish.
+    environment: update-site
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: update-site
+          path: dist
+      - name: Unpack update site
+        run: unzip -q dist/update-*.zip -d repository
+      - uses: actions/checkout@v4
+        with:
+          repository: alfsch/alfsch.github.io
+          ref: master
+          ssh-key: ${{ secrets.UPDATE_SITE_DEPLOY_KEY }}
+          path: site
+      - name: Replace the update site
+        run: |
+          target=site/eclipse-updates/workspacemechanic
+          before=$(find "$target/features" "$target/plugins" -name '*.jar' | wc -l)
+          rm -rf "$target"
+          mkdir -p "$target"
+          cp -r repository/. "$target"/
+          after=$(find "$target/features" "$target/plugins" -name '*.jar' | wc -l)
+          echo "jars before: $before, after: $after"
+          # the build mirrors the published site, so old versions must still be there
+          if [ "$after" -lt "$before" ]; then
+            echo "The new update site has fewer jars than the published one, not publishing" >&2
+            exit 1
+          fi
+      - name: Publish
+        run: |
+          cd site
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A eclipse-updates/workspacemechanic
+          if git diff --cached --quiet; then
+            echo "Nothing to publish"
+            exit 0
+          fi
+          git commit -m "Publish workspacemechanic $GITHUB_REF_NAME"
+          git push origin HEAD:master
