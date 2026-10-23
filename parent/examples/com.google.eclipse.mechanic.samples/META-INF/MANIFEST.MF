@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Automatic-Module-Name: com.google.eclipse.mechanic.samples
 Bundle-Name: Workspace Mechanic Samples
 Bundle-SymbolicName: com.google.eclipse.mechanic.samples;singleton:=true
-Bundle-Version: 0.7.0.qualifier
+Bundle-Version: 0.6.1.qualifier
 Bundle-Vendor: Robert Konigsberg
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
