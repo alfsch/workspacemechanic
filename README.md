@@ -18,15 +18,22 @@ Requires Java 17 (Eclipse has to run on Java 17 or newer).
 - from the update site zip attached to each [release](https://github.com/alfsch/workspacemechanic/releases) (*Add... > Archive...*).
 
 ## Getting started
-1. After the restart, a Workspace Mechanic icon appears in the status bar of the workbench: a green tick when your workspace matches the configuration, a warning when it differs.
+1. After the restart, a Workspace Mechanic icon appears in the status bar of the workbench: a green tick when all tasks are in sync, a warning when a task needs to be applied.
 2. Put task files into a task source. There are two kinds of tasks:
-   - `.epf` files: Eclipse preference exports (*File > Export > General > Preferences*), applied as preferences.
+   - `.epf` files: Eclipse preference exports (*File > Export > General > Preferences*), applied as preferences. Optional header comments at the top of the file say how the task behaves:
+     ```
+     # @title Team code style
+     # @description Formatter and save actions for all workspaces
+     # @task_type RECONCILE
+     #
+     ```
+     With `@task_type LASTMOD` (the default when there is no header) the task is applied again only when the *file* changes, so settings you change by hand in Eclipse afterwards are not noticed. With `@task_type RECONCILE` the task fails whenever any preference in the file differs from your running Eclipse, so hand-made changes show up as a warning and the fix resets them. The Preference Recorder writes this header for you.
    - `.kbd` files: key binding changes.
 3. Tell Workspace Mechanic where the task sources are: *Preferences > Workspace Mechanic > Task sources*. A task source is a directory or a URL. By default the directory `~/.eclipse/mechanic` is used (see the field for the full default list). In the same page you can set the scan frequency (default: one hour), block single tasks and turn off the popup that appears when tasks fail.
 4. Click the status icon to apply the fixes, or use its context menu:
    - **Check All**: scan the task sources now.
    - **Apply Fixes...**: choose which failing tasks to apply or block.
-   - **Re-apply All Tasks...**: apply every task again, also those that are already in sync (blocked tasks are skipped).
+   - **Re-apply All Tasks...**: apply every task again, also those that are already in sync, for example `LASTMOD` tasks after someone changed settings by hand (blocked tasks are skipped).
    - **Preference Recorder**: record the preference changes you make and save them as an `.epf` task file.
    - **Show all tasks**, **Dump keybindings...**, **Stop Service** / **Start Service**, and a link to the preferences.
 
