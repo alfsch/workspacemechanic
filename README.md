@@ -1,4 +1,11 @@
 # Eclipse Workspace Mechanic
+
+[![Build](https://github.com/alfsch/workspacemechanic/actions/workflows/build.yaml/badge.svg)](https://github.com/alfsch/workspacemechanic/actions/workflows/build.yaml)
+[![Release](https://img.shields.io/github/v/release/alfsch/workspacemechanic)](https://github.com/alfsch/workspacemechanic/releases/latest)
+[![Eclipse Marketplace](https://img.shields.io/eclipse-marketplace/v/workspace-mechanic)](https://marketplace.eclipse.org/content/workspace-mechanic)
+[![License: EPL-1.0](https://img.shields.io/github/license/alfsch/workspacemechanic)](LICENSE)
+![Java 17](https://img.shields.io/badge/Java-17-blue)
+
 New Repo for workspace mechanic, overtaken [from google code](https://code.google.com/archive/a/eclipselabs.org/p/workspacemechanic)
 
 Workspace mechanic build is full maven based. Build it with mvn clean install or the corresponding m2e command.
@@ -8,6 +15,8 @@ This command builds the plugins, features and the update site. It needs Java 17 
 ## Update Site
 
 https://alfsch.github.io/eclipse-updates/workspacemechanic
+
+The plugin is also listed on the [Eclipse Marketplace](https://marketplace.eclipse.org/content/workspace-mechanic).
 
 ## Next Steps are
 1. Fix Findbugs and used rules
@@ -31,6 +40,3 @@ and not to forget
    `mvn -f parent/pom.xml org.eclipse.tycho:tycho-versions-plugin:4.0.10:set-version -DnewVersion=0.7.0-SNAPSHOT`
 
 One-time setup: add a deploy key with write access to `alfsch/alfsch.github.io` and store its private key as the repository secret `UPDATE_SITE_DEPLOY_KEY`; optionally add required reviewers to the `update-site` environment.
-
-## Build Status
-[![Build](https://github.com/alfsch/workspacemechanic/actions/workflows/build.yaml/badge.svg)](https://github.com/alfsch/workspacemechanic/actions/workflows/build.yaml)
