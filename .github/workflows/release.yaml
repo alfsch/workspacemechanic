@@ -51,8 +51,8 @@ jobs:
 
   publish:
     needs: release
-    # runs after a successful release, or on its own when started by hand (release is skipped then)
-    if: ${{ !cancelled() && (needs.release.result == 'success' || needs.release.result == 'skipped') }}
+    # runs after a successful release; when started by hand the release job is skipped on purpose
+    if: ${{ !cancelled() && (needs.release.result == 'success' || (github.event_name == 'workflow_dispatch' && needs.release.result == 'skipped')) }}
     runs-on: ubuntu-24.04
     # Add required reviewers to this environment (Settings > Environments) to approve each publish.
     environment: update-site

@@ -20,7 +20,7 @@ import re
 import shutil
 import sys
 import time
-import zipfile
+import xml.etree.ElementTree as ET
 
 NAME = "Workspace Mechanic Updates"
 LEGACY = "legacy"
@@ -129,14 +129,19 @@ def use_xz_metadata(repository):
         if os.path.exists(path):
             os.remove(path)
     write_p2_index(repository, "content.xml.xz", "artifacts.xml.xz")
-    with lzma.open(artifacts_xz) as f:
-        text = f.read().decode("utf-8")
     wanted = {"osgi.bundle": "plugins", "org.eclipse.update.feature": "features"}
     expected = set()
-    for classifier, id_, version in re.findall(
-            r"<artifact classifier='([^']+)' id='([^']+)' version='([^']+)'", text):
-        if classifier in wanted:
-            expected.add(os.path.join(wanted[classifier], "%s_%s.jar" % (id_, version)))
+    with lzma.open(artifacts_xz) as f:
+        for artifact in ET.parse(f).getroot().iter("artifact"):
+            folder = wanted.get(artifact.get("classifier"))
+            if folder:
+                expected.add(os.path.join(
+                    folder, "%s_%s.jar" % (artifact.get("id"), artifact.get("version"))))
+    if not expected:
+        sys.exit("%s lists no bundles or features, refusing to prune it" % artifacts_xz)
+    missing = [e for e in sorted(expected) if not os.path.isfile(os.path.join(repository, e))]
+    if missing:
+        sys.exit("the metadata lists files that are missing from the release: %s" % ", ".join(missing))
     for folder in wanted.values():
         directory = os.path.join(repository, folder)
         if not os.path.isdir(directory):
@@ -184,8 +189,12 @@ def add(site, version, repository):
         sys.exit("release %s already exists in %s, releases are not replaced" % (version, site))
     children = read_children(site)
     shutil.copytree(repository, target)
-    use_xz_metadata(target)
-    check_repository(target)
+    try:
+        use_xz_metadata(target)
+        check_repository(target)
+    except BaseException:
+        shutil.rmtree(target, ignore_errors=True)
+        raise
     write_site_files(site, children + [version])
     print("added %s, children now: %s" % (version, ", ".join(sorted(set(children + [version]), key=version_key))))
 
