@@ -276,7 +276,7 @@ public final class MechanicService implements IMechanicService {
     monitor.worked(1);
 
     // test tasks and figure out which ones are blocked
-    updateTaskStatus(monitor.split(1));
+    updateTaskStatus(monitor.newChild(1));
   }
 
   /**
