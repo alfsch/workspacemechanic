@@ -53,7 +53,6 @@ jobs:
       - uses: actions/checkout@v4
         with:
           repository: alfsch/alfsch.github.io
-          ref: master
           ssh-key: ${{ secrets.UPDATE_SITE_DEPLOY_KEY }}
           path: site
       - name: Replace the update site
@@ -82,4 +81,4 @@ jobs:
             exit 0
           fi
           git commit -m "Publish workspacemechanic $GITHUB_REF_NAME"
-          git push origin HEAD:master
+          git push origin HEAD
