@@ -1,0 +1,29 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["config:recommended"],
+  "separateMinorPatch": true,
+  "separateMultipleMinor": true,
+  "separateMultipleMajor": true,
+  "packageRules": [
+    {
+      "description": "Tycho 0.25 is tied to the Eclipse 3.7 target platform and to Maven 3.6.3; moving it means migrating the whole build, so Renovate leaves it alone",
+      "matchDepNames": ["/^org\\.eclipse\\.tycho/"],
+      "enabled": false
+    },
+    {
+      "description": "Merge patch updates of dependencies once the required build check (which runs the tests) passes. Minor and major updates are never merged automatically: each version gets its own PR for review",
+      "matchUpdateTypes": ["patch"],
+      "automerge": true,
+      "automergeType": "pr",
+      "automergeStrategy": "squash"
+    },
+    {
+      "description": "Merge all GitHub Actions updates, majors included, once the required build check passes, but not before a release is 3 days old; master only accepts squash merges",
+      "matchManagers": ["github-actions"],
+      "minimumReleaseAge": "3 days",
+      "automerge": true,
+      "automergeType": "pr",
+      "automergeStrategy": "squash"
+    }
+  ]
+}
