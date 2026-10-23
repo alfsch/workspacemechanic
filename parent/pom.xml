@@ -8,7 +8,7 @@
     <packaging>pom</packaging>
     <properties>
         <tycho-version>0.25.0</tycho-version>
-        <findbugs-plugin-version>3.0.3</findbugs-plugin-version>
+        <findbugs-plugin-version>3.0.5</findbugs-plugin-version>
         <pmd-plugin-version>3.6</pmd-plugin-version>
         <checkstyle-plugin-version>2.17</checkstyle-plugin-version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
