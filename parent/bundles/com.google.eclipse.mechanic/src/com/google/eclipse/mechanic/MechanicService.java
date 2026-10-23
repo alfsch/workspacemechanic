@@ -9,6 +9,7 @@
 
 package com.google.eclipse.mechanic;
 
+import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
@@ -24,6 +25,7 @@ import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.core.runtime.jobs.JobChangeAdapter;
 import org.eclipse.swt.widgets.Display;
 
+import com.google.common.base.Supplier;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
@@ -95,6 +97,10 @@ public final class MechanicService implements IMechanicService {
 
   private AtomicBoolean repairing = new AtomicBoolean(false);
 
+  // serializes stopping the service with restarting it after a repair, so a restart
+  // cannot undo a stop the user requested in between
+  private final Object lifecycleLock = new Object();
+
   /**
    * Returns an instance of MechanicService.
    */
@@ -140,14 +146,26 @@ public final class MechanicService implements IMechanicService {
    * {@link #reschedule()} will cause the job to run again.
    */
   public void stop() {
+    synchronized (lifecycleLock) {
+      // effectively un-schedules the job. If it is already running we must wait.
+      job.sleep();
 
-    // effectively un-schedules the job. If it is already running we must wait.
-    job.sleep();
+      // TODO(smckay): this displays the stopped icon even if the job is still
+      // running. It would be nice to either force the job to stop, or to
+      // wait to display the stopped icon.
+      setStatus(MechanicStatus.STOPPED);
+    }
+  }
 
-    // TODO(smckay): this displays the stopped icon even if the job is still
-    // running. It would be nice to either force the job to stop, or to
-    // wait to display the stopped icon.
-    setStatus(MechanicStatus.STOPPED);
+  /**
+   * Starts the service again, unless it was stopped in the meantime.
+   */
+  private void startUnlessStopped() {
+    synchronized (lifecycleLock) {
+      if (!isStopped()) {
+        start();
+      }
+    }
   }
 
   /**
@@ -219,6 +237,47 @@ public final class MechanicService implements IMechanicService {
       try {
         getRepairManager(choiceProvider).run();
       } finally {
+        repairing.set(false);
+      }
+    }
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  public void repairAllTasks() {
+    if (repairing.getAndSet(true)) {
+      return;
+    }
+    boolean scheduled = false;
+    try {
+      // The tasks are collected in the background, after a scan that is in progress has finished:
+      // the scan holds our lock while it clears and refills the collector.
+      Job repairJob = new RepairAllTasksJob(
+          new Supplier<Collection<Task>>() {
+            public Collection<Task> get() {
+              synchronized (MechanicService.this) {
+                return getAllKnownTasks();
+              }
+            }
+          },
+          new Supplier<Set<String>>() {
+            public Set<String> get() {
+              return mechanicPreferences.getBlockedTaskIds();
+            }
+          });
+      repairJob.addJobChangeListener(new JobChangeAdapter() {
+        @Override
+        public void done(IJobChangeEvent event) {
+          repairing.set(false);
+          // re-run the mechanic to verify our work
+          startUnlessStopped();
+        }
+      });
+      repairJob.schedule();
+      scheduled = true;
+    } finally {
+      if (!scheduled) {
         repairing.set(false);
       }
     }

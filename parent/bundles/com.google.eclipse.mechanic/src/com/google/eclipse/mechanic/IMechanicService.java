@@ -62,6 +62,15 @@ public interface IMechanicService {
   RepairManager getRepairManager(RepairDecisionProvider rdp);
 
   /**
+   * Runs the {@link RepairManager} capable of fixing broken Tasks, using the
+   * supplied {@link RepairDecisionProvider} to collect user input.
+   *
+   * <p>If a repair is already running (this one or {@link #repairAllTasks()}),
+   * then no operation will be performed.
+   */
+  void runRepairManager(RepairDecisionProvider rdp);
+
+  /**
    * Returns an immutable set of all the currently known tasks, passing or not.
    */
   Collection<Task> getAllKnownTasks();
@@ -71,5 +80,16 @@ public interface IMechanicService {
    * of failing items to the user.
    */
   int getFailingItemCount();
+
+  /**
+   * Re-applies every known task that is not blocked, including tasks that are
+   * already in sync, so settings the user changed by hand are reset to the
+   * values from the task configuration. The work is done in the background.
+   * Afterwards the tasks are checked again, unless the service is stopped.
+   *
+   * <p>If tasks are already being repaired, then no operation will be
+   * performed.
+   */
+  void repairAllTasks();
 
 }

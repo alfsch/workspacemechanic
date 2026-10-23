@@ -70,6 +70,12 @@ public class StateSensitiveCacheTest extends TestCase {
     public int getFailingItemCount() {
       return 0;
     }
+
+    public void runRepairManager(RepairDecisionProvider rdp) {
+    }
+
+    public void repairAllTasks() {
+    }
   }
 
   public void testNPE() {

@@ -141,8 +141,7 @@ public class PopupNotifier {
       public void correctConfigurationIssues() {
         RepairDecisionProvider rdp = new UserChoiceDecisionProvider(
             PlatformUI.getWorkbench().getActiveWorkbenchWindow());
-        // TODO(konigsberg): Replace with calls to runRepairManager?
-        service.getRepairManager(rdp).run();
+        service.runRepairManager(rdp);
       }
 
       @Override
