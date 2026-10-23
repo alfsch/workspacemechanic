@@ -2,6 +2,7 @@
 <feature
       id="com.google.eclipse.mechanic.feature"
       label="Workspace Mechanic"
+      image="icons/feature.png"
       version="0.7.0.qualifier"
       provider-name="Google, Inc.">
 
