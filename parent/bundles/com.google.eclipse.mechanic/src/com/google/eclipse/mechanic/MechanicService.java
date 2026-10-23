@@ -97,6 +97,10 @@ public final class MechanicService implements IMechanicService {
 
   private AtomicBoolean repairing = new AtomicBoolean(false);
 
+  // serializes stopping the service with restarting it after a repair, so a restart
+  // cannot undo a stop the user requested in between
+  private final Object lifecycleLock = new Object();
+
   /**
    * Returns an instance of MechanicService.
    */
@@ -142,14 +146,26 @@ public final class MechanicService implements IMechanicService {
    * {@link #reschedule()} will cause the job to run again.
    */
   public void stop() {
+    synchronized (lifecycleLock) {
+      // effectively un-schedules the job. If it is already running we must wait.
+      job.sleep();
 
-    // effectively un-schedules the job. If it is already running we must wait.
-    job.sleep();
+      // TODO(smckay): this displays the stopped icon even if the job is still
+      // running. It would be nice to either force the job to stop, or to
+      // wait to display the stopped icon.
+      setStatus(MechanicStatus.STOPPED);
+    }
+  }
 
-    // TODO(smckay): this displays the stopped icon even if the job is still
-    // running. It would be nice to either force the job to stop, or to
-    // wait to display the stopped icon.
-    setStatus(MechanicStatus.STOPPED);
+  /**
+   * Starts the service again, unless it was stopped in the meantime.
+   */
+  private void startUnlessStopped() {
+    synchronized (lifecycleLock) {
+      if (!isStopped()) {
+        start();
+      }
+    }
   }
 
   /**
@@ -255,9 +271,7 @@ public final class MechanicService implements IMechanicService {
         public void done(IJobChangeEvent event) {
           repairing.set(false);
           // re-run the mechanic to verify our work
-          if (!isStopped()) {
-            start();
-          }
+          startUnlessStopped();
         }
       });
       repairJob.schedule();
