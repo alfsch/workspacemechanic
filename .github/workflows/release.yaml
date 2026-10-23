@@ -59,17 +59,18 @@ jobs:
       - name: Replace the update site
         run: |
           target=site/eclipse-updates/workspacemechanic
-          before=$(find "$target/features" "$target/plugins" -name '*.jar' | wc -l)
+          (cd "$target" && find features plugins -name '*.jar' | sort) > "$RUNNER_TEMP/published.txt"
+          (cd repository && find features plugins -name '*.jar' | sort) > "$RUNNER_TEMP/incoming.txt"
+          # the build mirrors the published site, so every published jar must be in the new site
+          missing=$(comm -23 "$RUNNER_TEMP/published.txt" "$RUNNER_TEMP/incoming.txt")
+          if [ -n "$missing" ]; then
+            echo "The new update site lacks jars that are already published, not publishing:" >&2
+            echo "$missing" >&2
+            exit 1
+          fi
           rm -rf "$target"
           mkdir -p "$target"
           cp -r repository/. "$target"/
-          after=$(find "$target/features" "$target/plugins" -name '*.jar' | wc -l)
-          echo "jars before: $before, after: $after"
-          # the build mirrors the published site, so old versions must still be there
-          if [ "$after" -lt "$before" ]; then
-            echo "The new update site has fewer jars than the published one, not publishing" >&2
-            exit 1
-          fi
       - name: Publish
         run: |
           cd site
