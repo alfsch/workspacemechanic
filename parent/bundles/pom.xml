@@ -7,7 +7,7 @@
     <parent>
         <groupId>com.google.eclipse.mechanic</groupId>
         <artifactId>parent</artifactId>
-        <version>0.6.1-SNAPSHOT</version>
+        <version>0.6.2-SNAPSHOT</version>
     </parent>
     <modules>
         <module>com.google.eclipse.mechanic</module>

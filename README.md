@@ -58,8 +58,8 @@ and not to forget
 1. The release version is the project version without `-SNAPSHOT` (`0.6.1-SNAPSHOT` is released as `v0.6.1`).
 2. Push a tag `v<version>`, e.g. `v0.6.1`.
 3. The `Release` workflow builds the update site, creates a GitHub Release with the update site zip and, after approval of the `update-site` environment, publishes it to the update site above.
-4. Afterwards move to the next snapshot version in a pull request. This updates the poms, the manifests, `feature.xml` and `category.xml`:
-   `mvn -f parent/pom.xml org.eclipse.tycho:tycho-versions-plugin:4.0.10:set-version -DnewVersion=0.7.0-SNAPSHOT`
+4. Afterwards move to the next snapshot version in a pull request. The next version is normally the next patch version (`0.6.1` is followed by `0.6.2-SNAPSHOT`), also when it collects many dependency updates; a new minor version is for real new features. This updates the poms, the manifests, `feature.xml` and `category.xml`:
+   `mvn -f parent/pom.xml org.eclipse.tycho:tycho-versions-plugin:4.0.10:set-version -DnewVersion=0.6.2-SNAPSHOT`
 
 The update site is a p2 composite repository in the repository `alfsch/alfsch.github.io` (folder `eclipse-updates/workspacemechanic`). It has one folder per release (`0.6.1/`, ...) plus `legacy/` for everything published before, and a release only adds a folder, so older versions stay installable. `.github/scripts/update-site.py` does this. To publish a release that already has a GitHub Release without tagging again, run the `Release` workflow by hand and enter its tag.
 

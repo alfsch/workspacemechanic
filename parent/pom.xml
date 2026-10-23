@@ -6,7 +6,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.google.eclipse.mechanic</groupId>
     <artifactId>parent</artifactId>
-    <version>0.6.1-SNAPSHOT</version>
+    <version>0.6.2-SNAPSHOT</version>
     <packaging>pom</packaging>
     <properties>
         <tycho-version>4.0.13</tycho-version>

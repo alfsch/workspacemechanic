@@ -2,7 +2,7 @@ Bundle-ManifestVersion: 2
 Automatic-Module-Name: com.google.eclipse.mechanic.tests
 Bundle-Name: Mechanic Tests Fragment
 Bundle-SymbolicName: com.google.eclipse.mechanic.tests
-Bundle-Version: 0.6.1.qualifier
+Bundle-Version: 0.6.2.qualifier
 Bundle-Vendor: Google Inc.
 Require-Bundle: org.junit
 Fragment-Host: com.google.eclipse.mechanic
