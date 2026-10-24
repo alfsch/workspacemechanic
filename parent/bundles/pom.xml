@@ -13,6 +13,7 @@
         <module>com.google.eclipse.mechanic</module>
     </modules>
     <properties>
+        <analysis.baseline>${project.basedir}/../analysis</analysis.baseline>
         <sonar.projectName>${project.artifactId}</sonar.projectName>
     </properties>
     <build>

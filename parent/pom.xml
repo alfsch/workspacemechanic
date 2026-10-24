@@ -250,7 +250,8 @@
                 </dependencies>
                 <configuration>
                     <configLocation>google_checks.xml</configLocation>
-                    <propertyExpansion>org.checkstyle.google.suppressionfilter.config=${analysis.baseline}/checkstyle-suppressions.xml</propertyExpansion>
+                    <suppressionsLocation>${analysis.baseline}/checkstyle-suppressions.xml</suppressionsLocation>
+                    <suppressionsFileExpression>org.checkstyle.google.suppressionfilter.config</suppressionsFileExpression>
                     <failOnViolation>${analysis.fail}</failOnViolation>
                     <violationSeverity>warning</violationSeverity>
                     <consoleOutput>false</consoleOutput>
