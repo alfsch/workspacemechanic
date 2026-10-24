@@ -11,6 +11,11 @@ three files it writes next to it. Do not run it to hide new findings.
 The build runs without the baseline and without the tests, so that the reports hold every finding.
 A report directory is the target directory of a module (pmd.xml, checkstyle-result.xml and
 spotbugsXml.xml).
+
+Only pass report directories of a build that ran without the baseline, like the one in build(): the
+reports of a normal build leave out the Checkstyle and SpotBugs findings that are in the baseline, so
+the new files would hold only the findings that are not in it. The script stops, without writing a
+file, when a report directory misses one of the three reports.
 """
 import glob
 import os
@@ -47,6 +52,18 @@ def build():
                    check=True)
 
 
+REPORTS = ("pmd.xml", "checkstyle-result.xml", "spotbugsXml.xml")
+
+
+def check_reports(dirs):
+    """Stops before anything is written when the reports are missing or incomplete."""
+    if not dirs:
+        sys.exit("no report directories found: did the build run?")
+    missing = [os.path.join(d, r) for d in dirs for r in REPORTS if not os.path.isfile(os.path.join(d, r))]
+    if missing:
+        sys.exit("missing reports, the baseline files are not changed:\n  " + "\n  ".join(missing))
+
+
 def report_dirs():
     return sorted(glob.glob(os.path.join(PARENT, "bundles", "*", "target")) +
                   glob.glob(os.path.join(PARENT, "examples", "*", "target")))
@@ -56,8 +73,6 @@ def pmd(dirs):
     rules = defaultdict(set)
     for d in dirs:
         path = os.path.join(d, "pmd.xml")
-        if not os.path.exists(path):
-            continue
         file_name = None
         for violation in ET.parse(path).getroot().iter():
             tag = violation.tag.rsplit("}", 1)[-1]
@@ -78,8 +93,6 @@ def checkstyle(dirs):
     pairs = set()
     for d in dirs:
         path = os.path.join(d, "checkstyle-result.xml")
-        if not os.path.exists(path):
-            continue
         for file in ET.parse(path).getroot().iter("file"):
             name = file.get("name").replace(os.sep, "/")
             source = name.rsplit("/src/", 1)[-1] if "/src/" in name else name
@@ -103,8 +116,6 @@ def spotbugs(dirs):
     pairs = set()
     for d in dirs:
         path = os.path.join(d, "spotbugsXml.xml")
-        if not os.path.exists(path):
-            continue
         for bug in ET.parse(path).getroot().iter("BugInstance"):
             cls = bug.find("Class")
             if cls is not None:
@@ -122,9 +133,10 @@ def main(args):
     if not args:
         build()
     dirs = args or report_dirs()
+    check_reports(dirs)
     spotbugs_xml, spotbugs_count = spotbugs(dirs)
-    for name, content in ((PMD_FILE, pmd(dirs)), (CHECKSTYLE_FILE, checkstyle(dirs)),
-                          (SPOTBUGS_FILE, spotbugs_xml)):
+    files = ((PMD_FILE, pmd(dirs)), (CHECKSTYLE_FILE, checkstyle(dirs)), (SPOTBUGS_FILE, spotbugs_xml))
+    for name, content in files:
         with open(os.path.join(HERE, name), "w") as f:
             f.write(content)
         print("wrote", os.path.join(HERE, name))
