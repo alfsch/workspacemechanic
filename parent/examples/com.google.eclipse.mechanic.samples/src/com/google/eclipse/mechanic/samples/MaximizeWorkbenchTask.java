@@ -63,7 +63,7 @@ public class MaximizeWorkbenchTask extends CompositeTask {
           return;
         }
         result[0] = shell.getMaximized();
-      };
+      }
     });
     return result[0];
   }

@@ -40,7 +40,7 @@ Requires Java 17 (Eclipse has to run on Java 17 or newer).
 ## Building
 The build is fully maven based. Build it with `mvn -f parent/pom.xml clean install` or the corresponding m2e command. This builds the plugins, features and the update site. It needs Java 17 and Maven 3.9 or newer.
 
-PMD, Checkstyle and SpotBugs run in the `verify` phase and only report their findings (the build does not fail). Set `analysis.fail` to `true` (`-Danalysis.fail=true`) to make the findings fail the build. The CI run uploads the reports as the `analysis-reports` artifact.
+PMD, Checkstyle and SpotBugs run in the `verify` phase of the plugin and the samples and fail the build on findings that are not in the baseline in `parent/analysis` (the known findings, one entry per class or file and rule). Fix a finding and run `python3 parent/analysis/update-baseline.py` to remove it from the baseline, never to hide a new one. `-Danalysis.fail=false` only reports the findings. A baseline entry covers every finding of that rule in that class or file, so a second finding of the same rule in a listed class or file is not caught. The CI run uploads the reports as the `analysis-reports` artifact.
 
 ## Next Steps are
 1. Fix the SpotBugs findings and decide on the rules to use

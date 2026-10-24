@@ -62,7 +62,7 @@ class KeyBindingsModel {
   private static Predicate<KbaChangeSet> matches(final Action action) {
     return new Predicate<KbaChangeSet>() {
       public boolean apply(KbaChangeSet toTest) {
-        return (toTest.getAction() == action);
+        return toTest.getAction() == action;
       }
     };
   }

@@ -9,6 +9,9 @@
     </parent>
     <artifactId>com.google.eclipse.mechanic.samples</artifactId>
     <packaging>eclipse-plugin</packaging>
+    <properties>
+        <analysis.baseline>${project.basedir}/../../analysis</analysis.baseline>
+    </properties>
     <dependencies>
         <dependency>
             <groupId>com.google.guava</groupId>

@@ -16,7 +16,8 @@
         <checkstyle-plugin-version>3.6.0</checkstyle-plugin-version>
         <checkstyle-version>10.26.1</checkstyle-version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <analysis.fail>false</analysis.fail>
+        <analysis.fail>true</analysis.fail>
+        <analysis.baseline>${project.basedir}/analysis</analysis.baseline>
         <sonar.projectName>Eclipse Workspace-Mechanic</sonar.projectName>
         <sonar.java.source>17</sonar.java.source>
         <sonar.jacoco.reportPath>${user.dir}/target/jacoco.exec</sonar.jacoco.reportPath>
@@ -216,13 +217,14 @@
                     </execution>
                 </executions>
             </plugin>
-            <!-- Static analysis: runs in the verify phase and reports the findings without failing the build
-                 (failOnViolation / failOnError are false); set the three properties to true to enforce them -->
+            <!-- Static analysis: runs in the verify phase and fails the build on findings that are not in the
+                 baseline (parent/analysis, see update-baseline.py there). -Danalysis.fail=false only reports -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-pmd-plugin</artifactId>
                 <configuration>
                     <failOnViolation>${analysis.fail}</failOnViolation>
+                    <excludeFromFailureFile>${analysis.baseline}/pmd-baseline.properties</excludeFromFailureFile>
                     <printFailingErrors>true</printFailingErrors>
                     <targetJdk>17</targetJdk>
                 </configuration>
@@ -248,6 +250,7 @@
                 </dependencies>
                 <configuration>
                     <configLocation>google_checks.xml</configLocation>
+                    <propertyExpansion>org.checkstyle.google.suppressionfilter.config=${analysis.baseline}/checkstyle-suppressions.xml</propertyExpansion>
                     <failOnViolation>${analysis.fail}</failOnViolation>
                     <violationSeverity>warning</violationSeverity>
                     <consoleOutput>false</consoleOutput>
@@ -267,6 +270,7 @@
                 <artifactId>spotbugs-maven-plugin</artifactId>
                 <configuration>
                     <failOnError>${analysis.fail}</failOnError>
+                    <excludeFilterFile>${analysis.baseline}/spotbugs-exclude.xml</excludeFilterFile>
                     <effort>Default</effort>
                     <threshold>Medium</threshold>
                 </configuration>
