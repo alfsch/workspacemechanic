@@ -19,6 +19,23 @@
       "automergeStrategy": "squash"
     },
     {
+      "description": "Merge minor updates of the build tools (Maven plugins, Tycho, Maven in the build workflow) and of the test dependency (mockito) once the required build check passes, but not before a release is 3 days old. Runtime dependencies (guava, gson) are not listed: they ship with the plugin and keep one PR per version for review",
+      "matchUpdateTypes": ["minor"],
+      "matchPackageNames": [
+        "org.apache.maven.plugins:**",
+        "org.codehaus.mojo:**",
+        "org.jacoco:**",
+        "org.eclipse.tycho:**",
+        "org.eclipse.tycho.extras:**",
+        "org.mockito:**",
+        "maven"
+      ],
+      "minimumReleaseAge": "3 days",
+      "automerge": true,
+      "automergeType": "pr",
+      "automergeStrategy": "squash"
+    },
+    {
       "description": "Merge all GitHub Actions updates, majors included, once the required build check passes, but not before a release is 3 days old; main only accepts squash merges",
       "matchManagers": ["github-actions"],
       "minimumReleaseAge": "3 days",
