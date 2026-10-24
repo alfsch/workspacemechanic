@@ -12,7 +12,7 @@
         <tycho-version>4.0.13</tycho-version>
         <tycho-extras-version>4.0.10</tycho-extras-version>
         <findbugs-plugin-version>3.0.5</findbugs-plugin-version>
-        <pmd-plugin-version>3.26.0</pmd-plugin-version>
+        <pmd-plugin-version>3.28.0</pmd-plugin-version>
         <checkstyle-plugin-version>3.6.0</checkstyle-plugin-version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <sonar.host.url>http://sonarqube-1.12ececdd.cont.dockerapp.io:9000</sonar.host.url>
