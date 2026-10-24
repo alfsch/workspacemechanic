@@ -36,3 +36,17 @@ jobs:
           path: parent/releng/update/target/update-*.zip
           if-no-files-found: error
           retention-days: 14
+      - name: Upload static analysis reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: analysis-reports
+          path: |
+            parent/bundles/*/target/pmd.xml
+            parent/bundles/*/target/checkstyle-result.xml
+            parent/bundles/*/target/spotbugsXml.xml
+            parent/examples/*/target/pmd.xml
+            parent/examples/*/target/checkstyle-result.xml
+            parent/examples/*/target/spotbugsXml.xml
+          if-no-files-found: warn
+          retention-days: 14

@@ -11,10 +11,13 @@
     <properties>
         <tycho-version>4.0.13</tycho-version>
         <tycho-extras-version>4.0.10</tycho-extras-version>
-        <findbugs-plugin-version>3.0.5</findbugs-plugin-version>
+        <spotbugs-plugin-version>4.10.5.0</spotbugs-plugin-version>
         <pmd-plugin-version>3.28.0</pmd-plugin-version>
         <checkstyle-plugin-version>3.6.0</checkstyle-plugin-version>
+        <checkstyle-version>10.26.1</checkstyle-version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <analysis.fail>true</analysis.fail>
+        <analysis.baseline>${project.basedir}/analysis</analysis.baseline>
         <sonar.projectName>Eclipse Workspace-Mechanic</sonar.projectName>
         <sonar.java.source>17</sonar.java.source>
         <sonar.jacoco.reportPath>${user.dir}/target/jacoco.exec</sonar.jacoco.reportPath>
@@ -123,9 +126,9 @@
                     <version>0.8.15</version>
                 </plugin>
                 <plugin>
-                    <groupId>org.codehaus.mojo</groupId>
-                    <artifactId>findbugs-maven-plugin</artifactId>
-                    <version>${findbugs-plugin-version}</version>
+                    <groupId>com.github.spotbugs</groupId>
+                    <artifactId>spotbugs-maven-plugin</artifactId>
+                    <version>${spotbugs-plugin-version}</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -214,14 +217,82 @@
                     </execution>
                 </executions>
             </plugin>
+            <!-- Static analysis: runs in the verify phase and fails the build on findings that are not in the
+                 baseline (parent/analysis, see update-baseline.py there). -Danalysis.fail=false only reports -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-pmd-plugin</artifactId>
+                <configuration>
+                    <failOnViolation>${analysis.fail}</failOnViolation>
+                    <excludeFromFailureFile>${analysis.baseline}/pmd-baseline.properties</excludeFromFailureFile>
+                    <printFailingErrors>true</printFailingErrors>
+                    <targetJdk>17</targetJdk>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>pmd-check</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <dependencies>
+                    <dependency>
+                        <groupId>com.puppycrawl.tools</groupId>
+                        <artifactId>checkstyle</artifactId>
+                        <version>${checkstyle-version}</version>
+                    </dependency>
+                </dependencies>
+                <configuration>
+                    <configLocation>google_checks.xml</configLocation>
+                    <suppressionsLocation>${analysis.baseline}/checkstyle-suppressions.xml</suppressionsLocation>
+                    <suppressionsFileExpression>org.checkstyle.google.suppressionfilter.config</suppressionsFileExpression>
+                    <failOnViolation>${analysis.fail}</failOnViolation>
+                    <violationSeverity>warning</violationSeverity>
+                    <consoleOutput>false</consoleOutput>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>checkstyle-check</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>com.github.spotbugs</groupId>
+                <artifactId>spotbugs-maven-plugin</artifactId>
+                <configuration>
+                    <failOnError>${analysis.fail}</failOnError>
+                    <excludeFilterFile>${analysis.baseline}/spotbugs-exclude.xml</excludeFilterFile>
+                    <effort>Default</effort>
+                    <threshold>Medium</threshold>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>spotbugs-check</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
     <reporting>
         <plugins>
             <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>findbugs-maven-plugin</artifactId>
-                <version>${findbugs-plugin-version}</version>
+                <groupId>com.github.spotbugs</groupId>
+                <artifactId>spotbugs-maven-plugin</artifactId>
+                <version>${spotbugs-plugin-version}</version>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

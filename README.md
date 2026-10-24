@@ -40,10 +40,12 @@ Requires Java 17 (Eclipse has to run on Java 17 or newer).
 ## Building
 The build is fully maven based. Build it with `mvn -f parent/pom.xml clean install` or the corresponding m2e command. This builds the plugins, features and the update site. It needs Java 17 and Maven 3.9 or newer.
 
+PMD, Checkstyle and SpotBugs run in the `verify` phase of the plugin and the samples and fail the build on findings that are not in the baseline in `parent/analysis` (the known findings, one entry per class or file and rule). Fix a finding and run `python3 parent/analysis/update-baseline.py` to remove it from the baseline, never to hide a new one. `-Danalysis.fail=false` only reports the findings. A baseline entry covers every finding of that rule in that class or file, so a second finding of the same rule in a listed class or file is not caught. The CI run uploads the reports as the `analysis-reports` artifact.
+
 ## Next Steps are
-1. Fix Findbugs and used rules
-2. Fix PMD's and used rules
-3. Fix Checkstyles and used rules
+1. Fix the SpotBugs findings and decide on the rules to use
+2. Fix the PMD findings and decide on the rules to use
+3. Fix the Checkstyle findings and decide on the rules to use (it runs with the Google style, which the code does not follow yet)
 4. Dokumentation in Wiki
 5. Re-enable the SonarQube analysis (commented out in `parent/pom.xml`, the old Sonar server is gone) and find a Sonar server solution
 

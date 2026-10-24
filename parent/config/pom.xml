@@ -4,6 +4,9 @@
     <modelVersion>4.0.0</modelVersion>
     <artifactId>config</artifactId>
     <packaging>pom</packaging>
+    <properties>
+        <analysis.baseline>${project.basedir}/../analysis</analysis.baseline>
+    </properties>
     <parent>
         <groupId>com.google.eclipse.mechanic</groupId>
         <artifactId>parent</artifactId>

@@ -13,6 +13,9 @@
         <module>com.google.eclipse.mechanic.tests</module>
     </modules>
     <properties>
+        <pmd.skip>true</pmd.skip>
+        <checkstyle.skip>true</checkstyle.skip>
+        <spotbugs.skip>true</spotbugs.skip>
         <sonar.projectName>${project.artifactId}</sonar.projectName>
     </properties>
     <dependencies>

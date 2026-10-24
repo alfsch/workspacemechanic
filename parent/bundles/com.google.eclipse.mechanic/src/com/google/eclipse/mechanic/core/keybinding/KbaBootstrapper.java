@@ -76,11 +76,9 @@ public final class KbaBootstrapper {
       if (b.getType() != BindingType.USER) {
         return false;
       }
-      if (!b.hasCommand()) {
-        // TODO: support removing commands
-        if (!KeyboardBindingsTask.ENABLE_EXP_REM()) {
-          return false;
-        }
+      // TODO: support removing commands
+      if (!b.hasCommand() && !KeyboardBindingsTask.ENABLE_EXP_REM()) {
+        return false;
       }
       return true;
     }
