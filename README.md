@@ -38,7 +38,7 @@ Requires Java 17 (Eclipse has to run on Java 17 or newer).
    - **Show all tasks**, **Dump keybindings...**, **Stop Service** / **Start Service**, and a link to the preferences.
 
 ## Building
-The build is fully maven based and comes with the Maven Wrapper, so only Java 17 is needed: the wrapper downloads Maven, and its version is set in `.mvn/wrapper/maven-wrapper.properties`. Build it with `./mvnw -f parent/pom.xml clean install` (`mvnw.cmd` on Windows) or the corresponding m2e command. This builds the plugins, features and the update site.
+The build is fully maven based and comes with the Maven Wrapper, so only a JDK 21 is needed to build (the plug-in itself is compiled for Java 17 and runs on Java 17 or newer): the wrapper downloads Maven, and its version is set in `.mvn/wrapper/maven-wrapper.properties`. Build it with `./mvnw -f parent/pom.xml clean install` (`mvnw.cmd` on Windows) or the corresponding m2e command. This builds the plugins, features and the update site.
 
 PMD, Checkstyle and SpotBugs run in the `verify` phase of the plugin and the samples and fail the build on findings that are not in the baseline in `parent/analysis` (the known findings, one entry per class or file and rule). Fix a finding and run `python3 parent/analysis/update-baseline.py` to remove it from the baseline, never to hide a new one. `-Danalysis.fail=false` only reports the findings. A baseline entry covers every finding of that rule in that class or file, so a second finding of the same rule in a listed class or file is not caught. The CI run uploads the reports as the `analysis-reports` artifact.
 
@@ -49,7 +49,7 @@ PMD, Checkstyle and SpotBugs run in the `verify` phase of the plugin and the sam
 4. Dokumentation in Wiki
 5. Re-enable the SonarQube analysis (commented out in `parent/pom.xml`, the old Sonar server is gone) and find a Sonar server solution
 
-Done: the build uses Java 17, Tycho 4 and the Eclipse 2024-12 target platform.
+Done: the build runs on JDK 21 and produces Java 17 bytecode, uses Tycho 4 and the Eclipse 2024-12 target platform.
 
 and not to forget
 
