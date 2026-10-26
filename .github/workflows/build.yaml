@@ -30,7 +30,7 @@ jobs:
           sleep 3
           mvn -B -f parent/pom.xml clean install
       - name: Upload update site
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: update-site
           path: parent/releng/update/target/update-*.zip
@@ -38,7 +38,7 @@ jobs:
           retention-days: 14
       - name: Upload static analysis reports
         if: always()
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: analysis-reports
           path: |
