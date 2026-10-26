@@ -28,7 +28,7 @@ jobs:
     permissions:
       contents: write
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - name: Check that the tag matches the project version
         run: |
           version=$(sed -n 's|^    <version>\(.*\)</version>$|\1|p' parent/pom.xml | head -n 1)
@@ -59,14 +59,14 @@ jobs:
     env:
       TAG: ${{ inputs.tag || github.ref_name }}
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - name: Download the update site of the release
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           gh release download "$TAG" --pattern '*.zip' --dir dist
           unzip -q dist/*.zip -d repository
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
         with:
           repository: alfsch/alfsch.github.io
           ssh-key: ${{ secrets.UPDATE_SITE_DEPLOY_KEY }}
