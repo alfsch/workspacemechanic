@@ -95,7 +95,6 @@ class KeyBindingsManualFormatter {
         description);
   }
 
-  
   private void dumpBindingsToFile(
       BindingType bindingType,
       Map<KbaChangeSetQualifier,

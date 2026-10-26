@@ -14,7 +14,7 @@ import com.google.common.base.Preconditions;
 import com.google.eclipse.mechanic.core.keybinding.KbaChangeSet.Action;
 
 /**
- * Qualifies a binding by scheme/platform/context/action
+ * Qualifies a binding by scheme/platform/context/action.
  * 
  * <p>If platform is {@code null}, this applies to all platforms.
  */

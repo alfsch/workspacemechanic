@@ -171,7 +171,7 @@ public class OldMechanicPreferences {
   }
 
   /**
-   * returns the value of given key as a int.
+   * Returns the value of given key as a int.
    */
   public static int getInt(String key) {
     Preferences prefs = getPreferences();
@@ -179,7 +179,7 @@ public class OldMechanicPreferences {
   }
 
   /**
-   * returns the value of given key as a long.
+   * Returns the value of given key as a long.
    */
   public static long getLong(String key) {
     Preferences prefs = getPreferences();
@@ -195,7 +195,7 @@ public class OldMechanicPreferences {
   }
 
   /**
-   * returns the value of given key as a string.
+   * Returns the value of given key as a string.
    */
   public static String getString(String key) {
     Preferences prefs = getPreferences();

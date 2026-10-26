@@ -9,7 +9,6 @@
 
 package com.google.eclipse.mechanic;
 
-
 /**
  * Interface for collecting tasks from {@link TaskScanner}s.
  *
