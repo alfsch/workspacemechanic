@@ -13,7 +13,7 @@ import com.google.eclipse.mechanic.IResourceTaskProvider;
 /**
  * Provides resource-based tasks.
  *
- * <b>Note: this API needs some rework, and is very likely to change.
+ * <b>Note: this API needs some rework, and is very likely to change.</b>
  */
 public abstract class ResourceTaskProvider implements IResourceTaskProvider {
 

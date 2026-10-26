@@ -71,7 +71,7 @@ public abstract class AbstractPopup {
     shell.setBackground(backgroundColor);
     Composite top = new Group(shell, SWT.NONE);
     // Closes when clicking in some whitespace, but not enough.
-    // TODO(konigsberg): close when clicking anywhere but whitespace.
+    // TODO: (konigsberg) close when clicking anywhere but whitespace.
     top.addMouseListener(new MouseAdapter() {
       @Override
       public void mouseUp(MouseEvent e) {

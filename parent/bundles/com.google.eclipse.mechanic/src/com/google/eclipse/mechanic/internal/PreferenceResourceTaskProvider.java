@@ -21,7 +21,7 @@ import com.google.eclipse.mechanic.plugin.core.OldMechanicPreferences;
  * be instantiated by anything else.
  */
 public class PreferenceResourceTaskProvider implements IResourceTaskProvider {
-  // TODO(konigsberg): install a preference listener to reduce reading
+  // TODO: (konigsberg) install a preference listener to reduce reading
   // preferences all the time.
   private IResourceTaskProvider get() {
     // This removes duplicates, but ensures insertion order.

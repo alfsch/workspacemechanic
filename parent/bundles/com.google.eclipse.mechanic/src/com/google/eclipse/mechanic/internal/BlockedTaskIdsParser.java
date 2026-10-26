@@ -36,7 +36,7 @@ public class BlockedTaskIdsParser {
         list.add((String) st.nextElement());
       }
     } else {
-      // TODO(konigsberg): There's got to be a way to get GSON to 
+      // TODO: (konigsberg) There's got to be a way to get GSON to 
       // parse the string as a list, I'm just not interested right now.
       for (String entry : gson.fromJson(text, String[].class)) {
         list.add(entry);
