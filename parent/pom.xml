@@ -9,7 +9,7 @@
     <version>0.6.2-SNAPSHOT</version>
     <packaging>pom</packaging>
     <properties>
-        <tycho-version>4.0.13</tycho-version>
+        <tycho-version>5.0.4</tycho-version>
         <tycho-extras-version>4.0.10</tycho-extras-version>
         <spotbugs-plugin-version>4.10.5.0</spotbugs-plugin-version>
         <pmd-plugin-version>3.28.0</pmd-plugin-version>
