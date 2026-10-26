@@ -38,7 +38,7 @@ Requires Java 17 (Eclipse has to run on Java 17 or newer).
    - **Show all tasks**, **Dump keybindings...**, **Stop Service** / **Start Service**, and a link to the preferences.
 
 ## Building
-The build is fully maven based. Build it with `mvn -f parent/pom.xml clean install` or the corresponding m2e command. This builds the plugins, features and the update site. It needs Java 17 and Maven 3.9 or newer.
+The build is fully maven based and comes with the Maven Wrapper, so only Java 17 is needed: the wrapper downloads Maven, and its version is set in `.mvn/wrapper/maven-wrapper.properties`. Build it with `./mvnw -f parent/pom.xml clean install` (`mvnw.cmd` on Windows) or the corresponding m2e command. This builds the plugins, features and the update site.
 
 PMD, Checkstyle and SpotBugs run in the `verify` phase of the plugin and the samples and fail the build on findings that are not in the baseline in `parent/analysis` (the known findings, one entry per class or file and rule). Fix a finding and run `python3 parent/analysis/update-baseline.py` to remove it from the baseline, never to hide a new one. `-Danalysis.fail=false` only reports the findings. A baseline entry covers every finding of that rule in that class or file, so a second finding of the same rule in a listed class or file is not caught. The CI run uploads the reports as the `analysis-reports` artifact.
 
@@ -61,7 +61,7 @@ and not to forget
 2. Push a tag `v<version>`, e.g. `v0.6.1`.
 3. The `Release` workflow builds the update site, creates a GitHub Release with the update site zip and, after approval of the `update-site` environment, publishes it to the update site above.
 4. Afterwards move to the next snapshot version in a pull request. The next version is normally the next patch version (`0.6.1` is followed by `0.6.2-SNAPSHOT`), also when it collects many dependency updates; a new minor version is for real new features. This updates the poms, the manifests, `feature.xml` and `category.xml`:
-   `mvn -f parent/pom.xml org.eclipse.tycho:tycho-versions-plugin:4.0.10:set-version -DnewVersion=0.6.2-SNAPSHOT`
+   `./mvnw -f parent/pom.xml org.eclipse.tycho:tycho-versions-plugin:4.0.10:set-version -DnewVersion=0.6.2-SNAPSHOT`
 
 The update site is a p2 composite repository in the repository `alfsch/alfsch.github.io` (folder `eclipse-updates/workspacemechanic`). It has one folder per release (`0.6.1/`, ...) plus `legacy/` for everything published before, and a release only adds a folder, so older versions stay installable. `.github/scripts/update-site.py` does this. To publish a release that already has a GitHub Release without tagging again, run the `Release` workflow by hand and enter its tag.
 

@@ -1,0 +1,4 @@
+# The Maven Wrapper scripts must keep their line endings: a shell script with CRLF does not run,
+# and a Windows command file needs CRLF.
+/mvnw text eol=lf
+*.cmd text eol=crlf

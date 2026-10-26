@@ -14,6 +14,8 @@ lib/
 target/
 *.versionsBackup
 !.github/
+!.mvn/
 !.gitignore
+!.gitattributes
 __pycache__/
 *.pyc

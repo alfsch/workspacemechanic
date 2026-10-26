@@ -28,6 +28,7 @@ from collections import defaultdict
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 PARENT = os.path.dirname(HERE)
+MAVEN = os.path.join(os.path.dirname(PARENT), "mvnw.cmd" if os.name == "nt" else "mvnw")
 
 PMD_FILE = "pmd-baseline.properties"
 CHECKSTYLE_FILE = "checkstyle-suppressions.xml"
@@ -47,7 +48,7 @@ def build():
                           (SPOTBUGS_FILE, '<?xml version="1.0"?>\n<FindBugsFilter/>\n')):
         with open(os.path.join(empty, name), "w") as f:
             f.write(content)
-    subprocess.run(["mvn", "-B", "-f", os.path.join(PARENT, "pom.xml"), "clean", "verify",
+    subprocess.run([MAVEN, "-B", "-f", os.path.join(PARENT, "pom.xml"), "clean", "verify",
                     "-DskipTests", "-Danalysis.fail=false", "-Danalysis.baseline=" + empty],
                    check=True)
 
