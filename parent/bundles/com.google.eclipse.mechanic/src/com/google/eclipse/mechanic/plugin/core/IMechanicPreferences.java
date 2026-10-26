@@ -74,7 +74,7 @@ public interface IMechanicPreferences {
    */
   int cleanSleepSeconds(int seconds);
 
-    /**
+  /**
    * Returns a mutable set of blocked Task ids.
    */
   Set<String> getBlockedTaskIds();

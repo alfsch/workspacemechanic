@@ -86,7 +86,7 @@ public final class MechanicService implements IMechanicService {
   private final Collector collector = new Collector();
 
   // those registered to receive events we generate
-  // TODO(konigsberg): Change to CopyOnWriteArrayList
+  // TODO: (konigsberg) Change to CopyOnWriteArrayList
   private final Set<IStatusChangeListener> statusChangeListeners = Sets.newHashSet();
 
   // the job we use to run us periodically. We provide our own faux
@@ -150,7 +150,7 @@ public final class MechanicService implements IMechanicService {
       // effectively un-schedules the job. If it is already running we must wait.
       job.sleep();
 
-      // TODO(smckay): this displays the stopped icon even if the job is still
+      // TODO: (smckay) this displays the stopped icon even if the job is still
       // running. It would be nice to either force the job to stop, or to
       // wait to display the stopped icon.
       setStatus(MechanicStatus.STOPPED);
@@ -184,7 +184,7 @@ public final class MechanicService implements IMechanicService {
    */
   private IStatus run(IProgressMonitor monitor) {
 
-    // TODO(smckay): use the progress monitor to report task information
+    // TODO: (smckay) use the progress monitor to report task information
     SubMonitor progress = SubMonitor.convert(monitor, "Updating Tasks", 3);
     try {
       update(progress);

@@ -100,7 +100,7 @@ class KeyboardBindingsTask extends CompositeTask {
           Joiner.on("\n").join(removedBindings) + "\n\n");
     }
 
-    // TODO assert added or removed > 0?
+    // TODO: assert added or removed > 0?
 
     return result.toString();
   }

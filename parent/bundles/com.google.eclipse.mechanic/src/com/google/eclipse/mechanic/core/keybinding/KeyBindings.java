@@ -284,7 +284,7 @@ class KeyBindings {
     return newBinding;
   }
 
- /**
+  /**
    * Provides the full set of bindings as an array, to be supplied by the binding service.
    */
   public Binding[] toArray() {

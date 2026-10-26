@@ -50,7 +50,7 @@ public class EpfFileModel {
    */
   public EpfFileModel addElement(String key, String value) {
     preferences.put(key, value);
-    // TODO(brianchin): Currently, this outputs the scope used for each modification as well
+    // TODO: (brianchin) Currently, this outputs the scope used for each modification as well
     // as part of the key. I assume this needs to be changed.
     return this;
   }
@@ -68,7 +68,7 @@ public class EpfFileModel {
   }
 
   public Map<String, String> getPreferences() {
-    // TODO(konigsberg): Use ImmutableMap.
+    // TODO: (konigsberg) Use ImmutableMap.
     return Collections.unmodifiableMap(preferences);
   }
 

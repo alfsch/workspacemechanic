@@ -56,8 +56,8 @@ public class MechanicPopup extends AbstractPopup {
     label.setLayoutData(gridData);
 
     // Yes, I'm using an 'x' as a close hint.
-    // TODO(konigsberg): replace with image.
-    // TODO(konigsberg) Move to AbstractPopup.
+    // TODO: (konigsberg) replace with image.
+    // TODO: (konigsberg) Move to AbstractPopup.
     label = new Label(parent, SWT.WRAP);
     label.setText("x");
     gridData = new GridData(GridData.END, GridData.CENTER, false, false);

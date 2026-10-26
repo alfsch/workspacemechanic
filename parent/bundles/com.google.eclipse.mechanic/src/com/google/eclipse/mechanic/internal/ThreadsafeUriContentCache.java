@@ -36,7 +36,7 @@ public final class ThreadsafeUriContentCache implements IUriContentProvider {
 
   public ThreadsafeUriContentCache(int duration, TimeUnit unit,
       IUriContentProvider delegate) {
-    // TODO(konigsberg): create interface for cache so these constructors
+    // TODO: (konigsberg) create interface for cache so these constructors
     // don't require duration and timeunit all the time.
     contentCache = TimedEvictionCache.create(duration, unit);
     lastModCache = TimedEvictionCache.create(duration, unit);

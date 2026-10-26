@@ -103,7 +103,7 @@ public abstract class LastModifiedPreferencesFileTask extends CompositeTask {
       long lastmod = taskRef.getLastModified();
       long lastMD5 = taskRef.computeMD5();
 
-      // TODO(konigsberg): validate preferences for URIs by storing the contents locally on disk?
+      // TODO: (konigsberg) validate preferences for URIs by storing the contents locally on disk?
 
       // Validate preferences
       IStatus validStatus = file != null ?

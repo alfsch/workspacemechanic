@@ -16,7 +16,7 @@ package com.google.eclipse.mechanic;
  * but if you do, then it forces you to supply {@link #equals(Object)} and {@link #hashCode()}
  * methods.
  *
- * <b>Note: this API needs some rework, and is very likely to change.
+ * <b>Note: this API needs some rework, and is very likely to change.</b>
  */
 public interface IResourceTaskProvider {
   /**

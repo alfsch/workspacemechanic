@@ -131,7 +131,7 @@ public class MechanicStatusControlContribution extends WorkbenchWindowControlCon
     // observe TaskService status changes
     service.addTaskStatusChangeListener(statusListener);
 
-    // TODO(smckay): figure out why updateDisplay must be called here and now
+    // TODO: (smckay) figure out why updateDisplay must be called here and now
     // or else, the widget contents (label) will *never* get displayed.
     updateDisplay();
     return label;
