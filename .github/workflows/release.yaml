@@ -24,7 +24,7 @@ jobs:
   release:
     if: github.event_name == 'push'
     needs: build
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     permissions:
       contents: write
     steps:
@@ -53,7 +53,7 @@ jobs:
     needs: release
     # runs after a successful release; when started by hand the release job is skipped on purpose
     if: ${{ !cancelled() && (needs.release.result == 'success' || (github.event_name == 'workflow_dispatch' && needs.release.result == 'skipped')) }}
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     # Add required reviewers to this environment (Settings > Environments) to approve each publish.
     environment: update-site
     env:
