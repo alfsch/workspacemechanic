@@ -195,7 +195,8 @@ public abstract class BaseOutputDialog extends Dialog {
       public void modifyText(ModifyEvent e) {
         willVerifyOverwrite = true;
         validate();
-      }});
+      }
+    });
 
     // TODO: this button belongs in the same line as the textBox above
     Button browseButton = new Button(container, SWT.PUSH);
