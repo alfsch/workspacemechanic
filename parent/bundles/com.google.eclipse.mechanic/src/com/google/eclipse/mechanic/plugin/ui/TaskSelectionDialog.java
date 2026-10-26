@@ -53,7 +53,6 @@ public final class TaskSelectionDialog extends ListDialog {
     return SWT.BORDER | SWT.SINGLE | SWT.FULL_SELECTION;
   }
 
-
   private TableColumn newTableColumn(Table table, String name, int width) {
     TableColumn tc = new TableColumn(table, SWT.NONE, 0);
     tc.setResizable(true);

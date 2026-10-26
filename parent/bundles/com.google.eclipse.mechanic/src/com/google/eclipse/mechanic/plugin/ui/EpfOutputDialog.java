@@ -119,7 +119,6 @@ public class EpfOutputDialog extends BaseOutputDialog {
     super.createButtonsForButtonBar(parent);
   }
 
-  
   @Override
   protected void buttonPressed(int buttonId) {
     super.buttonPressed(buttonId);

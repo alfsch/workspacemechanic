@@ -151,7 +151,6 @@ class KeyboardBindingsTask extends CompositeTask {
     private final Scheme scheme;
     private final KeyBindings keyBindings;
     
-
     public EvaluationResult(
         final Scheme scheme,
         final KeyBindings keyBindings) {

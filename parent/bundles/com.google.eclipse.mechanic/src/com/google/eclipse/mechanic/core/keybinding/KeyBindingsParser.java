@@ -39,33 +39,33 @@ import com.google.gson.reflect.TypeToken;
  *
  * <pre>
  *
-
-{
-  "metadata" : {
-    "description" : "",
-  },
-  "changeSets" : [
-    {
-      "scheme" : "org.eclipse.ui.emacsAcceleratorConfiguration",
-      "platform" : "",
-      "context" : "org.eclipse.ui.contexts.window",
-      "action" : "add",
-      "bindings" : [
-        {"keys" : "Shift+Alt+Q T", "cmd" : "a.b.c.d.e"}
-      ]
-    },
-    {
-      "scheme" : "org.eclipse.ui.defaultAcceleratorConfiguration",
-      "platform" : "",
-      "context" : "org.eclipse.ui.contexts.window",
-      "action" : "add",
-      "bindings" : [
-        {'keys' : 'Shift+Alt+Q I', 'cmd' : 'org.eclipse.ui.views.showView', 'params' : {'org.eclipse.ui.views.showView.viewId' : 'org.eclipse.jdt.debug.ui.DisplayView' }},
-      ]
-    },
-  ]
-}
-
+ *
+ * {
+ *   "metadata" : {
+ *     "description" : "",
+ *   },
+ *   "changeSets" : [
+ *     {
+ *       "scheme" : "org.eclipse.ui.emacsAcceleratorConfiguration",
+ *       "platform" : "",
+ *       "context" : "org.eclipse.ui.contexts.window",
+ *       "action" : "add",
+ *       "bindings" : [
+ *         {"keys" : "Shift+Alt+Q T", "cmd" : "a.b.c.d.e"}
+ *       ]
+ *     },
+ *     {
+ *       "scheme" : "org.eclipse.ui.defaultAcceleratorConfiguration",
+ *       "platform" : "",
+ *       "context" : "org.eclipse.ui.contexts.window",
+ *       "action" : "add",
+ *       "bindings" : [
+ *         {'keys' : 'Shift+Alt+Q I', 'cmd' : 'org.eclipse.ui.views.showView', 'params' : {'org.eclipse.ui.views.showView.viewId' : 'org.eclipse.jdt.debug.ui.DisplayView' }},
+ *       ]
+ *     },
+ *   ]
+ * }
+ *
  * </pre>
  *
  * This file starts out with metadata (for mechanic's own use), then it has a

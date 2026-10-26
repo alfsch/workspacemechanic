@@ -65,7 +65,7 @@ public class PopupNotifier {
   private final IMechanicPreferences mechanicPreferences;
 
   /**
-   * controls whether the next failure from the mechanic should result in showing the popup.
+   * Controls whether the next failure from the mechanic should result in showing the popup.
    */
   private volatile boolean showOnFailure = true;
 
@@ -74,7 +74,6 @@ public class PopupNotifier {
    * instance while one is open.
    */
   private volatile boolean visible = false;
-
 
   public PopupNotifier(IMechanicService mechanicService,
       final IMechanicPreferences mechanicPreferences) {

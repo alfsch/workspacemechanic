@@ -97,12 +97,12 @@ public interface IMechanicPreferences {
   boolean contains(String key);
 
   /**
-   * returns the value of given key as a int.
+   * Returns the value of given key as a int.
    */
   int getInt(String key);
 
   /**
-   * returns the value of given key as a long.
+   * Returns the value of given key as a long.
    */
   long getLong(String key);
 
@@ -112,7 +112,7 @@ public interface IMechanicPreferences {
   void setLong(String key, long value);
 
   /**
-   * returns the value of given key as a string.
+   * Returns the value of given key as a string.
    */
   String getString(String key);
 

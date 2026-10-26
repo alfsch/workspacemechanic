@@ -145,7 +145,6 @@ public abstract class BaseOutputDialog extends Dialog {
     titleLabel.setText(text);
   }
 
-
   private final ModifyListener validateOnChange = new ModifyListener() {
     public void modifyText(ModifyEvent e) {
       validate();

@@ -256,7 +256,7 @@ class KeyBindings {
   }
 
   /**
-   * compares first to second, where an empty map substitues for null.
+   * Compares first to second, where an empty map substitues for null.
    */
   private static boolean equalMaps(
       Map<String,String> first,
