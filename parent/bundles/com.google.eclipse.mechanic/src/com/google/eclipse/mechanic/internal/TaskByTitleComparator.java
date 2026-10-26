@@ -11,11 +11,11 @@ import com.google.eclipse.mechanic.Task;
 public class TaskByTitleComparator implements Comparator<Task> {
 
   private static final TaskByTitleComparator instance = new TaskByTitleComparator();
-  
+
   public static Comparator<Task> getInstance() {
     return instance;
   }
-  
+
   public int compare(Task a, Task b) {
     return a.getTitle().compareTo(b.getTitle());
   }

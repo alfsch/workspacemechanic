@@ -56,7 +56,7 @@ public class KeyboardBindingsScanner extends ResourceTaskScanner {
     }
   }
 
-  private Reader toReader(InputStream is)  {
+  private Reader toReader(InputStream is) {
     BufferedInputStream bis = new BufferedInputStream(is);
     InputStreamReader reader = new InputStreamReader(bis);
     return new BufferedReader(reader);

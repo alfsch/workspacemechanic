@@ -32,7 +32,7 @@ import java.util.Map;
  * @author zorzella
  */
 class EclBinding {
-  
+
   private final String cid;
   private final Map<String, String> paramMap;
   private final String schemeId;
@@ -40,7 +40,7 @@ class EclBinding {
   private final String contextId;
   private final String keySequence;
   private final BindingType type;
-  
+
   public EclBinding(final String cid,
       final Map<String, String> paramMap,
       final String schemeId,
@@ -56,7 +56,7 @@ class EclBinding {
     this.keySequence = keySequence;
     this.type = type;
   }
-  
+
   public EclBinding(Binding b) {
     this(calculateCid(b),
         KeyBindings.commandParamMap(b.getParameterizedCommand()),
@@ -75,23 +75,23 @@ class EclBinding {
   public boolean hasCommand () {
     return cid != null;
   }
-  
+
   public String getCid() {
     return cid;
   }
-  
+
   public String getContextId() {
     return contextId;
   }
-  
+
   public Map<String, String> getParamMap() {
     return paramMap;
   }
-  
+
   public String getPlatform() {
     return platform;
   }
-  
+
   public String getSchemeId() {
     return schemeId;
   }
@@ -99,7 +99,7 @@ class EclBinding {
   public BindingType getType() {
     return type;
   }
-  
+
   @Override
   public boolean equals(Object obj) {
     if (!(obj instanceof EclBinding)) {
@@ -125,7 +125,7 @@ class EclBinding {
         this.schemeId,
         this.type);
   }
-  
+
   private static final Function<Binding, EclBinding> TRANSFORM = new Function<Binding, EclBinding>() {
     public EclBinding apply(Binding b) {
       return new EclBinding(b);
@@ -135,14 +135,14 @@ class EclBinding {
   public KbaChangeSetQualifier with(Action action) {
     return new KbaChangeSetQualifier(schemeId, platform, contextId, action);
   }
-  
+
   public KbaBinding toKbaBinding() {
     if (!hasCommand()) {
       throw new IllegalStateException("Undefined for remove bindings.");
     }
     return new KbaBinding(keySequence, cid, paramMap);
   }
-  
+
   public static Iterable<EclBinding> from(Iterable<Binding> bindingList) {
     return Iterables.transform(bindingList, TRANSFORM);
   }
@@ -153,7 +153,7 @@ class EclBinding {
   public String getKeySequence() {
     return keySequence;
   }
-  
+
   @Override
   public String toString() {
     return String.format("type: '%s', scheme: '%s', platform: '%s', context: '%s', keys: '%s', cid: '%s', paramMap: '%s'",

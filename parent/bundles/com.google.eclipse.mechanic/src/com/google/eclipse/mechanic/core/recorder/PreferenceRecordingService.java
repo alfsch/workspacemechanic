@@ -17,7 +17,7 @@ import org.eclipse.core.runtime.Status;
 
 /**
  * An implementation of the {@link IPreferenceRecordingService}.
- * 
+ *
  * @author brianchin@google.com (BrianChin)
  */
 public class PreferenceRecordingService implements IPreferenceRecordingService{
@@ -27,8 +27,8 @@ public class PreferenceRecordingService implements IPreferenceRecordingService{
   public synchronized void startRecording() throws CoreException {
     if (isRecording()) {
       throw new CoreException(new Status(
-          IStatus.ERROR, 
-          MechanicPlugin.PLUGIN_ID, 
+          IStatus.ERROR,
+          MechanicPlugin.PLUGIN_ID,
           "Tried to start recording when already recording"));
     }
     preferenceRecorder = new PreferenceRecorder();

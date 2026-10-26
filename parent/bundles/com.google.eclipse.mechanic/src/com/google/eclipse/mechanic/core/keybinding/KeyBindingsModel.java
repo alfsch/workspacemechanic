@@ -23,7 +23,7 @@ import com.google.gson.annotations.SerializedName;
  * A java representation of a .kbd task, abbreviated as KBA.
  *
  * <p>This, in disk, is represented as a JSON string.
- * 
+ *
  * <p>This class operates with primitive types (Strings, ints, lists), not with
  * Eclipse constructs.
  *
@@ -58,7 +58,7 @@ class KeyBindingsModel {
   public Iterable<KbaChangeSet> getKeyBindingsChangeSetsWith(Action action) {
     return Iterables.filter(kbaChangeSetList, matches(action));
   }
-  
+
   private static Predicate<KbaChangeSet> matches(final Action action) {
     return new Predicate<KbaChangeSet>() {
       public boolean apply(KbaChangeSet toTest) {

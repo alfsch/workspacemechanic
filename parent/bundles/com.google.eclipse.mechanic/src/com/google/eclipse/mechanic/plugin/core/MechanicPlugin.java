@@ -46,7 +46,7 @@ public class MechanicPlugin extends AbstractUIPlugin {
     plugin = this;
   }
 
-  @Override 
+  @Override
   public void start(BundleContext context) throws Exception {
     super.start(context);
 
@@ -63,7 +63,7 @@ public class MechanicPlugin extends AbstractUIPlugin {
     MechanicService.getInstance().start();
   }
 
-  @Override 
+  @Override
   public void stop(BundleContext context) throws Exception {
     MechanicService.getInstance().stop();
     UriCaches.destroy();

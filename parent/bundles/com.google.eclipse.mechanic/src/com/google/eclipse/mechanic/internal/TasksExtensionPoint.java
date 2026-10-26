@@ -63,7 +63,7 @@ public class TasksExtensionPoint {
 
   /**
    * Clears the list of tasks.
-   * 
+   *
    * <p><em>This should only be called by {@link MechanicPlugin#stop}.</em>
    */
   public static void dispose() {

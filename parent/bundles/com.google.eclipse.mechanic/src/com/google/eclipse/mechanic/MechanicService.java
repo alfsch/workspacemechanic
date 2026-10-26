@@ -72,7 +72,7 @@ public final class MechanicService implements IMechanicService {
     public void reset() {
       tasks.clear();
     }
-    
+
     @Override
     public String toString() {
       return tasks.toString();

@@ -158,6 +158,6 @@ public abstract class LastModifiedPreferencesFileTask extends CompositeTask {
     } catch (CoreException ex) {
       log.log(ex.getStatus());
     }
-    
+
   }
 }

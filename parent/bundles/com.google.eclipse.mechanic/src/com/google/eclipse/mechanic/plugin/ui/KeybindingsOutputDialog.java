@@ -27,7 +27,7 @@ import com.google.eclipse.mechanic.plugin.core.MechanicLog;
 public class KeybindingsOutputDialog extends BaseOutputDialog {
   /**
    * Create an output dialog for the given shell.
-   * 
+   *
    * @param parentShell the shell to create this dialog in.
    */
   public KeybindingsOutputDialog(Shell parentShell) {

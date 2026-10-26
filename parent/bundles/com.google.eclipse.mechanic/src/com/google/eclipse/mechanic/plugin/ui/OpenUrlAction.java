@@ -19,17 +19,17 @@ import java.net.URL;
 
 /**
  * Action that opens a URL in a browser.
- * 
+ *
  * <p>Do something like this:
  * <pre>
  * private static final Action urlAction = new OpenUrlAction(
  *     "http://dohickey.com/", "Doohickey");
  * </pre>
- * 
+ *
  * <p>Then add the action to a context menu using:
  * {@code IContributionManager#add(IAction)}. FYI, {@code IMenuManager} extends
  * {@code IContributionManager}.
- * 
+ *
  * @author smckay@google.com (Steve McKay)
  */
 public final class OpenUrlAction extends Action {

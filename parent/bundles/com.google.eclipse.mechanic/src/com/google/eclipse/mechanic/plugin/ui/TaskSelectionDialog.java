@@ -32,7 +32,7 @@ import java.util.Collection;
 
 /**
  * Allows the user to pick a single Task from a list of Tasks.
- * 
+ *
  * TODO(smckay): We should pretty this up to use a view similar to the
  * MechanicDialog.
  */
@@ -67,7 +67,7 @@ public final class TaskSelectionDialog extends ListDialog {
     TableViewer tableViewer = getTableViewer();
     Table table = tableViewer.getTable();
     tableViewer.setLabelProvider(new DefaultCellLabelProvider());
-    ColumnViewerToolTipSupport.enableFor(tableViewer, ToolTip.NO_RECREATE); 
+    ColumnViewerToolTipSupport.enableFor(tableViewer, ToolTip.NO_RECREATE);
     table.setHeaderVisible(true);
     newTableColumn(table, "Description", 200);
     newTableColumn(table, "ID", 200);

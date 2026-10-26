@@ -17,7 +17,7 @@ import com.google.common.base.Preconditions;
 
 /**
  * A model of an EPF file.
- * 
+ *
  * @author brianchin@google.com (Brian Chin)
  */
 public class EpfFileModel {
@@ -25,23 +25,23 @@ public class EpfFileModel {
   private final String description;
   private final TaskType taskType;
   private final Map<String, String> preferences = new HashMap<String, String>();
-  
+
   /**
    * Creates an EPF file model with the given properties.
    * @param title the title of this task. Listed in the @title field.
-   * @param description the description of this task. Listed in the 
+   * @param description the description of this task. Listed in the
    *     @description field.
    * @param taskType the type of task to create.
    */
   public EpfFileModel(
-      String title, 
-      String description, 
+      String title,
+      String description,
       TaskType taskType) {
     this.title = Preconditions.checkNotNull(title);
     this.description = Preconditions.checkNotNull(description);
     this.taskType = Preconditions.checkNotNull(taskType);
   }
-  
+
   /**
    * Adds a preference entry to this file.
    * @param key the preference's key

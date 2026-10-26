@@ -15,7 +15,7 @@ import com.google.eclipse.mechanic.core.keybinding.KbaChangeSet.Action;
 
 /**
  * Qualifies a binding by scheme/platform/context/action.
- * 
+ *
  * <p>If platform is {@code null}, this applies to all platforms.
  */
 // TODO: leverage this class in KbaChangeSet
@@ -50,26 +50,26 @@ final class KbaChangeSetQualifier {
   public Action getAction() {
     return Action.fromLabel(action);
   }
- 
+
   @Override
   public String toString() {
     return String.format(
         "scheme: '%s', platform: '%s', context: '%s', action: '%s'",
         scheme, platform, context, action);
   }
-  
+
   @Override
   public boolean equals(Object obj) {
     if (!(obj instanceof KbaChangeSetQualifier)) {
       return false;
     }
     KbaChangeSetQualifier that = (KbaChangeSetQualifier)obj;
-    return Objects.equal(this.scheme,  that.scheme) 
-        && Objects.equal(this.platform,  that.platform)
-        && Objects.equal(this.context,  that.context)
-        && Objects.equal(this.action,  that.action);
+    return Objects.equal(this.scheme, that.scheme)
+        && Objects.equal(this.platform, that.platform)
+        && Objects.equal(this.context, that.context)
+        && Objects.equal(this.action, that.action);
   }
-  
+
   @Override
   public int hashCode() {
     return Objects.hashCode(this.scheme, this.platform, this.context, this.action );

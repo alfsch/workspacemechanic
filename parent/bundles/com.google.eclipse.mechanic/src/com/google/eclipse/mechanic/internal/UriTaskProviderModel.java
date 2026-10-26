@@ -59,9 +59,9 @@ public class UriTaskProviderModel {
         return false;
       }
       Metadata that = (Metadata) obj;
-      return Objects.equal(this.name,  that.name) &&
-          Objects.equal(this.description,  that.description) &&
-          Objects.equal(this.contact,  that.contact);
+      return Objects.equal(this.name, that.name) &&
+          Objects.equal(this.description, that.description) &&
+          Objects.equal(this.contact, that.contact);
     }
   }
 

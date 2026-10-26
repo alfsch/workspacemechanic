@@ -64,7 +64,7 @@ public abstract class BaseOutputDialog extends Dialog {
 
   /**
    * Create an output dialog for the given shell.
-   * 
+   *
    * @param parentShell the shell to create this dialog in.
    * @param extension the file type extension.
    * @param components the set of task parameter components to show.
@@ -97,7 +97,7 @@ public abstract class BaseOutputDialog extends Dialog {
     // We check if the dialog has been resized by the user...
     if (getDialogBoundsSettings() == null) {
       // ... if not, we create a dialog twice the default size
-      Point p =  super.getInitialSize();
+      Point p = super.getInitialSize();
       return new Point(p.x, p.y * 3 / 2);
     } else {
       // ... if it has been resized, we use that size, otherwise
@@ -130,9 +130,9 @@ public abstract class BaseOutputDialog extends Dialog {
   protected void createButtonsForButtonBar(Composite parent) {
     super.createButtonsForButtonBar(parent);
 
-    // Initial values for the dialog aren't valid, so set the button to 
+    // Initial values for the dialog aren't valid, so set the button to
     // be disabled initially
-    getButton(IDialogConstants.OK_ID).setEnabled(false); 
+    getButton(IDialogConstants.OK_ID).setEnabled(false);
   }
 
   @Override
@@ -256,7 +256,7 @@ public abstract class BaseOutputDialog extends Dialog {
     validate();
     return result;
   }
-  
+
   /**
    * Return true if the dialog is valid.
    */
@@ -264,11 +264,11 @@ public abstract class BaseOutputDialog extends Dialog {
     if (components.contains(Component.TITLE) && getTitle().length() == 0) {
       return false;
     }
-    
+
     if (components.contains(Component.DESCRIPTION) && getDescription().length() == 0) {
       return false;
     }
-    
+
     if (getLocation().length() == 0) {
       return false;
     }
@@ -279,7 +279,7 @@ public abstract class BaseOutputDialog extends Dialog {
       if (!destFile.isFile()) {
         return false;
       }
-      
+
       if (!destFile.canWrite()) {
         return false;
       }
@@ -294,11 +294,11 @@ public abstract class BaseOutputDialog extends Dialog {
     if (!parentDir.exists()) {
       return false;
     }
-    
+
     if (!parentDir.isDirectory()) {
       return false;
     }
-    
+
     return parentDir.canWrite(); // Can we create a file in this directory?
   }
 
@@ -306,7 +306,7 @@ public abstract class BaseOutputDialog extends Dialog {
     IPath destinationLocation = new Path(getLocation());
 
     if (!Strings.isNullOrEmpty(extension)) {
-      
+
     String fileExtension = destinationLocation.getFileExtension();
       if (!extension.equals(fileExtension)) {
         String message = String.format("The file \"%s\" does not have a .%s extension. Add it?", destinationLocation, extension);
@@ -316,8 +316,8 @@ public abstract class BaseOutputDialog extends Dialog {
         }
       }
     }
-    // If the user picked a file via the dialog and that file exists, then they've already been 
-    // asked if the file should be overwritten, and we shouldn't ask again. If not, then we need 
+    // If the user picked a file via the dialog and that file exists, then they've already been
+    // asked if the file should be overwritten, and we shouldn't ask again. If not, then we need
     // to check if the file exists and, if so, ask them now.
     if (willVerifyOverwrite) {
       if (destinationLocation.toFile().exists()) {

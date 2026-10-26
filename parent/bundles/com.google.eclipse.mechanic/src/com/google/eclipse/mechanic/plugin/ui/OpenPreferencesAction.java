@@ -17,7 +17,7 @@ import org.eclipse.ui.dialogs.PreferencesUtil;
 
 /**
  * Action that opens the a preferences dialog given a preferences page id.
- * 
+ *
  * <p>Do something like this:
  * <pre>
  * // create a new instance of the action
@@ -25,11 +25,11 @@ import org.eclipse.ui.dialogs.PreferencesUtil;
  *    = new OpenPreferencesAction(
  *        OpenPreferencesAction.getPreferencesPageId(MyPlugin.PLUGIN_ID));
  * </pre>
- * 
+ *
  * <p>Then add the action to a context menu using:
  * {@code IContributionManager#add(IAction)}. FYI, {@code IMenuManager} extends
  * {@code IContributionManager}.
- * 
+ *
  * @author smckay@google.com (Steve McKay)
  */
 public final class OpenPreferencesAction extends Action {

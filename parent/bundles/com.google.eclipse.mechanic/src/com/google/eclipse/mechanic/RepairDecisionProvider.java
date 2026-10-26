@@ -46,7 +46,7 @@ public interface RepairDecisionProvider {
   /**
    * Provides implementations an opportunity to collect information
    * from the user. Will be called before getDecisions() is called.
-   * 
+   *
    * Returns the response status for this repair action. If the status is
    * {@code ResponseStatus.OK}, then the service should proceed to evaluate
    * individual repair decisions, else, the service should abort the operation.

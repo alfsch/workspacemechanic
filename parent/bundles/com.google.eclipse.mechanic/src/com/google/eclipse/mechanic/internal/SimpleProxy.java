@@ -22,7 +22,7 @@ import com.google.eclipse.mechanic.CompositeTaskInterface;
  *  <scanner class="com.google.eclipse.mechanic.internal.ClassFileTaskLoader"/>
  *</extension>
  * }</pre>
- * 
+ *
  * <p>Rather than instantiating classes defined in the extension point, the
  * proxy is used in its place. This is typical Eclipse OSGI extension behavior:
  * it prevents superfluous plug-in activation, et cetera.
@@ -104,6 +104,6 @@ final class SimpleProxy<T> {
   }
 
   private boolean isBundleActive(String bundleName) {
-    return Platform.getBundle(bundleName).getState() == Bundle.ACTIVE;      
+    return Platform.getBundle(bundleName).getState() == Bundle.ACTIVE;
   }
 }

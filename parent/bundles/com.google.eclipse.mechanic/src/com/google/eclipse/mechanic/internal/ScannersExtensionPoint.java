@@ -61,7 +61,7 @@ public class ScannersExtensionPoint {
 
   /**
    * Clears the list of scanners.
-   * 
+   *
    * <p><em>This should only be called by {@link MechanicPlugin#stop}.</em>
    */
   public static void dispose() {

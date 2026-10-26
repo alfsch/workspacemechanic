@@ -49,7 +49,7 @@ public class MechanicDialog extends TitleAreaDialog {
   // action choice display names
   private static final String YES = "Fix Now";
   private static final String NO = "Fix Later";
-  private static final String NEVER = "Never Fix"; 
+  private static final String NEVER = "Never Fix";
 
   private final List<Task> items;
   private final Map<Task, Decision> userTaskChoices;
@@ -82,7 +82,7 @@ public class MechanicDialog extends TitleAreaDialog {
     return Collections.unmodifiableMap(userTaskChoices);
   }
 
-  @Override 
+  @Override
   public void create() {
     super.create();
     setTitle("Workspace Mechanic");
@@ -92,9 +92,9 @@ public class MechanicDialog extends TitleAreaDialog {
   /**
    * Here we fill the center area of the dialog
    */
-  @Override 
+  @Override
   protected Control createDialogArea(Composite parent) {
-    // call through to our 
+    // call through to our
     return createForm(parent);
   }
 
@@ -126,7 +126,7 @@ public class MechanicDialog extends TitleAreaDialog {
      * For the life of me I can't understand why I have to supply
      * a GridData instance to the form object in order to get the form
      * to fill the dialog area.
-     * 
+     *
      * BTW, I only found this out through trial and error.
      */
     form.setLayoutData(new GridData(GridData.FILL_BOTH));
@@ -149,7 +149,7 @@ public class MechanicDialog extends TitleAreaDialog {
       Label label = toolkit.createLabel(ec, item.getDescription(), SWT.WRAP);
       ec.setClient(label);
       ec.addExpansionListener(new ExpansionAdapter() {
-        @Override 
+        @Override
         public void expansionStateChanged(ExpansionEvent e) {
           form.reflow(true);
         }
@@ -185,14 +185,14 @@ public class MechanicDialog extends TitleAreaDialog {
    * outer classes map of item->decision.
    */
   private class ComboListener extends SelectionAdapter {
-    
+
     private final Task item;
 
     public ComboListener(Task item) {
       this.item = item;
     }
 
-    @Override 
+    @Override
     public void widgetSelected(SelectionEvent e) {
       Combo combo = (Combo) e.getSource();
       int index = combo.getSelectionIndex();

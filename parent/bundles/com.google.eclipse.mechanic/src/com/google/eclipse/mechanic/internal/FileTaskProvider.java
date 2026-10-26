@@ -78,7 +78,7 @@ public final class FileTaskProvider extends ResourceTaskProvider {
     String path = dir.getPath();
     if (path.startsWith("~" + SEPARATOR)) {
       dir = new File((String) properties.get("user.home"), path.substring(1));
-    } else if (path.startsWith(".."  + SEPARATOR)) {
+    } else if (path.startsWith(".." + SEPARATOR)) {
       dir = new File(new File((String) properties.get("user.dir"), ".."), path.substring(2));
     } else if (path.startsWith("." + SEPARATOR)) {
       dir = new File((String) properties.get("user.dir"), path.substring(1));

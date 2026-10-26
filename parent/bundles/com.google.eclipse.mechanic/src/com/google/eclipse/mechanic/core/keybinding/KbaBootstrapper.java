@@ -47,7 +47,7 @@ public final class KbaBootstrapper {
         (IBindingService) PlatformUI.getWorkbench().getService(IBindingService.class),
         SWT.getPlatform());
   }
-  
+
   KbaBootstrapper(
       final MechanicLog log,
       final IBindingService bindingService,
@@ -66,7 +66,7 @@ public final class KbaBootstrapper {
         // Uh? I have no idea what these mean, but they exist -- they are system
         // bindings to no command.
         return false;
-      }      
+      }
       return true;
     }
   };
@@ -94,12 +94,12 @@ public final class KbaBootstrapper {
     // of the system bindings map.
     Map<KbaChangeSetQualifier, KbaChangeSet> systemBindings =
         buildSystemBindingsMap(Iterables.filter(allBindings, ACCEPT_SYSTEM_BINDINGS_FILTER));
-    
+
     Map<KbaChangeSetQualifier, KbaChangeSet> userBindings =
         buildUserBindingsMap(currentPlatform, systemBindings,
             Iterables.filter(allBindings, ACCEPT_USER_BINDINGS_FILTER),
             log);
-    
+
     new KeyBindingsManualFormatter(userBindings, systemBindings)
         .dumpBindingsToFile(outputLocation, description);
   }
@@ -112,9 +112,9 @@ public final class KbaBootstrapper {
     if (binding.hasCommand()) {
       throw new IllegalStateException();
     }
-    
+
     final KbaChangeSetQualifier q = binding.with(Action.REMOVE);
-        
+
     KbaBinding doppleGanger = findDoppleganger(q.platform, systemBindingsMap, q, binding);
     if (doppleGanger == null) {
       // Sigh... If the "rem" binding's platform is null, it means apply to all
@@ -127,14 +127,14 @@ public final class KbaBootstrapper {
         log.log(IStatus.ERROR, "doppleganger is null");
       }
     }
-    
+
     return doppleGanger;
   }
-  
+
   /**
    * To remove a system binding, in Eclipse, one creates a user binding with
    * the same scheme/platform/key sequence, and a null command.
-   * 
+   *
    * <p>This method, given a null-command, rem user binding {@code q/rem}, finds and
    * returns the equivalent system binding.
    */
@@ -146,7 +146,7 @@ public final class KbaBootstrapper {
 
     KbaChangeSetQualifier equivalentAdd = new KbaChangeSetQualifier(
         q.scheme, platform, q.context, Action.ADD.toString());
-    
+
     KbaChangeSet kbaChangeSet = systemBindingsMap.get(equivalentAdd);
     if (kbaChangeSet == null) {
       // It seems we're trying to remove a system key binding that simply does
@@ -172,18 +172,18 @@ public final class KbaBootstrapper {
       final Map<KbaChangeSetQualifier, KbaChangeSet> systemBindingsMap,
       Iterable<EclBinding> bindingList,
       MechanicLog log) {
-    
+
     // Naughty eclipse's bindings are not uniquefied
     bindingList = Sets.newHashSet(bindingList);
-    
+
     Map<KbaChangeSetQualifier, KbaChangeSet> result = Maps.newHashMap();
     for (final EclBinding b : bindingList) {
-      
+
       if (!b.hasCommand()) {
         if (!KeyboardBindingsTask.ENABLE_EXP_REM()) {
           continue;
         }
-        
+
         KbaBinding kbaBinding = bindingToRemoveKbaBinding(currentPlatform, systemBindingsMap, b, log);
         if (kbaBinding == null) {
           // It seems the user has configured a certain (system) binding to be
@@ -193,7 +193,7 @@ public final class KbaBootstrapper {
           // this plugin is not part of this install. We'll just ignore these.
           continue;
         }
-        
+
         KbaChangeSetQualifier q = b.with(Action.REMOVE);
         KbaChangeSet kbaChangeSetForQ = result.get(q);
         if (kbaChangeSetForQ == null) {
@@ -201,9 +201,9 @@ public final class KbaBootstrapper {
         } else {
           kbaChangeSetForQ = add(kbaChangeSetForQ, kbaBinding);
         }
-        
+
         result.put(q, kbaChangeSetForQ);
-        
+
       } else {
         insertIntoMapAnAddBinding(result, b);
       }
@@ -218,25 +218,25 @@ public final class KbaBootstrapper {
    * the system binding). What Eclipse does behind the scenes (yuck!) is to
    * create this aforementioned user binding as well as a user binding to remove
    * the system binding.
-   * 
+   *
    * <p>Spouting those two to the kbd file would cause a cycle -- the mechanic
    * will prompt the user to apply one and the other in alternate passes (if
    * the user chooses to keep applying the fix).
-   * 
+   *
    * <p>Note that this is <em>not</em> the only way to achieve a cycle, but it
    * is the only way we'll generate a single .kbd with a cycle in it. A cycle
    * can also happen with, say, two .kbd files. But this is the most likely way
    * for the user to make this sort of mistake.
-   * 
+   *
    * <p>What this method does is to return a modified version of the given
    * {@code source} -- it finds these cycles (where a removed system binding is
    * also present as a user binding) and removes them from the returned result.
    */
   static Map<KbaChangeSetQualifier, KbaChangeSet> purgeCycles(
       final Map<KbaChangeSetQualifier, KbaChangeSet> source) {
-    
+
     final Map<KbaChangeSetQualifier, KbaChangeSet> result = Maps.newHashMap();
-    
+
     for (final KbaChangeSetQualifier q : source.keySet()) {
       final KbaChangeSet sourceKbaChangeSet = source.get(q);
       // For each REMOVE sections...
@@ -271,7 +271,7 @@ public final class KbaBootstrapper {
           }
         }
       }
-      
+
       // ... under *all* other circumstances (if q is not a REM, if no doppleganger
       // found, or if no matching add/rem bindings exist), we add the original
       // KbaChangeSet to the result. If no cycles exist (which should be most
@@ -287,7 +287,7 @@ public final class KbaBootstrapper {
 
     // Naughty eclipse's bindings are not uniquefied
     bindingList = Sets.newHashSet(bindingList);
-    
+
     Map<KbaChangeSetQualifier, KbaChangeSet> result = Maps.newHashMap();
     for (final EclBinding b : bindingList) {
       insertIntoMapAnAddBinding(result, b);
@@ -305,7 +305,7 @@ public final class KbaBootstrapper {
     } else {
       kbaChangeSetForQ = add(kbaChangeSetForQ, kbaBinding);
     }
-    
+
     result.put(q, kbaChangeSetForQ);
   }
 
@@ -321,14 +321,14 @@ public final class KbaBootstrapper {
   private static <T> Iterable<T> concat(ImmutableList<T> list, T... toConcat) {
     List<T> result = Lists.newArrayList(list);
     for (T t : toConcat) {
-      // Naughtly Eclipse 
+      // Naughtly Eclipse
 //      if (!result.contains(t)) {
         result.add(t);
 //      }
     }
     return result;
   }
-  
+
 //  private static <T> Iterable<T> concat(Iterable<T> iterable, T... toConcat) {
 //    return Iterables.concat(iterable, Lists.newArrayList(toConcat));
 //  }

@@ -39,7 +39,7 @@ public interface IResourceTaskReference {
    */
   long getLastModified() throws IOException;
 
-  /** 
+  /**
    * Return the task reference path. Provide enough metadata to give it some distinction,
    * separate from other providers.
    */
