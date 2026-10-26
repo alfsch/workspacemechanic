@@ -12,6 +12,12 @@
       "enabled": false
     },
     {
+      "description": "stCarolas/setup-maven does not move its major tags: v5 is a fixed release from 2024 and v5.1 a newer one. Renovate treats a major-only tag like v5 as floating and would never propose v5.1 (or v6.1 after v6), so compare the tags of this action as exact versions",
+      "matchManagers": ["github-actions"],
+      "matchPackageNames": ["stCarolas/setup-maven"],
+      "versioning": "semver-coerced"
+    },
+    {
       "description": "Merge patch updates of dependencies once the required build check (which runs the tests) passes. Minor and major updates are never merged automatically: each version gets its own PR for review",
       "matchUpdateTypes": ["patch"],
       "automerge": true,

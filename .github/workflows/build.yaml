@@ -16,7 +16,7 @@ jobs:
           distribution: temurin
           java-version: '17'
           cache: maven
-      - name: Set up Maven 3.9.9 (Tycho 4 needs Maven 3.9 or newer)
+      - name: Set up Maven (Tycho 4 needs Maven 3.9 or newer)
         uses: stCarolas/setup-maven@v5
         with:
           maven-version: 3.9.16
