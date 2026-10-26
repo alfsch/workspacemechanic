@@ -30,7 +30,6 @@
   <suppress files="[\\/]com[\\/]google[\\/]eclipse[\\/]mechanic[\\/]LastModifiedPreferencesFileTask\.java$" checks="\.MissingJavadocMethodCheck$"/>
   <suppress files="[\\/]com[\\/]google[\\/]eclipse[\\/]mechanic[\\/]LastModifiedPreferencesFileTask\.java$" checks="\.AbbreviationAsWordInNameCheck$"/>
   <suppress files="[\\/]com[\\/]google[\\/]eclipse[\\/]mechanic[\\/]LastModifiedPreferencesFileTask\.java$" checks="\.GoogleMethodNameCheck$"/>
-  <suppress files="[\\/]com[\\/]google[\\/]eclipse[\\/]mechanic[\\/]LastModifiedPreferencesFileTask\.java$" checks="\.OperatorWrapCheck$"/>
   <suppress files="[\\/]com[\\/]google[\\/]eclipse[\\/]mechanic[\\/]LastModifiedPreferencesFileTask\.java$" id="OperatorWrapNL"/>
   <suppress files="[\\/]com[\\/]google[\\/]eclipse[\\/]mechanic[\\/]ListCollector\.java$" checks="\.CustomImportOrderCheck$"/>
   <suppress files="[\\/]com[\\/]google[\\/]eclipse[\\/]mechanic[\\/]ListCollector\.java$" checks="\.MissingJavadocMethodCheck$"/>
@@ -104,7 +103,6 @@
   <suppress files="[\\/]com[\\/]google[\\/]eclipse[\\/]mechanic[\\/]core[\\/]keybinding[\\/]KeyBindingsManualFormatter\.java$" checks="\.IndentationCheck$"/>
   <suppress files="[\\/]com[\\/]google[\\/]eclipse[\\/]mechanic[\\/]core[\\/]keybinding[\\/]KeyBindingsManualFormatter\.java$" checks="\.JavadocParagraphCheck$"/>
   <suppress files="[\\/]com[\\/]google[\\/]eclipse[\\/]mechanic[\\/]core[\\/]keybinding[\\/]KeyBindingsManualFormatter\.java$" checks="\.GoogleMethodNameCheck$"/>
-  <suppress files="[\\/]com[\\/]google[\\/]eclipse[\\/]mechanic[\\/]core[\\/]keybinding[\\/]KeyBindingsManualFormatter\.java$" checks="\.MethodNameCheck$"/>
   <suppress files="[\\/]com[\\/]google[\\/]eclipse[\\/]mechanic[\\/]core[\\/]keybinding[\\/]KeyBindingsManualFormatter\.java$" checks="\.LineLengthCheck$"/>
   <suppress files="[\\/]com[\\/]google[\\/]eclipse[\\/]mechanic[\\/]core[\\/]keybinding[\\/]KeyBindingsManualFormatter\.java$" checks="\.WhitespaceAfterCheck$"/>
   <suppress files="[\\/]com[\\/]google[\\/]eclipse[\\/]mechanic[\\/]core[\\/]keybinding[\\/]KeyBindingsManualFormatter\.java$" checks="\.WhitespaceAroundCheck$"/>
@@ -126,10 +124,8 @@
   <suppress files="[\\/]com[\\/]google[\\/]eclipse[\\/]mechanic[\\/]core[\\/]keybinding[\\/]KeyboardBindingsTask\.java$" checks="\.JavadocParagraphCheck$"/>
   <suppress files="[\\/]com[\\/]google[\\/]eclipse[\\/]mechanic[\\/]core[\\/]keybinding[\\/]KeyboardBindingsTask\.java$" checks="\.AbbreviationAsWordInNameCheck$"/>
   <suppress files="[\\/]com[\\/]google[\\/]eclipse[\\/]mechanic[\\/]core[\\/]keybinding[\\/]KeyboardBindingsTask\.java$" checks="\.GoogleMethodNameCheck$"/>
-  <suppress files="[\\/]com[\\/]google[\\/]eclipse[\\/]mechanic[\\/]core[\\/]keybinding[\\/]KeyboardBindingsTask\.java$" checks="\.MethodNameCheck$"/>
   <suppress files="[\\/]com[\\/]google[\\/]eclipse[\\/]mechanic[\\/]core[\\/]keybinding[\\/]KeyboardBindingsTask\.java$" checks="\.LineLengthCheck$"/>
   <suppress files="[\\/]com[\\/]google[\\/]eclipse[\\/]mechanic[\\/]core[\\/]keybinding[\\/]KeyboardBindingsTask\.java$" checks="\.FileTabCharacterCheck$"/>
-  <suppress files="[\\/]com[\\/]google[\\/]eclipse[\\/]mechanic[\\/]core[\\/]keybinding[\\/]KeyboardBindingsTask\.java$" checks="\.OperatorWrapCheck$"/>
   <suppress files="[\\/]com[\\/]google[\\/]eclipse[\\/]mechanic[\\/]core[\\/]keybinding[\\/]KeyboardBindingsTask\.java$" id="OperatorWrapNL"/>
   <suppress files="[\\/]com[\\/]google[\\/]eclipse[\\/]mechanic[\\/]core[\\/]keybinding[\\/]KeyboardBindingsTask\.java$" checks="\.WhitespaceAfterCheck$"/>
   <suppress files="[\\/]com[\\/]google[\\/]eclipse[\\/]mechanic[\\/]core[\\/]keybinding[\\/]KeyboardBindingsTask\.java$" checks="\.WhitespaceAroundCheck$"/>
@@ -180,7 +176,6 @@
   <suppress files="[\\/]com[\\/]google[\\/]eclipse[\\/]mechanic[\\/]internal[\\/]IUriContentProvider\.java$" checks="\.EmptyLineSeparatorCheck$"/>
   <suppress files="[\\/]com[\\/]google[\\/]eclipse[\\/]mechanic[\\/]internal[\\/]MechanicConfigurationVariableInitializer\.java$" checks="\.CustomImportOrderCheck$"/>
   <suppress files="[\\/]com[\\/]google[\\/]eclipse[\\/]mechanic[\\/]internal[\\/]MechanicConfigurationVariableInitializer\.java$" checks="\.MissingJavadocMethodCheck$"/>
-  <suppress files="[\\/]com[\\/]google[\\/]eclipse[\\/]mechanic[\\/]internal[\\/]MechanicConfigurationVariableInitializer\.java$" checks="\.OperatorWrapCheck$"/>
   <suppress files="[\\/]com[\\/]google[\\/]eclipse[\\/]mechanic[\\/]internal[\\/]MechanicConfigurationVariableInitializer\.java$" id="OperatorWrapNL"/>
   <suppress files="[\\/]com[\\/]google[\\/]eclipse[\\/]mechanic[\\/]internal[\\/]MechanicConfigurationVariableInitializer\.java$" checks="\.WhitespaceAroundCheck$"/>
   <suppress files="[\\/]com[\\/]google[\\/]eclipse[\\/]mechanic[\\/]internal[\\/]MechanicPreferences\.java$" checks="\.CustomImportOrderCheck$"/>
@@ -190,7 +185,6 @@
   <suppress files="[\\/]com[\\/]google[\\/]eclipse[\\/]mechanic[\\/]internal[\\/]PreferenceFileTaskScanner\.java$" checks="\.InvalidJavadocPositionCheck$"/>
   <suppress files="[\\/]com[\\/]google[\\/]eclipse[\\/]mechanic[\\/]internal[\\/]PreferenceFileTaskScanner\.java$" checks="\.JavadocParagraphCheck$"/>
   <suppress files="[\\/]com[\\/]google[\\/]eclipse[\\/]mechanic[\\/]internal[\\/]PreferenceFileTaskScanner\.java$" checks="\.EmptyLineSeparatorCheck$"/>
-  <suppress files="[\\/]com[\\/]google[\\/]eclipse[\\/]mechanic[\\/]internal[\\/]PreferenceFileTaskScanner\.java$" checks="\.OperatorWrapCheck$"/>
   <suppress files="[\\/]com[\\/]google[\\/]eclipse[\\/]mechanic[\\/]internal[\\/]PreferenceFileTaskScanner\.java$" id="OperatorWrapNL"/>
   <suppress files="[\\/]com[\\/]google[\\/]eclipse[\\/]mechanic[\\/]internal[\\/]PreferenceFileTaskScanner\.java$" checks="\.WhitespaceAroundCheck$"/>
   <suppress files="[\\/]com[\\/]google[\\/]eclipse[\\/]mechanic[\\/]internal[\\/]PreferenceResourceTaskProvider\.java$" checks="\.CustomImportOrderCheck$"/>
@@ -267,7 +261,6 @@
   <suppress files="[\\/]com[\\/]google[\\/]eclipse[\\/]mechanic[\\/]internal[\\/]UriTaskProviderModel\.java$" checks="\.MissingJavadocMethodCheck$"/>
   <suppress files="[\\/]com[\\/]google[\\/]eclipse[\\/]mechanic[\\/]internal[\\/]UriTaskProviderModel\.java$" checks="\.MissingJavadocTypeCheck$"/>
   <suppress files="[\\/]com[\\/]google[\\/]eclipse[\\/]mechanic[\\/]internal[\\/]UriTaskProviderModel\.java$" checks="\.EmptyLineSeparatorCheck$"/>
-  <suppress files="[\\/]com[\\/]google[\\/]eclipse[\\/]mechanic[\\/]internal[\\/]UriTaskProviderModel\.java$" checks="\.OperatorWrapCheck$"/>
   <suppress files="[\\/]com[\\/]google[\\/]eclipse[\\/]mechanic[\\/]internal[\\/]UriTaskProviderModel\.java$" id="OperatorWrapNL"/>
   <suppress files="[\\/]com[\\/]google[\\/]eclipse[\\/]mechanic[\\/]internal[\\/]UriTaskProviderModelParser\.java$" checks="\.CustomImportOrderCheck$"/>
   <suppress files="[\\/]com[\\/]google[\\/]eclipse[\\/]mechanic[\\/]internal[\\/]UriTaskProviderModelParser\.java$" checks="\.JavadocParagraphCheck$"/>
@@ -279,7 +272,6 @@
   <suppress files="[\\/]com[\\/]google[\\/]eclipse[\\/]mechanic[\\/]internal[\\/]VariableManagerStringParser\.java$" checks="\.CustomImportOrderCheck$"/>
   <suppress files="[\\/]com[\\/]google[\\/]eclipse[\\/]mechanic[\\/]internal[\\/]VariableManagerStringParser\.java$" checks="\.JavadocParagraphCheck$"/>
   <suppress files="[\\/]com[\\/]google[\\/]eclipse[\\/]mechanic[\\/]internal[\\/]VariableManagerStringParser\.java$" checks="\.MissingJavadocMethodCheck$"/>
-  <suppress files="[\\/]com[\\/]google[\\/]eclipse[\\/]mechanic[\\/]internal[\\/]VariableManagerStringParser\.java$" checks="\.RegexpSinglelineJavaCheck$"/>
   <suppress files="[\\/]com[\\/]google[\\/]eclipse[\\/]mechanic[\\/]internal[\\/]VariableManagerStringParser\.java$" checks="\.EmptyLineSeparatorCheck$"/>
   <suppress files="[\\/]com[\\/]google[\\/]eclipse[\\/]mechanic[\\/]plugin[\\/]core[\\/]IMechanicPreferences\.java$" checks="\.CustomImportOrderCheck$"/>
   <suppress files="[\\/]com[\\/]google[\\/]eclipse[\\/]mechanic[\\/]plugin[\\/]core[\\/]IMechanicPreferences\.java$" checks="\.CommentsIndentationCheck$"/>
@@ -310,14 +302,12 @@
   <suppress files="[\\/]com[\\/]google[\\/]eclipse[\\/]mechanic[\\/]plugin[\\/]ui[\\/]AbstractPopup\.java$" checks="\.JavadocParagraphCheck$"/>
   <suppress files="[\\/]com[\\/]google[\\/]eclipse[\\/]mechanic[\\/]plugin[\\/]ui[\\/]AbstractPopup\.java$" checks="\.MissingJavadocMethodCheck$"/>
   <suppress files="[\\/]com[\\/]google[\\/]eclipse[\\/]mechanic[\\/]plugin[\\/]ui[\\/]BaseOutputDialog\.java$" checks="\.NeedBracesCheck$"/>
-  <suppress files="[\\/]com[\\/]google[\\/]eclipse[\\/]mechanic[\\/]plugin[\\/]ui[\\/]BaseOutputDialog\.java$" id="RightCurlyAlone"/>
   <suppress files="[\\/]com[\\/]google[\\/]eclipse[\\/]mechanic[\\/]plugin[\\/]ui[\\/]BaseOutputDialog\.java$" checks="\.CustomImportOrderCheck$"/>
   <suppress files="[\\/]com[\\/]google[\\/]eclipse[\\/]mechanic[\\/]plugin[\\/]ui[\\/]BaseOutputDialog\.java$" checks="\.IndentationCheck$"/>
   <suppress files="[\\/]com[\\/]google[\\/]eclipse[\\/]mechanic[\\/]plugin[\\/]ui[\\/]BaseOutputDialog\.java$" checks="\.JavadocParagraphCheck$"/>
   <suppress files="[\\/]com[\\/]google[\\/]eclipse[\\/]mechanic[\\/]plugin[\\/]ui[\\/]BaseOutputDialog\.java$" checks="\.JavadocTagContinuationIndentationCheck$"/>
   <suppress files="[\\/]com[\\/]google[\\/]eclipse[\\/]mechanic[\\/]plugin[\\/]ui[\\/]BaseOutputDialog\.java$" checks="\.MissingJavadocMethodCheck$"/>
   <suppress files="[\\/]com[\\/]google[\\/]eclipse[\\/]mechanic[\\/]plugin[\\/]ui[\\/]BaseOutputDialog\.java$" checks="\.LineLengthCheck$"/>
-  <suppress files="[\\/]com[\\/]google[\\/]eclipse[\\/]mechanic[\\/]plugin[\\/]ui[\\/]BaseOutputDialog\.java$" checks="\.WhitespaceAroundCheck$"/>
   <suppress files="[\\/]com[\\/]google[\\/]eclipse[\\/]mechanic[\\/]plugin[\\/]ui[\\/]DirectoryOrUrlEditor\.java$" checks="\.CustomImportOrderCheck$"/>
   <suppress files="[\\/]com[\\/]google[\\/]eclipse[\\/]mechanic[\\/]plugin[\\/]ui[\\/]DirectoryOrUrlEditor\.java$" checks="\.JavadocParagraphCheck$"/>
   <suppress files="[\\/]com[\\/]google[\\/]eclipse[\\/]mechanic[\\/]plugin[\\/]ui[\\/]DirectoryOrUrlEditor\.java$" checks="\.MissingJavadocMethodCheck$"/>
