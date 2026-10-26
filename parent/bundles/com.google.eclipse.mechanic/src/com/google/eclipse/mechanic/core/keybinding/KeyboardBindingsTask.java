@@ -66,7 +66,7 @@ class KeyboardBindingsTask extends CompositeTask {
         model,
         String.format("%s@%s", KeyboardBindingsTask.class.getName(), taskRef.getPath()));
   }
-  
+
   KeyboardBindingsTask(
       MechanicLog log,
       IWorkbench workbench,
@@ -85,15 +85,15 @@ class KeyboardBindingsTask extends CompositeTask {
   public String getDescription() {
     Set<String> addedBindings = calculateReadableAddedBindings(Action.ADD);
     Set<String> removedBindings = calculateReadableAddedBindings(Action.REMOVE);
-    
+
     StringBuilder result = new StringBuilder();
-    
+
     if (addedBindings.size() > 0) {
       result.append("Add these bindings:\n" +
     		"\n" +
         Joiner.on("\n").join(addedBindings) + "\n\n");
     }
-    
+
     if (removedBindings.size() > 0) {
       result.append("Remove these bindings:\n" +
           "\n" +
@@ -106,7 +106,7 @@ class KeyboardBindingsTask extends CompositeTask {
   }
 
   private final Function<Binding, String> bindingToReadableStringTransformFunction = new Function<Binding, String>() {
-    
+
     public String apply(Binding b) {
       try {
         return b.getTriggerSequence().format() + " : " + b.getParameterizedCommand().getName();
@@ -119,7 +119,7 @@ class KeyboardBindingsTask extends CompositeTask {
       }
     }
   };
-  
+
   private Set<String> calculateReadableAddedBindings(Action action) {
     Set<String> result = Sets.newHashSet();
     for(KbaChangeSet changeSet : model.getKeyBindingsChangeSetsWith(action)) {
@@ -142,7 +142,7 @@ class KeyboardBindingsTask extends CompositeTask {
     for(KbaChangeSet changeSet : model.getKeyBindingsChangeSets()) {
       dirty = dirty || doEvaluate(changeSet).keyBindings.isDirty();
     }
-    
+
     return !dirty;
   }
 
@@ -150,7 +150,7 @@ class KeyboardBindingsTask extends CompositeTask {
 
     private final Scheme scheme;
     private final KeyBindings keyBindings;
-    
+
     public EvaluationResult(
         final Scheme scheme,
         final KeyBindings keyBindings) {
@@ -158,7 +158,7 @@ class KeyboardBindingsTask extends CompositeTask {
       this.keyBindings = keyBindings;
     }
   }
-  
+
   private EvaluationResult doEvaluate(
       final KbaChangeSet changeSet) {
 
@@ -174,7 +174,7 @@ class KeyboardBindingsTask extends CompositeTask {
       modifyBindingsForRemoveChangeSet(changeSet, bindings, scheme);
       break;
     default:
-      throw new UnsupportedOperationException();  
+      throw new UnsupportedOperationException();
     }
 
     return new EvaluationResult(scheme, bindings);
@@ -204,21 +204,21 @@ class KeyboardBindingsTask extends CompositeTask {
       // 1. if it's a user binding, remove it
       // 2. if it's a system binding, create a null-command user binding doppleganger
       bindings.removeBindingIfPresent(
-          scheme, 
-          changeSet.getPlatform(), 
-          changeSet.getContextId(), 
-          triggerSequence, 
-          commandToRemove, 
+          scheme,
+          changeSet.getPlatform(),
+          changeSet.getContextId(),
+          triggerSequence,
+          commandToRemove,
           toRemove.getParameters());
       // If our remove binding is against the "null" platform, it should apply
       // to all platforms. The only one that matters is the current platform
       if (changeSet.getPlatform() == null) {
         bindings.removeBindingIfPresent(
-            scheme, 
-            SWT.getPlatform(), 
-            changeSet.getContextId(), 
-            triggerSequence, 
-            commandToRemove, 
+            scheme,
+            SWT.getPlatform(),
+            changeSet.getContextId(),
+            triggerSequence,
+            commandToRemove,
             toRemove.getParameters());
       }
     }
@@ -244,9 +244,9 @@ class KeyboardBindingsTask extends CompositeTask {
       }
 
       bindings.addIfNotPresent(
-          scheme, 
-          changeSet.getPlatform(), 
-          changeSet.getContextId(), 
+          scheme,
+          changeSet.getPlatform(),
+          changeSet.getContextId(),
           triggerSequence,
           parameterizedCommandToAdd);
     }
@@ -269,11 +269,11 @@ class KeyboardBindingsTask extends CompositeTask {
       }
     }
   }
-  
+
   public String getId() {
     return id;
   }
-  
+
   @Override
   public boolean equals(Object obj) {
     if (!(obj instanceof KeyboardBindingsTask)) {
@@ -282,7 +282,7 @@ class KeyboardBindingsTask extends CompositeTask {
     KeyboardBindingsTask that = (KeyboardBindingsTask)obj;
     return Objects.equal(this.id, that.id);
   }
-  
+
   @Override
   public int hashCode() {
     return this.id.hashCode();

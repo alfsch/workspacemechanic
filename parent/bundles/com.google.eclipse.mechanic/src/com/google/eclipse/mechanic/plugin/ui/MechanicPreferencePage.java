@@ -48,7 +48,7 @@ public class MechanicPreferencePage extends FieldEditorPreferencePage
     implements IWorkbenchPreferencePage {
 
   private final Shell shell;
-  
+
   private BlockedTaskEditor blockedEditor;
 
   public MechanicPreferencePage() {
@@ -143,14 +143,14 @@ public class MechanicPreferencePage extends FieldEditorPreferencePage
   public void init(IWorkbench workbench) {}
 
   /**
-   * Inner class of the list editor displaying blocked tasks and giving user the ability 
-   * to add unblocked tasks to the list or remove a previously blocked task, making it 
+   * Inner class of the list editor displaying blocked tasks and giving user the ability
+   * to add unblocked tasks to the list or remove a previously blocked task, making it
    * available to workspace mechanic
    */
   private class BlockedTaskEditor extends ListEditor {
 
     private final BlockedTaskIdsParser blockedTaskParser = new BlockedTaskIdsParser();
-    
+
     /**
      * @param name the name of the preference this field editor works on
      * @param labelText the label text of the field editor
@@ -178,10 +178,10 @@ public class MechanicPreferencePage extends FieldEditorPreferencePage
       }
       return null;
     }
-    
+
     /**
-     * Returns the "set" difference between all known tasks and the _current_ list of 
-     * blocked task ids from the list editor, which may or may not be equal to the 
+     * Returns the "set" difference between all known tasks and the _current_ list of
+     * blocked task ids from the list editor, which may or may not be equal to the
      * list of blocked task ids that are currently saved in preferences
      */
     private List<Task> makeUnblockedTaskList() {
@@ -192,11 +192,11 @@ public class MechanicPreferencePage extends FieldEditorPreferencePage
       for (String id : getList().getItems()) {
         removeTaskById(unblockedTasks, id);
       }
-      
+
       Collections.sort(unblockedTasks, TaskByTitleComparator.getInstance());
       return unblockedTasks;
     }
-    
+
     @Override
     protected String[] parseString(String stringList) {
       List<String> parse = blockedTaskParser.parse(stringList);

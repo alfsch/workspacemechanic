@@ -19,7 +19,7 @@ import org.eclipse.core.runtime.preferences.IEclipsePreferences;
  * Models an Eclipse preferences export file as a series of individual
  * preference reconcilers. If any of the reconcilers need fixing, they
  * get fixed.
- * 
+ *
  * @author smckay@google.com (Steve McKay)
  */
 public abstract class ReconcilingPreferencesTask extends PreferenceReconcilerTask {

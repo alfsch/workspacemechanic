@@ -10,20 +10,20 @@
 package com.google.eclipse.mechanic.internal;
 
 /**
- * An enum that describes a task's policy for overwriting existing 
+ * An enum that describes a task's policy for overwriting existing
  * preferences.
- * 
+ *
  * @author brianchin@google.com (Brian Chin)
  */
 public enum TaskType {
   /**
-   * Indicates the task should only overwrite preferences if the file's 
+   * Indicates the task should only overwrite preferences if the file's
    * modification date is earlier than the changes.
    */
   LASTMOD,
-  
+
   /**
-   * Indicates the task should overwrite any preferences that are different 
+   * Indicates the task should overwrite any preferences that are different
    * from the values listed the one written here.
    */
   RECONCILE

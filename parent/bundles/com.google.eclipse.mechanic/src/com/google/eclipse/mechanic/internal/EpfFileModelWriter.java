@@ -41,11 +41,11 @@ public class EpfFileModelWriter {
     commentPrintWriter.flush();
 
     // Use java Properties object to output key/value pairs
-    
+
     Properties outputProperties = new Properties();
-    
+
     outputProperties.setProperty("file_export_version", "3.0");
-    
+
     for (Map.Entry<String, String> e : model.getPreferences().entrySet()) {
       String value = e.getValue();
       if(value == null) {

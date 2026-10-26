@@ -78,7 +78,7 @@ public class PopupNotifier {
   public PopupNotifier(IMechanicService mechanicService,
       final IMechanicPreferences mechanicPreferences) {
     this.service = mechanicService;
-    this.mechanicPreferences =  mechanicPreferences;
+    this.mechanicPreferences = mechanicPreferences;
     this.statusChangeListener = new IStatusChangeListener() {
       public void statusChanged(StatusChangedEvent event) {
         switch (event.getStatus()) {

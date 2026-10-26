@@ -122,7 +122,7 @@ public final class UriTaskProvider extends ResourceTaskProvider {
     for (URI uri : model.getTasks()) {
       if (uri.getPath().endsWith(filterText)) {
         if (!uri.isAbsolute()) {
-          // resolve 
+          // resolve
           uri = UriTaskProvider.this.uri.resolve(uri);
         }
         collector.collect(new TaskReference(uri));

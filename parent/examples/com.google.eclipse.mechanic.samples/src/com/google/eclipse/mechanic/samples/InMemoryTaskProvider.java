@@ -29,7 +29,7 @@ import com.google.eclipse.mechanic.IResourceTaskReference;
 public class InMemoryTaskProvider implements IResourceTaskProvider {
 
   private static final Map<String, String> RESOURCES = Maps.newLinkedHashMap();
-  private static final String SHOW_LINE_NUMBERS = Joiner.on("\n").join( 
+  private static final String SHOW_LINE_NUMBERS = Joiner.on("\n").join(
       "# @title Show Line Numbers",
       "# @description Show line numbers in text editors.",
       "# @audit_type LASTMOD",

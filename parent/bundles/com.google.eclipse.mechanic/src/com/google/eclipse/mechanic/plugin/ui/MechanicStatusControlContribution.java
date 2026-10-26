@@ -77,7 +77,7 @@ public class MechanicStatusControlContribution extends WorkbenchWindowControlCon
   private IAction stopRecordingAction = new StopRecordingAction();
 
   private IAction showAllTasksAction = new ShowAllTasksAction();
-  
+
   private IAction dumpKeybindingsAction = new DumpKeyBindingsAction();
 
   private final IMechanicService service = MechanicService.getInstance();
@@ -107,7 +107,7 @@ public class MechanicStatusControlContribution extends WorkbenchWindowControlCon
     try {
       return new OpenUrlAction(helpUrl, "Help...");
     } catch (MalformedURLException e) {
-      log.logError(e,  "Could not initialize help action for URL %s: %s", helpUrl, e.getMessage());
+      log.logError(e, "Could not initialize help action for URL %s: %s", helpUrl, e.getMessage());
       return null;
     }
   }
@@ -147,7 +147,7 @@ public class MechanicStatusControlContribution extends WorkbenchWindowControlCon
       String path = String.format("icons/%s.png", ds.name().toLowerCase());
       ImageDescriptor desc = MechanicPlugin.getImageDescriptor(path);
       if (desc == null) {
-        MechanicLog.getDefault().log(new Status(IStatus.ERROR, MechanicPlugin.PLUGIN_ID, 
+        MechanicLog.getDefault().log(new Status(IStatus.ERROR, MechanicPlugin.PLUGIN_ID,
             "Can't find image descriptor for resource " + path));
       } else {
         Image image = desc.createImage();
@@ -156,7 +156,7 @@ public class MechanicStatusControlContribution extends WorkbenchWindowControlCon
     }
     images = map;
   }
-  
+
   @Override
   public boolean isDynamic()
   {
@@ -249,7 +249,7 @@ public class MechanicStatusControlContribution extends WorkbenchWindowControlCon
 
   /**
    * Creates and registers a new popup menu on the supplied control.
-   * 
+   *
    * <p>
    * When the menu is about to be shown the
    * {@link #fillContextMenu(IMenuManager)} method will be called.
@@ -494,10 +494,10 @@ public class MechanicStatusControlContribution extends WorkbenchWindowControlCon
         Shell parentShell = Display.getCurrent().getActiveShell();
         Map<String, String> preferences = collector.getPreferences();
         if (preferences.isEmpty()) {
-          MessageDialog.openWarning(parentShell,  "No preferences",
+          MessageDialog.openWarning(parentShell, "No preferences",
               "No changes to preferences were made.");
         } else {
-          EpfOutputDialog dialog = new EpfOutputDialog(parentShell,  preferences);
+          EpfOutputDialog dialog = new EpfOutputDialog(parentShell, preferences);
           dialog.open();
         }
       } catch (CoreException e) {
@@ -526,7 +526,7 @@ public class MechanicStatusControlContribution extends WorkbenchWindowControlCon
       dialog.open();
     }
   }
-  
+
   /**
    * Action that dumps the existing keybindings to an export file.
    */

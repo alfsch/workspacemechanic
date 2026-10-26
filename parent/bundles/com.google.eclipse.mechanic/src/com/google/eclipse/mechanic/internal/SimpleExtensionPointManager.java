@@ -56,7 +56,7 @@ public class SimpleExtensionPointManager<T> {
    * @param forcePluginActivationAttr the attribute name representing whether the class should be
    * instantiated even if the plugin hasn't been activated. When this is {@code null} it means the
    * extension point doesn't support variable plugin activation, and classes will be instantiated
-   * even if that means starting 
+   * even if that means starting
    * @return A list of {@code SimpleProxy} items which can be passed to {@link #activateProxies(Collection)}
    */
   public static <T> SimpleExtensionPointManager<T> newInstance(

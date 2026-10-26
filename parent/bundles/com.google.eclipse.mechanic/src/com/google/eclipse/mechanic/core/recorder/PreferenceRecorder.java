@@ -33,7 +33,7 @@ import java.util.Set;
 /**
  * Records changes to Eclipse's preference tree, and allows the changes to be
  * later visited.
- * 
+ *
  * @author brianchin@google.com (Brian Chin)
  */
 public class PreferenceRecorder {
@@ -50,7 +50,7 @@ public class PreferenceRecorder {
         IEclipsePreferences childPrefs = (IEclipsePreferences) event.getChild();
         addListener(childPrefs);
 
-        changeLog.add(new NodeChanged(true, new Path(event.getParent().absolutePath()), 
+        changeLog.add(new NodeChanged(true, new Path(event.getParent().absolutePath()),
             event.getChild().name()));
       }
     }
@@ -62,7 +62,7 @@ public class PreferenceRecorder {
         }
 
         recordedNodes.remove(event.getChild());
-        changeLog.add(new NodeChanged(false, new Path(event.getParent().absolutePath()), 
+        changeLog.add(new NodeChanged(false, new Path(event.getParent().absolutePath()),
             event.getChild().name()));
       }
     }
@@ -72,7 +72,7 @@ public class PreferenceRecorder {
         if (currState != State.RECORDING) {
           return;
         }
-        changeLog.add(new PreferenceChanged(new Path(event.getNode().absolutePath()), 
+        changeLog.add(new PreferenceChanged(new Path(event.getNode().absolutePath()),
             event.getKey(), (String) event.getNewValue()));
       }
     }
@@ -131,7 +131,7 @@ public class PreferenceRecorder {
   /**
    * Starts the process of recording changes to the eclipse preference tree.
    * Recording may only occur once per recorder.
-   * 
+   *
    * @throws CoreException if there is a problem with the preference tree
    *         itself.
    * @throws IllegalStateException if this object has already been used to
@@ -164,7 +164,7 @@ public class PreferenceRecorder {
   /**
    * Ends the recording process. No other changes to the preference tree are
    * recorded after this method is called.
-   * 
+   *
    * @throws IllegalStateException if {@code startRecording()} had not been
    *         previously called, or if recording has already completed on this
    *         object.
@@ -200,7 +200,7 @@ public class PreferenceRecorder {
   }
 
   /**
-   * Visits each change in turn, and calls the appropriate method on {@code 
+   * Visits each change in turn, and calls the appropriate method on {@code
    * visitor} for that change in the order the changes occured.
    */
   public void visitChanges(IPreferenceRecordingService.ChangeVisitor visitor) {

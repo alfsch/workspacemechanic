@@ -45,7 +45,7 @@ import com.google.eclipse.mechanic.internal.VariableManagerStringParser;
  */
 @Deprecated
 public class OldMechanicPreferences {
- 
+
   /**
    * Returns the plugin preferences. Just a convenience method.
    */

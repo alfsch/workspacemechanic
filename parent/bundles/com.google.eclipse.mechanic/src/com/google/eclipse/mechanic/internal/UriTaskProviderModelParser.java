@@ -38,8 +38,8 @@ public class UriTaskProviderModelParser {
       .create();
 
   private static final class Types {
-    static final Type metadata = new TypeToken<UriTaskProviderModel.Metadata>(){}.getType();
-    public static Type uriArray = new TypeToken<URI[]>(){}.getType();
+    static final Type metadata = new TypeToken<UriTaskProviderModel.Metadata>() {}.getType();
+    public static Type uriArray = new TypeToken<URI[]>() {}.getType();
   }
 
   private static class MetaDataAdapter implements JsonDeserializer<UriTaskProviderModel.Metadata> {

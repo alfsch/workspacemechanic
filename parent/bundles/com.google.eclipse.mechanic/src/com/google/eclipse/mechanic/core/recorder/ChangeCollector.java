@@ -22,7 +22,7 @@ import java.util.Set;
  * single list of changed preferences. The resulting list does not have any
  * preferences for nodes which were deleted, and ensures later changes override
  * earlier ones.
- * 
+ *
  * @author brianchin@google.com (Brian Chin)
  */
 public class ChangeCollector implements IPreferenceRecordingService.ChangeVisitor {
@@ -32,7 +32,7 @@ public class ChangeCollector implements IPreferenceRecordingService.ChangeVisito
   public void nodeAdded(IPath parentPath, String childName) {
     // Do nothing
   }
-  
+
   public void nodeRemoved(IPath parentPath, String childName) {
     // Remove all preference changes rooted at this node or below
     Set<IPath> removedKeys = new HashSet<IPath>();
@@ -54,7 +54,7 @@ public class ChangeCollector implements IPreferenceRecordingService.ChangeVisito
 
   /**
    * Get the preferences which were set by the collected changes.
-   * 
+   *
    * @return a map from preference keys to values. Keys are in path format.
    */
   public Map<String, String> getPreferences() {

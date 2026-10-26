@@ -56,7 +56,7 @@ final class KbaChangeSet {
       Iterable<KbaBinding> bindingList) {
     this(qualifier.scheme, qualifier.platform, qualifier.context, qualifier.action, bindingList);
   }
-  
+
   KbaChangeSet(
       String schemeId,
       String platform,
@@ -81,7 +81,7 @@ final class KbaChangeSet {
   public String getActionLabel() {
     return actionLabel;
   }
-  
+
   public Action getAction() {
     return Action.fromLabel(actionLabel);
   }
@@ -114,7 +114,7 @@ final class KbaChangeSet {
         "***\nschemeId: %s\nplatform: %s\ncontextId: %s\naction: %s\nbindings: %s\n****\n",
         this.schemeId, this.platform, this.contextId, this.actionLabel, this.bindingList);
   }
-  
+
   enum Action {
     ADD("add"),
     REMOVE("remove"),
@@ -147,7 +147,7 @@ final class KbaChangeSet {
       }
       throw new IllegalArgumentException(label);
     }
-    
+
     @Override
     public String toString() {
       return label;
@@ -161,7 +161,7 @@ final class KbaChangeSet {
     public KbaBindingList(KbaBinding... list) {
       this(Arrays.asList(list));
     }
-    
+
     public KbaBindingList(Iterable<KbaBinding> list) {
       this.list = ImmutableList.copyOf(list);
     }

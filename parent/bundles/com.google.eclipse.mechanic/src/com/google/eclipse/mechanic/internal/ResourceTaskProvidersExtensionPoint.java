@@ -61,7 +61,7 @@ public class ResourceTaskProvidersExtensionPoint {
 
   /**
    * Clears the list of task providers.
-   * 
+   *
    * <p><em>This should only be called by {@link MechanicPlugin#stop}.</em>
    */
   public static void dispose() {

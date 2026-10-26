@@ -14,7 +14,7 @@ import org.eclipse.core.variables.IValueVariableInitializer;
 
 /**
  * Variable initializer that sets the initial value to the home directory of the user hosting
- * this environment. 
+ * this environment.
  */
 public class UserHomeVariableInitializer implements IValueVariableInitializer {
   public void initialize(IValueVariable variable) {

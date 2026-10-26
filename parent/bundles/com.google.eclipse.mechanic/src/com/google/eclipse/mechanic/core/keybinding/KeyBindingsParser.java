@@ -88,7 +88,7 @@ class KeyBindingsParser {
   static final String COMMAND_JSON_KEY = "cmd";
   static final String COMMAND_PARAMETERS_JSON_KEY = "params";
   static final String KEYS_JSON_KEY = "keys";
- 
+
   private static final Gson GSON = new GsonBuilder()
       .setPrettyPrinting()
       .registerTypeAdapter(KbaMetaData.class, new KbaMetaDataAdapter())
@@ -107,10 +107,10 @@ class KeyBindingsParser {
 
   private static final class TypeTokens {
     private static final Type KBA_CHANGE_SET_LIST_TYPE_TOKEN =
-        new TypeToken<List<KbaChangeSet>>(){}.getType();
-    private static final Type KBA_META_DATA_TYPE_TOKEN = new TypeToken<KbaMetaData>(){}.getType();
-    private static final Type STRING_TYPE_TOKEN = new TypeToken<String>(){}.getType();
-    private static final Type KBA_BINDING_LIST_TYPE_TOKEN = new TypeToken<KbaBindingList>(){}.getType();
+        new TypeToken<List<KbaChangeSet>>() {}.getType();
+    private static final Type KBA_META_DATA_TYPE_TOKEN = new TypeToken<KbaMetaData>() {}.getType();
+    private static final Type STRING_TYPE_TOKEN = new TypeToken<String>() {}.getType();
+    private static final Type KBA_BINDING_LIST_TYPE_TOKEN = new TypeToken<KbaBindingList>() {}.getType();
   }
 
   private static class KbaMetaDataAdapter
@@ -138,7 +138,7 @@ class KeyBindingsParser {
 
       // This allows for a trailing comma in the changeSet
       changeSets.remove(null);
-      
+
       return new KeyBindingsModel(
           changeSets,
           (KbaMetaData) context.deserialize(jo.get(METADATA_JSON_KEY), TypeTokens.KBA_META_DATA_TYPE_TOKEN));
@@ -208,7 +208,7 @@ class KeyBindingsParser {
         String command = jo.get(COMMAND_JSON_KEY).getAsString();
         JsonObject params = jo.getAsJsonObject(COMMAND_PARAMETERS_JSON_KEY);
         KbaBinding bindingSpec;
-        
+
         if (params == null) {
         bindingSpec = new KbaBinding(
             keySequence,

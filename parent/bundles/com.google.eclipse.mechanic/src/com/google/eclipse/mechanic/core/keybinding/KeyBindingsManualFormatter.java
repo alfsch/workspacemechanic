@@ -28,7 +28,7 @@ import com.google.common.collect.Iterables;
 
 /**
  * Class that formats the keybindings by sweat and tears.
- * 
+ *
  * <p>The reason a JSON formatter is not used is so that the output, which is
  * meant to be read by a person, is carefully tinkered with to be readable.
  *
@@ -53,7 +53,7 @@ class KeyBindingsManualFormatter {
         userBindingsMap,
         systemBindingsMap);
   }
-  
+
   public KeyBindingsManualFormatter(
       final boolean debugDumpSystemBindings,
       final Map<KbaChangeSetQualifier, KbaChangeSet> userBindingsMap,
@@ -67,11 +67,11 @@ class KeyBindingsManualFormatter {
     USER,
     SYSTEM,
     ;
-    
+
     static BindingType from(Binding binding) {
       return from(binding.getType());
     }
-    
+
     static BindingType from(int eclipseBindingType) {
       if (eclipseBindingType == Binding.SYSTEM) {
         return SYSTEM;
@@ -81,7 +81,7 @@ class KeyBindingsManualFormatter {
         throw new UnsupportedOperationException("Binding type: " + eclipseBindingType);
       }
     }
-    
+
   }
 
   void dumpBindingsToFile(IPath outputLocation, String description)
@@ -107,7 +107,7 @@ class KeyBindingsManualFormatter {
       stream.print(output);
     }
   }
-  
+
   static String getBindingsPrintout(BindingType bindingType, Map<KbaChangeSetQualifier,KbaChangeSet> bindings,
       String description) {
     Preconditions.checkNotNull(description);
@@ -121,7 +121,7 @@ class KeyBindingsManualFormatter {
       output
           .append(i(2)).append("{\n")
           .append(i(2)).append(kvcn(KeyBindingsParser.SCHEME_JSON_KEY, q.scheme));
-      
+
       if (q.platform != null) {
         output
             .append(i(2)).append(kvcn(KeyBindingsParser.PLATFORM_JSON_KEY, q.platform));
@@ -132,7 +132,7 @@ class KeyBindingsManualFormatter {
           .append(i(2)).append(quote(KeyBindingsParser.BINDINGS_JSON_KEY)).append(" : [\n");
       for (KbaBinding b : bindings.get(q).getBindingList()) {
         output.append(formatKbaBinding(b));
-        
+
         // TODO: GSON is not happy about trailing commas. Either make
         // GSON happy, or suppress trailing whitespaces
       }
@@ -159,7 +159,7 @@ class KeyBindingsManualFormatter {
   private static String formatCommand(KbaBinding b) {
     StringBuilder result = new StringBuilder()
         .append(kv(KeyBindingsParser.COMMAND_JSON_KEY, b.getCid()));
-    
+
     Map<String,String> parameterMap = b.getParameters();
     if (parameterMap.size() > 0) {
       result.append(", ")
@@ -171,7 +171,7 @@ class KeyBindingsManualFormatter {
   private static String formatParameters(final Map<String, String> parameterMap) {
     StringBuilder sb = new StringBuilder();
     sb.append("{");
-    
+
     Function<String,String> function = new Function<String, String>() {
       public String apply(String key) {
         return kv(urlEncoded(key), urlEncoded(parameterMap.get(key)));
@@ -179,7 +179,7 @@ class KeyBindingsManualFormatter {
     };
     Iterable<String> transformed = Iterables.transform(parameterMap.keySet(), function);
     sb.append(Joiner.on(", ").join(transformed));
-    
+
     sb.append("}");
     return sb.toString();
   }
@@ -201,23 +201,23 @@ class KeyBindingsManualFormatter {
     }
     return result.toString();
   }
-  
+
  private static String kd(String key, String data) {
     return quote(key) + " : " + data;
   }
-  
+
   private static String kvn(String key, String value) {
     return quote(key) + " : " + quote(value) + "\n";
   }
-  
+
   private static String kv(String key, String value) {
     return quote(key) + " : " + quote(value);
   }
-  
+
   private static String kvcs(String key, String value) {
     return quote(key) + " : " + quote(value) + ", ";
   }
-  
+
   private static String kvcn(String key, String value) {
     return quote(key) + " : " + quote(value) + ",\n";
   }

@@ -31,9 +31,9 @@ import com.google.eclipse.mechanic.plugin.core.MechanicPlugin;
  * {@link Task}s. Each EPF file can have a recommended header section
  * consisting of comments with javadoc like tags specifying information
  * about the task to be performed for this file.
- * 
+ *
  * <p/>
- * 
+ *
  * Example:
  * <pre>
  * # @title Reconcile Uncategorized Google Preferences
@@ -43,26 +43,26 @@ import com.google.eclipse.mechanic.plugin.core.MechanicPlugin;
  * /instance/some/pref=true
  * /instance/another/pref="not on your life"
  * </pre>
- * 
+ *
  * Please note the the simple header parser doesn't support line wrapping. So
  * you can wrap your lines, but the parser will ignore them.
- * 
+ *
  * <p/>
- * 
+ *
  * Valid values for the 'title' and 'description' field should be fairly
  * obvious. Valid values for the 'task_type' field are:
- * 
+ *
  * <ul>
  *   <li>'LASTMOD' - The task will be triggered based on the last modified time
  *   of the file.</li>
  *   <li>'RECONCILE' - The task will be triggered if any of the preferences in
  *   running eclipse instance differ in value from the preferences in the file.
  * </ul>
- * 
+ *
  * @author smckay@google.com (Steve McKay)
  */
 public final class PreferenceFileTaskScanner extends ResourceTaskScanner {
-  
+
   private static final MechanicLog log = MechanicLog.getDefault();
   private static final Logger LOG = Logger.getLogger(
       PreferenceFileTaskScanner.class.getName());
@@ -80,7 +80,7 @@ public final class PreferenceFileTaskScanner extends ResourceTaskScanner {
     for (IResourceTaskReference taskRef : taskCollector.get()) {
       try {
         LOG.fine(String.format("Loading preferences from: %s", taskRef));
-  
+
         // will throw a RuntimeException in the event of a problem reading
         // the epf file
         Header header = new EpfTaskHeaderParser(taskRef).parseHeader();
@@ -196,7 +196,7 @@ public final class PreferenceFileTaskScanner extends ResourceTaskScanner {
         reader = new BufferedReader(new InputStreamReader(in));
 
         for (String line = reader.readLine(); line != null;
-            line = reader.readLine()) {  
+            line = reader.readLine()) {
 
           // iterate until we find a non-comment line
           if (line.length() > 0 && line.charAt(0) == '#') {
@@ -218,7 +218,7 @@ public final class PreferenceFileTaskScanner extends ResourceTaskScanner {
           }
         }
       }
-      
+
       return this;
     }
 

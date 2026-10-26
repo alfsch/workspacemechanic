@@ -57,7 +57,7 @@ class KeyBindings {
   // the lists are modified
   final Multimap<KbaChangeSetQualifier, Binding> userBindingsMap;
   final Multimap<KbaChangeSetQualifier, Binding> systemBindingsMap;
-  
+
   /**
    * Bindings to be added.
    */
@@ -75,7 +75,7 @@ class KeyBindings {
   public KeyBindings(Binding[] bindings) {
     this(MechanicLog.getDefault(), bindings);
   }
-  
+
   KeyBindings(MechanicLog log, Binding[] bindings) {
     this.log = log;
     List<Binding> ub = new ArrayList<Binding>();
@@ -117,7 +117,7 @@ class KeyBindings {
   public boolean isDirty() {
     return addedBindings.size() > 0 || removedBindings.size() > 0;
   }
-  
+
   /**
    * Bind a scheme / platform / context / trigger sequence to a command.
    */
@@ -232,7 +232,7 @@ class KeyBindings {
     for (Binding binding : list) {
       if (binding.getSchemeId().equals(scheme.getId())
         && (binding.getTriggerSequence().equals(triggerSequence))
-        && Objects.equal(binding.getPlatform(),  platform)) {
+        && Objects.equal(binding.getPlatform(), platform)) {
           ParameterizedCommand param = binding.getParameterizedCommand();
           if (param == null) {
             if (cid == null) {

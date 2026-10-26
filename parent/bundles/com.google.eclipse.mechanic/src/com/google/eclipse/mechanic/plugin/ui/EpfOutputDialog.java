@@ -54,7 +54,7 @@ public class EpfOutputDialog extends BaseOutputDialog {
    * Provides labels and colors for cells to the saved preferences table. Handles
    * null values specially to make them visually distinct and easy to read.
    */
-  private class EPFOutputLabelProvider extends LabelProvider 
+  private class EPFOutputLabelProvider extends LabelProvider
       implements ITableLabelProvider, ITableColorProvider {
     public Image getColumnImage(Object element, int columnIndex) {
       return null;
@@ -98,7 +98,7 @@ public class EpfOutputDialog extends BaseOutputDialog {
 
   /**
    * Create an output dialog for the given shell.
-   * 
+   *
    * @param parentShell the shell to create this dialog in.
    * @param preferences the set of preferences that can be added to the
    *        resulting EPF file. The dialog allows the user to select a subset to
@@ -199,7 +199,7 @@ public class EpfOutputDialog extends BaseOutputDialog {
   protected boolean isValid() {
     return super.isValid() && !selectedKeys.isEmpty();
   }
-  
+
   @Override
   protected void okPressed() {
     Preconditions.checkState(isValid());
@@ -208,12 +208,12 @@ public class EpfOutputDialog extends BaseOutputDialog {
     if (location == null) {
       return;
     }
-    
+
     // Save the preferences into an EPF file
     EpfFileModel epfFile = new EpfFileModel(getTitle(), getDescription(), getTaskType());
-    
+
     Map<String, String> savedPreferences = getSavedPreferences();
-    
+
     for (Map.Entry<String, String> entry : savedPreferences.entrySet()) {
       epfFile.addElement(entry.getKey(), entry.getValue());
     }

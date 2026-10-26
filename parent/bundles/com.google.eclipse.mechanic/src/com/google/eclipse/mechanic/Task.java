@@ -25,7 +25,7 @@ public interface Task {
   /**
    * Return an id for this task. The id should be unique to any instance that
    * behaves differently than another instance. Typically the id would be the
-   * fully qualified class name unless two task instances somehow manage to 
+   * fully qualified class name unless two task instances somehow manage to
    * behave differently. In this case they should each return a unique id.
    */
   public String getId();
